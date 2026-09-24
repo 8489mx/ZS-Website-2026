@@ -1,0 +1,5 @@
+# Project Rules & Guidelines
+
+- **STRICT PROHIBITION**: NEVER use the `Sparkles` icon or any sparkles/starburst AI gimmick icon anywhere in the application.
+- All consultation buttons, hero badges, and AI section badges must remain clean without sparkles icons.
+- Always run `npm run lint` which checks for prohibited icon usage.

@@ -1,0 +1,8 @@
+{
+  "name": "Remix: ZS-ERP - النظام الإداري والمالي المتكامل",
+  "description": "الموقع الرسمي لنظام ZS-ERP الإداري والمالي الشامل ونقاط البيع لمنع السرقات، ضبط الحسابات، وتنظيم الفروع والمخازن بدقة واحترافية.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

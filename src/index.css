@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Tajawal", "Cairo", system-ui, -apple-system, sans-serif;
+  --font-display: "Cairo", "Tajawal", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-brand-50: #e9e6f9;
+  --color-brand-100: #cfc9f3;
+  --color-brand-200: #988de2;
+  --color-brand-300: #6758cf;
+  --color-brand-400: #4030b4;
+  --color-brand-500: #281b85;
+  --color-brand-600: #170c5c;
+  --color-brand-700: #140a4d;
+  --color-brand-800: #110845;
+  --color-brand-900: #0b0532;
+  --color-brand-950: #060221;
+}
+
+html {
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.fallback-active .hide-when-loaded {
+  opacity: 1 !important;
+}
+.hide-when-loaded {
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+.fallback-active .lightbox-fallback {
+  opacity: 1 !important;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(calc(-100% - 2rem)); }
+}
+@keyframes marquee-reverse {
+  0% { transform: translateX(calc(-100% - 2rem)); }
+  100% { transform: translateX(0%); }
+}
+@keyframes marquee-rtl {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(calc(100% + 2rem)); }
+}
+@keyframes marquee-reverse-rtl {
+  0% { transform: translateX(calc(100% + 2rem)); }
+  100% { transform: translateX(0%); }
+}
+
+.animate-marquee {
+  animation: marquee 45s linear infinite;
+}
+.animate-marquee-reverse {
+  animation: marquee-reverse 45s linear infinite;
+}
+[dir="rtl"] .animate-marquee {
+  animation: marquee-rtl 45s linear infinite;
+}
+[dir="rtl"] .animate-marquee-reverse {
+  animation: marquee-reverse-rtl 45s linear infinite;
+}
+.pause-on-hover:hover {
+  animation-play-state: paused;
+}
