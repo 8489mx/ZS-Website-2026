@@ -1569,10 +1569,7 @@ export default function ErpPage() {
 
             {/* Sub-specializations Pills under Active Sector */}
             {activeSectorTabObj && activeSectorTabObj.productIds.length > 1 && (
-              <div className="mt-4 p-3 bg-white/70 rounded-xl border border-slate-200/80 flex items-center justify-center gap-2 flex-wrap">
-                <span className="text-[11px] text-slate-400 font-bold font-mono ml-2">
-                  {lang === "ar" ? "المنظومة المتخصصة:" : "Specialized System:"}
-                </span>
+              <div className="mt-4 p-2.5 bg-white/70 rounded-xl border border-slate-200/80 flex items-center justify-center gap-2 flex-wrap">
                 {activeSectorTabObj.productIds.map((pid) => {
                   const prod = allProducts.find((p) => p.id === pid);
                   const isSelected = selectedProduct === pid;
@@ -1585,7 +1582,7 @@ export default function ErpPage() {
                           setBillingMode("annual");
                         }
                       }}
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                         isSelected
                           ? "bg-slate-900 text-white shadow-xs scale-102"
                           : "bg-slate-100 text-slate-700 hover:bg-slate-200"
@@ -1670,6 +1667,14 @@ export default function ErpPage() {
             )}
           </div>
 
+          {/* Active Product Name Banner */}
+          <div className="text-center mb-6">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 text-slate-800 text-xs font-bold shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>{lang === "ar" ? (catalog?.product?.name || "Z Systems") : currentProductMeta.nameEn}</span>
+            </span>
+          </div>
+
           {/* 3. 3-TIER PRICING CARDS GRID (LIVE FROM API) */}
           {isCatalogLoading && (!catalogLevels || catalogLevels.length === 0) ? (
             <div className="py-16 text-center">
@@ -1743,20 +1748,17 @@ export default function ErpPage() {
                     )}
 
                     <div>
-                      {/* Level & Product Name */}
+                      {/* Level Badge */}
                       <div className="flex items-center justify-between mb-2">
-                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
-                          isPopular ? "bg-slate-100 text-slate-800 font-mono" : "bg-slate-100 text-slate-600 font-mono"
+                        <span className={`text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full font-mono ${
+                          isPopular ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 border border-slate-200"
                         }`}>
                           {lang === "ar" ? `المستوى ${idx + 1}` : `Level ${idx + 1}`}
                         </span>
-                        <span className="text-[11px] font-bold text-slate-500 font-mono">
-                          {lang === "ar" ? (catalog?.product?.name || "Z Systems") : currentProductMeta.nameEn}
-                        </span>
                       </div>
 
-                      {/* Live Tier Name from API */}
-                      <h3 className="text-xl font-black font-display text-slate-900 tracking-tight">
+                      {/* Live Tier Name from API - Clean and Never Broken */}
+                      <h3 className="text-2xl font-black font-display text-slate-900 tracking-tight whitespace-nowrap overflow-hidden text-ellipsis">
                         {level.name}
                       </h3>
 
