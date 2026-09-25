@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { X, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
-// Gallery Images (Replace screenshots in public/ anytime)
+// Gallery Images (Cache-busting '?v=2' ensures browsers instantly load the new images instead of showing old cached ones)
 const GALLERY_IMAGES = [
-  { id: 1, src: "/screenshot1.png" },
-  { id: 2, src: "/screenshot2.png" },
-  { id: 3, src: "/screenshot3.png" },
-  { id: 4, src: "/screenshot4.png" }
+  { id: 1, src: "/screenshot1.png?v=2" },
+  { id: 2, src: "/screenshot2.png?v=2" },
+  { id: 3, src: "/screenshot3.png?v=2" },
+  { id: 4, src: "/screenshot4.png?v=2" }
 ];
 
 export default function SystemGallery({ lang }: { lang: "ar" | "en" }) {
