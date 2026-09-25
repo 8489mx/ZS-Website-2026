@@ -1535,7 +1535,7 @@ export default function ErpPage() {
             </div>
 
             {/* Main Sector Navigation Tabs */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 p-1.5 bg-slate-200/80 rounded-2xl border border-slate-300/80">
+            <div className="flex sm:grid sm:grid-cols-5 overflow-x-auto no-scrollbar gap-2 p-1.5 bg-slate-200/80 rounded-2xl border border-slate-300/80">
               {SECTOR_TABS.map((sec) => {
                 const IconComponent = sec.icon;
                 const isActive = sec.productIds.includes(selectedProduct);
@@ -1550,7 +1550,7 @@ export default function ErpPage() {
                         }
                       }
                     }}
-                    className={`py-3 px-3 rounded-xl flex items-center justify-center gap-2.5 transition-all cursor-pointer text-center sm:text-start ${
+                    className={`shrink-0 min-w-[145px] sm:min-w-0 py-3 px-3.5 rounded-xl flex items-center justify-center gap-2.5 transition-all cursor-pointer text-center sm:text-start whitespace-nowrap ${
                       isActive
                         ? "bg-white text-slate-900 shadow-md font-black ring-1 ring-slate-900/10"
                         : "text-slate-600 hover:text-slate-900 hover:bg-white/60 font-bold"
@@ -1725,7 +1725,7 @@ export default function ErpPage() {
                 return (
                   <div
                     key={`catalog-tier-${level.id}`}
-                    className={`relative rounded-2xl border transition-all duration-300 flex flex-col justify-between p-6 sm:p-7 ${
+                    className={`relative rounded-2xl border transition-all duration-300 flex flex-col justify-between h-full p-6 sm:p-7 ${
                       isPopular
                         ? "bg-white border-slate-900 shadow-xl ring-1 ring-slate-900/10 md:-translate-y-2 z-10"
                         : isOfflineMode
@@ -1763,7 +1763,7 @@ export default function ErpPage() {
                       </h3>
 
                       {/* Live Limits Pills from API */}
-                      <div className="mt-2.5 flex flex-wrap gap-1.5 text-[11px] font-bold text-slate-700">
+                      <div className="mt-2.5 min-h-[56px] flex flex-wrap content-start gap-1.5 text-[11px] font-bold text-slate-700">
                         {level.limits?.branches !== undefined && level.limits?.branches !== null && (
                           <span className="bg-slate-100/90 px-2.5 py-1 rounded-md flex items-center gap-1">
                             <Building2 className="w-3 h-3 text-slate-500" />
@@ -1823,7 +1823,7 @@ export default function ErpPage() {
                       </div>
 
                       {/* Live Price Block */}
-                      <div className="mt-4 pt-4 pb-4 border-t border-b border-slate-100">
+                      <div className="mt-4 pt-4 pb-4 min-h-[96px] border-t border-b border-slate-100 flex flex-col justify-center">
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-900">
                             {displayPrice.toLocaleString()}
@@ -1884,7 +1884,7 @@ export default function ErpPage() {
                     </div>
 
                     {/* CTA Action Button */}
-                    <div className="mt-8 pt-4">
+                    <div className="mt-auto pt-6 border-t border-slate-100">
                       <button
                         onClick={() => {
                           const planLabel = `${catalog?.product?.name || "Z Systems"} - ${level.name} (${effectiveBillingMode === "monthly" ? (lang === "ar" ? "شهري" : "Monthly") : effectiveBillingMode === "annual" ? (lang === "ar" ? "سنوي" : "Annual") : (lang === "ar" ? "أوفلاين دائم" : "Lifetime")})`;
@@ -2098,13 +2098,42 @@ export default function ErpPage() {
               <table className="w-full text-left border-collapse min-w-[800px]">
                 <thead>
                   <tr className="bg-slate-50 border-b border-slate-200">
-                    <th className={`p-4 font-bold text-slate-800 w-1/3 text-${lang === 'ar' ? 'right' : 'left'}`}>
-                     {lang === "ar" ? "المميزات" : "Features"}
+                    <th className={`p-4 font-bold text-slate-800 w-1/4 text-${lang === 'ar' ? 'right' : 'left'}`}>
+                     {lang === "ar" ? "المميزات والخصائص" : "Features & Modules"}
                     </th>
-                    <th className="p-4 font-bold text-slate-800 text-center">Cloud Basic</th>
-                    <th className="p-4 font-bold text-slate-800 text-center">Cloud Pro</th>
-                    <th className="p-4 font-bold text-brand-700 text-center bg-brand-50">Cloud Enterprise</th>
-                    <th className="p-4 font-bold text-amber-700 text-center bg-amber-50">Offline Lifetime</th>
+                    <th className="p-4 text-center">
+                      <div className="font-bold text-slate-800 text-xs">
+                        {lang === "ar" ? `المستوى 1: ${catalogLevels[0]?.name || "محل"}` : `Level 1: ${catalogLevels[0]?.name || "Starter"}`}
+                      </div>
+                      <div className="text-[11px] font-mono text-slate-500 mt-0.5">
+                        {catalogLevels[0] ? `${(billingMode === 'annual' ? catalogLevels[0].annual : catalogLevels[0].monthly).toLocaleString()} ${currencySymbol}` : ''}
+                      </div>
+                    </th>
+                    <th className="p-4 text-center bg-slate-100/60">
+                      <div className="font-bold text-slate-900 text-xs flex items-center justify-center gap-1">
+                        <span>{lang === "ar" ? `المستوى 2: ${catalogLevels[1]?.name || "متعدد الفروع"}` : `Level 2: ${catalogLevels[1]?.name || "Pro"}`}</span>
+                        <span className="text-[9px] bg-slate-900 text-white px-1.5 py-0.2 rounded-full font-mono">{lang === "ar" ? "الأكثر طلباً" : "Popular"}</span>
+                      </div>
+                      <div className="text-[11px] font-mono text-slate-700 font-bold mt-0.5">
+                        {catalogLevels[1] ? `${(billingMode === 'annual' ? catalogLevels[1].annual : catalogLevels[1].monthly).toLocaleString()} ${currencySymbol}` : ''}
+                      </div>
+                    </th>
+                    <th className="p-4 text-center bg-emerald-50/50">
+                      <div className="font-bold text-emerald-800 text-xs">
+                        {lang === "ar" ? `المستوى 3: ${catalogLevels[2]?.name || "سلسلة ومؤسسة"}` : `Level 3: ${catalogLevels[2]?.name || "Enterprise"}`}
+                      </div>
+                      <div className="text-[11px] font-mono text-emerald-700 font-bold mt-0.5">
+                        {catalogLevels[2] ? `${(billingMode === 'annual' ? catalogLevels[2].annual : catalogLevels[2].monthly).toLocaleString()} ${currencySymbol}` : ''}
+                      </div>
+                    </th>
+                    <th className="p-4 text-center bg-amber-50/50">
+                      <div className="font-bold text-amber-800 text-xs">
+                        {lang === "ar" ? "ترخيص التمليك (أوفلاين)" : "Lifetime Offline"}
+                      </div>
+                      <div className="text-[11px] font-mono text-amber-700 font-bold mt-0.5">
+                        {lang === "ar" ? "دفعة واحدة" : "One-Time Pay"}
+                      </div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-sm">
@@ -2552,17 +2581,32 @@ export default function ErpPage() {
                         {lang === "ar" ? "تم إنشاء حسابك التجريبي الفعلي بنجاح! 🚀" : "Your Free Trial Account Is Ready! 🚀"}
                       </h3>
                       <p className="text-slate-600 text-xs leading-relaxed max-w-md mx-auto font-sans">
-                        {lang === "ar" ? "أهلاً بك يا" : "Welcome"} <strong>{demoForm.name}</strong>. {lang === "ar" ? "تم تفعيل نسختك السحابية التجريبية لمنشأة" : "Your cloud trial for"} <strong>({demoForm.company})</strong> {lang === "ar" ? "بنجاح تام. ستصلك بيانات تسجيل الدخول المؤقتة ورابط النظام على بريدك الإلكتروني" : "is now active. Login credentials and system URL have been sent to your email:"} <strong className="text-brand-600 direction-ltr font-mono">{demoForm.email}</strong> {lang === "ar" ? "خلال ثوانٍ معدودة." : "within seconds."}
+                        {lang === "ar" ? "أهلاً بك يا" : "Welcome"} <strong>{demoForm.name}</strong>. {lang === "ar" ? "تم تفعيل نسختك السحابية التجريبية لمنشأة" : "Your cloud trial for"} <strong>({demoForm.company})</strong>.
                       </p>
                       
-                      <div className="bg-slate-50 border border-slate-200 rounded p-3 text-[11px] text-slate-600 font-sans max-w-sm mx-auto text-start">
-                        <div className="flex items-center gap-2 text-slate-800 font-bold mb-1">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                          <span>{lang === "ar" ? "الخطوة التالية لبدء العمل فوراً:" : "Next step to get started:"}</span>
+                      {/* 3-Step Enterprise Deployment Tracker */}
+                      <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-700 font-sans max-w-md mx-auto text-start space-y-2.5">
+                        <div className="flex items-center gap-2.5 text-emerald-700 font-bold text-[11px]">
+                          <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                            <Check className="w-3 h-3 text-emerald-600" />
+                          </span>
+                          <span>{lang === "ar" ? "الخطوة 1: تم حجز وتجهيز خادم وقاعدة البيانات السحابية" : "Step 1: Dedicated cloud server & database provisioned"}</span>
                         </div>
-                        <p className="text-[10px] leading-relaxed text-slate-500">
-                          {lang === "ar" ? "افتح بريدك الوارد (أو مجلد الرسائل الترويجية/غير المرغوب فيها إن لم تجدها) واضغط على رابط الدخول." : "Check your inbox (or spam/promotions folder) and click the login link to start."}
-                        </p>
+                        <div className="flex items-center gap-2.5 text-emerald-700 font-bold text-[11px]">
+                          <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                            <Check className="w-3 h-3 text-emerald-600" />
+                          </span>
+                          <span>
+                            {lang === "ar" ? "الخطوة 2: تم إرسال كلمة المرور لرقمك وبريدك: " : "Step 2: Password sent to phone & email: "}
+                            <span className="font-mono text-slate-900 underline">{demoForm.email}</span>
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2.5 text-blue-700 font-bold text-[11px]">
+                          <span className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                            <Zap className="w-3 h-3 text-blue-600" />
+                          </span>
+                          <span>{lang === "ar" ? "الخطوة 3: النظام جاهز للتشغيل الفوري مع 5 مستخدمين مجاناً" : "Step 3: Ready for instant operation with 5 free users"}</span>
+                        </div>
                       </div>
 
                       <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5">
@@ -2750,6 +2794,24 @@ export default function ErpPage() {
                           <span className="text-[10px] text-slate-400 font-mono">{lang === "ar" ? "دفعة واحدة" : "One-Time Pay"}</span>
                         </label>
                       </div>
+                    </div>
+
+                    {/* Enterprise Trust Strip */}
+                    <div className="bg-slate-50 border border-slate-200/80 rounded-lg p-2.5 flex items-center justify-around text-[10px] text-slate-600 font-medium">
+                      <span className="flex items-center gap-1">
+                        <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                        <span>{lang === "ar" ? "لا نطلب بطاقة بنكية" : "No credit card"}</span>
+                      </span>
+                      <span className="w-1 h-1 bg-slate-300 rounded-full" />
+                      <span className="flex items-center gap-1">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                        <span>{lang === "ar" ? "تشفير بنكي 256-bit" : "256-bit SSL"}</span>
+                      </span>
+                      <span className="w-1 h-1 bg-slate-300 rounded-full" />
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <span>{lang === "ar" ? "جاهزية 99.9%" : "99.9% Uptime"}</span>
+                      </span>
                     </div>
 
                     {/* Action */}
