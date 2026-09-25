@@ -33,7 +33,9 @@ import {
   Trash2,
   UserCheck,
   Zap,
-  Search
+  Search,
+  AlertCircle,
+  ExternalLink
 } from "lucide-react";
 import WhatsAppSimulation from "./WhatsAppSimulation";
 import { ERP_CATEGORIES, PROBLEM_STATEMENTS, DEPLOYMENT_MODES, PRICING_TIERS, FAQS } from "./data";
@@ -46,7 +48,53 @@ import { useTheme } from "./ThemeContext";
 import ThemeSwitcher from "./ThemeSwitcher";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useCurrency } from "./CurrencyContext";
-import { SECTORS_DATA, ADDON_MODULES, OFFLINE_TERMS, SectorId, BillingMode } from "./pricingData";
+import { OFFLINE_TERMS, BillingMode } from "./pricingData";
+import { usePricingCatalog } from "./usePricingCatalog";
+import { PRODUCT_EN_METADATA } from "./services/pricingCatalog";
+
+// 5 Core Sector Tabs grouping the 16 Specialized Systems
+export const SECTOR_TABS = [
+  {
+    id: "retail",
+    nameAr: "التجزئة والمحلات",
+    nameEn: "Retail & Shops",
+    icon: ShoppingBag,
+    productIds: ["retail", "supermarket", "spices", "fashion", "perfumes"],
+    defaultProduct: "retail",
+  },
+  {
+    id: "tech_pharma",
+    nameAr: "الصيدليات والتقنية",
+    nameEn: "Pharma & Tech",
+    icon: Activity,
+    productIds: ["pharmacy", "electronics", "appliances_installments"],
+    defaultProduct: "pharmacy",
+  },
+  {
+    id: "restaurants",
+    nameAr: "المطاعم والكافيهات",
+    nameEn: "Restaurants & Cafes",
+    icon: Utensils,
+    productIds: ["restaurant"],
+    defaultProduct: "restaurant",
+  },
+  {
+    id: "industry",
+    nameAr: "المصانع والجملة",
+    nameEn: "Industry & Wholesale",
+    icon: Building2,
+    productIds: ["wholesale", "manufacturing", "import_export"],
+    defaultProduct: "wholesale",
+  },
+  {
+    id: "contracting",
+    nameAr: "المقاولات والخدمات",
+    nameEn: "Contracting & Services",
+    icon: Truck,
+    productIds: ["contracting", "maritime", "services", "ecommerce"],
+    defaultProduct: "contracting",
+  },
+];
 
 export default function ErpPage() {
   const { lang, setLang } = useLanguage();
@@ -56,25 +104,31 @@ export default function ErpPage() {
   const currentProblemStmts = lang === "ar" ? PROBLEM_STATEMENTS : PROBLEM_STATEMENTS_EN;
   const currentDeploymentModes = lang === "ar" ? DEPLOYMENT_MODES : DEPLOYMENT_MODES_EN;
   const currentFaqs = lang === "ar" ? FAQS : FAQS_EN;
-  const currentPricingTiers = lang === "ar" ? PRICING_TIERS : PRICING_TIERS_EN;
   const { currencyCode, currency, formatPrice } = useCurrency();
   const t = content[lang];
 
-  // Helper for pricing per tier
-  const getTierPrice = (tierIndex: number) => {
-    switch (tierIndex) {
-      case 0: return currency.plans.starter;
-      case 1: return currency.plans.business;
-      case 2: return currency.plans.enterprise;
-      case 3: return currency.plans.lifetime;
-      default: return currency.plans.starter;
-    }
-  };
+  // Live Pricing Catalog Hook (Connects to https://app.zsystemai.com/api/public/pricing-catalog)
+  const {
+    catalog,
+    levels: catalogLevels,
+    floors: catalogFloors,
+    addons: catalogAddons,
+    allProducts,
+    currentProductMeta,
+    selectedProduct,
+    setSelectedProduct,
+    isLoading: isCatalogLoading,
+    error: catalogError,
+  } = usePricingCatalog(currencyCode, "retail");
 
   const currencySymbol = lang === "ar" ? currency.symbolAr : currency.symbolEn;
 
-  // New Sector-based Pricing States (September 2026 Release)
-  const [selectedSectorId, setSelectedSectorId] = useState<SectorId>("retail");
+  // Active Sector Tab in sync with selected product
+  const activeSectorTabObj = useMemo(() => {
+    return SECTOR_TABS.find((s) => s.productIds.includes(selectedProduct)) || SECTOR_TABS[0];
+  }, [selectedProduct]);
+
+  // New Sector-based Pricing States
   const [billingMode, setBillingMode] = useState<BillingMode>("monthly");
   const [showAddonsDetails, setShowAddonsDetails] = useState(false);
   const [showOfflineTerms, setShowOfflineTerms] = useState(false);
@@ -115,6 +169,8 @@ export default function ErpPage() {
   });
   const [demoSubmitted, setDemoSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [apiSuccessData, setApiSuccessData] = useState<any | null>(null);
 
   // POS Interactive App Simulator Items State
   const [posItems, setPosItems] = useState([
@@ -171,13 +227,82 @@ export default function ErpPage() {
     });
   };
 
-  const handleDemoSubmit = (e: React.FormEvent) => {
+  const handleDemoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setApiError(null);
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    if (demoForm.preferredMode === "Cloud") {
+      try {
+        const payload = JSON.stringify({
+          businessName: demoForm.company.trim(),
+          ownerPhone: demoForm.phone.trim(),
+          ownerEmail: demoForm.email.trim(),
+        });
+        const headers = {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        };
+
+        let response: Response;
+        try {
+          response = await fetch("/api/public/trial-signup", {
+            method: "POST",
+            headers,
+            body: payload,
+          });
+        } catch {
+          response = await fetch("https://app.zsystemai.com/api/public/trial-signup", {
+            method: "POST",
+            headers,
+            body: payload,
+          });
+        }
+
+        const data = await response.json().catch(() => null);
+
+        if (response.ok && !data?.error && data?.statusCode !== 400 && data?.statusCode !== 500) {
+          setApiSuccessData(data);
+          setIsSubmitting(false);
+          setDemoSubmitted(true);
+        } else {
+          setIsSubmitting(false);
+          const errMsg =
+            data?.error?.details?.messages?.join(" - ") ||
+            data?.error?.message ||
+            data?.message ||
+            (lang === "ar"
+              ? "تعذر إنشاء الحساب السحابي. يرجى مراجعة البيانات والتحقق من صحة البريد ورقم الهاتف."
+              : "Could not create cloud account. Please check your email and phone number and try again.");
+          setApiError(errMsg);
+        }
+      } catch (err: any) {
+        setIsSubmitting(false);
+        setApiError(
+          lang === "ar"
+            ? "تعذر الاتصال بخادم إنشاء النسخ التجريبية. يرجى التحقق من اتصال الإنترنت أو التواصل عبر الواتساب."
+            : "Could not connect to trial server. Please verify your connection or reach us on WhatsApp."
+        );
+      }
+    } else {
+      // Local installation mode (On-Premise / تمليك محلي دائم أو بالاشتراك) -> WhatsApp to Sales
+      const modeLabel = demoForm.preferredMode === "Offline" 
+        ? (lang === "ar" ? "تمليك محلي دائم (دفعة واحدة)" : "Lifetime Offline")
+        : (lang === "ar" ? "محلي بالاشتراك" : "Local Subscription");
+      const waText = encodeURIComponent(
+        `مرحباً Z Systems، أرغب في طلب استشارة وتثبيت محلي (${modeLabel}):\n` +
+        `👤 الاسم: ${demoForm.name}\n` +
+        `🏢 المنشأة: ${demoForm.company}\n` +
+        `📱 الجوال: ${demoForm.phone}\n` +
+        `✉️ البريد: ${demoForm.email}\n` +
+        `🏬 حجم النشاط: ${demoForm.employees}\n` +
+        `📦 الباقة المقترحة: ${selectedPlan || (lang === "ar" ? "تفاصيل النظام الشامل" : "Comprehensive Plan")}\n` +
+        `⚙️ نمط التثبيت المفضل: ${modeLabel}`
+      );
+      window.open(`https://wa.me/201018017523?text=${waText}`, "_blank");
       setIsSubmitting(false);
       setDemoSubmitted(true);
-    }, 1200);
+    }
   };
 
   // Calculations for POS Interactive view
@@ -187,9 +312,23 @@ export default function ErpPage() {
   const posVat = (posSubtotal - posDiscountAmount) * vatRate;
   const posTotal = (posSubtotal - posDiscountAmount) + posVat;
 
-  // Calculators for ROI Box
+  // Calculators for ROI Box based on live catalog levels
+  const recommendedLevel = useMemo(() => {
+    if (!catalogLevels || catalogLevels.length === 0) return null;
+    if (numBranches >= 5) return catalogLevels[2] || catalogLevels[catalogLevels.length - 1];
+    if (numBranches >= 2) return catalogLevels[1] || catalogLevels[0];
+    return catalogLevels[0];
+  }, [catalogLevels, numBranches]);
+
+  const recommendedPlanName = recommendedLevel?.name || (lang === "ar" ? "باقة الأعمال" : "Business Plan");
+  const recommendedPlanPrice = isLifetimeTarget
+    ? Math.round((recommendedLevel?.annual || 4500) * 3.5)
+    : (recommendedLevel?.monthly || 450);
+
   const calculatedSavings = Math.round(avgMonthlySales * 0.04 * numBranches * 12); // 4% savings annually
-  const systemSaaSAnnualCost = isLifetimeTarget ? 799 : (numBranches > 3 ? 149 : numBranches > 1 ? 69 : 29) * 12;
+  const systemSaaSAnnualCost = isLifetimeTarget 
+    ? Math.round((recommendedLevel?.annual || 4500) * 3.5)
+    : (recommendedLevel?.annual || (recommendedPlanPrice * 12));
   const finalRationOfROI = Math.max(12, Math.round((calculatedSavings / (systemSaaSAnnualCost || 1)) * 100));
 
   const roiChartData = useMemo(() => {
@@ -199,16 +338,6 @@ export default function ErpPage() {
       savings: monthlySaving * (i + 1),
     }));
   }, [avgMonthlySales, numBranches, lang]);
-
-  // Auto recommend plan based on user branches and settings
-  const recommendedPlanIndex = () => {
-    if (isLifetimeTarget) return 3; // Lifetime offline
-    if (numBranches >= 5) return 2; // Enterprise
-    if (numBranches >= 2) return 1; // Business / Pro
-    return 0; // Cloud basic
-  };
-  const recommendedPlan = () => currentPricingTiers[recommendedPlanIndex()];
-  const recommendedPlanPrice = getTierPrice(recommendedPlanIndex());
 
   const getIcon = (name: string, className?: string) => {
     switch (name) {
@@ -1303,17 +1432,17 @@ export default function ErpPage() {
                   <p className="text-[10px] text-slate-600">{lang === "ar" ? "الباقة التلقائية المقترحة والموفرة:" : "Recommended Automated & Saving Plan:"}</p>
                   <p className="text-slate-900 text-xs sm:text-sm font-bold mt-1 inline-flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 bg-brand-500 rounded-full" />
-                    {recommendedPlan().name} ({recommendedPlan().type})
+                    {recommendedPlanName} ({isLifetimeTarget ? (lang === "ar" ? "ترخيص تمليك" : "Lifetime") : (lang === "ar" ? "سحابي ساس" : "Cloud SaaS")})
                   </p>
-                  <p className="text-[11px] text-slate-600 mt-1">{lang === "ar" ? "سعر الباقة التقريبي:" : "Approximate Plan Price:"} <strong className="text-brand-500 text-xs font-mono">{recommendedPlanPrice.toLocaleString()} {currencySymbol}</strong> / {lang === "ar" ? recommendedPlan().period : recommendedPlan().periodEn}</p>
+                  <p className="text-[11px] text-slate-600 mt-1">{lang === "ar" ? "سعر الباقة التقريبي:" : "Approximate Plan Price:"} <strong className="text-brand-500 text-xs font-mono">{recommendedPlanPrice.toLocaleString()} {currencySymbol}</strong> / {isLifetimeTarget ? (lang === "ar" ? "تدفع لمرة واحدة" : "one-time") : (lang === "ar" ? "شهرياً" : "month")}</p>
                 </div>
               </div>
 
               <div className="mt-6">
                 <button
                   onClick={() => {
-                    setSelectedPlan(`${recommendedPlan().name} - ROI Calculator`);
-                    window.location.assign(APP_TRIAL_URL);
+                    setSelectedPlan(`${catalog?.product?.name || "Z ERP"} - ${recommendedPlanName}`);
+                    setShowDemoModal(true);
                   }}
                   className="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-3 px-4 rounded text-xs transition-colors cursor-pointer flex items-center justify-center gap-1 shadow-md shadow-brand-500/20"
                 >
@@ -1398,295 +1527,390 @@ export default function ErpPage() {
           </div>
 
           {/* 1. SECTOR SELECTOR TABS */}
-          <div className="mb-8">
-            <p className="text-center text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
-              {lang === "ar" ? "الخطوة الأولى: حدد نشاطك التجاري" : "Step 1: Select Your Business Sector"}
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 max-w-5xl mx-auto">
-              {SECTORS_DATA.map((sec) => {
-                const isSelected = selectedSectorId === sec.id;
+          <div className="mb-10 max-w-5xl mx-auto">
+            <div className="text-center mb-4">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                {lang === "ar" ? "الخطوة الأولى: حدد نشاطك التجاري" : "Step 1: Select Your Business Sector"}
+              </span>
+            </div>
+
+            {/* Main Sector Navigation Tabs */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 p-1.5 bg-slate-200/80 rounded-2xl border border-slate-300/80">
+              {SECTOR_TABS.map((sec) => {
+                const IconComponent = sec.icon;
+                const isActive = sec.productIds.includes(selectedProduct);
                 return (
                   <button
-                    key={`sector-tab-${sec.id}`}
+                    key={`sec-tab-${sec.id}`}
                     onClick={() => {
-                      setSelectedSectorId(sec.id);
-                      if (sec.annualOnly && billingMode === "monthly") {
-                        setBillingMode("annual");
+                      if (!sec.productIds.includes(selectedProduct)) {
+                        setSelectedProduct(sec.defaultProduct);
+                        if (sec.defaultProduct === "contracting" || sec.defaultProduct === "maritime") {
+                          setBillingMode("annual");
+                        }
                       }
                     }}
-                    className={`p-3.5 rounded-xl border text-start flex flex-col justify-between transition-all duration-200 cursor-pointer ${
-                      isSelected
-                        ? "bg-slate-900 text-white border-slate-900 shadow-md scale-[1.02]"
-                        : "bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                    className={`py-3 px-3 rounded-xl flex items-center justify-center gap-2.5 transition-all cursor-pointer text-center sm:text-start ${
+                      isActive
+                        ? "bg-white text-slate-900 shadow-md font-black ring-1 ring-slate-900/10"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-white/60 font-bold"
                     }`}
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      <div className={`p-2 rounded-lg ${isSelected ? "bg-white/10 text-white" : "bg-slate-100 text-slate-700"}`}>
-                        {sec.id === "retail" && <ShoppingBag className="w-5 h-5" />}
-                        {sec.id === "showrooms" && <Store className="w-5 h-5" />}
-                        {sec.id === "restaurants" && <Utensils className="w-5 h-5" />}
-                        {sec.id === "companies" && <Building2 className="w-5 h-5" />}
-                        {sec.id === "contracting" && <Truck className="w-5 h-5" />}
-                      </div>
-                      {sec.annualOnly && (
-                        <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${isSelected ? "bg-white/20 text-white" : "bg-amber-50 text-amber-700 border border-amber-200"}`}>
-                          {lang === "ar" ? "سنوي فقط" : "Annual"}
-                        </span>
-                      )}
+                    <div className={`p-1.5 rounded-lg shrink-0 ${isActive ? "bg-slate-900 text-white" : "bg-slate-200 text-slate-600"}`}>
+                      <IconComponent className="w-4 h-4" />
                     </div>
-                    <div>
-                      <div className="font-bold text-sm leading-snug">
-                        {lang === "ar" ? sec.nameAr : sec.nameEn}
-                      </div>
-                      <div className={`text-[10px] mt-1 line-clamp-1 ${isSelected ? "text-white/80" : "text-slate-500"}`}>
-                        {lang === "ar" ? sec.subtitleAr : sec.subtitleEn}
-                      </div>
-                    </div>
+                    <span className="text-xs">
+                      {lang === "ar" ? sec.nameAr : sec.nameEn}
+                    </span>
                   </button>
                 );
               })}
             </div>
-          </div>
 
-          {/* 2. BILLING PERIOD SELECTOR */}
-          {(() => {
-            const currentSec = SECTORS_DATA.find(s => s.id === selectedSectorId) || SECTORS_DATA[0];
-            const isAnnualOnly = currentSec.annualOnly;
-            return (
-              <div className="mb-10 text-center">
-                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
-                  {lang === "ar" ? "الخطوة الثانية: حدد نظام الاشتراك" : "Step 2: Choose Billing Cycle"}
-                </p>
-                <div className="inline-flex p-1.5 bg-slate-200/80 rounded-2xl border border-slate-300/80 gap-1.5 flex-wrap justify-center">
-                  
-                  {/* Monthly Option */}
-                  {!isAnnualOnly && (
-                    <button
-                      onClick={() => setBillingMode("monthly")}
-                      className={`px-4 sm:px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                        billingMode === "monthly"
-                          ? "bg-white text-slate-900 shadow-sm"
-                          : "text-slate-600 hover:text-slate-900"
-                      }`}
-                    >
-                      {lang === "ar" ? "اشتراك شهري مرن" : "Monthly Flexible"}
-                    </button>
-                  )}
-
-                  {/* Annual Option (Recommended) */}
-                  <button
-                    onClick={() => setBillingMode("annual")}
-                    className={`px-4 sm:px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
-                      billingMode === "annual"
-                        ? "bg-slate-900 text-white shadow-sm"
-                        : "text-slate-700 hover:text-slate-900"
-                    }`}
-                  >
-                    <span>{lang === "ar" ? "اشتراك سنوي" : "Annual Billing"}</span>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                      billingMode === "annual" ? "bg-emerald-500 text-white" : "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                    }`}>
-                      {lang === "ar" ? "شهران مجاناً" : "2 Months Free"}
-                    </span>
-                  </button>
-
-                  {/* Offline Lifetime Option */}
-                  <button
-                    onClick={() => setBillingMode("offline")}
-                    className={`px-4 sm:px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
-                      billingMode === "offline"
-                        ? "bg-amber-600 text-white shadow-sm"
-                        : "text-slate-700 hover:text-slate-900"
-                    }`}
-                  >
-                    <span>{lang === "ar" ? "ترخيص تمليك دائم (أوفلاين 100%)" : "Lifetime Offline License"}</span>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                      billingMode === "offline" ? "bg-white text-amber-700" : "bg-amber-50 text-amber-800 border border-amber-200"
-                    }`}>
-                      {lang === "ar" ? "تقسيط متاح" : "Installments"}
-                    </span>
-                  </button>
-
-                </div>
-
-                {isAnnualOnly && billingMode === "monthly" && (
-                  <p className="text-[11px] text-amber-700 font-medium mt-2">
-                    {lang === "ar" ? "⚠️ قطاع المقاولات والشحن يُعرض بالسعر السنوي فقط." : "⚠️ Contracting & Freight is billed annually only."}
-                  </p>
-                )}
-              </div>
-            );
-          })()}
-
-          {/* 3. 3-TIER PRICING CARDS GRID */}
-          {(() => {
-            const currentSec = SECTORS_DATA.find(s => s.id === selectedSectorId) || SECTORS_DATA[0];
-            const effectiveBillingMode: BillingMode = (currentSec.annualOnly && billingMode === "monthly") ? "annual" : billingMode;
-            
-            return (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
-                {currentSec.tiers.map((tier, idx) => {
-                  const isPopular = tier.popular;
-                  const isOfflineMode = effectiveBillingMode === "offline";
-                  const priceEntry = tier.prices[currencyCode] || tier.prices["USD"] || tier.prices["EGP"];
-                  
-                  let displayPrice = 0;
-                  let periodLabelAr = "";
-                  let periodLabelEn = "";
-                  let subtextAr = "";
-                  let subtextEn = "";
-
-                  if (effectiveBillingMode === "monthly") {
-                    displayPrice = priceEntry.monthly || priceEntry.annual;
-                    periodLabelAr = "شهرياً";
-                    periodLabelEn = "month";
-                    subtextAr = "تجديد شهري مرن · إلغاء بأي وقت";
-                    subtextEn = "Monthly flexible · Cancel anytime";
-                  } else if (effectiveBillingMode === "annual") {
-                    displayPrice = priceEntry.annual;
-                    const equivMonthly = Math.round(priceEntry.annual / 10);
-                    periodLabelAr = "سنوياً";
-                    periodLabelEn = "year";
-                    subtextAr = `ما يعادل ${equivMonthly.toLocaleString()} ${currencySymbol} شهرياً · احتساب 10 أشهر فقط`;
-                    subtextEn = `Equiv. ${equivMonthly.toLocaleString()} ${currencySymbol}/mo · Billed for 10 months`;
-                  } else {
-                    displayPrice = priceEntry.offline;
-                    const downPayment = Math.round(priceEntry.offline * 0.4);
-                    const monthlyInstallment = Math.round((priceEntry.offline * 0.6) / 6);
-                    periodLabelAr = "تدفع لمرة واحدة";
-                    periodLabelEn = "one-time";
-                    subtextAr = `متاح بالتقسيط: مقدم ${downPayment.toLocaleString()} ${currencySymbol} + ${monthlyInstallment.toLocaleString()} × 6 شهور`;
-                    subtextEn = `Installments: 40% down + 6 monthly payments`;
-                  }
-
+            {/* Sub-specializations Pills under Active Sector */}
+            {activeSectorTabObj && activeSectorTabObj.productIds.length > 1 && (
+              <div className="mt-4 p-3 bg-white/70 rounded-xl border border-slate-200/80 flex items-center justify-center gap-2 flex-wrap">
+                <span className="text-[11px] text-slate-400 font-bold font-mono ml-2">
+                  {lang === "ar" ? "المنظومة المتخصصة:" : "Specialized System:"}
+                </span>
+                {activeSectorTabObj.productIds.map((pid) => {
+                  const prod = allProducts.find((p) => p.id === pid);
+                  const isSelected = selectedProduct === pid;
                   return (
-                    <div
-                      key={`sec-${currentSec.id}-tier-${tier.id}`}
-                      className={`relative rounded-2xl border transition-all duration-300 flex flex-col justify-between p-6 sm:p-7 ${
-                        isPopular
-                          ? "bg-white border-slate-900 shadow-xl ring-1 ring-slate-900/10 md:-translate-y-2 z-10"
-                          : isOfflineMode
-                            ? "bg-gradient-to-b from-white to-amber-50/20 border-amber-200 shadow-sm hover:border-amber-300"
-                            : "bg-white border-slate-200 shadow-sm hover:border-slate-300"
+                    <button
+                      key={`sub-prod-${pid}`}
+                      onClick={() => {
+                        setSelectedProduct(pid);
+                        if (pid === "contracting" || pid === "maritime") {
+                          setBillingMode("annual");
+                        }
+                      }}
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                        isSelected
+                          ? "bg-slate-900 text-white shadow-xs scale-102"
+                          : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                       }`}
                     >
-                      {/* Popular / Highlights Badges - Premium Executive */}
-                      {isPopular && (
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900 text-white text-[10px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 border border-slate-700">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                          <span>{lang === "ar" ? "الخيار الأكثر اعتماداً" : "Most Popular Choice"}</span>
-                        </div>
+                      <span>{lang === "ar" ? (prod?.name || pid) : (PRODUCT_EN_METADATA[pid]?.nameEn || pid)}</span>
+                      {prod?.pos && (
+                        <span className={`text-[8px] px-1 py-0.5 rounded font-mono font-bold ${isSelected ? "bg-white/20 text-white" : "bg-blue-50 text-blue-700"}`}>
+                          POS
+                        </span>
                       )}
-                      {tier.level === 3 && (
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-emerald-800 text-white text-[10px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 border border-emerald-700">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
-                          <span>{lang === "ar" ? "شامل كافة الوحدات الذكية" : "All Modules Included"}</span>
-                        </div>
-                      )}
-
-                      <div>
-                        {/* Level & Name */}
-                        <div className="flex items-center justify-between mb-2">
-                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
-                            isPopular ? "bg-slate-100 text-slate-800 font-mono" : "bg-slate-100 text-slate-600 font-mono"
-                          }`}>
-                            {lang === "ar" ? `المستوى ${tier.level}` : `Level ${tier.level}`}
-                          </span>
-                          <span className="text-[11px] font-bold text-slate-500 font-mono">
-                            {lang === "ar" ? currentSec.nameAr : currentSec.nameEn}
-                          </span>
-                        </div>
-
-                        <h3 className="text-xl font-black font-display text-slate-900 tracking-tight">
-                          {lang === "ar" ? tier.nameAr : tier.nameEn}
-                        </h3>
-
-                        {/* Scope Pill */}
-                        <div className="mt-2.5 inline-flex items-center gap-1.5 text-[11px] font-bold text-slate-700 bg-slate-100/80 px-2.5 py-1 rounded-md">
-                          <Users className="w-3.5 h-3.5 text-slate-500" />
-                          <span>{lang === "ar" ? tier.scopeAr : tier.scopeEn}</span>
-                        </div>
-
-                        {/* Description */}
-                        <p className="text-xs text-slate-600 mt-3 min-h-[38px] leading-relaxed">
-                          {lang === "ar" ? tier.descriptionAr : tier.descriptionEn}
-                        </p>
-
-                        {/* Price Block */}
-                        <div className="mt-4 pt-4 pb-4 border-t border-b border-slate-100">
-                          <div className="flex items-baseline gap-1">
-                            <span className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-900">
-                              {displayPrice.toLocaleString()}
-                            </span>
-                            <span className="text-sm font-bold text-brand-600 font-sans mx-1">
-                              {currencySymbol}
-                            </span>
-                            <span className="text-xs font-bold text-slate-400">
-                              / {lang === "ar" ? periodLabelAr : periodLabelEn}
-                            </span>
-                          </div>
-                          
-                          <p className="text-[11px] font-medium text-emerald-700 mt-1.5 flex items-center gap-1">
-                            <span>{lang === "ar" ? subtextAr : subtextEn}</span>
-                          </p>
-                        </div>
-
-                        {/* Setup / Onboarding Fee Note */}
-                        <div className="mt-3.5 text-[11px] text-slate-500 flex items-center justify-between bg-slate-50 p-2 rounded-lg">
-                          <span className="font-semibold">{lang === "ar" ? "رسوم التركيب والتدريب وترحيل البيانات:" : "Setup & Data Migration:"}</span>
-                          <span className="font-bold text-slate-800 font-mono">
-                            {currencyCode === "EGP" 
-                              ? `${tier.installationFeesEGP.toLocaleString()} ج.م`
-                              : `${Math.round(tier.installationFeesEGP / (currency.rateFromSAR * 13)).toLocaleString()} ${currencySymbol}`}
-                          </span>
-                        </div>
-
-                        {/* Features List */}
-                        <div className="mt-5 mb-2.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                          {lang === "ar" ? "المزايا المشمولة في الباقة:" : "What's Included:"}
-                        </div>
-                        <ul className="space-y-2.5 text-xs text-slate-700 font-medium">
-                          {(lang === "ar" ? tier.featuresAr : tier.featuresEn).map((feat, fIdx) => (
-                            <li key={`sec-${currentSec.id}-t-${tier.id}-f-${fIdx}`} className="flex items-start gap-2">
-                              <Check className={`w-4 h-4 shrink-0 mt-0.5 ${isPopular ? "text-slate-900" : "text-emerald-600"}`} />
-                              <span className="leading-snug">{feat}</span>
-                            </li>
-                          ))}
-                        </ul>
-
-                      </div>
-
-                      {/* CTA Action Button */}
-                      <div className="mt-8 pt-4">
-                        <button
-                          onClick={() => {
-                            const planLabel = `${lang === "ar" ? currentSec.nameAr : currentSec.nameEn} - ${lang === "ar" ? tier.nameAr : tier.nameEn} (${effectiveBillingMode === "monthly" ? (lang === "ar" ? "شهري" : "Monthly") : effectiveBillingMode === "annual" ? (lang === "ar" ? "سنوي" : "Annual") : (lang === "ar" ? "أوفلاين دائم" : "Lifetime")})`;
-                            setSelectedPlan(planLabel);
-                            setShowDemoModal(true);
-                          }}
-                          className={`w-full py-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer shadow-sm flex items-center justify-center gap-2 ${
-                            isPopular
-                              ? "bg-slate-900 hover:bg-slate-800 text-white shadow-slate-900/10"
-                              : isOfflineMode
-                                ? "bg-amber-600 hover:bg-amber-500 text-white"
-                                : "bg-white hover:bg-slate-50 text-slate-900 border border-slate-300"
-                          }`}
-                        >
-                          {isOfflineMode
-                            ? (lang === "ar" ? "اطلب رخصة التمليك الآن" : "Order Lifetime License")
-                            : (lang === "ar" ? "ابدأ تجربة مجانية 14 يوماً" : "Start 14-Day Free Trial")}
-                          <ArrowLeft className={`w-4 h-4 ${lang !== "ar" ? "rotate-180" : ""}`} />
-                        </button>
-                      </div>
-
-                    </div>
+                    </button>
                   );
                 })}
               </div>
-            );
-          })()}
+            )}
+          </div>
 
-          {/* 4. ADD-ON MODULES & SERVICES (EXPANDABLE) */}
+          {/* 2. BILLING PERIOD SELECTOR (LIVE LOGIC FROM API) */}
+          <div className="mb-10 text-center">
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+              {lang === "ar" ? "الخطوة الثانية: حدد نظام الاشتراك" : "Step 2: Choose Billing Cycle"}
+            </p>
+            <div className="inline-flex p-1.5 bg-slate-200/80 rounded-2xl border border-slate-300/80 gap-1.5 flex-wrap justify-center">
+              
+              {/* Monthly Option */}
+              {!catalog?.quoteAnnuallyOnly && (
+                <button
+                  onClick={() => setBillingMode("monthly")}
+                  className={`px-4 sm:px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                    billingMode === "monthly"
+                      ? "bg-white text-slate-900 shadow-sm"
+                      : "text-slate-600 hover:text-slate-900"
+                  }`}
+                >
+                  {lang === "ar" ? "اشتراك شهري مرن" : "Monthly Flexible"}
+                </button>
+              )}
+
+              {/* Annual Option (Recommended - 2 Months Free) */}
+              <button
+                onClick={() => setBillingMode("annual")}
+                className={`px-4 sm:px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                  billingMode === "annual"
+                    ? "bg-slate-900 text-white shadow-sm"
+                    : "text-slate-700 hover:text-slate-900"
+                }`}
+              >
+                <span>{lang === "ar" ? "اشتراك سنوي" : "Annual Billing"}</span>
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                  billingMode === "annual" ? "bg-emerald-500 text-white" : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                }`}>
+                  {lang === "ar" ? "شهران مجاناً" : "2 Months Free"}
+                </span>
+              </button>
+
+              {/* Offline Lifetime Option (If supported by product) */}
+              {catalog?.product?.sellOffline !== false && (
+                <button
+                  onClick={() => setBillingMode("offline")}
+                  className={`px-4 sm:px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                    billingMode === "offline"
+                      ? "bg-amber-600 text-white shadow-sm"
+                      : "text-slate-700 hover:text-slate-900"
+                  }`}
+                >
+                  <span>{lang === "ar" ? "ترخيص تمليك دائم (أوفلاين 100%)" : "Lifetime Offline License"}</span>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                    billingMode === "offline" ? "bg-white text-amber-700" : "bg-amber-50 text-amber-800 border border-amber-200"
+                  }`}>
+                    {lang === "ar" ? "تقسيط متاح" : "Installments"}
+                  </span>
+                </button>
+              )}
+
+            </div>
+
+            {catalog?.quoteAnnuallyOnly && (
+              <p className="text-[11px] text-amber-700 font-medium mt-2">
+                {lang === "ar" ? "⚠️ هذا القطاع يُعرض بالسعر السنوي فقط بحسب حجم المشاريع والتشغيل." : "⚠️ This industry is billed annually only."}
+              </p>
+            )}
+          </div>
+
+          {/* 3. 3-TIER PRICING CARDS GRID (LIVE FROM API) */}
+          {isCatalogLoading && (!catalogLevels || catalogLevels.length === 0) ? (
+            <div className="py-16 text-center">
+              <div className="w-8 h-8 border-3 border-brand-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+              <p className="text-xs text-slate-500 font-medium font-sans">
+                {lang === "ar" ? "جاري جلب أحدث الأسعار الحية من السيرفر..." : "Fetching live pricing from server..."}
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+              {catalogLevels.map((level, idx) => {
+                const isPopular = level.id === "L2";
+                const isAllIncluded = level.id === "L3";
+                const isOfflineMode = billingMode === "offline";
+                const effectiveBillingMode: BillingMode = (catalog?.quoteAnnuallyOnly && billingMode === "monthly") ? "annual" : billingMode;
+
+                let displayPrice = 0;
+                let periodLabelAr = "";
+                let periodLabelEn = "";
+                let subtextAr = "";
+                let subtextEn = "";
+
+                if (effectiveBillingMode === "monthly") {
+                  displayPrice = level.monthly;
+                  periodLabelAr = "شهرياً";
+                  periodLabelEn = "month";
+                  subtextAr = "تجديد شهري مرن · إلغاء بأي وقت";
+                  subtextEn = "Monthly flexible · Cancel anytime";
+                } else if (effectiveBillingMode === "annual") {
+                  displayPrice = level.annual;
+                  const equivMonthly = Math.round(level.annual / (catalog?.annualEqualsMonths || 10));
+                  periodLabelAr = "سنوياً";
+                  periodLabelEn = "year";
+                  subtextAr = `ما يعادل ${equivMonthly.toLocaleString()} ${currencySymbol} شهرياً · احتساب ${catalog?.annualEqualsMonths || 10} أشهر فقط`;
+                  subtextEn = `Equiv. ${equivMonthly.toLocaleString()} ${currencySymbol}/mo · Billed for ${catalog?.annualEqualsMonths || 10} months`;
+                } else {
+                  // Offline Lifetime
+                  const baseOfflinePrice = Math.round(level.annual * 3.5);
+                  displayPrice = baseOfflinePrice;
+                  const downPayment = Math.round(displayPrice * 0.4);
+                  const monthlyInstallment = Math.round((displayPrice * 0.6) / 6);
+                  periodLabelAr = "تدفع لمرة واحدة";
+                  periodLabelEn = "one-time";
+                  subtextAr = `متاح بالتقسيط: مقدم ${downPayment.toLocaleString()} ${currencySymbol} + ${monthlyInstallment.toLocaleString()} × 6 شهور`;
+                  subtextEn = `Installments: 40% down + 6 monthly payments`;
+                }
+
+                return (
+                  <div
+                    key={`catalog-tier-${level.id}`}
+                    className={`relative rounded-2xl border transition-all duration-300 flex flex-col justify-between p-6 sm:p-7 ${
+                      isPopular
+                        ? "bg-white border-slate-900 shadow-xl ring-1 ring-slate-900/10 md:-translate-y-2 z-10"
+                        : isOfflineMode
+                          ? "bg-gradient-to-b from-white to-amber-50/20 border-amber-200 shadow-sm hover:border-amber-300"
+                          : "bg-white border-slate-200 shadow-sm hover:border-slate-300"
+                    }`}
+                  >
+                    {/* Popular / Highlights Badges */}
+                    {isPopular && (
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900 text-white text-[10px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 border border-slate-700">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                        <span>{lang === "ar" ? "الخيار الأكثر اعتماداً" : "Most Popular Choice"}</span>
+                      </div>
+                    )}
+                    {isAllIncluded && (
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-emerald-800 text-white text-[10px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 border border-emerald-700">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
+                        <span>{lang === "ar" ? "شامل كافة الوحدات الذكية" : "All Modules Included"}</span>
+                      </div>
+                    )}
+
+                    <div>
+                      {/* Level & Product Name */}
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                          isPopular ? "bg-slate-100 text-slate-800 font-mono" : "bg-slate-100 text-slate-600 font-mono"
+                        }`}>
+                          {lang === "ar" ? `المستوى ${idx + 1}` : `Level ${idx + 1}`}
+                        </span>
+                        <span className="text-[11px] font-bold text-slate-500 font-mono">
+                          {lang === "ar" ? (catalog?.product?.name || "Z Systems") : currentProductMeta.nameEn}
+                        </span>
+                      </div>
+
+                      {/* Live Tier Name from API */}
+                      <h3 className="text-xl font-black font-display text-slate-900 tracking-tight">
+                        {level.name}
+                      </h3>
+
+                      {/* Live Limits Pills from API */}
+                      <div className="mt-2.5 flex flex-wrap gap-1.5 text-[11px] font-bold text-slate-700">
+                        {level.limits?.branches !== undefined && level.limits?.branches !== null && (
+                          <span className="bg-slate-100/90 px-2.5 py-1 rounded-md flex items-center gap-1">
+                            <Building2 className="w-3 h-3 text-slate-500" />
+                            <span>
+                              {level.limits.branches === 1 
+                                ? (lang === "ar" ? "فرع واحد" : "1 Branch")
+                                : level.limits.branches === 2
+                                  ? (lang === "ar" ? "فرعين" : "2 Branches")
+                                  : level.limits.branches
+                                    ? (lang === "ar" ? `${level.limits.branches} فروع` : `${level.limits.branches} Branches`)
+                                    : (lang === "ar" ? "فروع غير محدودة" : "Unlimited Branches")}
+                            </span>
+                          </span>
+                        )}
+
+                        {level.limits?.activeProjects !== undefined && (
+                          <span className="bg-slate-100/90 px-2.5 py-1 rounded-md flex items-center gap-1">
+                            <Building2 className="w-3 h-3 text-slate-500" />
+                            <span>
+                              {level.limits.activeProjects === 1
+                                ? (lang === "ar" ? "مشروع نشط واحد" : "1 Active Project")
+                                : level.limits.activeProjects
+                                  ? (lang === "ar" ? `${level.limits.activeProjects} مشاريع نشطة` : `${level.limits.activeProjects} Active Projects`)
+                                  : (lang === "ar" ? "مشاريع نشطة غير محدودة" : "Unlimited Projects")}
+                            </span>
+                          </span>
+                        )}
+
+                        {level.limits?.containersPerMonth !== undefined && (
+                          <span className="bg-slate-100/90 px-2.5 py-1 rounded-md flex items-center gap-1">
+                            <Truck className="w-3 h-3 text-slate-500" />
+                            <span>
+                              {level.limits.containersPerMonth
+                                ? (lang === "ar" ? `${level.limits.containersPerMonth} حاوية / شهر` : `${level.limits.containersPerMonth} Containers/mo`)
+                                : (lang === "ar" ? "حاويات غير محدودة" : "Unlimited Containers")}
+                            </span>
+                          </span>
+                        )}
+
+                        {level.limits?.posTerminals != null && (
+                          <span className="bg-slate-100/90 px-2 py-1 rounded-md flex items-center gap-1">
+                            <MonitorCheck className="w-3 h-3 text-slate-500" />
+                            <span>{lang === "ar" ? `${level.limits.posTerminals} كاشير` : `${level.limits.posTerminals} POS`}</span>
+                          </span>
+                        )}
+
+                        {level.limits?.users !== undefined && (
+                          <span className="bg-slate-100/90 px-2 py-1 rounded-md flex items-center gap-1">
+                            <Users className="w-3 h-3 text-slate-500" />
+                            <span>
+                              {level.limits.users 
+                                ? (lang === "ar" ? `${level.limits.users} مستخدمين` : `${level.limits.users} Users`)
+                                : (lang === "ar" ? "مستخدمين غير محدود" : "Unlimited Users")}
+                            </span>
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Live Price Block */}
+                      <div className="mt-4 pt-4 pb-4 border-t border-b border-slate-100">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-900">
+                            {displayPrice.toLocaleString()}
+                          </span>
+                          <span className="text-sm font-bold text-brand-600 font-sans mx-1">
+                            {currencySymbol}
+                          </span>
+                          <span className="text-xs font-bold text-slate-400">
+                            / {lang === "ar" ? periodLabelAr : periodLabelEn}
+                          </span>
+                        </div>
+                        
+                        <p className="text-[11px] font-medium text-emerald-700 mt-1.5 flex items-center gap-1">
+                          <span>{lang === "ar" ? subtextAr : subtextEn}</span>
+                        </p>
+                      </div>
+
+                      {/* Live Features List from API */}
+                      <div className="mt-5 mb-2.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        {lang === "ar" ? "المزايا المشمولة في الباقة:" : "What's Included:"}
+                      </div>
+                      
+                      <div className="space-y-3">
+                        {level.featureGroups?.map((group, gIdx) => (
+                          <div key={`fg-${level.id}-${gIdx}`}>
+                            <div className="text-[11px] font-bold text-slate-800 mb-1.5 border-b border-slate-100 pb-0.5">
+                              {group.name}
+                            </div>
+                            <ul className="space-y-1.5 text-xs text-slate-600 font-medium">
+                              {group.items?.map((item, iIdx) => (
+                                <li key={`fg-item-${level.id}-${gIdx}-${iIdx}`} className="flex items-start gap-1.5">
+                                  <Check className={`w-3.5 h-3.5 shrink-0 mt-0.5 ${isPopular ? "text-slate-900" : "text-emerald-600"}`} />
+                                  <span className="leading-snug text-[11px]">{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+
+                        {/* Sector Specific Features from API */}
+                        {level.sectorFeatures && level.sectorFeatures.length > 0 && (
+                          <div>
+                            <div className="text-[11px] font-bold text-brand-600 mb-1.5 border-b border-brand-100 pb-0.5">
+                              {lang === "ar" ? "خصائص متخصصة لهذا النشاط:" : "Sector-Specific Capabilities:"}
+                            </div>
+                            <ul className="space-y-1.5 text-xs text-slate-700 font-medium">
+                              {level.sectorFeatures.map((sFeat, sfIdx) => (
+                                <li key={`sf-item-${level.id}-${sfIdx}`} className="flex items-start gap-1.5">
+                                  <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5 text-brand-500" />
+                                  <span className="leading-snug text-[11px]">{sFeat}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+
+                    </div>
+
+                    {/* CTA Action Button */}
+                    <div className="mt-8 pt-4">
+                      <button
+                        onClick={() => {
+                          const planLabel = `${catalog?.product?.name || "Z Systems"} - ${level.name} (${effectiveBillingMode === "monthly" ? (lang === "ar" ? "شهري" : "Monthly") : effectiveBillingMode === "annual" ? (lang === "ar" ? "سنوي" : "Annual") : (lang === "ar" ? "أوفلاين دائم" : "Lifetime")})`;
+                          setSelectedPlan(planLabel);
+                          setShowDemoModal(true);
+                        }}
+                        className={`w-full py-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer shadow-sm flex items-center justify-center gap-2 ${
+                          isPopular
+                            ? "bg-slate-900 hover:bg-slate-800 text-white shadow-slate-900/10"
+                            : isOfflineMode
+                              ? "bg-amber-600 hover:bg-amber-500 text-white"
+                              : "bg-white hover:bg-slate-50 text-slate-900 border border-slate-300"
+                        }`}
+                      >
+                        {isOfflineMode
+                          ? (lang === "ar" ? "اطلب رخصة التمليك الآن" : "Order Lifetime License")
+                          : (lang === "ar" ? "ابدأ تجربة مجانية 14 يوماً" : "Start 14-Day Free Trial")}
+                        <ArrowLeft className={`w-4 h-4 ${lang !== "ar" ? "rotate-180" : ""}`} />
+                      </button>
+                    </div>
+
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* 4. ADD-ON MODULES & FLOORS (LIVE FROM API) */}
           <div className="mt-14 max-w-5xl mx-auto">
             <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
               
@@ -1711,7 +1935,7 @@ export default function ErpPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold text-brand-600 hidden sm:inline">
-                    {showAddonsDetails ? (lang === "ar" ? "إخفاء التفاصيل" : "Hide Details") : (lang === "ar" ? "عرض الأسعار والتفاصيل" : "Show Prices")}
+                    {showAddonsDetails ? (lang === "ar" ? "إخفاء التفاصيل" : "Hide Details") : (lang === "ar" ? "عرض الأسعار الحية والتفاصيل" : "Show Live Prices")}
                   </span>
                   <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${showAddonsDetails ? "rotate-180" : ""}`} />
                 </div>
@@ -1729,61 +1953,60 @@ export default function ErpPage() {
                     </span>
                   </div>
 
-                  {/* Modules Grid */}
+                  {/* Live Modules Grid from API */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {ADDON_MODULES.map((addon) => (
-                      <div key={addon.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 transition-colors flex flex-col justify-between">
+                    {catalogFloors?.map((floor) => (
+                      <div key={floor.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 transition-colors flex flex-col justify-between">
                         <div>
                           <div className="flex items-start justify-between gap-2 mb-2">
                             <h4 className="font-bold text-xs text-slate-900 leading-snug">
-                              {lang === "ar" ? addon.nameAr : addon.nameEn}
+                              {floor.name}
                             </h4>
-                            {addon.includedInLevel3 && (
+                            {floor.includedFromLevel === "L3" && (
                               <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 shrink-0">
                                 {lang === "ar" ? "مجاناً بالمستوى 3" : "Free in L3"}
                               </span>
                             )}
                           </div>
-                          <p className="text-[11px] text-slate-600 leading-relaxed">
-                            {lang === "ar" ? addon.descriptionAr : addon.descriptionEn}
-                          </p>
                         </div>
                         <div className="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between">
                           <span className="text-sm font-black font-mono text-brand-600">
-                            {typeof addon.priceEGP === "number" ? `${addon.priceEGP.toLocaleString()} ج.م` : addon.priceEGP}
+                            {floor.monthly !== null
+                              ? `${floor.monthly.toLocaleString()} ${currencySymbol}`
+                              : floor.contactForPrice
+                                ? (lang === "ar" ? "بالطلب" : "Contact Sales")
+                                : (floor.pricingRule || (lang === "ar" ? "حسب الاستخدام" : "Usage-based"))}
                           </span>
                           <span className="text-[10px] text-slate-400 font-medium">
-                            {lang === "ar" ? addon.priceNoteAr : addon.priceNoteEn}
+                            {floor.monthly !== null ? (lang === "ar" ? "شهرياً" : "monthly") : ""}
                           </span>
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  {/* Extra Users & Branches Table */}
+                  {/* Extra Users & Branches Live Table from API */}
                   <div className="pt-4 border-t border-slate-200">
                     <h4 className="font-bold text-xs sm:text-sm text-slate-900 mb-3">
-                      {lang === "ar" ? "أسعار الوحدات الإضافية الشهرية حسب القطاع:" : "Monthly Unit Add-ons per Sector:"}
+                      {lang === "ar" ? "أسعار الوحدات الإضافية الشهرية لهذا النشاط:" : "Monthly Unit Add-ons for this Sector:"}
                     </h4>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-xs text-start border-collapse min-w-[500px]">
-                        <thead>
-                          <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-                            <th className="p-2.5 text-start">{lang === "ar" ? "القطاع التجاري" : "Sector"}</th>
-                            <th className="p-2.5 text-center">{lang === "ar" ? "مستخدم إضافي شهرياً" : "Extra User /mo"}</th>
-                            <th className="p-2.5 text-center">{lang === "ar" ? "فرع إضافي شهرياً" : "Extra Branch /mo"}</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 text-slate-600">
-                          {SECTORS_DATA.map((s) => (
-                            <tr key={`addon-row-${s.id}`} className="hover:bg-slate-50">
-                              <td className="p-2.5 font-bold text-slate-800">{lang === "ar" ? s.nameAr : s.nameEn}</td>
-                              <td className="p-2.5 text-center font-mono font-bold text-brand-600">+{s.monthlyAddonsEGP.extraUser} ج.م</td>
-                              <td className="p-2.5 text-center font-mono font-bold text-brand-600">+{s.monthlyAddonsEGP.extraBranch} ج.م</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg">
+                      <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-700">
+                          {lang === "ar" ? "مستخدم إضافي شهرياً" : "Extra User /mo"}
+                        </span>
+                        <span className="font-mono font-bold text-brand-600 text-sm">
+                          +{catalogAddons.extraUserMonthly.toLocaleString()} {currencySymbol}
+                        </span>
+                      </div>
+                      <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-700">
+                          {lang === "ar" ? "فرع إضافي شهرياً" : "Extra Branch /mo"}
+                        </span>
+                        <span className="font-mono font-bold text-brand-600 text-sm">
+                          +{catalogAddons.extraBranchMonthly.toLocaleString()} {currencySymbol}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -2317,24 +2540,73 @@ export default function ErpPage() {
               {/* Success Screen */}
               {demoSubmitted ? (
                 <div className="text-center py-6 space-y-4">
-                  <div className="w-12 h-12 bg-brand-50 rounded-full flex items-center justify-center mx-auto text-brand-600 border border-brand-200 mb-4">
-                    <CheckCircle className="w-6 h-6" />
+                  <div className="w-14 h-14 bg-emerald-50 rounded-full flex items-center justify-center mx-auto text-emerald-600 border border-emerald-200 mb-2">
+                    <CheckCircle className="w-7 h-7" />
                   </div>
-                  <h3 className="text-lg font-black text-slate-900 font-display">{lang === "ar" ? "تم استلام طلب استشارتك بنجاح!" : "Consultation requested successfully!"}</h3>
-                  <p className="text-slate-600 text-xs leading-relaxed max-w-sm mx-auto font-sans">
-                     {lang === "ar" ? "أهلاً بك يا" : "Welcome"} <strong>{demoForm.name}</strong>. {lang === "ar" ? "سيقوم مستشار أنظمة ERP مالي وخبير بنشاط" : "An expert financial ERP consultant for the industry:"} <strong>{demoForm.company || (lang === "ar" ? "النشاط المذكور" : "Mentioned Business")}</strong> {lang === "ar" ? "بالتواصل معك هاتفياً أو عبر الواتساب على جوالك" : "will contact you by phone or WhatsApp on"} <strong>({demoForm.phone})</strong> {lang === "ar" ? "خلال 15 دقيقة لتقديم العرض وبدء دورتك التجريبية مجاناً." : "within 15 minutes to present the offer and start your free trial."}
-                  </p>
-                  <div className="pt-4">
-                    <button
-                      onClick={() => {
-                        setShowDemoModal(false);
-                        setDemoSubmitted(false);
-                      }}
-                      className="bg-slate-100 hover:bg-slate-300 text-slate-800 font-bold py-2.5 px-6 rounded text-xs transition-colors cursor-pointer"
-                    >
-                      {lang === "ar" ? "إغلاق النافذة والعودة للموقع" : "Close and return to site"}
-                    </button>
-                  </div>
+                  
+                  {demoForm.preferredMode === "Cloud" ? (
+                    <>
+                      <h3 className="text-lg font-black text-slate-900 font-display">
+                        {lang === "ar" ? "تم إنشاء حسابك التجريبي الفعلي بنجاح! 🚀" : "Your Free Trial Account Is Ready! 🚀"}
+                      </h3>
+                      <p className="text-slate-600 text-xs leading-relaxed max-w-md mx-auto font-sans">
+                        {lang === "ar" ? "أهلاً بك يا" : "Welcome"} <strong>{demoForm.name}</strong>. {lang === "ar" ? "تم تفعيل نسختك السحابية التجريبية لمنشأة" : "Your cloud trial for"} <strong>({demoForm.company})</strong> {lang === "ar" ? "بنجاح تام. ستصلك بيانات تسجيل الدخول المؤقتة ورابط النظام على بريدك الإلكتروني" : "is now active. Login credentials and system URL have been sent to your email:"} <strong className="text-brand-600 direction-ltr font-mono">{demoForm.email}</strong> {lang === "ar" ? "خلال ثوانٍ معدودة." : "within seconds."}
+                      </p>
+                      
+                      <div className="bg-slate-50 border border-slate-200 rounded p-3 text-[11px] text-slate-600 font-sans max-w-sm mx-auto text-start">
+                        <div className="flex items-center gap-2 text-slate-800 font-bold mb-1">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                          <span>{lang === "ar" ? "الخطوة التالية لبدء العمل فوراً:" : "Next step to get started:"}</span>
+                        </div>
+                        <p className="text-[10px] leading-relaxed text-slate-500">
+                          {lang === "ar" ? "افتح بريدك الوارد (أو مجلد الرسائل الترويجية/غير المرغوب فيها إن لم تجدها) واضغط على رابط الدخول." : "Check your inbox (or spam/promotions folder) and click the login link to start."}
+                        </p>
+                      </div>
+
+                      <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5">
+                        <a
+                          href="https://app.zsystemai.com"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="w-full sm:w-auto bg-brand-600 hover:bg-brand-500 text-white font-bold py-2.5 px-6 rounded text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                        >
+                          <span>{lang === "ar" ? "الانتقال لتسجيل الدخول (app.zsystemai.com)" : "Go to Login (app.zsystemai.com)"}</span>
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                        <button
+                          onClick={() => {
+                            setShowDemoModal(false);
+                            setDemoSubmitted(false);
+                            setApiError(null);
+                          }}
+                          className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2.5 px-5 rounded text-xs transition-colors cursor-pointer"
+                        >
+                          {lang === "ar" ? "إغلاق النافذة" : "Close Window"}
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <h3 className="text-lg font-black text-slate-900 font-display">
+                        {lang === "ar" ? "تم تحويل طلبك لمستشار التثبيت المحلي!" : "Local Deployment Request Received!"}
+                      </h3>
+                      <p className="text-slate-600 text-xs leading-relaxed max-w-sm mx-auto font-sans">
+                        {lang === "ar" ? "أهلاً بك يا" : "Welcome"} <strong>{demoForm.name}</strong>. {lang === "ar" ? "تم تجهيز طلب التثبيت المحلي لنشاط" : "Your local deployment request for"} <strong>({demoForm.company})</strong> {lang === "ar" ? "وتوجيهه لمستشار النظم للتواصل معك هاتفياً أو عبر الواتساب على رقمك" : "has been forwarded to coordinate setup on"} <strong>({demoForm.phone})</strong> {lang === "ar" ? "لتحديد موعد التجهيز والربط الميداني." : "to schedule your installation."}
+                      </p>
+                      <div className="pt-4">
+                        <button
+                          onClick={() => {
+                            setShowDemoModal(false);
+                            setDemoSubmitted(false);
+                            setApiError(null);
+                          }}
+                          className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2.5 px-6 rounded text-xs transition-colors cursor-pointer"
+                        >
+                          {lang === "ar" ? "إغلاق النافذة والعودة للموقع" : "Close and return to site"}
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               ) : (
                 /* Form Screen */
@@ -2348,6 +2620,17 @@ export default function ErpPage() {
                   </p>
 
                   <form onSubmit={handleDemoSubmit} className="mt-5 space-y-4">
+                    {/* API Error Notification */}
+                    {apiError && (
+                      <div className="bg-rose-50 border border-rose-200 text-rose-800 p-3 rounded text-xs flex items-start gap-2.5 animate-shake">
+                        <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                        <div className="flex-1 font-sans leading-relaxed">
+                          <p className="font-bold">{lang === "ar" ? "تنبيه أثناء إنشاء الحساب:" : "Notice during account creation:"}</p>
+                          <p className="text-[11px] mt-0.5 text-rose-700">{apiError}</p>
+                        </div>
+                      </div>
+                    )}
+
                     {/* Full Name */}
                     <div>
                       <label className="block text-[11px] font-bold text-slate-700 mb-1">{lang === "ar" ? "الاسم الكريم بالكامل *" : "Full Name *"}</label>
@@ -2355,9 +2638,12 @@ export default function ErpPage() {
                         type="text"
                         required
                         value={demoForm.name}
-                        onChange={(e) => setDemoForm({ ...demoForm, name: e.target.value })}
+                        onChange={(e) => {
+                          setDemoForm({ ...demoForm, name: e.target.value });
+                          if (apiError) setApiError(null);
+                        }}
                         placeholder={currencyCode === "EGP" ? (lang === "ar" ? "الأستاذ / أحمد محمود" : "Mr. Ahmed Mahmoud") : (lang === "ar" ? "الأستاذ / عبد الرحمن الحربي" : "Mr. Abdulrahman Alharbi")}
-                        className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-slate-200 text-start font-sans"
+                        className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-500 text-start font-sans"
                       />
                     </div>
 
@@ -2368,9 +2654,30 @@ export default function ErpPage() {
                         type="tel"
                         required
                         value={demoForm.phone}
-                        onChange={(e) => setDemoForm({ ...demoForm, phone: e.target.value })}
+                        onChange={(e) => {
+                          setDemoForm({ ...demoForm, phone: e.target.value });
+                          if (apiError) setApiError(null);
+                        }}
                         placeholder={currencyCode === "EGP" ? "+20 10 1234 5678" : currencyCode === "AED" ? "+971 50 123 4567" : currencyCode === "KWD" ? "+965 99 123 456" : "+966 55 123 4567"}
-                        className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-slate-800 text-end direction-ltr font-mono"
+                        className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-500 text-end direction-ltr font-mono"
+                      />
+                    </div>
+
+                    {/* Email Address (Required for automatic trial provisioning) */}
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-700 mb-1 font-sans">
+                        {lang === "ar" ? "البريد الإلكتروني (لتلقي بيانات الدخول فوراً) *" : "Email Address (to receive login credentials) *"}
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={demoForm.email}
+                        onChange={(e) => {
+                          setDemoForm({ ...demoForm, email: e.target.value });
+                          if (apiError) setApiError(null);
+                        }}
+                        placeholder="example@company.com"
+                        className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-500 text-start direction-ltr font-mono"
                       />
                     </div>
 
@@ -2382,9 +2689,12 @@ export default function ErpPage() {
                           type="text"
                           required
                           value={demoForm.company}
-                          onChange={(e) => setDemoForm({ ...demoForm, company: e.target.value })}
+                          onChange={(e) => {
+                            setDemoForm({ ...demoForm, company: e.target.value });
+                            if (apiError) setApiError(null);
+                          }}
                           placeholder={currencyCode === "EGP" ? (lang === "ar" ? "شركة النيل للتجارة والتوزيع" : "Nile Trading & Distribution") : (lang === "ar" ? "شركة الحربي للتجارة" : "Alharbi Trading Co.")}
-                          className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-slate-800 text-start font-sans"
+                          className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-500 text-start font-sans"
                         />
                       </div>
 

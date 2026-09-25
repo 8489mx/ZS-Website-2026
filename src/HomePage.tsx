@@ -140,7 +140,7 @@ export default function HomePage() {
         initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.95 }} 
         animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }} 
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }} 
-        className="w-full pt-20 pb-16 lg:pt-32 lg:pb-24 bg-white relative overflow-hidden px-6"
+        className="w-full pt-20 pb-20 lg:pt-28 lg:pb-28 bg-white relative overflow-hidden px-6"
       >
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-500/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -150,7 +150,7 @@ export default function HomePage() {
             {content.hero.badge}
           </div>
           
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.1] tracking-tight max-w-4xl whitespace-pre-line">
+          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.12] tracking-tight max-w-4xl whitespace-pre-line">
             {content.hero.title}
           </h1>
 
@@ -158,11 +158,39 @@ export default function HomePage() {
             {content.hero.subtitle}
           </p>
 
-          <div className="mt-10 flex gap-4">
-            <a href="#systems" className="bg-brand-600 hover:bg-brand-500 text-white font-bold px-8 py-3.5 rounded-lg transition-colors shadow-lg shadow-brand-500/20 text-sm flex items-center gap-2">
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
+            <a 
+              href="#systems" 
+              className="bg-brand-600 hover:bg-brand-500 text-white font-bold px-8 py-3.5 rounded-xl transition-all shadow-lg shadow-brand-500/20 text-sm flex items-center gap-2"
+            >
               {content.hero.cta}
               <ArrowRight className={`w-4 h-4 ${isRTL ? "rotate-180" : ""}`} />
             </a>
+
+            <a 
+              href="https://wa.me/201018017523" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-7 py-3.5 rounded-xl transition-all text-sm"
+            >
+              {content.nav.contactUs}
+            </a>
+          </div>
+
+          {/* Quick Metrics Bar */}
+          <div className="mt-16 pt-8 border-t border-slate-100 grid grid-cols-3 gap-8 sm:gap-16 max-w-2xl text-slate-600">
+            <div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 font-display">100%</div>
+              <div className="text-xs sm:text-sm text-slate-600 mt-1 font-medium">{lang === "ar" ? "تحكم مالي ومخزني" : "Financial Control"}</div>
+            </div>
+            <div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 font-display">+500</div>
+              <div className="text-xs sm:text-sm text-slate-600 mt-1 font-medium">{lang === "ar" ? "نقطة بيع نشطة" : "Active POS Units"}</div>
+            </div>
+            <div>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 font-display">24/7</div>
+              <div className="text-xs sm:text-sm text-slate-600 mt-1 font-medium">{lang === "ar" ? "دعم واستشارات" : "Live Support"}</div>
+            </div>
           </div>
         </div>
       </motion.section>
