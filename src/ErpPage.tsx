@@ -38,7 +38,7 @@ import {
 import WhatsAppSimulation from "./WhatsAppSimulation";
 import { ERP_CATEGORIES, PROBLEM_STATEMENTS, DEPLOYMENT_MODES, PRICING_TIERS, FAQS } from "./data";
 import { ERP_CATEGORIES_EN, PROBLEM_STATEMENTS_EN, DEPLOYMENT_MODES_EN, FAQS_EN, PRICING_TIERS_EN } from "./dataEn";
-import { MessageCircle, Palette, Utensils, UtensilsCrossed, Smile, Star, Coffee, Activity, Pizza, Bird, Carrot, Store, Car, Sun, CarFront } from "lucide-react";
+import { MessageCircle, Palette, Utensils, UtensilsCrossed, Smile, Star, Coffee, Activity, Pizza, Bird, Carrot, Store, Car, Sun, CarFront, ShoppingBag, Truck, Info, CreditCard, Gift, Layers, FileText, CalendarCheck, Receipt, Award, CheckCircle2 } from "lucide-react";
 import SystemGallery from "./SystemGallery";
 import { content } from "./i18n";
 import { useLanguage } from "./LanguageContext";
@@ -46,6 +46,7 @@ import { useTheme } from "./ThemeContext";
 import ThemeSwitcher from "./ThemeSwitcher";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useCurrency } from "./CurrencyContext";
+import { SECTORS_DATA, ADDON_MODULES, OFFLINE_TERMS, SectorId, BillingMode } from "./pricingData";
 
 export default function ErpPage() {
   const { lang, setLang } = useLanguage();
@@ -71,6 +72,12 @@ export default function ErpPage() {
   };
 
   const currencySymbol = lang === "ar" ? currency.symbolAr : currency.symbolEn;
+
+  // New Sector-based Pricing States (September 2026 Release)
+  const [selectedSectorId, setSelectedSectorId] = useState<SectorId>("retail");
+  const [billingMode, setBillingMode] = useState<BillingMode>("annual");
+  const [showAddonsDetails, setShowAddonsDetails] = useState(false);
+  const [showOfflineTerms, setShowOfflineTerms] = useState(false);
 
   // Navigation Mobile Menu State
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -1352,125 +1359,506 @@ export default function ErpPage() {
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="pricing" className="py-16 lg:py-24 bg-slate-50 border-b border-slate-200">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <span className="text-brand-600 font-bold text-xs tracking-widest uppercase font-mono bg-brand-50 px-3 py-1.5 rounded-full inline-block">{lang === "ar" ? "خطط أسعار واضحة خالية من الرسوم المستترة" : "Clear pricing plans with no hidden fees"}</span>
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-slate-800 text-xs font-semibold shadow-2xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span className="font-mono text-[11px] text-slate-500 font-bold uppercase tracking-wider">Z-PRICING MATRIX</span>
+              <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+              <span>{lang === "ar" ? "إصدار سبتمبر 2026 المعتمد" : "Official September 2026 Release"}</span>
+            </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-normal mt-3">
-              {t.pricing.title}
+              {lang === "ar" ? "باقات مخصصة بدقة حسب نشاطك التجاري" : "Tailored Plans for Every Industry"}
             </h2>
-            <p className="mt-3 text-slate-600 text-xs sm:text-sm">
-              {lang === "ar" ? "اختر الخطة التي تتماشى كلياً مع كادر عمالتك ونطاق فروع نشاطك بموثوقية، بأسعار اقتصادية تنافسية تضمن لك سرعة العائد على استثمارك:" : "Choose the plan that perfectly matches your workforce and branch scope reliably, at competitive economic prices guaranteeing fast ROI:"}
+            <p className="mt-3 text-slate-600 text-xs sm:text-sm leading-relaxed">
+              {lang === "ar" 
+                ? "اختر قطاع عملك ونمط التشغيل المناسب لك. أسعار واضحة خالية من أي رسوم خفية مع شهرين مجاناً في الاشتراك السنوي وتجربة مجانية 14 يوماً." 
+                : "Choose your business sector and operating model. Transparent pricing with 2 months free on annual plans and 14-day free trial."}
             </p>
+
+            {/* Quick Guarantees Pill Bar - Clean Corporate No Emojis */}
+            <div className="mt-5 flex flex-wrap justify-center items-center gap-2.5 text-xs text-slate-700 font-medium">
+              <div className="inline-flex items-center gap-2 bg-white border border-slate-200/90 px-3.5 py-1.5 rounded-lg shadow-2xs">
+                <CalendarCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>{lang === "ar" ? "السنوي: احتساب 10 أشهر (شهران مجاناً)" : "Annual: Pay 10 Months (2 Months Free)"}</span>
+              </div>
+              <div className="inline-flex items-center gap-2 bg-white border border-slate-200/90 px-3.5 py-1.5 rounded-lg shadow-2xs">
+                <Clock className="w-4 h-4 text-blue-600 shrink-0" />
+                <span>{lang === "ar" ? "تجربة مجانية 14 يوماً (5 مستخدمين)" : "14-Day Free Trial (5 Users)"}</span>
+              </div>
+              <div className="inline-flex items-center gap-2 bg-white border border-slate-200/90 px-3.5 py-1.5 rounded-lg shadow-2xs">
+                <Receipt className="w-4 h-4 text-slate-500 shrink-0" />
+                <span>{lang === "ar" ? "الأسعار غير شاملة ضريبة القيمة المضافة" : "Excl. Local VAT"}</span>
+              </div>
+              <div className="inline-flex items-center gap-2 bg-white border border-slate-200/90 px-3.5 py-1.5 rounded-lg shadow-2xs">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>{lang === "ar" ? "ضمان استرجاع كامل خلال 30 يوماً" : "30-Day Money Back Guarantee"}</span>
+              </div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {currentPricingTiers.map((tier, index) => {
-              const isOffline = tier.type === "Offline Lifetime";
-              const currentTierPrice = getTierPrice(index);
-              return (
-                <div 
-                  key={`tier-${tier.type}-${index}`}
-                  className={`relative rounded-lg border p-6 transition-all duration-300 flex flex-col justify-between ${
-                    tier.mostPopular 
-                      ? "bg-white border-brand-500 text-slate-900 shadow-2xl scale-100 z-10 ring-1 ring-brand-500" 
-                      : isOffline
-                        ? "bg-gradient-to-b from-slate-50/50 to-amber-50/10 border-amber-200 shadow-sm text-slate-900"
-                        : "bg-slate-50/60 border-slate-200 text-slate-900 hover:border-slate-300"
-                  }`}
-                >
-                  {tier.mostPopular && (
-                    <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-600 text-white text-[10px] font-bold px-4 py-1 rounded-full tracking-wide uppercase shadow-sm">
-                      {t.pricing.mostPopular}
-                    </span>
-                  )}
-                  {isOffline && (
-                    <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-amber-600 text-white text-[10px] font-bold px-4 py-1 rounded-full tracking-wide uppercase shadow-sm">
-                      {t.pricing.lifetime}
-                    </span>
-                  )}
-
-                  <div>
-                    <span className={`text-[9px] font-mono font-bold tracking-widest uppercase block ${
-                      tier.mostPopular ? "text-brand-500" : "text-slate-400"
-                    }`}>
-                      {tier.type}
-                    </span>
-                    
-                    <h3 className="mt-1 text-lg font-black font-display tracking-tight">
-                      {lang === "ar" ? tier.name : tier.nameEn}
-                    </h3>
-                    
-                    <p className={`text-[11px] mt-1.5 min-h-10 leading-relaxed ${
-                      tier.mostPopular ? "text-slate-600" : "text-slate-600"
-                    }`}>
-                      {lang === "ar" ? tier.description : ""}
-                    </p>
-
-                    <div className={`mt-4 pb-4 border-b border-dashed ${
-                      tier.mostPopular ? "border-brand-100" : "border-slate-200"
-                    }`}>
-                      <span className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-brand-600">
-                        {currentTierPrice.toLocaleString()} {currencySymbol}
-                      </span>
-                      <span className={`text-[10px] font-bold mx-1 text-slate-400`}>
-                        / {lang === "ar" ? tier.period : tier.periodEn}
-                      </span>
+          {/* 1. SECTOR SELECTOR TABS */}
+          <div className="mb-8">
+            <p className="text-center text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+              {lang === "ar" ? "الخطوة الأولى: حدد نشاطك التجاري" : "Step 1: Select Your Business Sector"}
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 max-w-5xl mx-auto">
+              {SECTORS_DATA.map((sec) => {
+                const isSelected = selectedSectorId === sec.id;
+                return (
+                  <button
+                    key={`sector-tab-${sec.id}`}
+                    onClick={() => {
+                      setSelectedSectorId(sec.id);
+                      if (sec.annualOnly && billingMode === "monthly") {
+                        setBillingMode("annual");
+                      }
+                    }}
+                    className={`p-3.5 rounded-xl border text-start flex flex-col justify-between transition-all duration-200 cursor-pointer ${
+                      isSelected
+                        ? "bg-slate-900 text-white border-slate-900 shadow-md scale-[1.02]"
+                        : "bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className={`p-2 rounded-lg ${isSelected ? "bg-white/10 text-white" : "bg-slate-100 text-slate-700"}`}>
+                        {sec.id === "retail" && <ShoppingBag className="w-5 h-5" />}
+                        {sec.id === "showrooms" && <Store className="w-5 h-5" />}
+                        {sec.id === "restaurants" && <Utensils className="w-5 h-5" />}
+                        {sec.id === "companies" && <Building2 className="w-5 h-5" />}
+                        {sec.id === "contracting" && <Truck className="w-5 h-5" />}
+                      </div>
+                      {sec.annualOnly && (
+                        <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${isSelected ? "bg-white/20 text-white" : "bg-amber-50 text-amber-700 border border-amber-200"}`}>
+                          {lang === "ar" ? "سنوي فقط" : "Annual"}
+                        </span>
+                      )}
                     </div>
-
-                    <div className="flex items-center gap-3 mt-4 text-[11px] font-bold text-slate-600 bg-slate-50 p-2 rounded justify-center">
-                      <span className="flex items-center gap-1.5"><Users className="w-3.5 h-3.5" /> {tier.users}</span>
-                      <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-                      <span className="flex items-center gap-1.5"><Building2 className="w-3.5 h-3.5" /> {tier.branches}</span>
+                    <div>
+                      <div className="font-bold text-sm leading-snug">
+                        {lang === "ar" ? sec.nameAr : sec.nameEn}
+                      </div>
+                      <div className={`text-[10px] mt-1 line-clamp-1 ${isSelected ? "text-white/80" : "text-slate-500"}`}>
+                        {lang === "ar" ? sec.subtitleAr : sec.subtitleEn}
+                      </div>
                     </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-                    <div className="mt-5 mb-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center">
-                      {lang === "ar" ? "الأنظمة المشمولة" : "Included Systems"}
-                    </div>
-
-                    <ul className="mt-2 space-y-2.5 font-sans">
-                      {tier.features.map((feat: any, fIdx: number) => (
-                        <li key={`tier-${index}-feat-${fIdx}`} className={`flex items-center gap-2 text-xs ${!feat.included ? 'opacity-60 grayscale' : ''}`}>
-                          {feat.included ? (
-                            <Check className={`w-3.5 h-3.5 shrink-0 ${tier.mostPopular ? "text-brand-500" : "text-brand-500"}`} />
-                          ) : (
-                            <X className="w-3.5 h-3.5 shrink-0 text-slate-300" />
-                          )}
-                          <span className={feat.included && tier.mostPopular ? "text-slate-700 font-bold" : feat.included ? "text-slate-600 font-medium" : "text-slate-400 line-through"}>{feat.name}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mt-6 font-sans">
+          {/* 2. BILLING PERIOD SELECTOR */}
+          {(() => {
+            const currentSec = SECTORS_DATA.find(s => s.id === selectedSectorId) || SECTORS_DATA[0];
+            const isAnnualOnly = currentSec.annualOnly;
+            return (
+              <div className="mb-10 text-center">
+                <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+                  {lang === "ar" ? "الخطوة الثانية: حدد نظام الاشتراك" : "Step 2: Choose Billing Cycle"}
+                </p>
+                <div className="inline-flex p-1.5 bg-slate-200/80 rounded-2xl border border-slate-300/80 gap-1.5 flex-wrap justify-center">
+                  
+                  {/* Monthly Option */}
+                  {!isAnnualOnly && (
                     <button
-                      onClick={() => {
-                        setSelectedPlan(tier.name);
-                        window.location.assign(APP_TRIAL_URL);
-                      }}
-                      className={`w-full py-2.5 rounded text-xs font-bold transition-all duration-200 cursor-pointer ${
-                        tier.mostPopular
-                          ? "bg-brand-600 hover:bg-brand-500 text-white shadow-md shadow-brand-500/20"
-                          : isOffline
-                            ? "bg-amber-600 hover:bg-amber-500 text-white shadow-sm"
-                            : "bg-slate-100 hover:bg-slate-300 text-slate-800 font-medium"
+                      onClick={() => setBillingMode("monthly")}
+                      className={`px-4 sm:px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                        billingMode === "monthly"
+                          ? "bg-white text-slate-900 shadow-sm"
+                          : "text-slate-600 hover:text-slate-900"
                       }`}
                     >
-                      {index === 0
-                        ? (lang === "ar" ? `ابدأ رحلتك بـ ${currentTierPrice.toLocaleString()} ${currencySymbol} فقط` : `Start for ${currentTierPrice.toLocaleString()} ${currencySymbol} Only`)
-                        : tier.cta}
+                      {lang === "ar" ? "اشتراك شهري مرن" : "Monthly Flexible"}
+                    </button>
+                  )}
+
+                  {/* Annual Option (Recommended) */}
+                  <button
+                    onClick={() => setBillingMode("annual")}
+                    className={`px-4 sm:px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                      billingMode === "annual"
+                        ? "bg-slate-900 text-white shadow-sm"
+                        : "text-slate-700 hover:text-slate-900"
+                    }`}
+                  >
+                    <span>{lang === "ar" ? "اشتراك سنوي" : "Annual Billing"}</span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                      billingMode === "annual" ? "bg-emerald-500 text-white" : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                    }`}>
+                      {lang === "ar" ? "شهران مجاناً" : "2 Months Free"}
+                    </span>
+                  </button>
+
+                  {/* Offline Lifetime Option */}
+                  <button
+                    onClick={() => setBillingMode("offline")}
+                    className={`px-4 sm:px-6 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                      billingMode === "offline"
+                        ? "bg-amber-600 text-white shadow-sm"
+                        : "text-slate-700 hover:text-slate-900"
+                    }`}
+                  >
+                    <span>{lang === "ar" ? "ترخيص تمليك دائم (أوفلاين 100%)" : "Lifetime Offline License"}</span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                      billingMode === "offline" ? "bg-white text-amber-700" : "bg-amber-50 text-amber-800 border border-amber-200"
+                    }`}>
+                      {lang === "ar" ? "تقسيط متاح" : "Installments"}
+                    </span>
+                  </button>
+
+                </div>
+
+                {isAnnualOnly && billingMode === "monthly" && (
+                  <p className="text-[11px] text-amber-700 font-medium mt-2">
+                    {lang === "ar" ? "⚠️ قطاع المقاولات والشحن يُعرض بالسعر السنوي فقط." : "⚠️ Contracting & Freight is billed annually only."}
+                  </p>
+                )}
+              </div>
+            );
+          })()}
+
+          {/* 3. 3-TIER PRICING CARDS GRID */}
+          {(() => {
+            const currentSec = SECTORS_DATA.find(s => s.id === selectedSectorId) || SECTORS_DATA[0];
+            const effectiveBillingMode: BillingMode = (currentSec.annualOnly && billingMode === "monthly") ? "annual" : billingMode;
+            
+            return (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+                {currentSec.tiers.map((tier, idx) => {
+                  const isPopular = tier.popular;
+                  const isOfflineMode = effectiveBillingMode === "offline";
+                  const priceEntry = tier.prices[currencyCode] || tier.prices["USD"] || tier.prices["EGP"];
+                  
+                  let displayPrice = 0;
+                  let periodLabelAr = "";
+                  let periodLabelEn = "";
+                  let subtextAr = "";
+                  let subtextEn = "";
+
+                  if (effectiveBillingMode === "monthly") {
+                    displayPrice = priceEntry.monthly || priceEntry.annual;
+                    periodLabelAr = "شهرياً";
+                    periodLabelEn = "month";
+                    subtextAr = "تجديد شهري مرن · إلغاء بأي وقت";
+                    subtextEn = "Monthly flexible · Cancel anytime";
+                  } else if (effectiveBillingMode === "annual") {
+                    displayPrice = priceEntry.annual;
+                    const equivMonthly = Math.round(priceEntry.annual / 10);
+                    periodLabelAr = "سنوياً";
+                    periodLabelEn = "year";
+                    subtextAr = `ما يعادل ${equivMonthly.toLocaleString()} ${currencySymbol} شهرياً · احتساب 10 أشهر فقط`;
+                    subtextEn = `Equiv. ${equivMonthly.toLocaleString()} ${currencySymbol}/mo · Billed for 10 months`;
+                  } else {
+                    displayPrice = priceEntry.offline;
+                    const downPayment = Math.round(priceEntry.offline * 0.4);
+                    const monthlyInstallment = Math.round((priceEntry.offline * 0.6) / 6);
+                    periodLabelAr = "تدفع لمرة واحدة";
+                    periodLabelEn = "one-time";
+                    subtextAr = `متاح بالتقسيط: مقدم ${downPayment.toLocaleString()} ${currencySymbol} + ${monthlyInstallment.toLocaleString()} × 6 شهور`;
+                    subtextEn = `Installments: 40% down + 6 monthly payments`;
+                  }
+
+                  return (
+                    <div
+                      key={`sec-${currentSec.id}-tier-${tier.id}`}
+                      className={`relative rounded-2xl border transition-all duration-300 flex flex-col justify-between p-6 sm:p-7 ${
+                        isPopular
+                          ? "bg-white border-slate-900 shadow-xl ring-1 ring-slate-900/10 md:-translate-y-2 z-10"
+                          : isOfflineMode
+                            ? "bg-gradient-to-b from-white to-amber-50/20 border-amber-200 shadow-sm hover:border-amber-300"
+                            : "bg-white border-slate-200 shadow-sm hover:border-slate-300"
+                      }`}
+                    >
+                      {/* Popular / Highlights Badges - Premium Executive */}
+                      {isPopular && (
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900 text-white text-[10px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 border border-slate-700">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                          <span>{lang === "ar" ? "الخيار الأكثر اعتماداً" : "Most Popular Choice"}</span>
+                        </div>
+                      )}
+                      {tier.level === 3 && (
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-emerald-800 text-white text-[10px] font-bold px-3.5 py-1 rounded-full uppercase tracking-wider shadow-sm flex items-center gap-1.5 border border-emerald-700">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" />
+                          <span>{lang === "ar" ? "شامل كافة الوحدات الذكية" : "All Modules Included"}</span>
+                        </div>
+                      )}
+
+                      <div>
+                        {/* Level & Name */}
+                        <div className="flex items-center justify-between mb-2">
+                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                            isPopular ? "bg-slate-100 text-slate-800 font-mono" : "bg-slate-100 text-slate-600 font-mono"
+                          }`}>
+                            {lang === "ar" ? `المستوى ${tier.level}` : `Level ${tier.level}`}
+                          </span>
+                          <span className="text-[11px] font-bold text-slate-500 font-mono">
+                            {lang === "ar" ? currentSec.nameAr : currentSec.nameEn}
+                          </span>
+                        </div>
+
+                        <h3 className="text-xl font-black font-display text-slate-900 tracking-tight">
+                          {lang === "ar" ? tier.nameAr : tier.nameEn}
+                        </h3>
+
+                        {/* Scope Pill */}
+                        <div className="mt-2.5 inline-flex items-center gap-1.5 text-[11px] font-bold text-slate-700 bg-slate-100/80 px-2.5 py-1 rounded-md">
+                          <Users className="w-3.5 h-3.5 text-slate-500" />
+                          <span>{lang === "ar" ? tier.scopeAr : tier.scopeEn}</span>
+                        </div>
+
+                        {/* Description */}
+                        <p className="text-xs text-slate-600 mt-3 min-h-[38px] leading-relaxed">
+                          {lang === "ar" ? tier.descriptionAr : tier.descriptionEn}
+                        </p>
+
+                        {/* Price Block */}
+                        <div className="mt-4 pt-4 pb-4 border-t border-b border-slate-100">
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-900">
+                              {displayPrice.toLocaleString()}
+                            </span>
+                            <span className="text-sm font-bold text-brand-600 font-sans mx-1">
+                              {currencySymbol}
+                            </span>
+                            <span className="text-xs font-bold text-slate-400">
+                              / {lang === "ar" ? periodLabelAr : periodLabelEn}
+                            </span>
+                          </div>
+                          
+                          <p className="text-[11px] font-medium text-emerald-700 mt-1.5 flex items-center gap-1">
+                            <span>{lang === "ar" ? subtextAr : subtextEn}</span>
+                          </p>
+                        </div>
+
+                        {/* Setup / Onboarding Fee Note */}
+                        <div className="mt-3.5 text-[11px] text-slate-500 flex items-center justify-between bg-slate-50 p-2 rounded-lg">
+                          <span className="font-semibold">{lang === "ar" ? "رسوم التركيب والتدريب وترحيل البيانات:" : "Setup & Data Migration:"}</span>
+                          <span className="font-bold text-slate-800 font-mono">
+                            {currencyCode === "EGP" 
+                              ? `${tier.installationFeesEGP.toLocaleString()} ج.م`
+                              : `${Math.round(tier.installationFeesEGP / (currency.rateFromSAR * 13)).toLocaleString()} ${currencySymbol}`}
+                          </span>
+                        </div>
+
+                        {/* Features List */}
+                        <div className="mt-5 mb-2.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                          {lang === "ar" ? "المزايا المشمولة في الباقة:" : "What's Included:"}
+                        </div>
+                        <ul className="space-y-2.5 text-xs text-slate-700 font-medium">
+                          {(lang === "ar" ? tier.featuresAr : tier.featuresEn).map((feat, fIdx) => (
+                            <li key={`sec-${currentSec.id}-t-${tier.id}-f-${fIdx}`} className="flex items-start gap-2">
+                              <Check className={`w-4 h-4 shrink-0 mt-0.5 ${isPopular ? "text-slate-900" : "text-emerald-600"}`} />
+                              <span className="leading-snug">{feat}</span>
+                            </li>
+                          ))}
+                        </ul>
+
+                      </div>
+
+                      {/* CTA Action Button */}
+                      <div className="mt-8 pt-4">
+                        <button
+                          onClick={() => {
+                            const planLabel = `${lang === "ar" ? currentSec.nameAr : currentSec.nameEn} - ${lang === "ar" ? tier.nameAr : tier.nameEn} (${effectiveBillingMode === "monthly" ? (lang === "ar" ? "شهري" : "Monthly") : effectiveBillingMode === "annual" ? (lang === "ar" ? "سنوي" : "Annual") : (lang === "ar" ? "أوفلاين دائم" : "Lifetime")})`;
+                            setSelectedPlan(planLabel);
+                            setShowDemoModal(true);
+                          }}
+                          className={`w-full py-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer shadow-sm flex items-center justify-center gap-2 ${
+                            isPopular
+                              ? "bg-slate-900 hover:bg-slate-800 text-white shadow-slate-900/10"
+                              : isOfflineMode
+                                ? "bg-amber-600 hover:bg-amber-500 text-white"
+                                : "bg-white hover:bg-slate-50 text-slate-900 border border-slate-300"
+                          }`}
+                        >
+                          {isOfflineMode
+                            ? (lang === "ar" ? "اطلب رخصة التمليك الآن" : "Order Lifetime License")
+                            : (lang === "ar" ? "ابدأ تجربة مجانية 14 يوماً" : "Start 14-Day Free Trial")}
+                          <ArrowLeft className={`w-4 h-4 ${lang !== "ar" ? "rotate-180" : ""}`} />
+                        </button>
+                      </div>
+
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })()}
+
+          {/* 4. ADD-ON MODULES & SERVICES (EXPANDABLE) */}
+          <div className="mt-14 max-w-5xl mx-auto">
+            <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+              
+              <button
+                onClick={() => setShowAddonsDetails(!showAddonsDetails)}
+                className="w-full p-5 sm:p-6 flex items-center justify-between bg-slate-50/70 hover:bg-slate-50 transition-colors text-start cursor-pointer border-b border-slate-200"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">
+                    <Layers className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm sm:text-base text-slate-900">
+                      {lang === "ar" ? "الطوابق المفردة والإضافات (Add-on Modules)" : "Individual Add-on Modules"}
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      {lang === "ar" 
+                        ? "الفاتورة الإلكترونية، المتجر، بوت واتساب، رادار الكاشير، والشحن — مشمولة مجاناً في المستوى 3!" 
+                        : "E-Invoicing, Store, WhatsApp Bot, Cashier Radar, and Shipping — Free in Level 3!"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-brand-600 hidden sm:inline">
+                    {showAddonsDetails ? (lang === "ar" ? "إخفاء التفاصيل" : "Hide Details") : (lang === "ar" ? "عرض الأسعار والتفاصيل" : "Show Prices")}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${showAddonsDetails ? "rotate-180" : ""}`} />
+                </div>
+              </button>
+
+              {showAddonsDetails && (
+                <div className="p-5 sm:p-8 space-y-8">
+                  {/* Golden Banner */}
+                  <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm font-semibold flex items-center gap-2.5">
+                    <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                    <span>
+                      {lang === "ar"
+                        ? "ملاحظة ذهبية: كافة الطوابق الذكية بالأسفل مشمولة بالكامل ومجاناً في باقة المستوى الثالث (سلسلة ومؤسسة) من أي قطاع تجاري!"
+                        : "Golden Note: All modules below are 100% included for free in Level 3 (Chain & Enterprise) across all sectors!"}
+                    </span>
+                  </div>
+
+                  {/* Modules Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {ADDON_MODULES.map((addon) => (
+                      <div key={addon.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 transition-colors flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <h4 className="font-bold text-xs text-slate-900 leading-snug">
+                              {lang === "ar" ? addon.nameAr : addon.nameEn}
+                            </h4>
+                            {addon.includedInLevel3 && (
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 shrink-0">
+                                {lang === "ar" ? "مجاناً بالمستوى 3" : "Free in L3"}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[11px] text-slate-600 leading-relaxed">
+                            {lang === "ar" ? addon.descriptionAr : addon.descriptionEn}
+                          </p>
+                        </div>
+                        <div className="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between">
+                          <span className="text-sm font-black font-mono text-brand-600">
+                            {typeof addon.priceEGP === "number" ? `${addon.priceEGP.toLocaleString()} ج.م` : addon.priceEGP}
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-medium">
+                            {lang === "ar" ? addon.priceNoteAr : addon.priceNoteEn}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Extra Users & Branches Table */}
+                  <div className="pt-4 border-t border-slate-200">
+                    <h4 className="font-bold text-xs sm:text-sm text-slate-900 mb-3">
+                      {lang === "ar" ? "أسعار الوحدات الإضافية الشهرية حسب القطاع:" : "Monthly Unit Add-ons per Sector:"}
+                    </h4>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-xs text-start border-collapse min-w-[500px]">
+                        <thead>
+                          <tr className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                            <th className="p-2.5 text-start">{lang === "ar" ? "القطاع التجاري" : "Sector"}</th>
+                            <th className="p-2.5 text-center">{lang === "ar" ? "مستخدم إضافي شهرياً" : "Extra User /mo"}</th>
+                            <th className="p-2.5 text-center">{lang === "ar" ? "فرع إضافي شهرياً" : "Extra Branch /mo"}</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 text-slate-600">
+                          {SECTORS_DATA.map((s) => (
+                            <tr key={`addon-row-${s.id}`} className="hover:bg-slate-50">
+                              <td className="p-2.5 font-bold text-slate-800">{lang === "ar" ? s.nameAr : s.nameEn}</td>
+                              <td className="p-2.5 text-center font-mono font-bold text-brand-600">+{s.monthlyAddonsEGP.extraUser} ج.م</td>
+                              <td className="p-2.5 text-center font-mono font-bold text-brand-600">+{s.monthlyAddonsEGP.extraBranch} ج.م</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
+            </div>
+          </div>
+
+          {/* 5. OFFLINE LICENSE TERMS (EXPANDABLE) */}
+          <div className="mt-6 max-w-5xl mx-auto">
+            <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+              
+              <button
+                onClick={() => setShowOfflineTerms(!showOfflineTerms)}
+                className="w-full p-5 sm:p-6 flex items-center justify-between bg-amber-50/40 hover:bg-amber-50/70 transition-colors text-start cursor-pointer border-b border-amber-200/60"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+                    <Server className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-sm sm:text-base text-slate-900">
+                      {lang === "ar" ? "الشروط والضوابط المعتمدة لنسخة التمليك الدائم (Offline Terms)" : "Terms for Lifetime Offline Licenses"}
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      {lang === "ar" 
+                        ? "التقسيط (40% مقدم + 6 أقساط)، عقد الدعم 18%، الطرفية الإضافية، وقاعدة التسعير بالخليج." 
+                        : "Installments (40% down + 6 mo), 18% annual SLA from Y2, extra terminals & Gulf pricing."}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-amber-700 hidden sm:inline">
+                    {showOfflineTerms ? (lang === "ar" ? "إخفاء الشروط" : "Hide Terms") : (lang === "ar" ? "عرض الضوابط الرسمية" : "View Rules")}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-amber-700 transition-transform ${showOfflineTerms ? "rotate-180" : ""}`} />
+                </div>
+              </button>
+
+              {showOfflineTerms && (
+                <div className="p-5 sm:p-8 bg-white space-y-4">
+                  <ul className="space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed font-sans">
+                    {(lang === "ar" ? OFFLINE_TERMS.ar.points : OFFLINE_TERMS.en.points).map((pt, pIdx) => (
+                      <li key={`offline-pt-${pIdx}`} className="flex items-start gap-2.5">
+                        <CheckCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
+                    <span>{lang === "ar" ? "ترخيص أوفلاين معتمد بموجب وثيقة التسعير الصادرة بتاريخ 25 سبتمبر 2026." : "Official offline license terms as of September 25, 2026 release."}</span>
+                    <button
+                      onClick={() => {
+                        setSelectedPlan(lang === "ar" ? "استشارة ترخيص أوفلاين تمليك" : "Offline Lifetime License Consultation");
+                        setShowDemoModal(true);
+                      }}
+                      className="text-amber-700 hover:text-amber-800 font-bold underline cursor-pointer"
+                    >
+                      {lang === "ar" ? "تواصل مع مستشار تراخيص الأوفلاين" : "Contact Offline Licensing Consultant"}
                     </button>
                   </div>
                 </div>
-              );
-            })}
+              )}
+
+            </div>
           </div>
 
-          {/* DETAILED COMPARISON TABLE TOGGLE */}
+          {/* 6. DETAILED COMPARISON TABLE TOGGLE */}
           <div className="mt-12 text-center">
             <button 
               onClick={() => setShowComparison(!showComparison)}
-              className="px-6 py-3 rounded-full border border-slate-300 bg-white text-slate-700 font-bold hover:bg-slate-50 hover:border-slate-400 transition-colors inline-flex items-center gap-2 text-sm shadow-sm"
+              className="px-6 py-3 rounded-full border border-slate-300 bg-white text-slate-700 font-bold hover:bg-slate-50 hover:border-slate-400 transition-colors inline-flex items-center gap-2 text-sm shadow-sm cursor-pointer"
             >
-              {lang === "ar" ? "عرض المقارنة التفصيلية للمميزات" : "View Full Features Comparison"}
+              {lang === "ar" ? "عرض المقارنة التفصيلية للأنظمة والمميزات" : "View Full Systems Features Comparison"}
               <ChevronDown className={`w-4 h-4 transition-transform ${showComparison ? "rotate-180" : ""}`} />
             </button>
           </div>
