@@ -42,9 +42,15 @@ export default function LocationModal() {
     const hasSeenModal = sessionStorage.getItem("zsystems_has_seen_location_modal");
     if (hasSeenModal) return;
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
+
     const fetchLocation = async () => {
       try {
-        const response = await fetch("https://get.geojs.io/v1/ip/geo.json");
+        const response = await fetch("https://get.geojs.io/v1/ip/geo.json", {
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
         const data = await response.json();
         
         if (data && data.country) {
@@ -60,11 +66,16 @@ export default function LocationModal() {
           setIsOpen(true);
         }
       } catch (err) {
-        console.error("Failed to fetch location", err);
+        // Silently ignore abort or network timeout errors
       }
     };
 
     fetchLocation();
+
+    return () => {
+      clearTimeout(timeoutId);
+      controller.abort();
+    };
   }, [setCurrencyCode]);
 
   if (!isOpen || !country) return null;

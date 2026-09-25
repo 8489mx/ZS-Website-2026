@@ -65,6 +65,8 @@ export default function SystemGallery({ lang }: { lang: "ar" | "en" }) {
               <img 
                 src={img.src} 
                 alt={`Screenshot ${img.id}`} 
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';

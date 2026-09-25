@@ -75,7 +75,7 @@ export default function ErpPage() {
 
   // New Sector-based Pricing States (September 2026 Release)
   const [selectedSectorId, setSelectedSectorId] = useState<SectorId>("retail");
-  const [billingMode, setBillingMode] = useState<BillingMode>("annual");
+  const [billingMode, setBillingMode] = useState<BillingMode>("monthly");
   const [showAddonsDetails, setShowAddonsDetails] = useState(false);
   const [showOfflineTerms, setShowOfflineTerms] = useState(false);
 
@@ -235,10 +235,10 @@ export default function ErpPage() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2.5 select-none hover:opacity-80 transition-opacity" dir="ltr">
-              <img src="/logo.png" alt="Z Systems" className="h-10 w-auto object-contain shrink-0" />
+              <img src="/logo.png" alt="Z Systems" width="160" height="40" className="h-10 w-auto object-contain shrink-0" />
               <div className="flex flex-col text-start">
                 <span className="font-display font-black text-[16px] text-slate-900 tracking-tight leading-none flex items-center gap-1.5">
-                  Z Systems 
+                  Systems 
                   <span className="bg-brand-50 text-brand-600 text-[9px] px-1.5 py-0.5 rounded font-bold">Pro</span>
                 </span>
                 <span className="text-[9px] text-slate-600 font-mono font-bold uppercase tracking-wider mt-0.5">Smart Financial Hub</span>
@@ -786,7 +786,7 @@ export default function ErpPage() {
                           <div className="flex items-center gap-2 mb-6">
                             <img src="/logo.png" alt="Z Systems" className="h-8 w-auto object-contain drop-shadow-sm" />
                             <div className="flex flex-col">
-                              <span className="font-black text-[13px] text-slate-900 tracking-tight leading-none mb-0.5">Z Systems</span>
+                              <span className="font-black text-[13px] text-slate-900 tracking-tight leading-none mb-0.5">Systems</span>
                               <span className="text-[9px] text-slate-600 font-medium">{lang === "ar" ? "إدارة المبيعات والمخزون" : "Sales and Inventory Management"}</span>
                             </div>
                           </div>
@@ -2173,7 +2173,7 @@ export default function ErpPage() {
                 <img src="/logo.png" alt="Z Systems" className="h-9 w-auto object-contain drop-shadow-sm shrink-0" />
                 <div className="flex flex-col text-start">
                   <span className="font-display font-black text-base text-slate-900 tracking-tight leading-none">
-                    Z Systems <span className="text-brand-600 font-bold text-xs">Pro</span>
+                    Systems <span className="text-brand-600 font-bold text-xs">Pro</span>
                   </span>
                   <span className="text-[10px] text-slate-400 font-medium mt-1">
                     {lang === "ar" ? "حلول الإدارة ونقاط البيع المتكاملة" : "Enterprise ERP & POS Solutions"}

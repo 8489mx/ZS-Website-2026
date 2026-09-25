@@ -21,7 +21,7 @@ export default function HomePage() {
   const t = {
     en: {
       nav: {
-        company: "Z Systems",
+        company: "Systems",
         contactUs: "Contact Us",
         signIn: "Sign In"
       },
@@ -61,7 +61,7 @@ export default function HomePage() {
     },
     ar: {
       nav: {
-        company: "Z Systems",
+        company: "Systems",
         contactUs: "تواصل معنا",
         signIn: "تسجيل الدخول"
       },
@@ -110,7 +110,7 @@ export default function HomePage() {
       <header className="w-full sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2.5" dir="ltr">
-            <img src="/logo.png" alt="Z Systems" className="h-10 w-auto object-contain shrink-0" />
+            <img src="/logo.png" alt="Z Systems" width="160" height="40" className="h-10 w-auto object-contain shrink-0" />
             <span className="font-display font-black text-xl text-slate-900 tracking-tight leading-none">
               {content.nav.company}
             </span>
