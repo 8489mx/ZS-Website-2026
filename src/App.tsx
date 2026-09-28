@@ -7,6 +7,7 @@ import { LanguageProvider } from "./LanguageContext";
 import { ThemeProvider } from "./ThemeContext";
 import { CurrencyProvider } from "./CurrencyContext";
 import LocationModal from "./LocationModal";
+import SeoManager from "./components/SeoManager";
 
 // Code-split routes so visitors don't load the entire 170KB+ ErpPage or HomePage unnecessarily on first paint
 const HomePage = lazy(() => import("./HomePage"));
@@ -32,6 +33,7 @@ export default function App() {
         <CurrencyProvider>
           <LocationModal />
           <BrowserRouter>
+            <SeoManager />
             <ScrollToTop />
             <Suspense fallback={<PageLoadingFallback />}>
               <Routes>

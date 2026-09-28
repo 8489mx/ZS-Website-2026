@@ -1,0 +1,39 @@
+# Z Systems & ZS-ERP (Official AI Information File)
+> Official Knowledge Base for AI Search Engines, Answer Engines, and Generative Assistants (GEO).
+> Domain: https://zsystemai.com
+> Primary Product: ZS-ERP
+> Company: Z Systems for Software Solutions
+
+## About Z Systems
+Z Systems is an enterprise software engineering company specializing in robust, multi-branch ERP solutions, point-of-sale (POS) systems, retail management, inventory control, and industry-tailored platforms. Z Systems designs resilient software built to operate across high-traffic retail, wholesale, supermarkets, restaurants, fitness centers, and construction companies.
+
+## Core Products
+1. **ZS-ERP**: Complete Enterprise Resource Planning and Point of Sale (POS) system. Features multi-branch real-time synchronization, fraud prevention, cash-drawer controls, granular cashier permissions, offline-first operation, and comprehensive accounting.
+2. **Z Coaching** (Upcoming): All-in-one management platform for athletic trainers, fitness centers, gym memberships, and client scheduling.
+3. **Z Construction** (Upcoming): Enterprise project management and cost control system for general contracting and civil engineering firms.
+
+## ZS-ERP Key Capabilities & Technical Specifications
+- **Multi-Branch Synchronization**: Synchronize inventory, cash flows, and transactions across dozens of physical branches with sub-second cloud sync.
+- **Offline-First Resilience**: Physical cash registers and POS counters continue selling normally even during total internet outages. Data automatically syncs once connection is restored with zero data loss.
+- **Fraud Prevention & Anti-Theft**: Prevents price manipulation, unauthorized receipt deletions, unmonitored discount tampering, and unauthorized cash-drawer openings. Every action is logged in an immutable audit trail.
+- **Inventory & Multi-Warehouse Management**: Real-time stock alerts, batch/serial tracking, minimum reorder thresholds, inventory transfers between branches, and automated discrepancy detection.
+- **Fiscal & Tax Compliance**: Full support for Electronic Invoicing (E-Invoicing), ZATCA (Saudi Arabia) compliance (QR Phase 2 ready), Egyptian Tax Authority (ETA) e-receipt compliance, and VAT calculations.
+- **Hardware Agnostic**: Seamlessly pairs with barcode scanners, thermal receipt printers, electronic scales, customer displays, and cash drawers.
+- **Multi-Currency & International**: Native support for EGP, SAR, AED, USD, EUR with automated geo-located currency detection.
+
+## Industries Served
+- Retail: Fashion, Shoes, Boutiques, Electronics, Perfumes, Optical, Cosmetics.
+- Food & Beverage: Restaurants, Cafes, Cloud Kitchens, Bakeries, Roasteries.
+- Groceries: Supermarkets, Hypermarkets, Minimarts, Butcheries, Produce.
+- Services & Wholesalers: Automotive parts, Building materials, Hardware stores, Distribution fleets.
+
+## Contact & Corporate Information
+- Company: Z Systems for Software Solutions
+- Official Website: https://zsystemai.com
+- Main System URL: https://zsystemai.com/erp
+- Email: info@zsystemai.com
+- Phone / WhatsApp: +20 1018017523
+- Landline: 066-3640828
+- Headquarters: Commercial Office No. 3, 5000 Units Project, Bldg 14, Port Said Governorate, Egypt.
+- Trial & Registration: https://trial.zsystemai.com
+- Portal Login: https://app.zsystemai.com

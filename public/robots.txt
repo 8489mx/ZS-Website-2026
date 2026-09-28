@@ -1,0 +1,39 @@
+# Robots.txt for Z Systems & ZS-ERP (https://zsystemai.com)
+# Optimized for Web Crawlers, Search Engines, and AI Discovery Agents (GEO)
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Explicitly Allow Leading AI Engines & Generative Search Bots (GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Direct AI Agents to LLMs context
+# See: https://llmstxt.org
+# LLMs-Context: /llms.txt
+
+# XML Sitemap
+Sitemap: https://zsystemai.com/sitemap.xml
