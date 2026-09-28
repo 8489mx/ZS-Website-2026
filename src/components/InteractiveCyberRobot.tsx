@@ -28,8 +28,8 @@ export default function InteractiveCyberRobot() {
 
     const tick = () => {
       setCurrentPos((prev) => ({
-        x: lerp(prev.x, targetPos.x, 0.12),
-        y: lerp(prev.y, targetPos.y, 0.12),
+        x: lerp(prev.x, targetPos.x, 0.15),
+        y: lerp(prev.y, targetPos.y, 0.15),
       }));
       animId = requestAnimationFrame(tick);
     };

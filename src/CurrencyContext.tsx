@@ -689,8 +689,13 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const savedCurrency = safeLocalStorage.getItem("zsystems_currency_code");
 
     const detectLocation = async () => {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
       try {
-        const response = await fetch("https://get.geojs.io/v1/ip/geo.json");
+        const response = await fetch("https://get.geojs.io/v1/ip/geo.json", {
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
         const data = await response.json();
         
         if (data) {
