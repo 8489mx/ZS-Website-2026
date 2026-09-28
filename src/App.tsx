@@ -9,9 +9,9 @@ import { CurrencyProvider } from "./CurrencyContext";
 import LocationModal from "./LocationModal";
 import SeoManager from "./components/SeoManager";
 import ErrorBoundary from "./components/ErrorBoundary";
+import HomePage from "./HomePage";
 
-// Code-split routes so visitors don't load the entire 170KB+ ErpPage or HomePage unnecessarily on first paint
-const HomePage = lazy(() => import("./HomePage"));
+// Code-split heavier sub-pages
 const ErpPage = lazy(() => import("./ErpPage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
 const RefundPolicyPage = lazy(() => import("./pages/RefundPolicyPage"));
