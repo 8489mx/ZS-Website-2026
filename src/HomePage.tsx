@@ -5,7 +5,8 @@ import {
   ArrowRight,
   Dumbbell, CheckCircle,
   Building2, LayoutDashboard, Target,
-  X, Bell, CheckCircle2, Mail, Loader2
+  X, Bell, CheckCircle2, Mail, Loader2,
+  Database, Shield, ShoppingCart, Boxes, FileText, BarChart3
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useLanguage } from "./LanguageContext";
@@ -104,7 +105,7 @@ export default function HomePage() {
         title: "Our Systems Framework",
         subtitle: "Specialized enterprise platforms designed and structured to operate within specific industries.",
         erp: {
-          name: "Z ERP",
+          name: "ZS-ERP",
           desc: "Advanced retail management, POS, inventory, multi-branch operations, and real-time synchronization.",
           action: "View System Details",
         },
@@ -144,7 +145,7 @@ export default function HomePage() {
         title: "عائلة أنظمة Z Systems",
         subtitle: "منصات إدارة متخصصة صُممت وهيكلت لتعمل وفقاً لكل قطاع بدقة متناهية.",
         erp: {
-          name: "Z ERP",
+          name: "ZS-ERP",
           desc: "نظام متطور لإدارة التجزئة، نقاط البيع، المخازن، والعمليات متعددة الفروع مع مزامنة لحظية.",
           action: "عرض تفاصيل النظام",
         },
@@ -306,26 +307,144 @@ export default function HomePage() {
               </ul>
             </div>
             <div className="relative">
-              <div className="aspect-square bg-slate-800 rounded-3xl border border-slate-700/50 p-8 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-transparent" />
+              <div className="aspect-square bg-gradient-to-b from-slate-900/95 via-[#0f172a] to-indigo-950/60 rounded-3xl border border-indigo-400/20 p-4 sm:p-6 shadow-[0_25px_60px_-15px_rgba(15,23,42,0.6),inset_0_1px_1px_rgba(255,255,255,0.15)] relative overflow-hidden flex items-center justify-center">
                 
-                {/* Techy abstract shapes */}
-                <div className="relative z-10 w-full flex-1 flex items-center justify-center">
-                  <div className="w-40 h-40 rounded-full border border-indigo-400/40 flex items-center justify-center animate-[spin_10s_linear_infinite]">
-                     <div className="w-32 h-32 rounded-full border border-dashed border-indigo-400/60 flex items-center justify-center animate-[spin_15s_linear_infinite_reverse]">
-                        <div className="w-16 h-16 bg-indigo-500/40 rounded-full blur-md" />
-                     </div>
-                  </div>
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                    <Target className="w-10 h-10 text-indigo-400" />
+                {/* Tech Grid with Clean Deep Contrast */}
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:28px_28px] pointer-events-none"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-indigo-500/10 rounded-full blur-[50px] pointer-events-none" />
+
+                {/* Subtle Celestial Micro-Stars */}
+                <div className="absolute top-8 left-12 w-1.5 h-1.5 rounded-full bg-white/60 blur-[0.5px]" />
+                <div className="absolute top-16 right-14 w-2 h-2 rounded-full bg-indigo-200/70 blur-[0.5px]" />
+                <div className="absolute bottom-12 left-16 w-1.5 h-1.5 rounded-full bg-cyan-200/60 blur-[0.5px]" />
+                <div className="absolute bottom-20 right-10 w-2 h-2 rounded-full bg-white/50 blur-[0.5px]" />
+
+                {/* SVG Precision Orbital Rings - Radiant Silver & Cyan */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 400" fill="none">
+                  <circle cx="200" cy="200" r="85" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="1" />
+                  <circle cx="200" cy="200" r="135" stroke="rgba(165, 180, 252, 0.28)" strokeWidth="1.2" />
+                  <circle cx="200" cy="200" r="175" stroke="rgba(255, 255, 255, 0.08)" strokeWidth="1" />
+                </svg>
+
+                {/* THE CENTRAL SUN: Quiet Luxury Glass Core with Tight Breathing Pulse Glow */}
+                <div className="relative z-20 flex flex-col items-center justify-center">
+                  {/* Outer Breathing Aura (Tight Spread, Rhythmic Pulse) */}
+                  <motion.div 
+                    animate={{ scale: [0.98, 1.15, 0.98], opacity: [0.2, 0.6, 0.2] }}
+                    transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute -inset-3 rounded-full bg-gradient-to-r from-cyan-500/50 via-indigo-500/60 to-blue-600/50 blur-xl pointer-events-none" 
+                  />
+
+                  {/* Inner Tight Reactor Glow (Directly under the rim, expanding and contracting) */}
+                  <motion.div 
+                    animate={{ scale: [0.95, 1.08, 0.95], opacity: [0.35, 0.85, 0.35] }}
+                    transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute -inset-1 rounded-full bg-gradient-to-tr from-cyan-400/60 via-indigo-400/70 to-purple-500/60 blur-md pointer-events-none" 
+                  />
+                  
+                  {/* Platinum / Titanium frosted rim with soft luminous edge */}
+                  <div className="relative p-[1.5px] rounded-full bg-gradient-to-b from-white/40 via-indigo-400/30 to-transparent shadow-[0_0_35px_rgba(99,102,241,0.35),0_15px_35px_rgba(0,0,0,0.6)]">
+                    {/* Dark glass reactor core */}
+                    <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-slate-900/95 backdrop-blur-xl flex flex-col items-center justify-center text-center p-2 border border-white/15 relative overflow-hidden group">
+                      
+                      {/* Delicate internal reflection */}
+                      <div className="absolute -top-6 -left-6 w-16 h-16 bg-white/15 rounded-full blur-md pointer-events-none" />
+                      
+                      {/* Glowing Stylized Geometric Z Emblem - Refined compact bubble hugging the Z */}
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-indigo-500/25 to-cyan-500/25 border border-indigo-300/40 flex items-center justify-center mb-1.5 shadow-[0_0_15px_rgba(99,102,241,0.4)]">
+                        <svg className="w-6 h-6 sm:w-6.5 sm:h-6.5 text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.9)]" viewBox="0 0 24 24" fill="none">
+                          <defs>
+                            <linearGradient id="zCoreGradV3" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" stopColor="#67e8f9" />
+                              <stop offset="50%" stopColor="#38bdf8" />
+                              <stop offset="100%" stopColor="#818cf8" />
+                            </linearGradient>
+                          </defs>
+                          <path d="M4.5 5H19.5L13.5 12.5H19L18 19H4.5L10.5 11.5H5L4.5 5Z" fill="url(#zCoreGradV3)" />
+                        </svg>
+                      </div>
+
+                      {/* Brand Wordmark - Centered SYSTEMS with refined 9px and #d9dee6 silver tone */}
+                      <span className="font-mono text-[9px] tracking-[0.32em] font-semibold text-[#d9dee6] uppercase text-center block leading-none">
+                        SYSTEMS
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="mt-auto w-full z-10">
-                    <div className="font-mono text-indigo-300 text-sm mb-2">{isRTL ? "// نظام الإدارة الموحد" : "// UNIFIED FOUNDATION"}</div>
-                    <div className="text-xl sm:text-2xl font-bold border-l-2 border-indigo-500 pl-4 rtl:pr-4 rtl:border-r-2 rtl:border-l-0">Z Systems Architecture™</div>
-                </div>
+                {/* THE ORBITING PLANETS: Premium Obsidian Glass Orbs Harmonized with Center Core */}
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+                  className="absolute w-[260px] h-[260px] sm:w-[280px] sm:h-[280px] rounded-full pointer-events-none"
+                >
+                  {/* Planet 1: ZS-ERP (Top: 0 deg) */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto">
+                    <motion.div 
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+                      className="group flex flex-col items-center cursor-pointer"
+                    >
+                      {/* Deep Obsidian Frosted Glass Satellite matching Central Core */}
+                      <div className="relative w-12 h-12 sm:w-13 sm:h-13 rounded-full p-[1px] bg-gradient-to-b from-white/30 via-slate-700/50 to-transparent shadow-[0_8px_20px_rgba(0,0,0,0.6),0_0_12px_rgba(99,102,241,0.2)] group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] group-hover:from-white/50 transition-all duration-300">
+                        <div className="w-full h-full rounded-full bg-slate-950/90 backdrop-blur-xl flex items-center justify-center border border-white/10 relative overflow-hidden">
+                          {/* Delicate specular highlight */}
+                          <div className="absolute -top-2 -left-2 w-5 h-5 bg-white/15 rounded-full blur-[2px] pointer-events-none" />
+                          <LayoutDashboard className="w-5 h-5 text-[#d9dee6] group-hover:text-white transition-colors drop-shadow" />
+                        </div>
+                      </div>
+                      {/* Crisp Label in text-[#d9dee6] */}
+                      <span className="mt-1.5 text-[11px] font-semibold text-[#d9dee6] group-hover:text-white transition-colors tracking-tight drop-shadow">
+                        ZS-ERP
+                      </span>
+                    </motion.div>
+                  </div>
+
+                  {/* Planet 2: Z Coaching (Bottom Left: 120 deg) */}
+                  <div className="absolute bottom-3 left-2 sm:left-3 pointer-events-auto">
+                    <motion.div 
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+                      className="group flex flex-col items-center cursor-pointer"
+                    >
+                      {/* Deep Obsidian Frosted Glass Satellite matching Central Core */}
+                      <div className="relative w-12 h-12 sm:w-13 sm:h-13 rounded-full p-[1px] bg-gradient-to-b from-white/30 via-slate-700/50 to-transparent shadow-[0_8px_20px_rgba(0,0,0,0.6),0_0_12px_rgba(99,102,241,0.2)] group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] group-hover:from-white/50 transition-all duration-300">
+                        <div className="w-full h-full rounded-full bg-slate-950/90 backdrop-blur-xl flex items-center justify-center border border-white/10 relative overflow-hidden">
+                          {/* Delicate specular highlight */}
+                          <div className="absolute -top-2 -left-2 w-5 h-5 bg-white/15 rounded-full blur-[2px] pointer-events-none" />
+                          <Dumbbell className="w-5 h-5 text-[#d9dee6] group-hover:text-white transition-colors drop-shadow" />
+                        </div>
+                      </div>
+                      {/* Crisp Label in text-[#d9dee6] */}
+                      <span className="mt-1.5 text-[11px] font-semibold text-[#d9dee6] group-hover:text-white transition-colors tracking-tight drop-shadow">
+                        Z Coaching
+                      </span>
+                    </motion.div>
+                  </div>
+
+                  {/* Planet 3: Z Construction (Bottom Right: 240 deg) */}
+                  <div className="absolute bottom-3 right-2 sm:right-3 pointer-events-auto">
+                    <motion.div 
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+                      className="group flex flex-col items-center cursor-pointer"
+                    >
+                      {/* Deep Obsidian Frosted Glass Satellite matching Central Core */}
+                      <div className="relative w-12 h-12 sm:w-13 sm:h-13 rounded-full p-[1px] bg-gradient-to-b from-white/30 via-slate-700/50 to-transparent shadow-[0_8px_20px_rgba(0,0,0,0.6),0_0_12px_rgba(99,102,241,0.2)] group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] group-hover:from-white/50 transition-all duration-300">
+                        <div className="w-full h-full rounded-full bg-slate-950/90 backdrop-blur-xl flex items-center justify-center border border-white/10 relative overflow-hidden">
+                          {/* Delicate specular highlight */}
+                          <div className="absolute -top-2 -left-2 w-5 h-5 bg-white/15 rounded-full blur-[2px] pointer-events-none" />
+                          <Building2 className="w-5 h-5 text-[#d9dee6] group-hover:text-white transition-colors drop-shadow" />
+                        </div>
+                      </div>
+                      {/* Crisp Label in text-[#d9dee6] */}
+                      <span className="mt-1.5 text-[11px] font-semibold text-[#d9dee6] group-hover:text-white transition-colors tracking-tight drop-shadow">
+                        Z Construction
+                      </span>
+                    </motion.div>
+                  </div>
+                </motion.div>
+
               </div>
             </div>
           </div>
@@ -351,8 +470,8 @@ export default function HomePage() {
             
             {/* Z ERP CARD */}
             <Link to="/erp" className="group bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col relative overflow-hidden">
-               <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                  <LayoutDashboard className="w-6 h-6" />
+               <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                  <LayoutDashboard className="w-7 h-7" />
                </div>
                <h3 className="text-2xl font-black text-slate-900 mb-3">{content.products.erp.name}</h3>
                <p className="text-sm text-slate-600 leading-relaxed max-w-sm mb-8">{content.products.erp.desc}</p>
@@ -367,8 +486,8 @@ export default function HomePage() {
             {/* Z COACHING CARD */}
             <div className="group bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col relative overflow-hidden">
                <div className="absolute top-6 right-6 rtl:left-6 rtl:right-auto bg-purple-100 text-purple-700 text-[10px] font-bold px-2.5 py-1 rounded-full">{isRTL ? "قريباً · انضم للانتظار" : "SOON · WAITLIST"}</div>
-               <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-600 group-hover:text-white transition-colors">
-                  <Dumbbell className="w-6 h-6" />
+               <div className="w-14 h-14 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                  <Dumbbell className="w-7 h-7" />
                </div>
                <h3 className="text-2xl font-black text-slate-900 mb-3">{content.products.coaching.name}</h3>
                <p className="text-sm text-slate-600 leading-relaxed max-w-sm mb-8">{content.products.coaching.desc}</p>
@@ -389,8 +508,8 @@ export default function HomePage() {
             {/* Z CONSTRUCTION CARD */}
             <div className="group bg-white rounded-3xl border border-slate-200 p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col relative overflow-hidden">
                <div className="absolute top-6 right-6 rtl:left-6 rtl:right-auto bg-orange-100 text-orange-700 text-[10px] font-bold px-2.5 py-1 rounded-full">{isRTL ? "قريباً · انضم للانتظار" : "SOON · WAITLIST"}</div>
-               <div className="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-orange-600 group-hover:text-white transition-colors">
-                  <Building2 className="w-6 h-6" />
+               <div className="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-600 group-hover:text-white transition-all duration-300 shadow-sm">
+                  <Building2 className="w-7 h-7" />
                </div>
                <h3 className="text-2xl font-black text-slate-900 mb-3">{content.products.construction.name}</h3>
                <p className="text-sm text-slate-600 leading-relaxed max-w-sm mb-8">{content.products.construction.desc}</p>
@@ -595,7 +714,7 @@ export default function HomePage() {
                     {lang === "ar" ? "الشروط والأحكام" : "Terms & Conditions"}
                   </Link>
                   <span className="text-slate-300">•</span>
-                  <Link to="/refund-policy" className="hover:text-brand-600 transition-colors text-emerald-700 font-bold">
+                  <Link to="/refund-policy" className="hover:text-brand-600 transition-colors">
                     {lang === "ar" ? "سياسة الاسترجاع" : "Refund Policy"}
                   </Link>
                   <span className="text-slate-300">•</span>
@@ -612,9 +731,8 @@ export default function HomePage() {
               {/* Payment Methods */}
               <div className="pt-1 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-500">
                 <span>{lang === "ar" ? "مدفوعات إلكترونية آمنة عبر:" : "Secure online payments via:"}</span>
-                <span className="font-bold font-mono text-xs text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200/70" dir="ltr">Visa</span>
-                <span className="font-bold font-mono text-xs text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200/70" dir="ltr">MasterCard</span>
-                <span className="font-bold font-mono text-xs text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200/70">Meeza ميزة</span>
+                <span className="font-bold font-mono text-xs text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded border border-slate-200/70" dir="ltr">Visa</span>
+                <span className="font-bold font-mono text-xs text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded border border-slate-200/70" dir="ltr">MasterCard</span>
               </div>
             </div>
           </div>

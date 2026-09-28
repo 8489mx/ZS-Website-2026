@@ -1545,7 +1545,7 @@ export default function ErpPage() {
               <CurrencySwitcher />
               <span className="text-[11px] text-slate-600 font-medium bg-slate-100 border border-slate-200/80 px-2.5 py-1 rounded-full flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                <span>{lang === "ar" ? "العملة الأساسية: الجنيه المصري (EGP) • نقبل Visa و MasterCard وميزة" : "Primary: EGP • Visa, MasterCard & Meeza accepted"}</span>
+                <span>{lang === "ar" ? "العملة الأساسية: الجنيه المصري (EGP) • نقبل Visa و MasterCard" : "Primary: EGP • Visa & MasterCard accepted"}</span>
               </span>
             </div>
           </div>
@@ -2556,7 +2556,7 @@ export default function ErpPage() {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/refund-policy" className="hover:text-brand-600 transition-colors inline-block font-semibold text-emerald-700">
+                    <Link to="/refund-policy" className="hover:text-brand-600 transition-colors inline-block">
                       {lang === "ar" ? "سياسة الاسترجاع" : "Refund Policy"}
                     </Link>
                   </li>
@@ -2599,7 +2599,6 @@ export default function ErpPage() {
               <span>{lang === "ar" ? "المدفوعات الإلكترونية آمنة ومعتمدة عبر:" : "Secure payments supported via:"}</span>
               <span className="bg-slate-100 px-2 py-0.5 rounded font-mono font-bold text-slate-700">Visa</span>
               <span className="bg-slate-100 px-2 py-0.5 rounded font-mono font-bold text-slate-700">MasterCard</span>
-              <span className="bg-slate-100 px-2 py-0.5 rounded font-mono font-bold text-slate-700">Meeza ميزة</span>
               <span>•</span>
               <span>{lang === "ar" ? "العملة الأساسية: الجنيه المصري (EGP)" : "Default Currency: Egyptian Pound (EGP)"}</span>
             </div>
