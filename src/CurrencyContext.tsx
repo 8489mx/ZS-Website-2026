@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { safeLocalStorage } from "./utils/safeStorage";
 
 export type CurrencyCode = "EGP" | "SAR" | "AED" | "QAR" | "KWD" | "BHD" | "OMR" | "JOD" | "IQD" | "USD";
 
@@ -667,7 +668,7 @@ const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined
 
 export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currencyCode, setCurrencyCodeState] = useState<CurrencyCode>(() => {
-    const saved = localStorage.getItem("zsystems_currency_code");
+    const saved = safeLocalStorage.getItem("zsystems_currency_code");
     if (saved && saved in CURRENCY_CONFIGS) {
       return saved as CurrencyCode;
     }
@@ -675,17 +676,17 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   });
 
   const [detectedCountry, setDetectedCountry] = useState<string>(() => {
-    return localStorage.getItem("zsystems_detected_country") || "";
+    return safeLocalStorage.getItem("zsystems_detected_country") || "";
   });
 
   const [isAutoDetected, setIsAutoDetected] = useState<boolean>(() => {
-    return !localStorage.getItem("zsystems_currency_code");
+    return !safeLocalStorage.getItem("zsystems_currency_code");
   });
 
   // Detect location on mount
   useEffect(() => {
     // If user already explicitly set their currency, respect that preference
-    const savedCurrency = localStorage.getItem("zsystems_currency_code");
+    const savedCurrency = safeLocalStorage.getItem("zsystems_currency_code");
 
     const detectLocation = async () => {
       try {
@@ -698,7 +699,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           
           if (countryName) {
             setDetectedCountry(countryName);
-            localStorage.setItem("zsystems_detected_country", countryName);
+            safeLocalStorage.setItem("zsystems_detected_country", countryName);
           }
 
           if (!savedCurrency) {
@@ -727,7 +728,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     if (code in CURRENCY_CONFIGS) {
       setCurrencyCodeState(code);
       setIsAutoDetected(false);
-      localStorage.setItem("zsystems_currency_code", code);
+      safeLocalStorage.setItem("zsystems_currency_code", code);
     }
   };
 

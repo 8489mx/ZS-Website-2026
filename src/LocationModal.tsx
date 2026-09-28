@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Globe, X, Coins } from "lucide-react";
 import { useLanguage } from "./LanguageContext";
 import { useCurrency, COUNTRY_CODE_TO_CURRENCY, COUNTRY_NAME_TO_CURRENCY, CurrencyCode } from "./CurrencyContext";
+import { safeSessionStorage } from "./utils/safeStorage";
 
 const COUNTRY_NAMES_AR: Record<string, string> = {
   Egypt: "مصر",
@@ -39,7 +40,7 @@ export default function LocationModal() {
   const { currency, setCurrencyCode } = useCurrency();
 
   useEffect(() => {
-    const hasSeenModal = sessionStorage.getItem("zsystems_has_seen_location_modal");
+    const hasSeenModal = safeSessionStorage.getItem("zsystems_has_seen_location_modal");
     if (hasSeenModal) return;
 
     const controller = new AbortController();
@@ -82,7 +83,7 @@ export default function LocationModal() {
 
   const handleClose = () => {
     setIsOpen(false);
-    sessionStorage.setItem("zsystems_has_seen_location_modal", "true");
+    safeSessionStorage.setItem("zsystems_has_seen_location_modal", "true");
   };
 
   // Close location modal on Escape key
@@ -100,13 +101,13 @@ export default function LocationModal() {
   const handleChooseArabic = () => {
     setLang("ar");
     setIsOpen(false);
-    sessionStorage.setItem("zsystems_has_seen_location_modal", "true");
+    safeSessionStorage.setItem("zsystems_has_seen_location_modal", "true");
   };
 
   const handleChooseEnglish = () => {
     setLang("en");
     setIsOpen(false);
-    sessionStorage.setItem("zsystems_has_seen_location_modal", "true");
+    safeSessionStorage.setItem("zsystems_has_seen_location_modal", "true");
   };
 
   const isArabic = lang === "ar";

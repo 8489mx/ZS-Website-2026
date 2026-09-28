@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { safeLocalStorage } from "./utils/safeStorage";
 
 type Lang = "ar" | "en";
 
@@ -12,14 +13,16 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [lang, setLang] = useState<Lang>(() => {
-    const saved = localStorage.getItem("zsystems_lang");
+    const saved = safeLocalStorage.getItem("zsystems_lang");
     return (saved as Lang) || "ar";
   });
 
   useEffect(() => {
-    localStorage.setItem("zsystems_lang", lang);
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-    document.documentElement.lang = lang;
+    safeLocalStorage.setItem("zsystems_lang", lang);
+    try {
+      document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+      document.documentElement.lang = lang;
+    } catch {}
   }, [lang]);
 
   const isRTL = lang === "ar";

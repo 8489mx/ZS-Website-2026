@@ -8,6 +8,7 @@ import { ThemeProvider } from "./ThemeContext";
 import { CurrencyProvider } from "./CurrencyContext";
 import LocationModal from "./LocationModal";
 import SeoManager from "./components/SeoManager";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // Code-split routes so visitors don't load the entire 170KB+ ErpPage or HomePage unnecessarily on first paint
 const HomePage = lazy(() => import("./HomePage"));
@@ -20,36 +21,38 @@ const ContactPage = lazy(() => import("./pages/ContactPage"));
 // Minimal lightweight fallback during lazy-loading transition
 function PageLoadingFallback() {
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-      <div className="w-8 h-8 rounded-full border-2 border-brand-500 border-t-transparent animate-spin" />
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="w-8 h-8 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin" />
     </div>
   );
 }
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <CurrencyProvider>
-          <LocationModal />
-          <BrowserRouter>
-            <SeoManager />
-            <ScrollToTop />
-            <Suspense fallback={<PageLoadingFallback />}>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/erp" element={<ErpPage />} />
-                <Route path="/terms" element={<TermsPage />} />
-                <Route path="/refund-policy" element={<RefundPolicyPage />} />
-                <Route path="/privacy" element={<PrivacyPolicyPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
-                <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </CurrencyProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
+        <LanguageProvider>
+          <CurrencyProvider>
+            <LocationModal />
+            <BrowserRouter>
+              <SeoManager />
+              <ScrollToTop />
+              <Suspense fallback={<PageLoadingFallback />}>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/erp" element={<ErpPage />} />
+                  <Route path="/terms" element={<TermsPage />} />
+                  <Route path="/refund-policy" element={<RefundPolicyPage />} />
+                  <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
+                  <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </CurrencyProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }

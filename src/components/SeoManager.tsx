@@ -53,50 +53,58 @@ export default function SeoManager() {
   const { lang, isRTL } = useLanguage();
 
   useEffect(() => {
-    // Sync HTML document language and direction
-    document.documentElement.lang = lang;
-    document.documentElement.dir = isRTL ? "rtl" : "ltr";
+    try {
+      if (typeof document === "undefined") return;
 
-    const meta = ROUTE_META_MAP[pathname] || ROUTE_META_MAP["/"];
-    const title = lang === "en" ? meta.titleEn : meta.titleAr;
-    const description = lang === "en" ? meta.descEn : meta.descAr;
-    const canonicalUrl = `https://zsystemai.com${pathname === "/" ? "" : pathname}`;
+      // Sync HTML document language and direction
+      document.documentElement.lang = lang;
+      document.documentElement.dir = isRTL ? "rtl" : "ltr";
 
-    // Set document title
-    document.title = title;
+      const meta = ROUTE_META_MAP[pathname] || ROUTE_META_MAP["/"];
+      const title = lang === "en" ? meta.titleEn : meta.titleAr;
+      const description = lang === "en" ? meta.descEn : meta.descAr;
+      const canonicalUrl = `https://zsystemai.com${pathname === "/" ? "" : pathname}`;
 
-    // Helper to update or create meta tags
-    const setMetaTag = (selector: string, attr: string, value: string) => {
-      let el = document.querySelector(selector);
-      if (!el) {
-        el = document.createElement("meta");
-        if (selector.startsWith('meta[name="')) {
-          const name = selector.replace('meta[name="', "").replace('"]', "");
-          el.setAttribute("name", name);
-        } else if (selector.startsWith('meta[property="')) {
-          const property = selector.replace('meta[property="', "").replace('"]', "");
-          el.setAttribute("property", property);
-        }
-        document.head.appendChild(el);
+      // Set document title
+      document.title = title;
+
+      // Safe helper to update meta tags
+      const setMetaTag = (selector: string, attr: string, value: string) => {
+        try {
+          let el = document.querySelector(selector);
+          if (!el) {
+            el = document.createElement("meta");
+            if (selector.startsWith('meta[name="')) {
+              const name = selector.replace('meta[name="', "").replace('"]', "");
+              el.setAttribute("name", name);
+            } else if (selector.startsWith('meta[property="')) {
+              const property = selector.replace('meta[property="', "").replace('"]', "");
+              el.setAttribute("property", property);
+            }
+            document.head.appendChild(el);
+          }
+          el.setAttribute(attr, value);
+        } catch {}
+      };
+
+      setMetaTag('meta[name="description"]', "content", description);
+      setMetaTag('meta[property="og:title"]', "content", title);
+      setMetaTag('meta[property="og:description"]', "content", description);
+      setMetaTag('meta[property="og:url"]', "content", canonicalUrl);
+      setMetaTag('meta[name="twitter:title"]', "content", title);
+      setMetaTag('meta[name="twitter:description"]', "content", description);
+
+      // Update canonical link safely
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement("link");
+        canonical.setAttribute("rel", "canonical");
+        document.head.appendChild(canonical);
       }
-      el.setAttribute(attr, value);
-    };
-
-    setMetaTag('meta[name="description"]', "content", description);
-    setMetaTag('meta[property="og:title"]', "content", title);
-    setMetaTag('meta[property="og:description"]', "content", description);
-    setMetaTag('meta[property="og:url"]', "content", canonicalUrl);
-    setMetaTag('meta[name="twitter:title"]', "content", title);
-    setMetaTag('meta[name="twitter:description"]', "content", description);
-
-    // Update canonical link
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
+      canonical.setAttribute("href", canonicalUrl);
+    } catch (e) {
+      // Gracefully prevent any error from interrupting UI render
     }
-    canonical.setAttribute("href", canonicalUrl);
   }, [pathname, lang, isRTL]);
 
   return null;

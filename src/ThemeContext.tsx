@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { safeLocalStorage } from "./utils/safeStorage";
 
 type Theme = "emerald" | "hybrid";
 
@@ -11,19 +12,21 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem("zsystems_theme");
+    const saved = safeLocalStorage.getItem("zsystems_theme");
     return (saved as Theme) || "emerald";
   });
 
   useEffect(() => {
-    localStorage.setItem("zsystems_theme", theme);
-    if (theme === "hybrid") {
-      document.body.classList.add("theme-hybrid");
-      document.documentElement.classList.add("theme-hybrid");
-    } else {
-      document.body.classList.remove("theme-hybrid");
-      document.documentElement.classList.remove("theme-hybrid");
-    }
+    safeLocalStorage.setItem("zsystems_theme", theme);
+    try {
+      if (theme === "hybrid") {
+        document.body.classList.add("theme-hybrid");
+        document.documentElement.classList.add("theme-hybrid");
+      } else {
+        document.body.classList.remove("theme-hybrid");
+        document.documentElement.classList.remove("theme-hybrid");
+      }
+    } catch {}
   }, [theme]);
 
   return (
