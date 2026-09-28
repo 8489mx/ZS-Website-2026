@@ -7,8 +7,6 @@ import { LanguageProvider } from "./LanguageContext";
 import { ThemeProvider } from "./ThemeContext";
 import { CurrencyProvider } from "./CurrencyContext";
 import LocationModal from "./LocationModal";
-import SeoManager from "./components/SeoManager";
-import ErrorBoundary from "./components/ErrorBoundary";
 import HomePage from "./HomePage";
 
 // Code-split heavier sub-pages
@@ -29,30 +27,27 @@ function PageLoadingFallback() {
 
 export default function App() {
   return (
-    <ErrorBoundary>
-      <ThemeProvider>
-        <LanguageProvider>
-          <CurrencyProvider>
-            <LocationModal />
-            <BrowserRouter>
-              <SeoManager />
-              <ScrollToTop />
-              <Suspense fallback={<PageLoadingFallback />}>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/erp" element={<ErpPage />} />
-                  <Route path="/terms" element={<TermsPage />} />
-                  <Route path="/refund-policy" element={<RefundPolicyPage />} />
-                  <Route path="/privacy" element={<PrivacyPolicyPage />} />
-                  <Route path="/contact" element={<ContactPage />} />
-                  <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
-                  <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
-                </Routes>
-              </Suspense>
-            </BrowserRouter>
-          </CurrencyProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
+    <ThemeProvider>
+      <LanguageProvider>
+        <CurrencyProvider>
+          <LocationModal />
+          <BrowserRouter>
+            <ScrollToTop />
+            <Suspense fallback={<PageLoadingFallback />}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/erp" element={<ErpPage />} />
+                <Route path="/terms" element={<TermsPage />} />
+                <Route path="/refund-policy" element={<RefundPolicyPage />} />
+                <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
+                <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </CurrencyProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
