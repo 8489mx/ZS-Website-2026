@@ -2575,21 +2575,21 @@ export default function ErpPage() {
           {/* Company & Contact Line */}
           <div className="py-4 border-b border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-3 text-[11px] text-slate-600 text-center md:text-start">
             <div>
-              <span className="font-bold text-slate-800">
+              <span className="font-medium text-slate-700">
                 {lang === "ar" ? "الشركة: " : "Company: "}
               </span>
               <span>Z Systems for Software Solutions (زد سستمز لحلول البرمجيات)</span>
             </div>
-            <div className="flex flex-wrap items-center gap-3 font-mono">
-              <a href="tel:+201018017523" className="hover:text-brand-600 font-bold" dir="ltr">
-                <span dir="ltr" className="inline-block font-mono">+20 1018017523</span>
+            <div className="flex flex-wrap items-center gap-3">
+              <a href="tel:+201018017523" className="hover:text-brand-600 font-normal" dir="ltr">
+                <span dir="ltr" className="inline-block tracking-normal">+20 1018017523</span>
               </a>
               <span>•</span>
-              <a href="tel:0663640828" className="hover:text-slate-900 font-semibold" dir="ltr">
-                <span dir="ltr" className="inline-block font-mono">066-3640828</span>
+              <a href="tel:0663640828" className="hover:text-slate-900 font-normal" dir="ltr">
+                <span dir="ltr" className="inline-block tracking-normal">066-3640828</span>
               </a>
               <span>•</span>
-              <a href="mailto:info@zsystemai.com" className="hover:text-brand-600 font-bold">info@zsystemai.com</a>
+              <a href="mailto:info@zsystemai.com" className="hover:text-brand-600 font-normal">info@zsystemai.com</a>
             </div>
           </div>
 

@@ -83,20 +83,20 @@ export default function LegalLayout({
                 <span>{lang === "ar" ? "محافظة بورسعيد، مكتب تجاري رقم (3) مشروع الـ 5000 وحدة ع 14" : "Port Said Governorate, Commercial Office No. 3, 5000 Units Project, Bldg 14"}</span>
               </div>
               <div>
-                <strong className="text-slate-900">{lang === "ar" ? "الهاتف / واتساب:" : "Phone / WhatsApp:"}</strong>{" "}
+                <strong className="text-slate-900 font-medium">{lang === "ar" ? "الهاتف / واتساب:" : "Phone / WhatsApp:"}</strong>{" "}
                 <div className="inline-flex flex-wrap items-center gap-2">
-                  <a href="tel:+201018017523" className="text-brand-600 font-mono font-bold hover:underline" dir="ltr">
-                    <span dir="ltr" className="inline-block font-mono">+20 1018017523</span>
+                  <a href="tel:+201018017523" className="text-brand-600 font-normal hover:underline" dir="ltr">
+                    <span dir="ltr" className="inline-block tracking-normal">+20 1018017523</span>
                   </a>
                   <span className="text-slate-300">•</span>
-                  <a href="tel:0663640828" className="text-slate-700 font-mono font-semibold hover:underline" dir="ltr">
-                    <span dir="ltr" className="inline-block font-mono">066-3640828</span>
+                  <a href="tel:0663640828" className="text-slate-700 font-normal hover:underline" dir="ltr">
+                    <span dir="ltr" className="inline-block tracking-normal">066-3640828</span>
                   </a>
                 </div>
               </div>
               <div>
-                <strong className="text-slate-900">{lang === "ar" ? "البريد الإلكتروني:" : "Email:"}</strong>{" "}
-                <a href="mailto:info@zsystemai.com" className="text-brand-600 font-mono font-bold hover:underline">info@zsystemai.com</a>
+                <strong className="text-slate-900 font-medium">{lang === "ar" ? "البريد الإلكتروني:" : "Email:"}</strong>{" "}
+                <a href="mailto:info@zsystemai.com" className="text-brand-600 font-normal hover:underline">info@zsystemai.com</a>
               </div>
             </div>
           </div>

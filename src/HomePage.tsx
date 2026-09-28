@@ -683,22 +683,22 @@ export default function HomePage() {
               {/* Contact Information on one line */}
               <div className="pt-1 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-slate-600">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-slate-400 font-medium">{lang === "ar" ? "الهاتف / واتساب:" : "Mobile / WhatsApp:"}</span>
-                  <a href="tel:+201018017523" className="text-brand-600 font-mono font-bold hover:underline" dir="ltr">
-                    <span dir="ltr" className="inline-block font-mono">+20 1018017523</span>
+                  <span className="text-slate-400 font-normal">{lang === "ar" ? "الهاتف / واتساب:" : "Mobile / WhatsApp:"}</span>
+                  <a href="tel:+201018017523" className="text-brand-600 hover:text-brand-700 font-normal hover:underline" dir="ltr">
+                    <span dir="ltr" className="inline-block tracking-normal">+20 1018017523</span>
                   </a>
                 </div>
                 <span className="text-slate-300">•</span>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-slate-400 font-medium">{lang === "ar" ? "الأرضي:" : "Landline:"}</span>
-                  <a href="tel:0663640828" className="text-slate-800 font-mono font-bold hover:underline" dir="ltr">
-                    <span dir="ltr" className="inline-block font-mono">066-3640828</span>
+                  <span className="text-slate-400 font-normal">{lang === "ar" ? "الأرضي:" : "Landline:"}</span>
+                  <a href="tel:0663640828" className="text-slate-700 hover:text-slate-900 font-normal hover:underline" dir="ltr">
+                    <span dir="ltr" className="inline-block tracking-normal">066-3640828</span>
                   </a>
                 </div>
                 <span className="text-slate-300">•</span>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-slate-400 font-medium">{lang === "ar" ? "البريد:" : "Email:"}</span>
-                  <a href="mailto:info@zsystemai.com" className="text-brand-600 font-mono font-bold hover:underline" dir="ltr">info@zsystemai.com</a>
+                  <span className="text-slate-400 font-normal">{lang === "ar" ? "البريد:" : "Email:"}</span>
+                  <a href="mailto:info@zsystemai.com" className="text-brand-600 hover:text-brand-700 font-normal hover:underline" dir="ltr">info@zsystemai.com</a>
                 </div>
               </div>
             </div>
@@ -706,10 +706,10 @@ export default function HomePage() {
             {/* Column 2: Legal & Policies & Payment */}
             <div className="space-y-4 text-center md:flex md:flex-col md:items-center justify-center">
               <div className="w-full flex flex-col items-center text-center">
-                <span className="font-bold text-slate-900 text-xs uppercase tracking-wider block mb-3 text-center">
+                <span className="font-medium text-slate-800 text-xs uppercase tracking-wider block mb-2 text-center">
                   {lang === "ar" ? "السياسات والاستخدام" : "Legal & Policies"}
                 </span>
-                <div className="flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-slate-700">
+                <div className="flex flex-wrap items-center justify-center gap-3 text-xs font-normal text-slate-600">
                   <Link to="/terms" className="hover:text-brand-600 transition-colors">
                     {lang === "ar" ? "الشروط والأحكام" : "Terms & Conditions"}
                   </Link>
@@ -731,8 +731,8 @@ export default function HomePage() {
               {/* Payment Methods */}
               <div className="pt-1 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-500">
                 <span>{lang === "ar" ? "مدفوعات إلكترونية آمنة عبر:" : "Secure online payments via:"}</span>
-                <span className="font-bold font-mono text-xs text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded border border-slate-200/70" dir="ltr">Visa</span>
-                <span className="font-bold font-mono text-xs text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded border border-slate-200/70" dir="ltr">MasterCard</span>
+                <span className="font-medium text-xs text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200/70 tracking-normal" dir="ltr">Visa</span>
+                <span className="font-medium text-xs text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200/70 tracking-normal" dir="ltr">MasterCard</span>
               </div>
             </div>
           </div>

@@ -97,13 +97,13 @@ export default function ContactPage() {
           <h3 className="font-bold text-slate-900 text-sm sm:text-base">الهاتف المباشر وواتساب</h3>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
             الموبايل / واتساب:{" "}
-            <a href="https://wa.me/201018017523" target="_blank" rel="noreferrer" className="text-brand-600 font-mono font-bold hover:underline" dir="ltr">
-              <span dir="ltr" className="inline-block font-mono">+20 1018017523</span>
+            <a href="https://wa.me/201018017523" target="_blank" rel="noreferrer" className="text-brand-600 font-normal hover:underline" dir="ltr">
+              <span dir="ltr" className="inline-block tracking-normal">+20 1018017523</span>
             </a>
             <br />
             الهاتف الأرضي / المكتب:{" "}
-            <a href="tel:0663640828" className="text-slate-800 font-mono font-bold hover:underline" dir="ltr">
-              <span dir="ltr" className="inline-block font-mono">066-3640828</span>
+            <a href="tel:0663640828" className="text-slate-800 font-normal hover:underline" dir="ltr">
+              <span dir="ltr" className="inline-block tracking-normal">066-3640828</span>
             </a>
           </p>
         </div>
@@ -114,7 +114,7 @@ export default function ContactPage() {
           </div>
           <h3 className="font-bold text-slate-900 text-sm sm:text-base">البريد الإلكتروني الرسمي</h3>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            لخدمة العملاء والاستفسارات والدعم: <a href="mailto:info@zsystemai.com" className="text-brand-600 font-mono font-bold hover:underline">info@zsystemai.com</a>
+            لخدمة العملاء والاستفسارات والدعم: <a href="mailto:info@zsystemai.com" className="text-brand-600 font-normal hover:underline">info@zsystemai.com</a>
           </p>
         </div>
 
