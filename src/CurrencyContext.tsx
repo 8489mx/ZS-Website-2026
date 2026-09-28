@@ -646,10 +646,11 @@ export function detectCurrencyFromTimezone(): CurrencyCode {
     if (tz.includes("Muscat")) return "OMR";
     if (tz.includes("Amman")) return "JOD";
     if (tz.includes("Baghdad")) return "IQD";
+    return "EGP"; // Default to EGP for Egyptian Central Bank & XPay Gateway compliance
   } catch {
     // Ignore error
   }
-  return "SAR"; // Default to SAR in Arab region
+  return "EGP"; // Default to EGP
 }
 
 interface CurrencyContextType {
@@ -730,7 +731,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const currentConfig = CURRENCY_CONFIGS[currencyCode] || CURRENCY_CONFIGS.SAR;
+  const currentConfig = CURRENCY_CONFIGS[currencyCode] || CURRENCY_CONFIGS.EGP;
 
   const getSymbol = (lang: "ar" | "en") => {
     return lang === "ar" ? currentConfig.symbolAr : currentConfig.symbolEn;

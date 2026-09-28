@@ -85,6 +85,18 @@ export default function LocationModal() {
     sessionStorage.setItem("zsystems_has_seen_location_modal", "true");
   };
 
+  // Close location modal on Escape key
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
+
   const handleChooseArabic = () => {
     setLang("ar");
     setIsOpen(false);
@@ -102,10 +114,14 @@ export default function LocationModal() {
 
   return (
     <div 
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-[2px] font-sans" 
+      onClick={handleClose}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-[2px] font-sans cursor-pointer select-none" 
       dir={isArabic ? "rtl" : "ltr"}
     >
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-[420px] overflow-hidden relative animate-in fade-in zoom-in-95 duration-300">
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-2xl shadow-xl w-full max-w-[420px] overflow-hidden relative animate-in fade-in zoom-in-95 duration-300 cursor-default select-text"
+      >
         {/* Close Button */}
         <button 
           onClick={handleClose}

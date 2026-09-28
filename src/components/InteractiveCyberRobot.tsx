@@ -225,12 +225,12 @@ export default function InteractiveCyberRobot() {
 
       {/* Main Interactive Stage */}
       <div
-        className="relative w-[340px] sm:w-[390px] h-[450px]"
+        className="relative w-full max-w-[310px] sm:max-w-[390px] h-[370px] sm:h-[450px]"
         style={{ transformStyle: "preserve-3d" }}
       >
         <svg
           viewBox="0 0 390 450"
-          className="w-full h-full overflow-visible drop-shadow-xl"
+          className="w-full h-full overflow-hidden sm:overflow-visible drop-shadow-xl"
         >
           <defs>
             {/* Glossy White Ceramic Shader */}

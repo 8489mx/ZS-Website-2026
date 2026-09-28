@@ -11,6 +11,10 @@ import LocationModal from "./LocationModal";
 // Code-split routes so visitors don't load the entire 170KB+ ErpPage or HomePage unnecessarily on first paint
 const HomePage = lazy(() => import("./HomePage"));
 const ErpPage = lazy(() => import("./ErpPage"));
+const TermsPage = lazy(() => import("./pages/TermsPage"));
+const RefundPolicyPage = lazy(() => import("./pages/RefundPolicyPage"));
+const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
 
 // Minimal lightweight fallback during lazy-loading transition
 function PageLoadingFallback() {
@@ -33,6 +37,10 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/erp" element={<ErpPage />} />
+                <Route path="/terms" element={<TermsPage />} />
+                <Route path="/refund-policy" element={<RefundPolicyPage />} />
+                <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                <Route path="/contact" element={<ContactPage />} />
                 <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
                 <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
               </Routes>

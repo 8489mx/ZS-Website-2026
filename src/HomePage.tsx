@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { APP_LOGIN_URL } from "./links";
 import { 
   ArrowRight,
   Dumbbell, CheckCircle,
   Building2, LayoutDashboard, Target,
-  X, Bell, CheckCircle2
+  X, Bell, CheckCircle2, Mail, Loader2
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useLanguage } from "./LanguageContext";
@@ -24,6 +24,67 @@ export default function HomePage() {
   const [waitlistEmail, setWaitlistEmail] = useState("");
   const [waitlistPhone, setWaitlistPhone] = useState("");
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Close waitlist modal on Escape key press
+  useEffect(() => {
+    if (!waitlistProduct) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setWaitlistProduct(null);
+        setWaitlistSubmitted(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [waitlistProduct]);
+
+  // Handle silent background waitlist submission
+  const handleWaitlistSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!waitlistEmail || isSubmitting) return;
+
+    setIsSubmitting(true);
+
+    const lead = {
+      id: Date.now().toString(),
+      product: waitlistProduct,
+      email: waitlistEmail,
+      phone: waitlistPhone || "غير مسجل",
+      submittedAt: new Date().toISOString(),
+    };
+
+    try {
+      const existing = JSON.parse(localStorage.getItem("zsystems_waitlist_leads") || "[]");
+      existing.unshift(lead);
+      localStorage.setItem("zsystems_waitlist_leads", JSON.stringify(existing));
+    } catch {
+      // Storage unavailable fallback
+    }
+
+    // Send silent background email notification to info@zsystemai.com
+    try {
+      await fetch("https://formsubmit.co/ajax/4e885857a3c4f32f671d9c3da5dc6cad", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          _subject: `طلب انضمام جديد لقائمة انتظار (${waitlistProduct}) - Z Systems`,
+          "النظام المطلوب": waitlistProduct,
+          "البريد الإلكتروني للعميل": waitlistEmail,
+          "رقم الهاتف أو واتساب": waitlistPhone || "غير مسجل",
+          "تاريخ ووقت التسجيل": new Date().toLocaleString("ar-EG"),
+        }),
+      });
+    } catch {
+      // Background request completed
+    }
+
+    setIsSubmitting(false);
+    setWaitlistSubmitted(true);
+  };
 
   // Basic translations for the Home Page
   const t = {
@@ -116,35 +177,26 @@ export default function HomePage() {
       
       {/* HEADER / NAVIGATION */}
       <header className="w-full sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-8 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2.5" dir="ltr">
-            <img src="/logo.png" alt="Z Systems" width="160" height="40" className="h-10 w-auto object-contain shrink-0" />
-            <span className="font-display font-black text-xl text-slate-900 tracking-tight leading-none">
+        <div className="max-w-[1440px] mx-auto px-3 sm:px-8 py-3 sm:py-4 flex items-center justify-between gap-2">
+          <Link to="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0" dir="ltr">
+            <img src="/logo.png" alt="Z Systems" width="140" height="36" className="h-7 sm:h-10 w-auto object-contain shrink-0" />
+            <span className="font-display font-black text-sm sm:text-xl text-slate-900 tracking-tight leading-none whitespace-nowrap">
               {content.nav.company}
             </span>
           </Link>
-          <div className="flex items-center gap-2 sm:gap-4">
-            <Link
-              to="/erp"
-              className="text-slate-800 hover:text-brand-600 font-bold text-xs sm:text-sm px-3 py-1.5 rounded-lg hover:bg-slate-100 transition-all flex items-center gap-1.5 border border-transparent hover:border-slate-200"
-            >
-              <span>{lang === "ar" ? "نظام Z ERP" : "Z ERP System"}</span>
-              <span className="text-[10px] bg-brand-50 text-brand-700 border border-brand-200 px-1.5 py-0.5 rounded font-mono font-bold">
-                PRO
-              </span>
-            </Link>
-            <ThemeSwitcher />
+
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             <LanguageSwitcher />
             <a
               href={APP_LOGIN_URL}
-              className="text-slate-800 hover:text-brand-600 font-semibold text-xs sm:text-sm transition-colors whitespace-nowrap"
+              className="text-slate-800 hover:text-brand-600 font-bold text-xs sm:text-sm transition-colors whitespace-nowrap px-1.5 py-1"
             >
               {content.nav.signIn}
             </a>
             <a 
               href="https://wa.me/201018017523" 
               target="_blank" rel="noreferrer"
-              className="bg-brand-600 text-white hover:bg-brand-500 font-semibold px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all duration-300 shadow-md shadow-brand-500/20"
+              className="bg-brand-600 text-white hover:bg-brand-500 font-bold px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all duration-300 shadow-md shadow-brand-500/20 whitespace-nowrap"
             >
               {content.nav.contactUs}
             </a>
@@ -157,34 +209,34 @@ export default function HomePage() {
         initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.95 }} 
         animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }} 
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }} 
-        className="w-full pt-12 pb-16 lg:pt-20 lg:pb-20 bg-white relative overflow-hidden px-6"
+        className="w-full pt-8 pb-14 sm:pt-12 sm:pb-16 lg:pt-20 lg:pb-20 bg-white relative overflow-hidden px-4 sm:px-6"
       >
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-500/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-[1440px] mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
             
             {/* Left / Text Column (7 cols) */}
             <div className={`lg:col-span-7 flex flex-col ${isRTL ? "text-start items-start" : "text-start items-start"}`}>
-              <div className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 px-4 py-1.5 rounded-full text-xs font-bold mb-6 shadow-sm border border-brand-100">
+              <div className="inline-flex items-center gap-1.5 bg-brand-50 text-brand-700 px-3.5 py-1.5 rounded-full text-xs font-bold mb-5 shadow-sm border border-brand-100">
                 {content.hero.badge}
               </div>
               
-              <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.15] tracking-tight max-w-2xl whitespace-pre-line">
+              <h1 className="font-display text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.18] tracking-tight max-w-2xl whitespace-pre-line">
                 {content.hero.title}
               </h1>
 
-              <p className="mt-5 text-sm sm:text-base lg:text-lg text-slate-600 max-w-xl leading-relaxed">
+              <p className="mt-4 sm:mt-5 text-sm sm:text-base lg:text-lg text-slate-600 max-w-xl leading-relaxed">
                 {content.hero.subtitle}
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-4 items-center">
+              <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 items-stretch sm:items-center w-full sm:w-auto">
                 <a 
                   href="#systems" 
-                  className="bg-brand-600 hover:bg-brand-500 text-white font-bold px-8 py-3.5 rounded-lg transition-colors shadow-lg shadow-brand-500/20 text-sm flex items-center gap-2"
+                  className="bg-brand-600 hover:bg-brand-500 text-white font-bold px-7 py-3.5 rounded-xl transition-colors shadow-lg shadow-brand-500/20 text-sm flex items-center justify-center gap-2"
                 >
-                  {content.hero.cta}
+                  <span>{content.hero.cta}</span>
                   <ArrowRight className={`w-4 h-4 ${isRTL ? "rotate-180" : ""}`} />
                 </a>
 
@@ -192,25 +244,25 @@ export default function HomePage() {
                   href="https://wa.me/201018017523" 
                   target="_blank" 
                   rel="noreferrer" 
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-6 py-3.5 rounded-lg transition-colors text-sm"
+                  className="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-6 py-3.5 rounded-xl transition-colors text-sm flex items-center justify-center"
                 >
                   {content.nav.contactUs}
                 </a>
               </div>
 
               {/* Quick Trust Badges */}
-              <div className="mt-10 pt-6 border-t border-slate-100 grid grid-cols-3 gap-4 w-full max-w-lg text-slate-600">
-                <div>
+              <div className="mt-8 sm:mt-10 pt-6 border-t border-slate-100 grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-lg text-slate-600 text-center sm:text-start">
+                <div className="p-1">
                   <div className="text-xl sm:text-2xl font-black text-slate-900 font-display">100%</div>
-                  <div className="text-[11px] text-slate-600">{lang === "ar" ? "تحكم مالي ومخزني" : "Financial Control"}</div>
+                  <div className="text-[10px] sm:text-[11px] text-slate-600 leading-tight mt-0.5">{lang === "ar" ? "تحكم مالي ومخزني" : "Financial Control"}</div>
                 </div>
-                <div>
+                <div className="p-1">
                   <div className="text-xl sm:text-2xl font-black text-slate-900 font-display">+500</div>
-                  <div className="text-[11px] text-slate-600">{lang === "ar" ? "نقطة بيع نشطة" : "Active POS Units"}</div>
+                  <div className="text-[10px] sm:text-[11px] text-slate-600 leading-tight mt-0.5">{lang === "ar" ? "نقطة بيع نشطة" : "Active POS Units"}</div>
                 </div>
-                <div>
+                <div className="p-1">
                   <div className="text-xl sm:text-2xl font-black text-slate-900 font-display">24/7</div>
-                  <div className="text-[11px] text-slate-600">{lang === "ar" ? "دعم واستشارات" : "Live Support"}</div>
+                  <div className="text-[10px] sm:text-[11px] text-slate-600 leading-tight mt-0.5">{lang === "ar" ? "دعم واستشارات" : "Live Support"}</div>
                 </div>
               </div>
             </div>
@@ -363,39 +415,69 @@ export default function HomePage() {
       {/* WAITLIST MODAL */}
       <AnimatePresence>
         {waitlistProduct && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm cursor-pointer select-none"
+            onClick={() => {
+              setWaitlistProduct(null);
+              setWaitlistSubmitted(false);
+            }}
+          >
             <motion.div
+              onClick={(e) => e.stopPropagation()}
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="bg-white rounded-2xl border border-slate-200 shadow-2xl p-6 sm:p-7 max-w-md w-full relative overflow-hidden"
+              className="bg-white rounded-2xl border border-slate-200 shadow-2xl p-6 sm:p-7 max-w-md w-full relative overflow-hidden cursor-default select-text"
             >
               <button
-                onClick={() => setWaitlistProduct(null)}
+                onClick={() => {
+                  setWaitlistProduct(null);
+                  setWaitlistSubmitted(false);
+                }}
                 className="absolute top-4 right-4 rtl:left-4 rtl:right-auto text-slate-400 hover:text-slate-700 p-1 rounded-lg cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
 
               {waitlistSubmitted ? (
-                <div className="text-center py-6">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="text-center py-6 space-y-4">
+                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
                     <CheckCircle2 className="w-6 h-6" />
                   </div>
-                  <h4 className="text-lg font-black text-slate-900 font-display mb-2">
-                    {isRTL ? "تم تسجيلك في قائمة الأسبقية بنجاح!" : "You're on the priority list!"}
+                  <h4 className="text-lg font-black text-slate-900 font-display">
+                    {isRTL ? "تم تسجيلك وإرسال طلبك بنجاح!" : "Registration Complete!"}
                   </h4>
-                  <p className="text-xs text-slate-600 leading-relaxed mb-6">
+                  <p className="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
                     {isRTL
-                      ? `شكراً لاهتمامك بنظام (${waitlistProduct}). سنرسل لك إشعاراً ودعوة وصول مبكر فور انطلاق المرحلة التجريبية.`
-                      : `Thank you for your interest in ${waitlistProduct}. We will notify you with early access invitation once live.`}
+                      ? `تم حفظ بياناتك بنجاح وإرسال إشعار فوري بالطلب إلى إدارة (${waitlistProduct}). سنقوم بالتواصل معك عبر بريدك الإلكتروني فور التدشين الرسمي.`
+                      : `Your request for (${waitlistProduct}) has been submitted successfully. Our team will contact you via email upon official launch.`}
                   </p>
-                  <button
-                    onClick={() => setWaitlistProduct(null)}
-                    className="bg-slate-900 text-white font-bold px-6 py-2.5 rounded-xl text-xs hover:bg-slate-800 transition-colors cursor-pointer"
-                  >
-                    {isRTL ? "تم، شكراً" : "Done"}
-                  </button>
+                  
+                  <div className="pt-2 flex flex-col gap-2">
+                    {/* Optional Instant WhatsApp */}
+                    <a
+                      href={`https://wa.me/201018017523?text=${encodeURIComponent(
+                        `مرحباً Z Systems، سجلت في قائمة انتظار نظام (${waitlistProduct}).\nالبريد: ${waitlistEmail}\nالهاتف: ${waitlistPhone || "غير مسجل"}`
+                      )}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 shadow-sm"
+                    >
+                      <span>{isRTL ? "تواصل فوري عبر واتساب (اختياري)" : "Quick WhatsApp (Optional)"}</span>
+                      <ArrowRight className={`w-3.5 h-3.5 ${isRTL ? "rotate-180" : ""}`} />
+                    </a>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setWaitlistProduct(null);
+                        setWaitlistSubmitted(false);
+                      }}
+                      className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl text-xs transition-colors cursor-pointer mt-1"
+                    >
+                      {isRTL ? "تم / إغلاق النافذة" : "Done / Close"}
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div>
@@ -413,13 +495,7 @@ export default function HomePage() {
                       : "The system is in its final staging phase. Leave your details to get first-day free access and launch benefits."}
                   </p>
 
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      setWaitlistSubmitted(true);
-                    }}
-                    className="space-y-3.5"
-                  >
+                  <form onSubmit={handleWaitlistSubmit} className="space-y-3.5">
                     <div>
                       <label className="block text-[11px] font-bold text-slate-700 mb-1">
                         {isRTL ? "البريد الإلكتروني *" : "Email Address *"}
@@ -450,10 +526,20 @@ export default function HomePage() {
                     <div className="pt-2">
                       <button
                         type="submit"
-                        className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl text-xs transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-sm"
+                        disabled={isSubmitting}
+                        className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-700 text-white font-bold py-3 rounded-xl text-xs transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-sm"
                       >
-                        <span>{isRTL ? "تأكيد الانضمام لقائمة الانتظار" : "Confirm Waitlist Registration"}</span>
-                        <ArrowRight className={`w-3.5 h-3.5 ${isRTL ? "rotate-180" : ""}`} />
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin text-white" />
+                            <span>{isRTL ? "جاري الإرسال والتسجيل..." : "Submitting..."}</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>{isRTL ? "تأكيد الانضمام لقائمة الانتظار" : "Confirm Waitlist Registration"}</span>
+                            <ArrowRight className={`w-3.5 h-3.5 ${isRTL ? "rotate-180" : ""}`} />
+                          </>
+                        )}
                       </button>
                     </div>
                   </form>
@@ -464,9 +550,90 @@ export default function HomePage() {
         )}
       </AnimatePresence>
 
-      <footer className="w-full bg-white py-8 border-t border-slate-200 text-center text-slate-600 text-xs mt-auto">
-        <div className="max-w-[1440px] mx-auto px-6">
-          © {new Date().getFullYear()} Z Systems. {content.footer.rights}
+      {/* FOOTER */}
+      <footer className="w-full bg-white py-12 border-t border-slate-200 text-slate-600 text-xs mt-auto">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start pb-8 border-b border-slate-100">
+            {/* Column 1: Company & Contact */}
+            <div className="space-y-3 text-start">
+              <div className="flex items-center gap-2 w-fit" dir="ltr">
+                <img src="/logo.png" alt="Z" width="32" height="32" className="h-7 w-auto object-contain shrink-0" />
+                <span className="font-display font-black text-slate-900 text-lg tracking-tight">Systems</span>
+              </div>
+              
+              {/* Contact Information on one line */}
+              <div className="pt-1 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-slate-600">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-slate-400 font-medium">{lang === "ar" ? "الهاتف / واتساب:" : "Mobile / WhatsApp:"}</span>
+                  <a href="tel:+201018017523" className="text-brand-600 font-mono font-bold hover:underline" dir="ltr">
+                    <span dir="ltr" className="inline-block font-mono">+20 1018017523</span>
+                  </a>
+                </div>
+                <span className="text-slate-300">•</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-slate-400 font-medium">{lang === "ar" ? "الأرضي:" : "Landline:"}</span>
+                  <a href="tel:0663640828" className="text-slate-800 font-mono font-bold hover:underline" dir="ltr">
+                    <span dir="ltr" className="inline-block font-mono">066-3640828</span>
+                  </a>
+                </div>
+                <span className="text-slate-300">•</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-slate-400 font-medium">{lang === "ar" ? "البريد:" : "Email:"}</span>
+                  <a href="mailto:info@zsystemai.com" className="text-brand-600 font-mono font-bold hover:underline" dir="ltr">info@zsystemai.com</a>
+                </div>
+              </div>
+            </div>
+
+            {/* Column 2: Legal & Policies & Payment */}
+            <div className="space-y-4 text-center md:flex md:flex-col md:items-center justify-center">
+              <div className="w-full flex flex-col items-center text-center">
+                <span className="font-bold text-slate-900 text-xs uppercase tracking-wider block mb-3 text-center">
+                  {lang === "ar" ? "السياسات والاستخدام" : "Legal & Policies"}
+                </span>
+                <div className="flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-slate-700">
+                  <Link to="/terms" className="hover:text-brand-600 transition-colors">
+                    {lang === "ar" ? "الشروط والأحكام" : "Terms & Conditions"}
+                  </Link>
+                  <span className="text-slate-300">•</span>
+                  <Link to="/refund-policy" className="hover:text-brand-600 transition-colors text-emerald-700 font-bold">
+                    {lang === "ar" ? "سياسة الاسترجاع" : "Refund Policy"}
+                  </Link>
+                  <span className="text-slate-300">•</span>
+                  <Link to="/privacy" className="hover:text-brand-600 transition-colors">
+                    {lang === "ar" ? "سياسة الخصوصية" : "Privacy Policy"}
+                  </Link>
+                  <span className="text-slate-300">•</span>
+                  <Link to="/contact" className="hover:text-brand-600 transition-colors">
+                    {lang === "ar" ? "اتصل بنا" : "Contact Us"}
+                  </Link>
+                </div>
+              </div>
+
+              {/* Payment Methods */}
+              <div className="pt-1 flex flex-wrap items-center justify-center gap-2 text-[11px] text-slate-500">
+                <span>{lang === "ar" ? "مدفوعات إلكترونية آمنة عبر:" : "Secure online payments via:"}</span>
+                <span className="font-bold font-mono text-xs text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200/70" dir="ltr">Visa</span>
+                <span className="font-bold font-mono text-xs text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200/70" dir="ltr">MasterCard</span>
+                <span className="font-bold font-mono text-xs text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200/70">Meeza ميزة</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Bar: Copyright & Compliance */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500 text-center sm:text-start pt-2">
+            <p>
+              © {new Date().getFullYear()} Z Systems for Software Solutions. {content.footer.rights}
+            </p>
+            <p className="text-slate-400 text-[11px]">
+              {lang === "ar" ? (
+                <>
+                  الأسعار بالجنيه المصري (EGP) مع دعم العملات الإقليمية • معاملات بنكية مشفرة <span dir="ltr" className="font-mono font-medium text-slate-500">256-bit SSL</span>
+                </>
+              ) : (
+                "Prices in EGP with regional currency support • 256-bit SSL encrypted"
+              )}
+            </p>
+          </div>
         </div>
       </footer>
     </div>

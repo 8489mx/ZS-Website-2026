@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -22,6 +22,22 @@ export default function SystemGallery({ lang }: { lang: "ar" | "en" }) {
   const closeGallery = () => {
     setSelectedImageIndex(null);
   };
+
+  // Close gallery on Escape key press, Arrow keys to navigate
+  useEffect(() => {
+    if (selectedImageIndex === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeGallery();
+      } else if (e.key === "ArrowRight") {
+        setSelectedImageIndex((prev) => (prev !== null ? (prev + 1) % images.length : null));
+      } else if (e.key === "ArrowLeft") {
+        setSelectedImageIndex((prev) => (prev !== null ? (prev - 1 + images.length) % images.length : null));
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedImageIndex, images.length]);
 
   const showNext = (e: React.MouseEvent) => {
     e.stopPropagation();

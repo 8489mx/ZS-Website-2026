@@ -47,6 +47,7 @@ import { useLanguage } from "./LanguageContext";
 import { useTheme } from "./ThemeContext";
 import ThemeSwitcher from "./ThemeSwitcher";
 import LanguageSwitcher from "./LanguageSwitcher";
+import CurrencySwitcher from "./CurrencySwitcher";
 import { useCurrency } from "./CurrencyContext";
 import { OFFLINE_TERMS, BillingMode } from "./pricingData";
 import { usePricingCatalog } from "./usePricingCatalog";
@@ -171,6 +172,19 @@ export default function ErpPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
   const [apiSuccessData, setApiSuccessData] = useState<any | null>(null);
+
+  // Close demo modal on Escape key press
+  useEffect(() => {
+    if (!showDemoModal) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowDemoModal(false);
+        setDemoSubmitted(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [showDemoModal]);
 
   // POS Interactive App Simulator Items State
   const [posItems, setPosItems] = useState([
@@ -360,17 +374,17 @@ export default function ErpPage() {
       
       {/* HEADER / NAVIGATION */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-8 py-3">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 py-2.5 sm:py-3">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 select-none hover:opacity-80 transition-opacity" dir="ltr">
-              <img src="/logo.png" alt="Z Systems" width="160" height="40" className="h-10 w-auto object-contain shrink-0" />
+            <Link to="/" className="flex items-center gap-2 select-none hover:opacity-80 transition-opacity" dir="ltr">
+              <img src="/logo.png" alt="Z Systems" width="140" height="36" className="h-8 sm:h-10 w-auto object-contain shrink-0" />
               <div className="flex flex-col text-start">
-                <span className="font-display font-black text-[16px] text-slate-900 tracking-tight leading-none flex items-center gap-1.5">
+                <span className="font-display font-black text-sm sm:text-[16px] text-slate-900 tracking-tight leading-none flex items-center gap-1.5">
                   Systems 
                   <span className="bg-brand-50 text-brand-600 text-[9px] px-1.5 py-0.5 rounded font-bold">Pro</span>
                 </span>
-                <span className="text-[9px] text-slate-600 font-mono font-bold uppercase tracking-wider mt-0.5">Smart Financial Hub</span>
+                <span className="hidden xs:block sm:block text-[9px] text-slate-600 font-mono font-bold uppercase tracking-wider mt-0.5">Smart Financial Hub</span>
               </div>
             </Link>
 
@@ -386,7 +400,6 @@ export default function ErpPage() {
 
             {/* CTA button */}
             <div className="hidden md:flex items-center gap-3">
-              <ThemeSwitcher />
               <LanguageSwitcher />
               <a
                 href={APP_LOGIN_URL}
@@ -413,7 +426,6 @@ export default function ErpPage() {
 
             {/* Mobile menu trigger */}
             <div className="flex md:hidden items-center gap-2">
-              <ThemeSwitcher />
               <LanguageSwitcher />
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -1521,8 +1533,20 @@ export default function ErpPage() {
               </div>
               <div className="inline-flex items-center gap-2 bg-white border border-slate-200/90 px-3.5 py-1.5 rounded-lg shadow-2xs">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>{lang === "ar" ? "ضمان استرجاع كامل خلال 30 يوماً" : "30-Day Money Back Guarantee"}</span>
+                <span>{lang === "ar" ? "ضمان استرجاع كامل خلال 14 يوماً" : "14-Day Money Back Guarantee"}</span>
               </div>
+            </div>
+
+            {/* Currency Selector Bar */}
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5 text-xs">
+              <span className="text-slate-500 font-medium">
+                {lang === "ar" ? "عملة عرض الأسعار:" : "Display currency:"}
+              </span>
+              <CurrencySwitcher />
+              <span className="text-[11px] text-slate-600 font-medium bg-slate-100 border border-slate-200/80 px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>{lang === "ar" ? "العملة الأساسية: الجنيه المصري (EGP) • نقبل Visa و MasterCard وميزة" : "Primary: EGP • Visa, MasterCard & Meeza accepted"}</span>
+              </span>
             </div>
           </div>
 
@@ -2445,83 +2469,101 @@ export default function ErpPage() {
               </div>
             </div>
 
-            {/* Navigation Links (7 cols -> 3 centered columns) */}
-            <div className="md:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+            {/* Navigation Links (7 cols -> 3 columns + Legal column) */}
+            <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-6 text-start">
               
               {/* Column 1: استكشف النظام */}
-              <div className="flex flex-col items-center text-center space-y-3">
+              <div className="space-y-3">
                 <p className="font-display font-bold text-xs uppercase tracking-wider text-slate-900">
                   {lang === "ar" ? "استكشف النظام" : "Explore"}
                 </p>
-                <ul className="space-y-2 text-xs flex flex-col items-center text-center">
+                <ul className="space-y-2 text-xs">
                   <li>
                     <a href="#why-us" className="hover:text-brand-600 transition-colors inline-block">
-                      {lang === "ar" ? "تحديات الإدارة والحلول" : "Challenges & Solutions"}
+                      {lang === "ar" ? "تحديات الإدارة" : "Challenges & Solutions"}
                     </a>
                   </li>
                   <li>
                     <a href="#features" className="hover:text-brand-600 transition-colors inline-block">
-                      {lang === "ar" ? "ميزات النظام الشاملة" : "System Features"}
+                      {lang === "ar" ? "ميزات النظام" : "System Features"}
                     </a>
                   </li>
                   <li>
                     <a href="#roi-calculator" className="hover:text-brand-600 transition-colors inline-block">
-                      {lang === "ar" ? "حاسبة الأرباح ووفورات التكلفة" : "ROI Calculator"}
+                      {lang === "ar" ? "حاسبة الأرباح" : "ROI Calculator"}
                     </a>
                   </li>
                 </ul>
               </div>
 
               {/* Column 2: خيارات التشغيل */}
-              <div className="flex flex-col items-center text-center space-y-3">
+              <div className="space-y-3">
                 <p className="font-display font-bold text-xs uppercase tracking-wider text-slate-900">
                   {lang === "ar" ? "خيارات التشغيل" : "Deployment"}
                 </p>
-                <ul className="space-y-2 text-xs flex flex-col items-center text-center">
+                <ul className="space-y-2 text-xs">
                   <li>
                     <a href="#deployment" className="hover:text-brand-600 transition-colors inline-block">
-                      {lang === "ar" ? "النسخة السحابية (Cloud)" : "Cloud ERP Edition"}
+                      {lang === "ar" ? "النسخة السحابية" : "Cloud Edition"}
                     </a>
                   </li>
                   <li>
                     <a href="#deployment" className="hover:text-brand-600 transition-colors inline-block">
-                      {lang === "ar" ? "نسخة التمليك الدائم (Offline)" : "Lifetime Offline Edition"}
+                      {lang === "ar" ? "نسخة التمليك" : "Lifetime Offline"}
                     </a>
                   </li>
                   <li>
                     <a href="#ai-assistant" className="hover:text-brand-600 transition-colors inline-block">
-                      {lang === "ar" ? "المساعد الذكي ZAD AI" : "ZAD AI Assistant"}
+                      {lang === "ar" ? "المساعد ZAD" : "ZAD Assistant"}
                     </a>
                   </li>
                 </ul>
               </div>
 
               {/* Column 3: المساعدة والتواصل */}
-              <div className="flex flex-col items-center text-center space-y-3">
+              <div className="space-y-3">
                 <p className="font-display font-bold text-xs uppercase tracking-wider text-slate-900">
-                  {lang === "ar" ? "المساعدة والدعم" : "Help & Support"}
+                  {lang === "ar" ? "المساعدة" : "Support"}
                 </p>
-                <ul className="space-y-2 text-xs flex flex-col items-center text-center">
+                <ul className="space-y-2 text-xs">
                   <li>
                     <a href="#faqs" className="hover:text-brand-600 transition-colors inline-block">
-                      {lang === "ar" ? "الأسئلة الأكثر شيوعاً" : "Frequently Asked Questions"}
+                      {lang === "ar" ? "الأسئلة الشائعة" : "FAQs"}
                     </a>
                   </li>
                   <li>
-                    <button 
-                      onClick={() => {
-                        setSelectedPlan(lang === "ar" ? "استشارة عامة" : "General Consultation");
-                        window.location.assign(APP_TRIAL_URL);
-                      }}
-                      className="text-brand-600 hover:text-brand-700 font-semibold transition-colors inline-block cursor-pointer"
-                    >
-                      {lang === "ar" ? "طلب استشارة مجانية" : "Request Free Consultation"}
-                    </button>
+                    <Link to="/contact" className="hover:text-brand-600 transition-colors inline-block text-brand-700 font-bold">
+                      {lang === "ar" ? "المقر والتواصل" : "Office & Contact"}
+                    </Link>
                   </li>
                   <li>
                     <a href="#pricing" className="hover:text-brand-600 transition-colors inline-block">
-                      {lang === "ar" ? "جدول مقارنة الباقات" : "Compare Plans"}
+                      {lang === "ar" ? "مقارنة الباقات" : "Pricing Plans"}
                     </a>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Column 4: السياسات والوثائق القانونية */}
+              <div className="space-y-3">
+                <p className="font-display font-bold text-xs uppercase tracking-wider text-slate-900">
+                  {lang === "ar" ? "السياسات الرسمية" : "Legal & Policies"}
+                </p>
+                <ul className="space-y-2 text-xs">
+                  <li>
+                    <Link to="/terms" className="hover:text-brand-600 transition-colors inline-block">
+                      {lang === "ar" ? "الشروط والأحكام" : "Terms of Service"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/refund-policy" className="hover:text-brand-600 transition-colors inline-block font-semibold text-emerald-700">
+                      {lang === "ar" ? "سياسة الاسترجاع" : "Refund Policy"}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/privacy" className="hover:text-brand-600 transition-colors inline-block">
+                      {lang === "ar" ? "سياسة الخصوصية" : "Privacy Policy"}
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -2530,15 +2572,44 @@ export default function ErpPage() {
 
           </div>
 
+          {/* Company & Contact Line */}
+          <div className="py-4 border-b border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-3 text-[11px] text-slate-600 text-center md:text-start">
+            <div>
+              <span className="font-bold text-slate-800">
+                {lang === "ar" ? "الشركة: " : "Company: "}
+              </span>
+              <span>Z Systems for Software Solutions (زد سستمز لحلول البرمجيات)</span>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 font-mono">
+              <a href="tel:+201018017523" className="hover:text-brand-600 font-bold" dir="ltr">
+                <span dir="ltr" className="inline-block font-mono">+20 1018017523</span>
+              </a>
+              <span>•</span>
+              <a href="tel:0663640828" className="hover:text-slate-900 font-semibold" dir="ltr">
+                <span dir="ltr" className="inline-block font-mono">066-3640828</span>
+              </a>
+              <span>•</span>
+              <a href="mailto:info@zsystemai.com" className="hover:text-brand-600 font-bold">info@zsystemai.com</a>
+            </div>
+          </div>
+
           {/* Bottom Bar: Centered, balanced, no broken lines */}
-          <div className="pt-8 flex flex-col items-center justify-center text-center space-y-2.5">
+          <div className="pt-6 flex flex-col items-center justify-center text-center space-y-2.5">
+            <div className="flex flex-wrap items-center justify-center gap-2 text-[10px] text-slate-500">
+              <span>{lang === "ar" ? "المدفوعات الإلكترونية آمنة ومعتمدة عبر:" : "Secure payments supported via:"}</span>
+              <span className="bg-slate-100 px-2 py-0.5 rounded font-mono font-bold text-slate-700">Visa</span>
+              <span className="bg-slate-100 px-2 py-0.5 rounded font-mono font-bold text-slate-700">MasterCard</span>
+              <span className="bg-slate-100 px-2 py-0.5 rounded font-mono font-bold text-slate-700">Meeza ميزة</span>
+              <span>•</span>
+              <span>{lang === "ar" ? "العملة الأساسية: الجنيه المصري (EGP)" : "Default Currency: Egyptian Pound (EGP)"}</span>
+            </div>
             <p className="text-xs text-slate-700 font-medium">
-              © {new Date().getFullYear()} Z Systems. {lang === "ar" ? "جميع الحقوق محفوظة." : "All rights reserved."}
+              © {new Date().getFullYear()} Z Systems for Software Solutions. {lang === "ar" ? "جميع الحقوق محفوظة." : "All rights reserved."}
             </p>
             <p className="text-[11px] text-slate-500 max-w-2xl leading-relaxed">
               {lang === "ar" 
-                ? "متوافق بنسبة 100% مع تعليمات الفاتورة الضريبية، الربط الإلكتروني، ورمز الاستجابة السريع (QR Code) • ضمان استرداد الأموال لمدة 30 يوماً" 
-                : "100% compliant with e-invoicing tax regulations, electronic integrations, and QR Code requirements • 30-day money-back guarantee"}
+                ? "متوافق بنسبة 100% مع تعليمات الفاتورة الضريبية، الربط الإلكتروني، ورمز الاستجابة السريع (QR Code) • ضمان استرداد الأموال لمدة 14 يوماً وفق تعليمات حماية المستهلك المصري" 
+                : "100% compliant with e-invoicing tax regulations, electronic integrations, and QR Code requirements • 14-day money-back guarantee under Egyptian consumer regulations"}
             </p>
           </div>
 
@@ -2548,13 +2619,21 @@ export default function ErpPage() {
       {/* DEMO / CONSULTATION REQUEST MODAL */}
       <AnimatePresence>
         {showDemoModal && (
-          <div key="demo-modal-backdrop" className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/85 backdrop-blur-sm flex items-center justify-center p-4 font-sans">
+          <div 
+            key="demo-modal-backdrop" 
+            onClick={() => {
+              setShowDemoModal(false);
+              setDemoSubmitted(false);
+            }}
+            className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/85 backdrop-blur-sm flex items-center justify-center p-4 font-sans cursor-pointer select-none"
+          >
             <motion.div
               key="demo-modal-dialog"
+              onClick={(e) => e.stopPropagation()}
               initial={{ scale: 0.98, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.98, opacity: 0 }}
-              className="bg-white rounded p-6 sm:p-8 max-w-lg w-full text-start border border-slate-200 relative shadow-xl text-slate-900"
+              className="bg-white rounded p-6 sm:p-8 max-w-lg w-full text-start border border-slate-200 relative shadow-xl text-slate-900 cursor-default select-text"
             >
               
               {/* Close Button */}
