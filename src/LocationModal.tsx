@@ -79,14 +79,12 @@ export default function LocationModal() {
     };
   }, [setCurrencyCode]);
 
-  if (!isOpen || !country) return null;
-
-  const handleClose = () => {
+  const handleClose = React.useCallback(() => {
     setIsOpen(false);
     safeSessionStorage.setItem("zsystems_has_seen_location_modal", "true");
-  };
+  }, []);
 
-  // Close location modal on Escape key
+  // Close location modal on Escape key - must be placed unconditionally at top level
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -96,7 +94,9 @@ export default function LocationModal() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen]);
+  }, [isOpen, handleClose]);
+
+  if (!isOpen || !country) return null;
 
   const handleChooseArabic = () => {
     setLang("ar");
