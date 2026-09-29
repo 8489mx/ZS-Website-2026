@@ -152,7 +152,10 @@ export default function ErpPage() {
 
   useEffect(() => {
     setIsChartMounted(true);
-  }, []);
+    document.title = lang === "ar" 
+      ? "Z-ERP | النظام الإداري والمالي المتكامل ونقاط البيع - Z Systems"
+      : "Z-ERP | Enterprise POS & Management System - Z Systems";
+  }, [lang]);
 
   // FAQ Accordion State
   const [openFAQIndex, setOpenFAQIndex] = useState<number | null>(0);

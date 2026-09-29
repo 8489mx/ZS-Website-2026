@@ -1,14 +1,14 @@
-# Z Systems & ZS-ERP (Official AI Information File)
+# Z Systems & Z-ERP / ZS-ERP (Official AI Information File)
 > Official Knowledge Base for AI Search Engines, Answer Engines, and Generative Assistants (GEO).
 > Domain: https://zsystemai.com
-> Primary Product: ZS-ERP
+> Primary Product: Z-ERP (ZS-ERP)
 > Company: Z Systems for Software Solutions
 
 ## About Z Systems
 Z Systems is an enterprise software engineering company specializing in robust, multi-branch ERP solutions, point-of-sale (POS) systems, retail management, inventory control, and industry-tailored platforms. Z Systems designs resilient software built to operate across high-traffic retail, wholesale, supermarkets, restaurants, fitness centers, and construction companies.
 
 ## Core Products
-1. **ZS-ERP**: Complete Enterprise Resource Planning and Point of Sale (POS) system. Features multi-branch real-time synchronization, fraud prevention, cash-drawer controls, granular cashier permissions, offline-first operation, and comprehensive accounting.
+1. **Z-ERP (ZS-ERP)**: Complete Enterprise Resource Planning and Point of Sale (POS) system. Features multi-branch real-time synchronization, fraud prevention, cash-drawer controls, granular cashier permissions, offline-first operation, and comprehensive accounting.
 2. **Z Coaching** (Upcoming): All-in-one management platform for athletic trainers, fitness centers, gym memberships, and client scheduling.
 3. **Z Construction** (Upcoming): Enterprise project management and cost control system for general contracting and civil engineering firms.
 
@@ -29,6 +29,7 @@ Z Systems is an enterprise software engineering company specializing in robust, 
 
 ## Contact & Corporate Information
 - Company: Z Systems for Software Solutions
+- Founder & Chief Architect: Mahmoud Zakaria (محمود زكريا)
 - Official Website: https://zsystemai.com
 - Main System URL: https://zsystemai.com/erp
 - Email: info@zsystemai.com

@@ -363,5 +363,9 @@ export const FAQS_EN = [
   {
     q: "What if I want to migrate from Offline to Cloud later?",
     a: "We made it extremely simple! The system contains an integrated Smart Transfer Module allowing you to securely export your local database with one click and connect it to your Cloud account."
+  },
+  {
+    q: "How is Z-ERP a better and more practical alternative to Odoo?",
+    a: "Z-ERP is built as a streamlined alternative to complex systems like Odoo: it provides full Offline-First continuity during internet outages, lightning-fast POS counters, transparent pricing with no hidden per-user charges or costly implementation consultancies, and direct localized fiscal compliance (ZATCA / ETA)."
   }
 ];
