@@ -540,9 +540,16 @@ export default function ErpPage() {
               </div>
 
               {/* Real World-Class Headline (Sells the ultimate business outcome: control, anti-theft, ROI) */}
-              <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-[1.2] tracking-tight mb-4 text-start">
+              <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-[1.2] tracking-tight mb-3 text-start">
                 {t.hero.title} <span className="text-brand-500">{t.hero.titleHighlight}</span>
               </h1>
+
+              {/* Semantic H2 Subtitle targeting accounting, ERP, POS, and local/cloud operations */}
+              <h2 className="text-xs sm:text-sm font-bold text-brand-600 mb-3 tracking-wide">
+                {lang === "ar"
+                  ? "أفضل منظومة محاسبية ونقاط بيع POS سحابية ومحلية لإدارة المخازن والفاتورة الإلكترونية"
+                  : "Leading Cloud & Offline Accounting, POS, Inventory & E-Invoicing ERP System"}
+              </h2>
 
               {/* Bullet proof Sub-headline */}
               <p className="my-2 text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl text-start">
