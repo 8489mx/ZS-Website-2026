@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { X, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -10,7 +10,7 @@ const GALLERY_IMAGES = [
   { id: 4, src: "/screenshot4.png?v=2", webp: "/screenshot4.webp", altAr: "لقطة من واجهة النظام", altEn: "System interface screenshot" }
 ];
 
-export default function SystemGallery({ lang }: { lang: "ar" | "en" }) {
+function SystemGallery({ lang }: { lang: "ar" | "en" }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   const images = GALLERY_IMAGES;
@@ -199,3 +199,5 @@ export default function SystemGallery({ lang }: { lang: "ar" | "en" }) {
     </section>
   );
 }
+
+export default memo(SystemGallery);

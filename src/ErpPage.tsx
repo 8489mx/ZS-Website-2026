@@ -99,6 +99,23 @@ export const SECTOR_TABS = [
   },
 ];
 
+// Icon lookup is a pure module-level helper: it must not be recreated
+// on every ErpPage render.
+function getIcon(name: string, className?: string) {
+  switch (name) {
+    case "MonitorCheck": return <MonitorCheck className={className} />;
+    case "Clock": return <Clock className={className} />;
+    case "Boxes": return <Boxes className={className} />;
+    case "TrendingUp": return <TrendingUp className={className} />;
+    case "Users": return <Users className={className} />;
+    case "BarChart3": return <BarChart3 className={className} />;
+    case "ShieldAlert": return <ShieldAlert className={className} />;
+    case "WifiOff": return <WifiOff className={className} />;
+    case "Globe": return <Globe className={className} />;
+    case "Server": return <Server className={className} />;
+    default: return <BarChart3 className={className} />;
+  }
+}
 export default function ErpPage() {
   const { lang, setLang } = useLanguage();
   const { theme, setTheme } = useTheme();
@@ -347,21 +364,7 @@ export default function ErpPage() {
     }));
   }, [avgMonthlySales, numBranches, lang]);
 
-  const getIcon = (name: string, className?: string) => {
-    switch (name) {
-      case "MonitorCheck": return <MonitorCheck className={className} />;
-      case "Clock": return <Clock className={className} />;
-      case "Boxes": return <Boxes className={className} />;
-      case "TrendingUp": return <TrendingUp className={className} />;
-      case "Users": return <Users className={className} />;
-      case "BarChart3": return <BarChart3 className={className} />;
-      case "ShieldAlert": return <ShieldAlert className={className} />;
-      case "WifiOff": return <WifiOff className={className} />;
-      case "Globe": return <Globe className={className} />;
-      case "Server": return <Server className={className} />;
-      default: return <BarChart3 className={className} />;
-    }
-  };
+
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-brand-500 selection:text-white antialiased overflow-x-hidden flex flex-col justify-start">
