@@ -25,6 +25,7 @@ export default function HomePage() {
   const [waitlistEmail, setWaitlistEmail] = useState("");
   const [waitlistPhone, setWaitlistPhone] = useState("");
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false);
+  const [waitlistError, setWaitlistError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Update document title for SEO & branding
@@ -47,51 +48,45 @@ export default function HomePage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [waitlistProduct]);
 
-  // Handle silent background waitlist submission
+  // Waitlist submission: validate, send, and report the real result.
+  // Previously failures were swallowed and the form always reported success,
+  // while lead data was also copied into unbounded localStorage.
   const handleWaitlistSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!waitlistEmail || isSubmitting) return;
+    if (isSubmitting) return;
+    setWaitlistError(null);
 
-    setIsSubmitting(true);
-
-    const lead = {
-      id: Date.now().toString(),
-      product: waitlistProduct,
-      email: waitlistEmail,
-      phone: waitlistPhone || "غير مسجل",
-      submittedAt: new Date().toISOString(),
-    };
-
-    try {
-      const existing = JSON.parse(localStorage.getItem("zsystems_waitlist_leads") || "[]");
-      existing.unshift(lead);
-      localStorage.setItem("zsystems_waitlist_leads", JSON.stringify(existing));
-    } catch {
-      // Storage unavailable fallback
+    const email = waitlistEmail.trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const phoneDigits = waitlistPhone.replace(/[^\d]/g, "");
+    if (!emailOk || (waitlistPhone.trim() && phoneDigits.length < 8)) {
+      setWaitlistError(isRTL ? "يرجى إدخال بريد إلكتروني صحيح ورقم هاتف صحيح إن أدخلته." : "Please enter a valid email address and, if provided, a valid phone number.");
+      return;
     }
 
-    // Send silent background email notification to info@zsystemai.com
+    setIsSubmitting(true);
     try {
-      await fetch("https://formsubmit.co/ajax/4e885857a3c4f32f671d9c3da5dc6cad", {
+      const response = await fetch("https://formsubmit.co/ajax/4e885857a3c4f32f671d9c3da5dc6cad", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
         body: JSON.stringify({
-          _subject: `طلب انضمام جديد لقائمة انتظار (${waitlistProduct}) - Z Systems`,
+          _subject: `Waitlist request (${waitlistProduct}) - Z Systems`,
           "النظام المطلوب": waitlistProduct,
-          "البريد الإلكتروني للعميل": waitlistEmail,
+          "البريد الإلكتروني للعميل": email,
           "رقم الهاتف أو واتساب": waitlistPhone || "غير مسجل",
           "تاريخ ووقت التسجيل": new Date().toLocaleString("ar-EG"),
         }),
       });
+      if (!response.ok) throw new Error(`FormSubmit HTTP ${response.status}`);
+      setWaitlistSubmitted(true);
     } catch {
-      // Background request completed
+      setWaitlistError(isRTL ? "تعذر إرسال طلبك الآن. يرجى المحاولة لاحقاً أو التواصل عبر واتساب." : "Could not send your request right now. Please try again later or contact us on WhatsApp.");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
-    setWaitlistSubmitted(true);
   };
 
   // Basic translations for the Home Page
@@ -582,9 +577,7 @@ export default function HomePage() {
                   <div className="pt-2 flex flex-col gap-2">
                     {/* Optional Instant WhatsApp */}
                     <a
-                      href={`https://wa.me/201018017523?text=${encodeURIComponent(
-                        `مرحباً Z Systems، سجلت في قائمة انتظار نظام (${waitlistProduct}).\nالبريد: ${waitlistEmail}\nالهاتف: ${waitlistPhone || "غير مسجل"}`
-                      )}`}
+                      href="https://wa.me/201018017523"
                       target="_blank"
                       rel="noreferrer"
                       className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 shadow-sm"
@@ -648,6 +641,12 @@ export default function HomePage() {
                         className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:border-brand-500 font-mono text-end direction-ltr"
                       />
                     </div>
+
+                    {waitlistError && (
+                      <div className="bg-rose-50 border border-rose-200 text-rose-800 p-3 rounded-xl text-xs leading-relaxed">
+                        {waitlistError}
+                      </div>
+                    )}
 
                     <div className="pt-2">
                       <button

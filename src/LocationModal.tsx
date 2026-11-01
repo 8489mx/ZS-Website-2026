@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Globe, X, Coins } from "lucide-react";
 import { useLanguage } from "./LanguageContext";
-import { useCurrency, COUNTRY_CODE_TO_CURRENCY, COUNTRY_NAME_TO_CURRENCY, CurrencyCode } from "./CurrencyContext";
+import { useCurrency } from "./CurrencyContext";
 import { safeSessionStorage } from "./utils/safeStorage";
 
 const COUNTRY_NAMES_AR: Record<string, string> = {
@@ -37,47 +37,17 @@ export default function LocationModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [country, setCountry] = useState<string | null>(null);
   const { lang, setLang } = useLanguage();
-  const { currency, setCurrencyCode } = useCurrency();
+  const { currency, detectedCountry } = useCurrency();
 
+  // The single IP-geolocation lookup lives in CurrencyContext. This modal
+  // only asks for a language preference; it must not fetch geo data again
+  // or re-mark the auto-detected currency as an explicit saved choice.
   useEffect(() => {
     const hasSeenModal = safeSessionStorage.getItem("zsystems_has_seen_location_modal");
-    if (hasSeenModal) return;
-
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2500);
-
-    const fetchLocation = async () => {
-      try {
-        const response = await fetch("https://get.geojs.io/v1/ip/geo.json", {
-          signal: controller.signal
-        });
-        clearTimeout(timeoutId);
-        const data = await response.json();
-        
-        if (data && data.country) {
-          setCountry(data.country);
-          const cCode = (data.country_code || "").toUpperCase();
-          const targetCurrency = COUNTRY_CODE_TO_CURRENCY[cCode] || COUNTRY_NAME_TO_CURRENCY[data.country];
-          if (targetCurrency) {
-            setCurrencyCode(targetCurrency);
-          }
-          setIsOpen(true);
-        } else {
-          setCountry("your region");
-          setIsOpen(true);
-        }
-      } catch (err) {
-        // Silently ignore abort or network timeout errors
-      }
-    };
-
-    fetchLocation();
-
-    return () => {
-      clearTimeout(timeoutId);
-      controller.abort();
-    };
-  }, [setCurrencyCode]);
+    if (hasSeenModal || !detectedCountry) return;
+    setCountry(detectedCountry);
+    setIsOpen(true);
+  }, [detectedCountry]);
 
   const handleClose = React.useCallback(() => {
     setIsOpen(false);

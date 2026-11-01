@@ -247,43 +247,47 @@ export default function ErpPage() {
   const handleDemoSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setApiError(null);
+
+    // Validate locally: the form previously accepted empty/invalid values
+    // and the Cloud branch silently dropped the name field.
+    const name = demoForm.name.trim();
+    const company = demoForm.company.trim();
+    const email = demoForm.email.trim();
+    const phoneDigits = demoForm.phone.replace(/[^\d]/g, "");
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (name.length < 2 || !company || phoneDigits.length < 8 || !emailOk) {
+      setApiError(
+        lang === "ar"
+          ? "يرجى إدخال الاسم واسم المنشأة ورقم هاتف صحيح (8 أرقام على الأقل) وبريد إلكتروني صحيح."
+          : "Please enter your name, company, a valid phone number (at least 8 digits), and a valid email address."
+      );
+      return;
+    }
+
     setIsSubmitting(true);
 
     if (demoForm.preferredMode === "Cloud") {
       try {
-        const payload = JSON.stringify({
-          businessName: demoForm.company.trim(),
-          ownerPhone: demoForm.phone.trim(),
-          ownerEmail: demoForm.email.trim(),
+        // Direct API only: the Vite /api proxy exists in development only.
+        const response = await fetch("https://app.zsystemai.com/api/public/trial-signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify({
+            businessName: company,
+            ownerPhone: demoForm.phone.trim(),
+            ownerEmail: email,
+          }),
         });
-        const headers = {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        };
-
-        let response: Response;
-        try {
-          response = await fetch("/api/public/trial-signup", {
-            method: "POST",
-            headers,
-            body: payload,
-          });
-        } catch {
-          response = await fetch("https://app.zsystemai.com/api/public/trial-signup", {
-            method: "POST",
-            headers,
-            body: payload,
-          });
-        }
 
         const data = await response.json().catch(() => null);
 
         if (response.ok && !data?.error && data?.statusCode !== 400 && data?.statusCode !== 500) {
           setApiSuccessData(data);
-          setIsSubmitting(false);
           setDemoSubmitted(true);
         } else {
-          setIsSubmitting(false);
           const errMsg =
             data?.error?.details?.messages?.join(" - ") ||
             data?.error?.message ||
@@ -294,29 +298,18 @@ export default function ErpPage() {
           setApiError(errMsg);
         }
       } catch (err: any) {
-        setIsSubmitting(false);
         setApiError(
           lang === "ar"
             ? "تعذر الاتصال بخادم إنشاء النسخ التجريبية. يرجى التحقق من اتصال الإنترنت أو التواصل عبر الواتساب."
             : "Could not connect to trial server. Please verify your connection or reach us on WhatsApp."
         );
+      } finally {
+        setIsSubmitting(false);
       }
     } else {
-      // Local installation mode (On-Premise / تمليك محلي دائم أو بالاشتراك) -> WhatsApp to Sales
-      const modeLabel = demoForm.preferredMode === "Offline" 
-        ? (lang === "ar" ? "تمليك محلي دائم (دفعة واحدة)" : "Lifetime Offline")
-        : (lang === "ar" ? "محلي بالاشتراك" : "Local Subscription");
-      const waText = encodeURIComponent(
-        `مرحباً Z Systems، أرغب في طلب استشارة وتثبيت محلي (${modeLabel}):\n` +
-        `👤 الاسم: ${demoForm.name}\n` +
-        `🏢 المنشأة: ${demoForm.company}\n` +
-        `📱 الجوال: ${demoForm.phone}\n` +
-        `✉️ البريد: ${demoForm.email}\n` +
-        `🏬 حجم النشاط: ${demoForm.employees}\n` +
-        `📦 الباقة المقترحة: ${selectedPlan || (lang === "ar" ? "تفاصيل النظام الشامل" : "Comprehensive Plan")}\n` +
-        `⚙️ نمط التثبيت المفضل: ${modeLabel}`
-      );
-      window.open(`https://wa.me/201018017523?text=${waText}`, "_blank");
+      // Local installation: nothing is sent anywhere from this form. The
+      // summary screen offers an explicit WhatsApp button with no personal
+      // data in the link; the visitor shares details only if they choose to.
       setIsSubmitting(false);
       setDemoSubmitted(true);
     }
@@ -2644,36 +2637,11 @@ export default function ErpPage() {
                   {demoForm.preferredMode === "Cloud" ? (
                     <>
                       <h3 className="text-lg font-black text-slate-900 font-display">
-                        {lang === "ar" ? "تم إنشاء حسابك التجريبي الفعلي بنجاح! 🚀" : "Your Free Trial Account Is Ready! 🚀"}
+                        {lang === "ar" ? "تم استلام طلبك التجريبي" : "Trial Request Received"}
                       </h3>
                       <p className="text-slate-600 text-xs leading-relaxed max-w-md mx-auto font-sans">
-                        {lang === "ar" ? "أهلاً بك يا" : "Welcome"} <strong>{demoForm.name}</strong>. {lang === "ar" ? "تم تفعيل نسختك السحابية التجريبية لمنشأة" : "Your cloud trial for"} <strong>({demoForm.company})</strong>.
+                        {lang === "ar" ? "أهلاً بك يا" : "Welcome"} <strong>{demoForm.name}</strong>. {lang === "ar" ? "استلمنا طلب النسخة التجريبية لمنشأة" : "We received your trial request for"} <strong>({demoForm.company})</strong>. {lang === "ar" ? "سنراجع الطلب ونرسل بيانات الدخول إلى بريدك بعد التجهيز، ولا نعد بأن الحساب جاهز قبل وصول تلك البيانات." : "We will review the request and send login details to your email once provisioned; the account is not ready until those details arrive."}
                       </p>
-                      
-                      {/* 3-Step Enterprise Deployment Tracker */}
-                      <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-700 font-sans max-w-md mx-auto text-start space-y-2.5">
-                        <div className="flex items-center gap-2.5 text-emerald-700 font-bold text-[11px]">
-                          <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                            <Check className="w-3 h-3 text-emerald-600" />
-                          </span>
-                          <span>{lang === "ar" ? "الخطوة 1: تم حجز وتجهيز خادم وقاعدة البيانات السحابية" : "Step 1: Dedicated cloud server & database provisioned"}</span>
-                        </div>
-                        <div className="flex items-center gap-2.5 text-emerald-700 font-bold text-[11px]">
-                          <span className="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                            <Check className="w-3 h-3 text-emerald-600" />
-                          </span>
-                          <span>
-                            {lang === "ar" ? "الخطوة 2: تم إرسال كلمة المرور لرقمك وبريدك: " : "Step 2: Password sent to phone & email: "}
-                            <span className="font-mono text-slate-900 underline">{demoForm.email}</span>
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2.5 text-blue-700 font-bold text-[11px]">
-                          <span className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                            <Zap className="w-3 h-3 text-blue-600" />
-                          </span>
-                          <span>{lang === "ar" ? "الخطوة 3: النظام جاهز للتشغيل الفوري مع 5 مستخدمين مجاناً" : "Step 3: Ready for instant operation with 5 free users"}</span>
-                        </div>
-                      </div>
 
                       <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5">
                         <a
@@ -2682,7 +2650,7 @@ export default function ErpPage() {
                           rel="noreferrer"
                           className="w-full sm:w-auto bg-brand-600 hover:bg-brand-500 text-white font-bold py-2.5 px-6 rounded text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
                         >
-                          <span>{lang === "ar" ? "الانتقال لتسجيل الدخول (app.zsystemai.com)" : "Go to Login (app.zsystemai.com)"}</span>
+                          <span>{lang === "ar" ? "تسجيل الدخول (app.zsystemai.com)" : "Login (app.zsystemai.com)"}</span>
                           <ExternalLink className="w-3.5 h-3.5" />
                         </a>
                         <button
@@ -2697,15 +2665,23 @@ export default function ErpPage() {
                         </button>
                       </div>
                     </>
-                  ) : (
+) : (
                     <>
                       <h3 className="text-lg font-black text-slate-900 font-display">
-                        {lang === "ar" ? "تم تحويل طلبك لمستشار التثبيت المحلي!" : "Local Deployment Request Received!"}
+                        {lang === "ar" ? "بياناتك جاهزة — ولم نرسلها بعد" : "Your Details Are Ready — Not Sent Yet"}
                       </h3>
                       <p className="text-slate-600 text-xs leading-relaxed max-w-sm mx-auto font-sans">
-                        {lang === "ar" ? "أهلاً بك يا" : "Welcome"} <strong>{demoForm.name}</strong>. {lang === "ar" ? "تم تجهيز طلب التثبيت المحلي لنشاط" : "Your local deployment request for"} <strong>({demoForm.company})</strong> {lang === "ar" ? "وتوجيهه لمستشار النظم للتواصل معك هاتفياً أو عبر الواتساب على رقمك" : "has been forwarded to coordinate setup on"} <strong>({demoForm.phone})</strong> {lang === "ar" ? "لتحديد موعد التجهيز والربط الميداني." : "to schedule your installation."}
+                        {lang === "ar" ? "لم نرسل أي بيانات من هذا النموذج. إن أردت التواصل، اضغط زر واتساب وستشارك بياناتك فقط إذا أرسلتها بنفسك في المحادثة." : "No data has been sent from this form. If you want to talk, tap the WhatsApp button; your details are shared only if you send them yourself in the chat."}
                       </p>
-                      <div className="pt-4">
+                      <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-2.5">
+                        <a
+                          href="https://wa.me/201018017523"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-6 rounded text-xs transition-colors flex items-center justify-center gap-1.5"
+                        >
+                          {lang === "ar" ? "تواصل عبر واتساب" : "Contact via WhatsApp"}
+                        </a>
                         <button
                           onClick={() => {
                             setShowDemoModal(false);

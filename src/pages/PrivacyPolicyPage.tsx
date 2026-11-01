@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
         <section className="space-y-4">
           <h2 className="text-xl font-bold text-slate-900 border-b pb-2">3. Business &amp; Accounting Data Confidentiality</h2>
           <p className="text-sm text-slate-600 leading-relaxed">
-            All records, invoices, customer directories, and inventory catalogs stored inside your Z Systems ERP instance belong solely to your organization. Z Systems does not sell, lease, or share your proprietary business data with third parties.
+            All records, invoices, customer directories, and inventory catalogs stored inside your Z Systems ERP instance belong solely to your organization. Z Systems does not sell, lease, or share your proprietary business data with third parties. Your ERP business data is not sold. Separate website flows do involve third parties: (1) IP-based country detection via get.geojs.io; (2) Google Fonts; (3) waitlist submissions via FormSubmit; (4) trial requests via app.zsystemai.com; (5) WhatsApp, only when you tap a WhatsApp button. Language, theme, and currency preferences are stored in your browser local storage.
           </p>
         </section>
 
@@ -113,7 +113,7 @@ export default function PrivacyPolicyPage() {
           <span>٣. سرية البيانات التشغيلية والمخزنية</span>
         </h2>
         <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-          كافة الفواتير، وحركات المخازن، والبيانات المالية المسجلة داخل نظام Z ERP ملك حصري وخالص لمنشأتكم. نتعهد بعدم مشاركة أو بيع أي من بياناتكم مع أي أطراف خارجية تحت أي ظرف.
+          كافة الفواتير، وحركات المخازن، والبيانات المالية المسجلة داخل نظام Z ERP ملك حصري وخالص لمنشأتكم. نتعهد بعدم مشاركة أو بيع أي من بياناتكم مع أي أطراف خارجية تحت أي ظرف. لا نبيع بيانات نظامكم. أما تدفقات الموقع المنفصلة فتشمل أطرافاً خارجية: (١) تحديد البلد من عنوان IP عبر get.geojs.io؛ (٢) خطوط Google؛ (٣) طلبات قائمة الانتظار عبر FormSubmit؛ (٤) طلبات النسخ التجريبية عبر app.zsystemai.com؛ (٥) واتساب، فقط عند ضغطك زر واتساب. وتُحفظ تفضيلات اللغة والسمة والعملة في التخزين المحلي بمتصفحك.
         </p>
       </section>
 
