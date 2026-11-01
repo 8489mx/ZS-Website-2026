@@ -41,14 +41,6 @@ export interface CurrencyConfig {
     oil: number;
     sugar: number;
   };
-  testimonial: {
-    amountAr: string;
-    amountEn: string;
-    quoteAr: string;
-    quoteEn: string;
-    lifetimeQuoteAr: string;
-    lifetimeQuoteEn: string;
-  };
   roi: {
     defaultTurnover: number;
     minTurnover: number;
@@ -96,14 +88,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
       oil: 390,
       sugar: 430,
     },
-    testimonial: {
-      amountAr: "295,000 جنيه مصري",
-      amountEn: "295,000 EGP",
-      quoteAr: "وفرنا أكثر من 295,000 جنيه مصري شهرياً كانت تضيع في تسويات الجرد العشوائية والمخازن المشبوهة! رصدنا تلاعب الكاشير في الورديات بفضل الـ Audit Trail وحسنّا من الأداء العام بفريق العمل.",
-      quoteEn: "We saved over 295,000 EGP monthly that was lost in random inventory adjustments! We tracked cashier manipulation using Audit Trail and improved overall team performance.",
-      lifetimeQuoteAr: "باقة التمليك Offline Lifetime كانت معجزة لمحلاتنا. خصوصية تامة للبيانات وسرعة فائقة في الكاشير والمبيعات دون التخوف من انقطاع خطوط الإنترنت، ووفرنا مئات آلاف الجنيهات من مصاريف الاشتراكات المكلفة.",
-      lifetimeQuoteEn: "The Offline Lifetime package was a miracle for our stores. Absolute data privacy, blazing fast POS & Sales without internet issues, and we saved hundreds of thousands of EGP in costly subscriptions.",
-    },
     roi: {
       defaultTurnover: 1200000,
       minTurnover: 200000,
@@ -149,14 +133,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
       milk: 58.5,
       oil: 29.0,
       sugar: 32.0,
-    },
-    testimonial: {
-      amountAr: "22,500 ريال",
-      amountEn: "22,500 SAR",
-      quoteAr: "وفرنا أكثر من 22,500 ريال شهرياً كانت تضيع في تسويات الجرد العشوائية والمخازن المشبوهة! رصدنا تلاعب الكاشير في الورديات بفضل الـ Audit Trail وحسنّا من الأداء العام بفريق العمل.",
-      quoteEn: "We saved over 22,500 SAR monthly that was lost in random inventory adjustments! We tracked cashier manipulation using Audit Trail and improved overall team performance.",
-      lifetimeQuoteAr: "باقة التمليك Offline Lifetime كانت معجزة لمحلاتنا. خصوصية تامة للبيانات وسرعة فائقة في الكاشير والمبيعات دون التخوف من انقطاع خطوط الإنترنت، ووفرنا آلاف ريالات الاشتراكات المكلفة المستمرة.",
-      lifetimeQuoteEn: "The Offline Lifetime package was a miracle for our stores. Absolute data privacy, blazing fast POS & Sales without fear of internet cuts, and we saved thousands in costly monthly subscriptions.",
     },
     roi: {
       defaultTurnover: 250000,
@@ -204,14 +180,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
       oil: 29.0,
       sugar: 32.0,
     },
-    testimonial: {
-      amountAr: "22,000 درهم",
-      amountEn: "22,000 AED",
-      quoteAr: "وفرنا أكثر من 22,000 درهم إماراتي شهرياً كانت تضيع في فوارق الجرد غير المبررة! رصدنا تلاعب الكاشير بفضل الـ Audit Trail وحسنّا الربحية العامة.",
-      quoteEn: "We saved over 22,000 AED monthly in unjustified inventory adjustments! We tracked cashier manipulation using Audit Trail and improved overall profitability.",
-      lifetimeQuoteAr: "باقة التمليك Offline Lifetime كانت معجزة لفروعنا في الإمارات. خصوصية تامة للبيانات ووفرنا آلاف الدراهم من رسوم الاشتراكات السحابية المتكررة.",
-      lifetimeQuoteEn: "The Offline Lifetime package was a miracle for our UAE branches. Absolute data privacy, and we saved thousands of AED in recurring SaaS costs.",
-    },
     roi: {
       defaultTurnover: 250000,
       minTurnover: 50000,
@@ -257,14 +225,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
       milk: 58.5,
       oil: 29.0,
       sugar: 32.0,
-    },
-    testimonial: {
-      amountAr: "22,500 ريال قطري",
-      amountEn: "22,500 QAR",
-      quoteAr: "وفرنا أكثر من 22,500 ريال قطري شهرياً كانت تضيع في أخطاء الجرد اليدوي وتسويات الورديات العشوائية. النظام وفر علينا مجهودات هائلة.",
-      quoteEn: "We saved over 22,500 QAR monthly that was lost in manual inventory errors and random shift reconciliations.",
-      lifetimeQuoteAr: "باقة التمليك كانت خيارنا الاستراتيجي في قطر، وفرت استقراراً تاماً وسرعة فائقة في نقاط البيع ووفرت علينا اشتراكات سنوية مكلفة.",
-      lifetimeQuoteEn: "The Lifetime package was our strategic choice in Qatar, providing full stability and saving us costly recurring subscriptions.",
     },
     roi: {
       defaultTurnover: 250000,
@@ -312,14 +272,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
       oil: 2.4,
       sugar: 2.6,
     },
-    testimonial: {
-      amountAr: "1,850 دينار كويتي",
-      amountEn: "1,850 KWD",
-      quoteAr: "وفرنا أكثر من 1,850 دينار كويتي شهرياً كانت تضيع في تسويات الجرد العشوائية والمخازن. تتبع النقدية وكي نت أصبح دقيقاً 100%.",
-      quoteEn: "We saved over 1,850 KWD monthly from inventory discrepancies and cash leaks. Cash and K-Net tracking is now 100% accurate.",
-      lifetimeQuoteAr: "باقة التمليك Offline Lifetime كانت معجزة لمحلاتنا في الكويت. خصوصية تامة وسرعة فائقة ووفرنا آلاف الدنانير من الاشتراكات.",
-      lifetimeQuoteEn: "The Offline Lifetime package was a miracle for our stores in Kuwait. Absolute privacy, blazing speed and thousands of KWD saved.",
-    },
     roi: {
       defaultTurnover: 20000,
       minTurnover: 4000,
@@ -365,14 +317,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
       milk: 5.8,
       oil: 2.9,
       sugar: 3.2,
-    },
-    testimonial: {
-      amountAr: "2,250 دينار بحريني",
-      amountEn: "2,250 BHD",
-      quoteAr: "وفرنا أكثر من 2,250 دينار بحريني شهرياً كانت تضيع في التسويات العشوائية والتسريبات النقدية غير المسجلة.",
-      quoteEn: "We saved over 2,250 BHD monthly that was lost in inventory leaks and unrecorded cashier gaps.",
-      lifetimeQuoteAr: "باقة التمليك وفرت لمتاجرنا في البحرين أماناً تشغيلياً كاملاً وميزانية ضخمة كنا ندفعها كاشتراكات شهرية.",
-      lifetimeQuoteEn: "The Lifetime license gave our Bahrain stores complete operational security and saved substantial monthly SaaS fees.",
     },
     roi: {
       defaultTurnover: 25000,
@@ -420,14 +364,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
       oil: 3.0,
       sugar: 3.3,
     },
-    testimonial: {
-      amountAr: "2,300 ريال عماني",
-      amountEn: "2,300 OMR",
-      quoteAr: "وفرنا أكثر من 2,300 ريال عماني شهرياً كانت تضيع في الفروقات الجردية. نظام التدقيق الصارم حمانا من التسريب تماماً.",
-      quoteEn: "We saved over 2,300 OMR monthly from inventory gaps. Strict audit trails prevented financial leakages entirely.",
-      lifetimeQuoteAr: "النسخة المحلية التمليك كانت الحل الأمثل في سلطنة عُمان؛ خصوصية وسرعة فائقة بدون انقطاع وتوفير بالريال العماني.",
-      lifetimeQuoteEn: "The local Lifetime copy was the perfect solution in Oman; absolute privacy, blazing speed and significant OMR savings.",
-    },
     roi: {
       defaultTurnover: 25000,
       minTurnover: 5000,
@@ -473,14 +409,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
       milk: 11.1,
       oil: 5.5,
       sugar: 6.1,
-    },
-    testimonial: {
-      amountAr: "4,250 دينار أردني",
-      amountEn: "4,250 JOD",
-      quoteAr: "وفرنا أكثر من 4,250 دينار أردني شهرياً كانت تضيع في تسويات الجرد العشوائية والمخازن. النظام ضبط لنا كل قرش.",
-      quoteEn: "We saved over 4,250 JOD monthly from inventory discrepancies. The system tracked every penny strictly.",
-      lifetimeQuoteAr: "باقة التمليك وفرت لنا آلاف الدنانير الأردنية التي كانت تبتلعها الاشتراكات الشهرية التقليدية.",
-      lifetimeQuoteEn: "The Lifetime plan saved us thousands of JOD traditionally consumed by recurring SaaS fees.",
     },
     roi: {
       defaultTurnover: 50000,
@@ -528,14 +456,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
       oil: 10200,
       sugar: 11200,
     },
-    testimonial: {
-      amountAr: "7,850,000 دينار عراقي",
-      amountEn: "7,850,000 IQD",
-      quoteAr: "وفرنا أكثر من 7,850,000 دينار عراقي شهرياً كانت تضيع في التسويات العشوائية والمخازن. النظام أعطانا رقابة مطلقة.",
-      quoteEn: "We saved over 7,850,000 IQD monthly from inventory leaks. The system gave us absolute audit control.",
-      lifetimeQuoteAr: "باقة التمليك Offline حلت مشكلة انقطاع الإنترنت تماماً في متاجرنا بالعراق وسرعة خيالية بالكاشير.",
-      lifetimeQuoteEn: "The Offline Lifetime package solved all internet cut concerns in our Iraq stores with blazing POS speed.",
-    },
     roi: {
       defaultTurnover: 85000000,
       minTurnover: 15000000,
@@ -581,14 +501,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
       milk: 15.6,
       oil: 7.7,
       sugar: 8.5,
-    },
-    testimonial: {
-      amountAr: "6,000 $",
-      amountEn: "6,000 USD",
-      quoteAr: "وفرنا أكثر من 6,000 دولار شهرياً كانت تضيع في تسويات الجرد العشوائية والمخازن المشبوهة بفضل الـ Audit Trail.",
-      quoteEn: "We saved over $6,000 monthly that was lost in random inventory adjustments! We tracked cashier manipulation using Audit Trail.",
-      lifetimeQuoteAr: "باقة التمليك Offline Lifetime كانت معجزة لمحلاتنا. خصوصية تامة للبيانات وسرعة فائقة ووفرنا آلاف الدولارات سنوياً.",
-      lifetimeQuoteEn: "The Offline Lifetime package was a miracle for our stores. Absolute data privacy, blazing fast POS, and thousands saved annually.",
     },
     roi: {
       defaultTurnover: 65000,

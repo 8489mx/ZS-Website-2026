@@ -2303,48 +2303,13 @@ export default function ErpPage() {
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 font-sans">
           
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-brand-600 font-bold text-xs tracking-widest uppercase font-mono bg-brand-50 px-3 py-1.5 rounded-full inline-block">{lang === "ar" ? "قصص نجاح وإجابات وافية لاستفساراتك" : "Success stories and comprehensive answers to your inquiries"}</span>
+            <span className="text-brand-600 font-bold text-xs tracking-widest uppercase font-mono bg-brand-50 px-3 py-1.5 rounded-full inline-block">{lang === "ar" ? "إجابات وافية لاستفساراتك" : "Comprehensive answers to your inquiries"}</span>
             <h2 className="mt-3 text-2xl sm:text-3xl font-black text-slate-900 font-display tracking-tight leading-normal">
-              {lang === "ar" ? "آراء عملائنا والأسئلة الشائعة" : "Our Customers' Feedback & FAQs"}
+              {lang === "ar" ? "الأسئلة الشائعة" : "Frequently Asked Questions"}
             </h2>
             <p className="mt-2 text-slate-600 text-xs sm:text-sm">
-              {lang === "ar" ? "بنينا هذا النظام بمشورة مئات المستثمرين وخبراء الإدارة لتسهيل عملياتك اليومية وضبط حساباتك:" : "Constructed with the advice of hundreds of investors and management experts to streamline your daily operations and control your accounts:"}
+              {lang === "ar" ? "إجابات عن أكثر الأسئلة شيوعاً حول النظام والأسعار والترخيص:" : "Answers to the most common questions about the system, pricing, and licensing:"}
             </p>
-          </div>
-
-          {/* Social Proof Mini Slider/Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12 max-w-4xl mx-auto">
-            <div className="bg-white p-6 rounded border border-slate-200 shadow-sm text-start">
-              <div className="flex items-center gap-1 mb-3 text-amber-500">
-                <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
-              </div>
-              <p className="text-slate-600 text-xs sm:text-sm italic leading-relaxed mb-4 font-sans">
-                "{lang === "ar" ? currency.testimonial.quoteAr : currency.testimonial.quoteEn}"
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center font-bold text-xs font-mono">{lang === "ar" ? "ف" : "F"}</div>
-                <div>
-                  <h4 className="font-bold text-xs text-slate-800">{lang === "ar" ? "المهندس فيصل الحربي" : "Eng. Faisal Al-Harbi"}</h4>
-                  <p className="text-[10px] text-slate-600 font-medium font-mono">{lang === "ar" ? "مالك سلسلة أسواق الحرمين التجارية" : "Owner of Al-Haramain Markets Chain"}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded border border-slate-200 shadow-sm text-start">
-              <div className="flex items-center gap-1 mb-3 text-amber-500">
-                <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
-              </div>
-              <p className="text-slate-600 text-xs sm:text-sm italic leading-relaxed mb-4 font-sans">
-                "{lang === "ar" ? currency.testimonial.lifetimeQuoteAr : currency.testimonial.lifetimeQuoteEn}"
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center font-bold text-xs font-mono">{lang === "ar" ? "أ" : "A"}</div>
-                <div>
-                  <h4 className="font-bold text-xs text-slate-800">{lang === "ar" ? "أستاذ أحمد الشاذلي" : "Mr. Ahmed El-Shazly"}</h4>
-                  <p className="text-[10px] text-slate-600 font-medium font-mono">{lang === "ar" ? "المدير التنفيذي لشركة مودرن هوم التجارية" : "CEO, Modern Home Trading Co."}</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* Accordion FAQ block */}
