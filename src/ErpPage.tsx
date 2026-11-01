@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { APP_LOGIN_URL, APP_TRIAL_URL } from "./links";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip } from "recharts";
@@ -37,11 +37,11 @@ import {
   AlertCircle,
   ExternalLink
 } from "lucide-react";
-import WhatsAppSimulation from "./WhatsAppSimulation";
+const WhatsAppSimulation = lazy(() => import("./WhatsAppSimulation"));
 import { ERP_CATEGORIES, PROBLEM_STATEMENTS, DEPLOYMENT_MODES, FAQS } from "./data";
 import { ERP_CATEGORIES_EN, PROBLEM_STATEMENTS_EN, DEPLOYMENT_MODES_EN, FAQS_EN } from "./dataEn";
 import { MessageCircle, Palette, Utensils, UtensilsCrossed, Smile, Star, Coffee, Activity, Pizza, Bird, Carrot, Store, Car, Sun, CarFront, ShoppingBag, Truck, Info, CreditCard, Gift, Layers, FileText, CalendarCheck, Receipt, Award, CheckCircle2 } from "lucide-react";
-import SystemGallery from "./SystemGallery";
+const SystemGallery = lazy(() => import("./SystemGallery"));
 import { content } from "./i18n";
 import { useLanguage } from "./LanguageContext";
 import { useTheme } from "./ThemeContext";
@@ -120,6 +120,7 @@ export default function ErpPage() {
     setSelectedProduct,
     isLoading: isCatalogLoading,
     error: catalogError,
+    refetch: refetchCatalog,
   } = usePricingCatalog(currencyCode, "retail");
 
   const currencySymbol = lang === "ar" ? currency.symbolAr : currency.symbolEn;
@@ -846,7 +847,7 @@ export default function ErpPage() {
         </div>
       </motion.section>
 
-      <SystemGallery lang={lang} />
+      <Suspense fallback={null}><SystemGallery lang={lang} /></Suspense>
 
       {/* SYSTEM CAPABILITIES SECTION - TABBED EXPERIENCE TO SHOW INTENT AND DETAIL */}
       <motion.section initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.98 }}
@@ -1203,7 +1204,7 @@ export default function ErpPage() {
              {/* Illustrative simulation of a chat assistant; not a live conversation. */}
              <p className="text-center text-xs text-slate-400 mb-4">{lang === "ar" ? "محاكاة توضيحية — ليست محادثة حية" : "Illustrative simulation — not a live chat"}</p>
              <div className="relative flex justify-center md:justify-end">
-                <WhatsAppSimulation lang={lang} />
+                <Suspense fallback={null}><WhatsAppSimulation lang={lang} /></Suspense>
              </div>
           </div>
         </div>
@@ -1716,6 +1717,21 @@ export default function ErpPage() {
               <p className="text-xs text-slate-500 font-medium font-sans">
                 {lang === "ar" ? "جاري جلب أحدث الأسعار الحية من السيرفر..." : "Fetching live pricing from server..."}
               </p>
+            </div>
+          ) : (!catalogLevels || catalogLevels.length === 0) ? (
+            <div className="py-16 text-center max-w-md mx-auto">
+              <p className="text-sm font-bold text-slate-900">
+                {lang === "ar" ? "تعذر جلب الأسعار الحية الآن" : "Live pricing is unavailable right now"}
+              </p>
+              <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                {lang === "ar" ? "لا نعرض أسعاراً قديمة مخزنة. حاول التحديث، أو تواصل معنا لعرض سعر مكتوب." : "We do not show stored old prices. Try refreshing, or contact us for a written quote."}
+              </p>
+              <button
+                onClick={() => refetchCatalog()}
+                className="mt-4 bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 px-6 rounded-xl text-xs transition-colors cursor-pointer"
+              >
+                {lang === "ar" ? "إعادة المحاولة" : "Retry"}
+              </button>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">

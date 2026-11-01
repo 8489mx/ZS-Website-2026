@@ -195,9 +195,9 @@ export const DEFAULT_PRODUCTS: CatalogProduct[] = [
 const cache: Record<string, { data: any; timestamp: number }> = {};
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes cache
 
-import catalogRawData from "./catalogData.json";
-
-// Map app currencyCode to API country code
+// Map app currencyCode to API country code. Currencies outside the catalog
+// (JOD/IQD/USD) fall back to the EG catalog; prices are then displayed in
+// the catalog currency (EGP), never relabelled with the selected symbol.
 export function mapCurrencyToCountry(currencyCode: string): string {
   switch (currencyCode) {
     case "SAR": return "SA";
@@ -211,27 +211,32 @@ export function mapCurrencyToCountry(currencyCode: string): string {
 }
 
 /**
- * Synchronous fallback catalog data directly from the official API dump
+ * Fallback when the live API is unreachable: empty levels, never stale
+ * prices. The UI shows an error/retry state instead of selling on old
+ * bundled prices. Product names come from the static DEFAULT_PRODUCTS list.
  */
 export function getFallbackProductCatalog(
   product: string = "retail",
   country: string = "EG"
 ): ProductCatalogResponse {
-  const full = catalogRawData as unknown as FullCatalogResponse;
-  const found = full.catalog?.find(
-    (c) => c.product.id === product && c.country.code === country
-  );
-  if (found) return found;
-
-  const foundAnyCountry = full.catalog?.find((c) => c.product.id === product);
-  if (foundAnyCountry) return foundAnyCountry;
-
-  return full.catalog[0];
+  const known = DEFAULT_PRODUCTS.find((p) => p.id === product) || DEFAULT_PRODUCTS[0];
+  return {
+    catalogVersion: "1.0",
+    product: known,
+    country: { code: country, currency: "EGP", requiresWrittenDisclosure: false },
+    quoteAnnuallyOnly: false,
+    annualEqualsMonths: 10,
+    trialDays: 14,
+    levels: [],
+    floors: [],
+    addons: { extraUserMonthly: 0, extraBranchMonthly: 0 },
+  };
 }
 
 /**
  * Fetch catalog for a specific product and country.
- * Fetches the live API directly, then falls back to bundled catalog data.
+ * Fetches the live API directly; on failure returns an empty-levels
+ * catalog so the UI can show an error/retry state.
  */
 export async function fetchProductCatalog(
   product: string = "retail",
@@ -263,7 +268,8 @@ export async function fetchProductCatalog(
     // Fall through to bundled fallback below.
   }
 
-  // Graceful fallback to bundled catalog
+  // Live API unreachable: empty levels so the UI shows error/retry,
+  // never stale bundled prices.
   const fallbackData = getFallbackProductCatalog(product, country);
   cache[cacheKey] = { data: fallbackData, timestamp: now };
   return fallbackData;
@@ -295,7 +301,12 @@ export async function fetchFullCatalog(signal?: AbortSignal): Promise<FullCatalo
     // Fall through to bundled fallback below.
   }
 
-  const fallbackFull = catalogRawData as unknown as FullCatalogResponse;
+  const fallbackFull: FullCatalogResponse = {
+    version: "1.0",
+    products: DEFAULT_PRODUCTS,
+    countries: [],
+    catalog: [],
+  };
   cache[cacheKey] = { data: fallbackFull, timestamp: now };
   return fallbackFull;
 }

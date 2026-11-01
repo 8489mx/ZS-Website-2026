@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { APP_LOGIN_URL } from "./links";
 import { 
@@ -14,7 +14,7 @@ import { useTheme } from "./ThemeContext";
 
 import ThemeSwitcher from "./ThemeSwitcher";
 import LanguageSwitcher from "./LanguageSwitcher";
-import InteractiveCyberRobot from "./components/InteractiveCyberRobot";
+const InteractiveCyberRobot = lazy(() => import("./components/InteractiveCyberRobot"));
 
 export default function HomePage() {
   const { lang, setLang, isRTL } = useLanguage();
@@ -272,7 +272,7 @@ export default function HomePage() {
 
             {/* Right Column: 3D Interactive Cyber Robot (5 cols) */}
             <div className="lg:col-span-5 flex justify-center w-full">
-              <InteractiveCyberRobot />
+              <Suspense fallback={null}><InteractiveCyberRobot /></Suspense>
             </div>
 
           </div>

@@ -20,23 +20,55 @@ export default function InteractiveCyberRobot() {
   const [isNearNeck, setIsNearNeck] = useState(false);
   const [celebrateCount, setCelebrateCount] = useState(0);
 
-  // Smooth LERP animation loop for buttery 60/120fps tracking when attached
+  // Pause the tracking loop while the robot is off-screen.
+  const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
+    if (!containerRef.current || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.05 }
+    );
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // Smooth LERP animation loop for tracking when attached. It stops once
+  // the pose converges (epsilon), instead of re-rendering every frame
+  // forever, and it never runs for users who prefer reduced motion.
+  useEffect(() => {
+    if (!isVisible) return;
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setCurrentPos({ ...targetPos });
+      return;
+    }
     let animId: number;
+    let stopped = false;
     const lerp = (start: number, end: number, factor: number) =>
       start + (end - start) * factor;
 
     const tick = () => {
-      setCurrentPos((prev) => ({
-        x: lerp(prev.x, targetPos.x, 0.15),
-        y: lerp(prev.y, targetPos.y, 0.15),
-      }));
+      let converged = false;
+      setCurrentPos((prev) => {
+        const next = {
+          x: lerp(prev.x, targetPos.x, 0.15),
+          y: lerp(prev.y, targetPos.y, 0.15),
+        };
+        if (Math.abs(next.x - targetPos.x) < 0.005 && Math.abs(next.y - targetPos.y) < 0.005) {
+          converged = true;
+          return { ...targetPos };
+        }
+        return next;
+      });
+      if (converged || stopped) return;
       animId = requestAnimationFrame(tick);
     };
 
     animId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animId);
-  }, [targetPos]);
+    return () => {
+      stopped = true;
+      cancelAnimationFrame(animId);
+    };
+  }, [targetPos, isVisible]);
 
   // Global mouse tracker
   useEffect(() => {
@@ -49,10 +81,15 @@ export default function InteractiveCyberRobot() {
       const rawX = (e.clientX - centerX) / (window.innerWidth * 0.45);
       const rawY = (e.clientY - centerY) / (window.innerHeight * 0.45);
 
-      setTargetPos({
+      const next = {
         x: Math.max(-1, Math.min(1, rawX)),
         y: Math.max(-1, Math.min(1, rawY)),
-      });
+      };
+      // Ignore tiny moves: returning the same object skips the re-render
+      // and the animation-loop restart.
+      setTargetPos((prev) =>
+        Math.abs(prev.x - next.x) < 0.01 && Math.abs(prev.y - next.y) < 0.01 ? prev : next
+      );
     };
 
     const handleTouchMove = (e: TouchEvent) => {
@@ -65,10 +102,13 @@ export default function InteractiveCyberRobot() {
       const rawX = (touch.clientX - centerX) / (window.innerWidth * 0.4);
       const rawY = (touch.clientY - centerY) / (window.innerHeight * 0.4);
 
-      setTargetPos({
+      const next = {
         x: Math.max(-1, Math.min(1, rawX)),
         y: Math.max(-1, Math.min(1, rawY)),
-      });
+      };
+      setTargetPos((prev) =>
+        Math.abs(prev.x - next.x) < 0.01 && Math.abs(prev.y - next.y) < 0.01 ? prev : next
+      );
     };
 
     window.addEventListener("mousemove", handleMouseMove);

@@ -13,17 +13,6 @@ export default function WhatsAppSimulation({ lang }: { lang: "ar" | "en" }) {
     // 1: User message appears (Wait 1500ms)
     // 2: AI answers with Document and Text (Wait 5000ms)
     // 0: Reset and loop
-    const sequence = async () => {
-      while (true) {
-        setStep(0);
-        await new Promise(r => setTimeout(r, 1000));
-        setStep(1);
-        await new Promise(r => setTimeout(r, 1500));
-        setStep(2);
-        await new Promise(r => setTimeout(r, 5000));
-      }
-    };
-    
     // Using a simple flag to avoid overlapping
     let isMounted = true;
     const run = async () => {
