@@ -261,16 +261,16 @@ export default function HomePage() {
               {/* Quick Trust Badges */}
               <div className="mt-8 sm:mt-10 pt-6 border-t border-slate-100 grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-lg text-slate-600 text-center sm:text-start">
                 <div className="p-1">
-                  <div className="text-xl sm:text-2xl font-black text-slate-900 font-display">100%</div>
-                  <div className="text-[10px] sm:text-[11px] text-slate-600 leading-tight mt-0.5">{lang === "ar" ? "تحكم مالي ومخزني" : "Financial Control"}</div>
+                  <div className="text-xl sm:text-2xl font-black text-slate-900 font-display">{lang === "ar" ? "ضوابط" : "Controls"}</div>
+                  <div className="text-[10px] sm:text-[11px] text-slate-600 leading-tight mt-0.5">{lang === "ar" ? "مالية ومخزنية" : "Financial & Inventory"}</div>
                 </div>
                 <div className="p-1">
-                  <div className="text-xl sm:text-2xl font-black text-slate-900 font-display">+500</div>
-                  <div className="text-[10px] sm:text-[11px] text-slate-600 leading-tight mt-0.5">{lang === "ar" ? "نقطة بيع نشطة" : "Active POS Units"}</div>
+                  <div className="text-xl sm:text-2xl font-black text-slate-900 font-display">POS</div>
+                  <div className="text-[10px] sm:text-[11px] text-slate-600 leading-tight mt-0.5">{lang === "ar" ? "نقاط بيع وكاشير" : "Point of Sale"}</div>
                 </div>
                 <div className="p-1">
-                  <div className="text-xl sm:text-2xl font-black text-slate-900 font-display">24/7</div>
-                  <div className="text-[10px] sm:text-[11px] text-slate-600 leading-tight mt-0.5">{lang === "ar" ? "دعم واستشارات" : "Live Support"}</div>
+                  <div className="text-xl sm:text-2xl font-black text-slate-900 font-display">{lang === "ar" ? "دعم" : "Support"}</div>
+                  <div className="text-[10px] sm:text-[11px] text-slate-600 leading-tight mt-0.5">{lang === "ar" ? "واستشارات خلال أوقات العمل" : "During Working Hours"}</div>
                 </div>
               </div>
             </div>

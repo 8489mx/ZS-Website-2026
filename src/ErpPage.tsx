@@ -634,7 +634,7 @@ export default function ErpPage() {
                   <div className="bg-white p-3 rounded-xl border border-slate-100 flex flex-col justify-between">
                     <span className="text-[10px] text-slate-600 font-medium">{lang === "ar" ? "مبيعات الوردية الحالية" : "Current Shift Sales"}</span>
                     <span className="text-lg font-bold text-slate-900 font-mono tracking-tight mt-1.5">+{(14840.50 * currency.rateFromSAR).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} <span className="text-xs text-slate-600">{currencySymbol}</span></span>
-                    <span className="text-[9px] text-brand-600 mt-1 flex items-center gap-0.5 font-medium">{lang === "ar" ? "١٠٠٪ مطابقة نقدية بنهاية الوردية" : "100% Cash Match at Shift End"}</span>
+                    <span className="text-[9px] text-brand-600 mt-1 flex items-center gap-0.5 font-medium">{lang === "ar" ? "مطابقة نقدية بنهاية الوردية" : "Cash Match at Shift End"}</span>
                   </div>
                   <div className="bg-white p-3 rounded-xl border border-slate-100 flex flex-col justify-between">
                     <span className="text-[10px] text-slate-600 font-medium">{lang === "ar" ? "عجز الجرد المالي" : "Financial Inventory Deficit"}</span>
@@ -795,7 +795,7 @@ export default function ErpPage() {
               {lang === "ar" ? "ما دمت لا تملك رؤية رقمية صارمة، فأنت تؤسس للخسارة!" : "Without strict digital vision, you are establishing a culture of loss!"}
             </p>
             <p className="mt-3 text-slate-600 text-xs sm:text-sm">
-              {lang === "ar" ? "هل تنام بسلام وأنت لا تدري ما إذا كان صندوق الكاشير يطابق ما تم بيعه حقاً؟ إليك الكوابيس التي ننهيها تماماً في دورتنا المحاسبية:" : "Do you sleep peacefully not knowing if the cash drawer matches the actual sales? Here are the nightmares we end completely:"}
+              {lang === "ar" ? "هل تعرف ما إذا كان صندوق الكاشير يطابق ما تم بيعه فعلاً؟ إليك المشاكل التي تساعد ضوابطنا على تقليلها:" : "Do you know whether the cash drawer matches the actual sales? Here are the problems our controls help reduce:"}
             </p>
           </div>
 
@@ -834,7 +834,7 @@ export default function ErpPage() {
                   {lang === "ar" ? "كيف يقضي نظام Z Systems على كوابيس التشغيل ويحولها لتدفقات أرباح؟" : "How Z Systems eliminates operational nightmares & creates profit streams?"}
                 </h3>
                 <p className="text-slate-600 text-xs sm:text-sm mt-3 leading-relaxed">
-                  {lang === "ar" ? "ربطنا الكاشير بالمستودع تلقائياً، والورديات بالدفاتر الأساسية، ووضعنا صلاحيات تدقيق ذكية للمدير تمنع تمرير أي خصم أو تعديل دون علمه. النتيجة: تطابق مالي بنسبة 100% وحماية كاملة لثمرة كفاحك." : "We linked the POS to the warehouse automatically, and shifts to general ledgers, enforcing smart audit controls for the manager. Result: 100% financial match and complete protection for your efforts."}
+                  {lang === "ar" ? "ربطنا الكاشير بالمستودع، والورديات بالدفاتر الأساسية، ووضعنا صلاحيات تدقيق للمدير على الخصومات والتعديلات. النتيجة: مطابقة أوضح وضوابط أقوى على النقدية." : "We linked the POS to the warehouse, and shifts to general ledgers, with manager audit controls over discounts and edits. Result: clearer matching and stronger cash controls."}
                 </p>
               </div>
               <div className="lg:col-span-4 flex justify-start lg:justify-end">
@@ -1176,12 +1176,12 @@ export default function ErpPage() {
                   {lang === "ar" ? "يعمل بالذكاء الاصطناعي" : "AI-Powered"}
                 </div>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-display tracking-tight text-white mb-6 leading-[1.1]">
-                  {lang === "ar" ? "ZAD AI — مساعدك الذكي عبر الواتساب والنظام" : "ZAD AI — Your Smart Assistant via WhatsApp & System"}
+                  {lang === "ar" ? "مساعد الذكاء الاصطناعي داخل النظام" : "AI Copilot Inside the System"}
                 </h2>
                 <p className="text-slate-200 text-sm sm:text-base leading-relaxed mb-10 max-w-lg">
                   {lang === "ar" 
-                    ? "اسأل باللغة العربية أو الإنجليزية. يمكنه توليد التقارير، تحليل حركات البيع، وإدارة مهامك اليومية بسرعة — سواء من داخل النظام أو مباشرة من خلال تطبيق الواتساب الخاص بك." 
-                    : "Ask in Arabic or English. It can generate reports, analyze sales data, and help you get things done faster — from inside the system or directly via your WhatsApp app."}
+                    ? "اسأل باللغة العربية أو الإنجليزية داخل النظام. يمكنه عرض تقارير وتحليل حركات البيع وتنبيهات النواقص من بيانات نشاطك المعروضة في النظام. اسألنا عن توفر أي ربط واتساب قبل الشراء." 
+                    : "Ask in Arabic or English inside the system. It can show reports, analyze sales activity, and surface low-stock alerts from your business data shown in the system. Ask us about any WhatsApp integration availability before buying."}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 text-start">
@@ -1190,14 +1190,14 @@ export default function ErpPage() {
                       <MessageCircle className="w-5 h-5" />
                     </div>
                     <h4 className="text-white font-bold mb-1">{lang === "ar" ? "اسأل بلغتك" : "Ask in Your Language"}</h4>
-                    <p className="text-xs text-slate-300 leading-relaxed">{lang === "ar" ? "ZAD AI يفهم السياق ويجيب باستخدام بيانات عملك الحقيقية. اكتب أو تحدث بلغتك." : "ZAD AI understands context and answers using your actual business data. Type or speak."}</p>
+                    <p className="text-xs text-slate-300 leading-relaxed">{lang === "ar" ? "المساعد يجيب باستخدام بيانات عملك المعروضة في النظام. اكتب سؤالك بلغتك." : "The assistant answers using your business data shown in the system. Type your question in your language."}</p>
                   </div>
                   <div>
                      <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center mb-4 text-indigo-400">
                       <Search className="w-5 h-5" />
                     </div>
-                    <h4 className="text-white font-bold mb-1">{lang === "ar" ? "تقارير وتحليلات صوتية" : "Voice & Analytical Reports"}</h4>
-                    <p className="text-xs text-slate-300 leading-relaxed">{lang === "ar" ? "أرسل رسالة صوتية ليحلل لك بيانات المبيعات أو يقوم بجرد الباركود المعقد تلقائياً." : "Send a voice note to analyze sales data or perform complex barcode counts automatically."}</p>
+                    <h4 className="text-white font-bold mb-1">{lang === "ar" ? "تقارير وتحليلات" : "Reports & Analytics"}</h4>
+                    <p className="text-xs text-slate-300 leading-relaxed">{lang === "ar" ? "اطلب تحليل مبيعاتك وتنبيهات النواقص والفواتير المتأخرة من داخل النظام." : "Ask for sales analysis and low-stock and overdue-invoice alerts from inside the system."}</p>
                   </div>
                   <div>
                      <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center mb-4 text-indigo-400">
@@ -1209,7 +1209,8 @@ export default function ErpPage() {
                 </div>
              </div>
 
-             {/* AI Assistant WhatsApp Interactive Mockup */}
+             {/* Illustrative simulation of a chat assistant; not a live conversation. */}
+             <p className="text-center text-xs text-slate-400 mb-4">{lang === "ar" ? "محاكاة توضيحية — ليست محادثة حية" : "Illustrative simulation — not a live chat"}</p>
              <div className="relative flex justify-center md:justify-end">
                 <WhatsAppSimulation lang={lang} />
              </div>
@@ -1232,7 +1233,7 @@ export default function ErpPage() {
               {lang === "ar" ? "وضع التشغيل المناسب لسرّية عملك وموقعك الفعلي" : "Operation mode suited for your business privacy and actual location"}
             </h2>
             <p className="mt-2 text-slate-600 text-xs sm:text-sm">
-              {lang === "ar" ? "هل تفضّل مرونة السحابة والتحكم الجغرافي الواسع؟ أم حماية بياناتك محلياً بشكل تمليك مدى الحياة بدون إنترنت ودون اشتراكات؟ نحن النظام الوحيد الذي يقدم لك الحلين بنفس الكفاءة وقابلان للتحويل:" : "Do you prefer Cloud flexibility and wide geo-control? Or local offline lifetime ownership without internet and subscriptions? We are the only system providing both solutions with the same efficiency and convertibility:"}
+              {lang === "ar" ? "هل تفضّل مرونة السحابة؟ أم بقاء بياناتك محلياً مع رخصة تمليك مدى الحياة دون حاجة دائمة للإنترنت؟ نقدم الحلين، واسألنا عن خطوات التحويل بينهما:" : "Do you prefer cloud flexibility? Or keeping your data local with a lifetime license without a permanent internet connection? We offer both; ask us about the transfer steps between them:"}
             </p>
           </div>
 
@@ -1280,9 +1281,9 @@ export default function ErpPage() {
               ) : (
                 <div className="bg-amber-50/70 text-amber-900 border border-amber-150 p-4 rounded-lg leading-relaxed text-xs">
                   {lang === "ar" ? (
-                    <><strong>الوضع المحلي المستقل والآمن:</strong> حتى بجهاز كمبيوتر معزول تماماً عن كوكب الأرض، كاشيرك يسجل مبيعاته بكل دلالة ويسحب الباركود ويطبع الفاتورة الضريبية وتصدر القيود المحاسبية وتتراكم القواعد بلا أي حاجة لخط إنترنت واحد وبأقصى سرعة ممكنة!</>
+                    <><strong>الوضع المحلي المستقل والآمن:</strong> على جهاز كمبيوتر دون اتصال، يمكن للكاشير تسجيل المبيعات ومسح الباركود وطباعة الفاتورة، وتُسجَّل القيود المحاسبية محلياً.</>
                   ) : (
-                    <><strong>Secure Offline Mode:</strong> Even on an isolated PC, your cashier can record sales, scan barcodes, print tax invoices & issue accounting entries perfectly without any internet connection at maximum speed!</>
+                    <><strong>Secure Offline Mode:</strong> On a PC without a connection, the cashier can record sales, scan barcodes, print invoices, and accounting entries are recorded locally.</>
                   )}
                 </div>
               )}
@@ -1516,7 +1517,7 @@ export default function ErpPage() {
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
               <span className="font-mono text-[11px] text-slate-500 font-bold uppercase tracking-wider">Z-PRICING MATRIX</span>
               <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-              <span>{lang === "ar" ? "إصدار سبتمبر 2026 المعتمد" : "Official September 2026 Release"}</span>
+              <span>{lang === "ar" ? "إصدار سبتمبر 2026" : "September 2026 Release"}</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-normal mt-3">
               {lang === "ar" ? "باقات مخصصة بدقة حسب نشاطك التجاري" : "Tailored Plans for Every Industry"}
@@ -1683,7 +1684,7 @@ export default function ErpPage() {
                       : "text-slate-700 hover:text-slate-900"
                   }`}
                 >
-                  <span>{lang === "ar" ? "ترخيص تمليك دائم (أوفلاين 100%)" : "Lifetime Offline License"}</span>
+                  <span>{lang === "ar" ? "ترخيص تمليك دائم (أوفلاين)" : "Lifetime Offline License"}</span>
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
                     billingMode === "offline" ? "bg-white text-amber-700" : "bg-amber-50 text-amber-800 border border-amber-200"
                   }`}>
@@ -2066,7 +2067,7 @@ export default function ErpPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-sm sm:text-base text-slate-900">
-                      {lang === "ar" ? "الشروط والضوابط المعتمدة لنسخة التمليك الدائم (Offline Terms)" : "Terms for Lifetime Offline Licenses"}
+                      {lang === "ar" ? "شروط نسخة التمليك الدائم (Offline Terms)" : "Terms for Lifetime Offline Licenses"}
                     </h3>
                     <p className="text-xs text-slate-500 mt-0.5">
                       {lang === "ar" 
@@ -2094,7 +2095,7 @@ export default function ErpPage() {
                     ))}
                   </ul>
                   <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
-                    <span>{lang === "ar" ? "ترخيص أوفلاين معتمد بموجب وثيقة التسعير الصادرة بتاريخ 25 سبتمبر 2026." : "Official offline license terms as of September 25, 2026 release."}</span>
+                    <span>{lang === "ar" ? "شروط ترخيص الأوفلاين وفق وثيقة التسعير الصادرة بتاريخ 25 سبتمبر 2026." : "Offline license terms under the pricing document dated September 25, 2026."}</span>
                     <button
                       onClick={() => {
                         setSelectedPlan(lang === "ar" ? "استشارة ترخيص أوفلاين تمليك" : "Offline Lifetime License Consultation");
@@ -2209,7 +2210,7 @@ export default function ErpPage() {
                         features: [
                             { nameAr: "الموارد البشرية والرواتب (HR)", nameEn: "HR & Payroll", basic: false, pro: false, enterprise: true, offline: true },
                             { nameAr: "منشئ التقارير المخصص", nameEn: "Custom Report Builder", basic: false, pro: false, enterprise: true, offline: true },
-                            { nameAr: "المساعد الذكي ZAD AI", nameEn: "ZAD AI Assistant", basic: false, pro: false, enterprise: true, offline: false },
+                            { nameAr: "مساعد الذكاء الاصطناعي داخل النظام", nameEn: "In-system AI Assistant", basic: false, pro: false, enterprise: true, offline: false },
                             { nameAr: "صلاحيات المستخدمين المتقدمة", nameEn: "Advanced User Permissions", basic: false, pro: true, enterprise: true, offline: true },
                             { nameAr: "شجرة حسابات معقدة غير محدودة", nameEn: "Unlimited Complex Account Tree", basic: false, pro: true, enterprise: true, offline: true },
                         ]
@@ -2278,7 +2279,7 @@ export default function ErpPage() {
                 <MessageCircle className="w-7 h-7" />
               </div>
               <h3 className="text-xl font-bold mb-3">{lang === "ar" ? "دعم متكامل" : "Full Support"}</h3>
-              <p className="text-sm text-slate-300 mb-8">{lang === "ar" ? "فريق الدعم لدينا مستعد لخدمتك على مدار الساعة عبر الدردشة المباشرة أو الاتصال." : "Our support team is ready to serve you around the clock via live chat or call."}</p>
+              <p className="text-sm text-slate-300 mb-8">{lang === "ar" ? "فريق الدعم لدينا يخدمك خلال أوقات العمل المعلنة عبر الدردشة أو الاتصال." : "Our support team serves you during published working hours via chat or call."}</p>
               <button className="mt-auto px-6 py-2 rounded-full border border-indigo-500 text-indigo-400 text-sm font-bold hover:bg-indigo-500/10 transition-colors">{lang === "ar" ? "محادثة مباشرة" : "Live Chat"}</button>
             </div>
 
@@ -2475,7 +2476,7 @@ export default function ErpPage() {
               </p>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/60 text-emerald-700 text-[11px] font-semibold">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>{lang === "ar" ? "دعم واستشارات مجانية 24/7" : "24/7 Free Support & Consultation"}</span>
+                <span>{lang === "ar" ? "دعم واستشارات خلال أوقات العمل" : "Support & Consultation During Working Hours"}</span>
               </div>
             </div>
 
@@ -2524,7 +2525,7 @@ export default function ErpPage() {
                   </li>
                   <li>
                     <a href="#ai-assistant" className="hover:text-brand-600 transition-colors inline-block">
-                      {lang === "ar" ? "المساعد ZAD" : "ZAD Assistant"}
+                      {lang === "ar" ? "مساعد الذكاء الاصطناعي" : "AI Assistant"}
                     </a>
                   </li>
                 </ul>
@@ -2606,7 +2607,7 @@ export default function ErpPage() {
           {/* Bottom Bar: Centered, balanced, no broken lines */}
           <div className="pt-6 flex flex-col items-center justify-center text-center space-y-2.5">
             <div className="flex flex-wrap items-center justify-center gap-2 text-[10px] text-slate-500">
-              <span>{lang === "ar" ? "المدفوعات الإلكترونية آمنة ومعتمدة عبر:" : "Secure payments supported via:"}</span>
+              <span>{lang === "ar" ? "المدفوعات الإلكترونية عبر:" : "Electronic payments via:"}</span>
               <span className="bg-slate-100 px-2 py-0.5 rounded font-mono font-bold text-slate-700">Visa</span>
               <span className="bg-slate-100 px-2 py-0.5 rounded font-mono font-bold text-slate-700">MasterCard</span>
               <span>•</span>
@@ -2617,8 +2618,8 @@ export default function ErpPage() {
             </p>
             <p className="text-[11px] text-slate-500 max-w-2xl leading-relaxed">
               {lang === "ar" 
-                ? "متوافق بنسبة 100% مع تعليمات الفاتورة الضريبية، الربط الإلكتروني، ورمز الاستجابة السريع (QR Code) • ضمان استرداد الأموال لمدة 14 يوماً وفق تعليمات حماية المستهلك المصري" 
-                : "100% compliant with e-invoicing tax regulations, electronic integrations, and QR Code requirements • 14-day money-back guarantee under Egyptian consumer regulations"}
+                ? "فواتير بحقول ضريبية ورمز QR • ضمان استرداد الأموال لمدة 14 يوماً وفق سياسة الاسترداد المعلنة" 
+                : "Tax-field invoices with QR codes • 14-day money-back guarantee under the published refund policy"}
             </p>
           </div>
 
@@ -2919,7 +2920,7 @@ export default function ErpPage() {
                         )}
                       </button>
                       <p className="text-[9px] text-center text-slate-600 mt-2">
-                        {lang === "ar" ? "حماية خصوصية بياناتك مضمونة بنسبة %100 بحسب بروتوكول السرية الموحد لدينا." : "100% Guaranteed data privacy under our unified confidentiality protocol."}
+                        {lang === "ar" ? "نتعامل مع بياناتك وفق سياسة الخصوصية المعلنة." : "We handle your data under the published privacy policy."}
                       </p>
                     </div>
 

@@ -62,7 +62,7 @@ export default function ContactPage() {
             <h3 className="font-bold text-slate-900 text-base">Working Hours</h3>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               Saturday – Thursday: 9:00 AM – 6:00 PM (Cairo Time)<br />
-              Cloud Systems &amp; Technical Uptime: 24/7 continuous monitoring
+              Cloud Systems: support during published working hours
             </p>
           </div>
         </div>
@@ -125,7 +125,7 @@ export default function ContactPage() {
           <h3 className="font-bold text-slate-900 text-sm sm:text-base">أوقات العمل</h3>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
             من السبت إلى الخميس: ٩:٠٠ صباحاً – ٦:٠٠ مساءً (بتوقيت القاهرة)<br />
-            الأنظمة السحابية والتشغيلية: متابعة مستمرة على مدار الساعة 24/7
+            الأنظمة السحابية: دعم خلال أوقات العمل المعلنة
           </p>
         </div>
       </div>

@@ -12,19 +12,19 @@ export const content = {
       freeConsultation: "استشارة وتجربة مجانية",
     },
     hero: {
-      badge: "الامتثال التام للأنظمة الضريبية والـ QR Code مع نظام مكافحة تسريب الكاش والتلاعب",
+      badge: "حقول ضريبية ورمز QR مع ضوابط للكاشير والتلاعب",
       title: "أوقف نزيف الأرباح في غيابك وأدر فروعك بذكاء ",
-      titleHighlight: "ودقة 100%",
-      desc: "نظام Z Systems ليس برنامج محاسبة تقليدي، بل هو \"نظامك المالي والإداري المتكامل\" لتأمين مبيعاتك ونقل مخازنك وضبط دفتري كامل يمنع ثغرات الكاشير والتلاعب بالحسابات، سواء اخترت السحابة الذكية أو العمل",
-      descHighlight: " بدون خط إنترنت واحد وإلى الأبد!",
+      titleHighlight: "وبدقة عالية",
+      desc: "نظام Z Systems ليس برنامج محاسبة تقليدي، بل هو \"نظامك المالي والإداري المتكامل\" لضبط مبيعاتك ومخازنك وقيودك، سواء اخترت السحابة أو العمل",
+      descHighlight: " مع نسخة محلية قابلة للعمل دون إنترنت.",
       metrics: [
-        { value: "%96+", label: "نسبة دقة الجرد السنوية" },
-        { value: "Zero", label: "عجز غير مبرر في المبيعات" },
-        { value: "15 Min", label: "متوسط زمن التثبيت والتدريب" },
+        { value: "—", label: "اسأل عن نتائج عملائنا التجريبيين" },
+        { value: "—", label: "ضوابط ورديات وسجل تدقيق" },
+        { value: "—", label: "تثبيت وتدريب بمساعدة الدعم" },
       ],
       ctaPrimary: "ابدأ تجربتك المجانية الآن",
       ctaSecondary: "استكشف عروض التمليك والسحابية",
-      supportText: "دعم فني استشاري متوفر على مدار الأسبوع ومساعد محاسبي مجاني"
+      supportText: "دعم فني استشاري خلال أوقات العمل المعلنة"
     },
     pricing: {
       title: "خيارات استثمار مصممة لضمان عوائدك",
@@ -55,19 +55,19 @@ export const content = {
       freeConsultation: "Free Consultation",
     },
     hero: {
-      badge: "Full Tax & QR Code Compliance with Anti-Theft Cash Control",
+      badge: "Tax Fields & QR Code with Cashier Controls",
       title: "Stop Profit Bleeding in Your Absence and Manage Branches ",
-      titleHighlight: "with 100% Accuracy",
+      titleHighlight: "with strong controls",
       desc: "Z Systems is not a traditional accounting program. It's your 'integrated financial and management system' securing your sales, transfers, and providing full bookkeeping that prevents cashier loopholes and account manipulation, whether cloud or ",
-      descHighlight: "offline forever!",
+      descHighlight: "with a local edition that can work offline.",
       metrics: [
-        { value: "96%+", label: "Annual Inventory Accuracy" },
-        { value: "Zero", label: "Unjustified Sales Deficit" },
-        { value: "15 Min", label: "Avg Setup & Training Time" },
+        { value: "—", label: "Ask about pilot results" },
+        { value: "—", label: "Shift controls & audit log" },
+        { value: "—", label: "Setup & training with support" },
       ],
       ctaPrimary: "Start Your Free Trial",
       ctaSecondary: "Explore Cloud & Offline Offers",
-      supportText: "24/7 Premium Consulting & Free Accounting Assistant"
+      supportText: "Consulting support during published working hours"
     },
     pricing: {
       title: "Investment Options Designed to Guarantee Returns",

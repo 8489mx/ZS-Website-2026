@@ -28,7 +28,7 @@ export const ERP_CATEGORIES_EN = [
       {
         name: "Full E-Invoicing Compliance",
         desc: "Issue invoices that are fully compliant with tax authority requirements and feature an integrated QR Code.",
-        benefit: "Protects you from fines and guarantees 100% legal compliance with no extra effort."
+        benefit: "Helps you prepare invoices under the relevant authority requirements; legal review remains your responsibility."
       },
       {
         name: "Smart Return System",
@@ -220,9 +220,9 @@ export const PROBLEM_STATEMENTS_EN = [
 export const DEPLOYMENT_MODES_EN = [
   {
     title: "Cloud SaaS Solution",
-    desc: "The system is fully hosted on ultra-secure and fast servers. Manage all branches, sales, and accounting entries from anywhere in the world via phone, tablet, or PC.",
+    desc: "The system is hosted on cloud servers. Manage branches, sales, and accounting entries from anywhere with an internet connection, via phone, tablet, or PC.",
     highlights: [
-      "Real-time, 100% synchronized data processing.",
+      "Data synchronization between branches through the cloud.",
       "Redundant automated backups of your data.",
       "Free periodic updates ensuring continuous stability.",
       "Requires only basic internet for instant branch communication."
@@ -232,11 +232,11 @@ export const DEPLOYMENT_MODES_EN = [
   },
   {
     title: "Offline Lifetime Portable (Buy Once)",
-    desc: "Enjoy our exclusive solution: A fully customized edition of Z-ERP installed with one click on your own local PC/server. It works 100% effectively without a single internet connection.",
+    desc: "An edition of Z-ERP installed on your own local PC/server. It can work without a permanent internet connection.",
     highlights: [
-      "Absolute privacy and total data freedom inside your secure premises.",
-      "A permanent lifetime license paid once, saying goodbye to costly monthly subscriptions.",
-      "Ultra-fast performance relying directly on local hardware.",
+      "Data of the local edition stays on your devices.",
+      "A lifetime license paid once, with an annual support and updates contract from the second year under the displayed terms.",
+      "Runs directly on your local hardware without a cloud intermediary.",
       "Includes all features (POS, Inventory, Accounting, HR)."
     ],
     cta: "Get Your Lifetime License",
@@ -346,26 +346,26 @@ export const PRICING_TIERS_EN = [
 export const FAQS_EN = [
   {
     q: "Does the system support e-invoicing and local taxes?",
-    a: "Absolutely. Z ERP is fully compliant with Middle Eastern tax authorities (including ZATCA in KSA and ETA in Egypt), issuing legal tax invoices with encrypted, authentic QR Codes."
+    a: "The system issues invoices with tax fields and a QR code, and includes a ZATCA submission service for Saudi Arabia. Check your local authority requirements before relying on it for filings."
   },
   {
     q: "How do you protect my data in the Cloud Model?",
-    a: "We use advanced cloud-hosting protected by world-class security certificates, and two-way encryption. We also perform daily automated backups on redundant servers to ensure safe data retrieval."
+    a: "The cloud edition is hosted with security certificates and encrypted connections, with periodic backups. Ask us about the current backup and restore policy before subscribing."
   },
   {
     q: "Does the Offline-Lifetime model really work without internet?",
-    a: "100% Yes. Z ERP in 'Lifetime' mode is integrated to be an independent local environment. Once installed on your PC, it never asks for web connectivity, keeping your entire DB on your hard drive with ultimate speed and privacy."
+    a: "The local (Lifetime) edition runs on your PC or server without a permanent internet connection, and keeps the database on your disk. Some services, such as updates and tax submission, need a connection."
   },
   {
     q: "How does the anti-theft Audit Trail work?",
-    a: "The system tracks every user's mouse click. If a cashier deletes an item, edits a price, grants a discount, or voids a receipt; the system logs the incident in a tamper-proof database showing identity, device, and values before/after."
+    a: "The system records tracked actions in a tamper-evident audit log, showing identity, device, and values before/after where available, for review in the control panel."
   },
   {
     q: "What if I want to migrate from Offline to Cloud later?",
-    a: "We made it extremely simple! The system contains an integrated Smart Transfer Module allowing you to securely export your local database with one click and connect it to your Cloud account."
+    a: "Moving from the local edition to the cloud is done by exporting your data and transferring it to your cloud account with support-team help. Ask us about the transfer steps and limits before buying."
   },
   {
     q: "How is Z-ERP a better and more practical alternative to Odoo?",
-    a: "Z-ERP is built as a streamlined alternative to complex systems like Odoo: it provides full Offline-First continuity during internet outages, lightning-fast POS counters, transparent pricing with no hidden per-user charges or costly implementation consultancies, and direct localized fiscal compliance (ZATCA / ETA)."
+    a: "Z-ERP is an Arabic accounting and POS system with a local edition that can work without internet and a ZATCA submission service for Saudi Arabia. Compare features and prices with other systems before buying."
   }
 ];
