@@ -2006,8 +2006,8 @@ export default function ErpPage() {
                     <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
                     <span>
                       {lang === "ar"
-                        ? "ملاحظة ذهبية: كافة الطوابق الذكية بالأسفل مشمولة بالكامل ومجاناً في باقة المستوى الثالث (سلسلة ومؤسسة) من أي قطاع تجاري!"
-                        : "Golden Note: All modules below are 100% included for free in Level 3 (Chain & Enterprise) across all sectors!"}
+                        ? "ملاحظة: الوحدات بالأسفل مشمولة من المستوى الثالث حيث يذكر الكتالوج ذلك، وغير ذلك بسعر شهري موضح لكل وحدة."
+                        : "Note: Modules below are included from Level 3 where the catalog says so; otherwise at the monthly price shown per module."}
                     </span>
                   </div>
 
