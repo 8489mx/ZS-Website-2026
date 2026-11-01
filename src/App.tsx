@@ -8,6 +8,7 @@ import { ThemeProvider } from "./ThemeContext";
 import { CurrencyProvider } from "./CurrencyContext";
 import LocationModal from "./LocationModal";
 import ErrorBoundary from "./components/ErrorBoundary";
+import useDocumentMeta from "./useDocumentMeta";
 import HomePage from "./HomePage";
 
 // Code-split heavier sub-pages
@@ -16,6 +17,7 @@ const TermsPage = lazy(() => import("./pages/TermsPage"));
 const RefundPolicyPage = lazy(() => import("./pages/RefundPolicyPage"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 // Minimal lightweight fallback during lazy-loading transition
 function PageLoadingFallback() {
@@ -26,6 +28,11 @@ function PageLoadingFallback() {
   );
 }
 
+function RouteMeta() {
+  useDocumentMeta();
+  return null;
+}
+
 export default function App() {
   return (
     <ErrorBoundary>
@@ -34,6 +41,7 @@ export default function App() {
           <CurrencyProvider>
             <LocationModal />
             <BrowserRouter>
+              <RouteMeta />
               <ScrollToTop />
               <Suspense fallback={<PageLoadingFallback />}>
                 <Routes>
@@ -45,6 +53,7 @@ export default function App() {
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
                   <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
+                  <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </Suspense>
             </BrowserRouter>

@@ -28,12 +28,6 @@ export default function HomePage() {
   const [waitlistError, setWaitlistError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Update document title for SEO & branding
-  useEffect(() => {
-    document.title = lang === "ar"
-      ? "Z Systems | أنظمة Z-ERP المتكاملة لإدارة المنشآت ونقاط البيع"
-      : "Z Systems | Next-Gen Enterprise Z-ERP & Point of Sale";
-  }, [lang]);
 
   // Close waitlist modal on Escape key press
   useEffect(() => {

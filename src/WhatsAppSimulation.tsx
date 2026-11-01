@@ -51,11 +51,11 @@ export default function WhatsAppSimulation({ lang }: { lang: "ar" | "en" }) {
         <div className="flex items-center gap-2">
           <ChevronLeft className="w-6 h-6 text-indigo-500" />
           <div className="w-9 h-9 bg-brand-600 rounded-full flex items-center justify-center relative shadow-sm">
-            <span className="text-white text-[11px] font-black select-none tracking-tight">ZAD</span>
+            <span className="text-white text-[11px] font-black select-none tracking-tight">ZS</span>
           </div>
           <div className="flex flex-col">
             <div className="font-bold text-sm tracking-wide leading-tight">
-               ZAD AI
+               AI Assistant
             </div>
             <span className="text-[10px] text-emerald-600 font-medium leading-none mt-0.5">
                {lang === "ar" ? "مساعد Z Systems • أعمال" : "Z Systems Assistant • Business"}
@@ -101,7 +101,7 @@ export default function WhatsAppSimulation({ lang }: { lang: "ar" | "en" }) {
                 className="self-start flex gap-2 relative z-10 mt-2"
               >
                 <div className="w-7 h-7 bg-brand-600 rounded-full flex shrink-0 items-center justify-center self-end mb-1 shadow-sm">
-                  <span className="text-white text-[9px] font-black select-none tracking-tight">ZAD</span>
+                  <span className="text-white text-[9px] font-black select-none tracking-tight">ZS</span>
                 </div>
                 
                 <div className="bg-white text-slate-800 rounded-xl rounded-bl-sm max-w-[90%] shadow-sm overflow-hidden flex flex-col">
