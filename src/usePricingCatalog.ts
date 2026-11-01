@@ -23,27 +23,54 @@ export function usePricingCatalog(currencyCode: string = "EGP", initialProduct: 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Initial load: Fetch all products list and initial product pricing
+  // Idle load: the full catalog (~900 kB) is only needed for product
+  // names beyond the static DEFAULT_PRODUCTS list (16 of 17 products).
+  // Fetching it on mount delayed first paint and competed with the
+  // small per-product catalog the pricing UI actually renders. Defer
+  // it until the browser is idle; the defaults render immediately and
+  // the remaining product name fills in when the idle fetch lands.
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
+    let idleHandle: number | undefined;
+    let timeoutHandle: number | undefined;
 
-    // Fetch full catalog once to get the complete products list
-    fetchFullCatalog(controller.signal)
-      .then((fullData) => {
-        if (isMounted && fullData.products?.length > 0) {
-          setAllProducts(fullData.products);
-        }
-      })
-      .catch((err) => {
-        if (err?.name !== "AbortError") {
-          console.warn("Could not fetch full products list:", err);
-        }
-      });
+    const loadFullCatalog = () => {
+      if (!isMounted) return;
+      fetchFullCatalog(controller.signal)
+        .then((fullData) => {
+          if (isMounted && fullData.products?.length > 0) {
+            setAllProducts(fullData.products);
+          }
+        })
+        .catch((err) => {
+          if (err?.name !== "AbortError") {
+            console.warn("Could not fetch full products list:", err);
+          }
+        });
+    };
+
+    // requestIdleCallback is not in this project's DOM lib types, so
+    // feature-detect it through a narrow cast instead of window.* calls.
+    const idleWindow = window as unknown as {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+    if (idleWindow.requestIdleCallback) {
+      idleHandle = idleWindow.requestIdleCallback(loadFullCatalog, { timeout: 4000 });
+    } else {
+      timeoutHandle = window.setTimeout(loadFullCatalog, 1200);
+    }
 
     return () => {
       isMounted = false;
       controller.abort();
+      if (idleHandle !== undefined && idleWindow.cancelIdleCallback) {
+        idleWindow.cancelIdleCallback(idleHandle);
+      }
+      if (timeoutHandle !== undefined) {
+        window.clearTimeout(timeoutHandle);
+      }
     };
   }, []);
 
