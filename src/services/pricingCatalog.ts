@@ -269,9 +269,10 @@ export async function fetchProductCatalog(
   }
 
   // Live API unreachable: empty levels so the UI shows error/retry,
-  // never stale bundled prices.
+  // never stale bundled prices. Failures are never cached: the Retry
+  // button must refetch immediately instead of replaying the empty
+  // result until the cache TTL expires.
   const fallbackData = getFallbackProductCatalog(product, country);
-  cache[cacheKey] = { data: fallbackData, timestamp: now };
   return fallbackData;
 }
 
@@ -301,12 +302,13 @@ export async function fetchFullCatalog(signal?: AbortSignal): Promise<FullCatalo
     // Fall through to bundled fallback below.
   }
 
+  // Live API unreachable: empty catalog, never cached, so a retry
+  // refetches immediately instead of replaying the empty result.
   const fallbackFull: FullCatalogResponse = {
     version: "1.0",
     products: DEFAULT_PRODUCTS,
     countries: [],
     catalog: [],
   };
-  cache[cacheKey] = { data: fallbackFull, timestamp: now };
   return fallbackFull;
 }
