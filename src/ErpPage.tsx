@@ -804,7 +804,7 @@ export default function ErpPage() {
       <motion.section initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.98 }}
         whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="why-us" className="py-16 lg:py-24 bg-white border-b border-slate-200">
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="why-us" className="scroll-mt-24 py-16 lg:py-24 bg-white border-b border-slate-200">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8">
           
           <div className="text-center max-w-3xl mx-auto">
@@ -879,7 +879,7 @@ export default function ErpPage() {
       <motion.section initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.98 }}
         whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="features" className="py-16 lg:py-24 bg-white border-b border-slate-200">
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="features" className="scroll-mt-24 py-16 lg:py-24 bg-white border-b border-slate-200">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8">
           
           <div className="text-center max-w-3xl mx-auto mb-12">
@@ -1186,7 +1186,7 @@ export default function ErpPage() {
       <motion.section initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.98 }}
         whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="ai-assistant" className="py-16 lg:py-24 bg-slate-900 text-white relative overflow-hidden">
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="ai-assistant" className="scroll-mt-24 py-16 lg:py-24 bg-slate-900 text-white relative overflow-hidden">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
              <div>
@@ -1228,8 +1228,8 @@ export default function ErpPage() {
              </div>
 
              {/* Illustrative simulation of a chat assistant; not a live conversation. */}
-             <p className="text-center text-xs text-slate-400 mb-4">{lang === "ar" ? "محاكاة توضيحية — ليست محادثة حية" : "Illustrative simulation — not a live chat"}</p>
-             <div className="relative flex justify-center md:justify-end">
+             <div className="relative flex flex-col items-center md:items-end">
+                <p className="text-center text-xs text-slate-400 mb-4">{lang === "ar" ? "محاكاة توضيحية — ليست محادثة حية" : "Illustrative simulation — not a live chat"}</p>
                 <Suspense fallback={null}><WhatsAppSimulation lang={lang} /></Suspense>
              </div>
           </div>
@@ -1240,7 +1240,7 @@ export default function ErpPage() {
       <motion.section initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.98 }}
         whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="deployment" className="py-16 lg:py-24 bg-slate-50 border-b border-slate-200 relative">
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="deployment" className="scroll-mt-24 py-16 lg:py-24 bg-slate-50 border-b border-slate-200 relative">
         <div className="absolute top-1/2 left-10 w-96 h-96 bg-brand-500/5 rounded-full blur-3xl pointer-events-none" />
         
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8">
@@ -1380,7 +1380,7 @@ export default function ErpPage() {
       <motion.section initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.98 }}
         whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="roi-calculator" className="py-16 lg:py-24 bg-white border-b border-slate-200">
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="roi-calculator" className="scroll-mt-24 py-16 lg:py-24 bg-white border-b border-slate-200">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-10">
@@ -1516,7 +1516,7 @@ export default function ErpPage() {
       <motion.section initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.98 }}
         whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
         viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="pricing" className="py-16 lg:py-24 bg-slate-50 border-b border-slate-200">
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="pricing" className="scroll-mt-24 py-16 lg:py-24 bg-slate-50 border-b border-slate-200">
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8">
           
           {/* Header */}

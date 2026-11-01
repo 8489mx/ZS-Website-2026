@@ -36,7 +36,7 @@ export default function ErpFaqCta({
 <motion.section initial={{ opacity: 0, y: 40, filter: "blur(10px)", scale: 0.98 }}
   whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
   viewport={{ once: true, margin: "-50px" }}
-  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="faqs" className="py-16 lg:py-24 bg-white border-b border-slate-200">
+  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} id="faqs" className="scroll-mt-24 py-16 lg:py-24 bg-white border-b border-slate-200">
   <div className="max-w-[1440px] mx-auto px-6 sm:px-8 font-sans">
     
     <div className="text-center max-w-2xl mx-auto mb-10">

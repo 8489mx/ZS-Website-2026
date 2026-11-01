@@ -455,7 +455,7 @@ export default function HomePage() {
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.1 }} 
         id="systems" 
-        className="w-full py-20 lg:py-32 bg-slate-50 relative"
+        className="scroll-mt-24 w-full py-20 lg:py-32 bg-slate-50 relative"
       >
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">

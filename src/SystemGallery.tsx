@@ -54,7 +54,7 @@ function SystemGallery({ lang }: { lang: "ar" | "en" }) {
   };
 
   return (
-    <section id="gallery" className="py-16 lg:py-24 bg-slate-50 border-b border-slate-200">
+    <section id="gallery" className="scroll-mt-24 py-16 lg:py-24 bg-slate-50 border-b border-slate-200">
       <div className="max-w-[1440px] mx-auto px-6 sm:px-8">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="text-brand-600 font-bold text-xs tracking-widest uppercase font-mono bg-brand-50 px-3 py-1.5 rounded-full inline-block">
