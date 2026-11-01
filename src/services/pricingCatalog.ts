@@ -49,8 +49,9 @@ export interface CatalogFloor {
 }
 
 export interface CatalogAddons {
-  extraUserMonthly: number;
-  extraBranchMonthly: number;
+  /** null means no published price for this country: show contact-for-price, never invent a number. */
+  extraUserMonthly: number | null;
+  extraBranchMonthly: number | null;
 }
 
 export interface ProductCatalogResponse {
@@ -60,6 +61,8 @@ export interface ProductCatalogResponse {
   quoteAnnuallyOnly: boolean;
   annualEqualsMonths: number;
   trialDays: number;
+  /** False when the API says displayed prices exclude VAT; absent on the error fallback. */
+  vatIncluded?: boolean;
   levels: CatalogLevel[];
   floors: CatalogFloor[];
   addons: CatalogAddons;
@@ -169,6 +172,12 @@ export const PRODUCT_EN_METADATA: Record<string, { nameEn: string; subtitleEn: s
     subtitleEn: "Bill of lading, clearance, transport tracking",
     subtitleAr: "الشحن والتخليص الجمركي، بوالص الشحن، وإدارة الأسطول",
     icon: "Globe"
+  },
+  warehousing: {
+    nameEn: "Warehousing & Storage",
+    subtitleEn: "Warehouses, stock locations, stock transfers",
+    subtitleAr: "إدارة المستودعات والتحويلات المخزنية",
+    icon: "Building2"
   }
 };
 
@@ -186,9 +195,10 @@ export const DEFAULT_PRODUCTS: CatalogProduct[] = [
   { id: "manufacturing", name: "برنامج المصانع والمعامل والورش", pos: false, sellOffline: true },
   { id: "import_export", name: "برنامج الاستيراد والتصدير والتجارة الدولية", pos: false, sellOffline: true },
   { id: "services", name: "برنامج الشركات الخدمية والمكاتب الاستشارية", pos: false, sellOffline: true },
-  { id: "ecommerce", name: "برنامج المتاجر الإلكترونية والبيع أونلاين", pos: true, sellOffline: true },
+  { id: "ecommerce", name: "برنامج المتاجر الإلكترونية والبيع أونلاين", pos: true, sellOffline: false },
   { id: "contracting", name: "نظام المقاولات وإدارة المشاريع الإنشائية", pos: false, sellOffline: false },
   { id: "maritime", name: "نظام الشحن والتخليص والخدمات اللوجستية", pos: false, sellOffline: false },
+  { id: "warehousing", name: "برنامج إدارة المستودعات والتحويلات المخزنية", pos: false, sellOffline: true },
 ];
 
 // In-memory cache for live responses

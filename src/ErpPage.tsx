@@ -2070,7 +2070,9 @@ export default function ErpPage() {
                           {lang === "ar" ? "مستخدم إضافي شهرياً" : "Extra User /mo"}
                         </span>
                         <span className="font-mono font-bold text-brand-600 text-sm">
-                          +{catalogAddons.extraUserMonthly.toLocaleString()} {catalog?.country?.currency || currencySymbol}
+                          {catalogAddons.extraUserMonthly !== null
+                            ? `+${catalogAddons.extraUserMonthly.toLocaleString()} ${catalog?.country?.currency || currencySymbol}`
+                            : (lang === "ar" ? "بالطلب" : "Contact Sales")}
                         </span>
                       </div>
                       <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex items-center justify-between">
@@ -2078,10 +2080,17 @@ export default function ErpPage() {
                           {lang === "ar" ? "فرع إضافي شهرياً" : "Extra Branch /mo"}
                         </span>
                         <span className="font-mono font-bold text-brand-600 text-sm">
-                          +{catalogAddons.extraBranchMonthly.toLocaleString()} {catalog?.country?.currency || currencySymbol}
+                          {catalogAddons.extraBranchMonthly !== null
+                            ? `+${catalogAddons.extraBranchMonthly.toLocaleString()} ${catalog?.country?.currency || currencySymbol}`
+                            : (lang === "ar" ? "بالطلب" : "Contact Sales")}
                         </span>
                       </div>
                     </div>
+                    {catalog?.vatIncluded === false && (
+                      <p className="text-[11px] text-slate-500 mt-3">
+                        {lang === "ar" ? "الأسعار المعروضة غير شاملة ضريبة القيمة المضافة." : "Displayed prices exclude value-added tax."}
+                      </p>
+                    )}
                   </div>
 
                 </div>

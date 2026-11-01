@@ -23,12 +23,10 @@ export function usePricingCatalog(currencyCode: string = "EGP", initialProduct: 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Idle load: the full catalog (~900 kB) is only needed for product
-  // names beyond the static DEFAULT_PRODUCTS list (16 of 17 products).
-  // Fetching it on mount delayed first paint and competed with the
-  // small per-product catalog the pricing UI actually renders. Defer
-  // it until the browser is idle; the defaults render immediately and
-  // the remaining product name fills in when the idle fetch lands.
+  // Idle load: the full catalog (~900 kB) only refreshes product names
+  // from the live source; the static DEFAULT_PRODUCTS list already
+  // covers all 17 products. Fetching it on mount delayed first paint,
+  // so it stays deferred until the browser is idle.
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -124,7 +122,9 @@ export function usePricingCatalog(currencyCode: string = "EGP", initialProduct: 
     catalog,
     levels: catalog?.levels || [],
     floors: catalog?.floors || [],
-    addons: catalog?.addons || { extraUserMonthly: 120, extraBranchMonthly: 450 },
+    // Null addon fields pass through: no published price for this country
+    // means contact-for-price in the UI, never an invented default.
+    addons: catalog?.addons ?? { extraUserMonthly: null, extraBranchMonthly: null },
     allProducts,
     currentProductMeta,
     selectedProduct,
