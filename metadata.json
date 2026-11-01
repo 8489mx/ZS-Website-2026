@@ -1,8 +1,6 @@
 {
   "name": "ZS-ERP | النظام الإداري والمالي المتكامل - Z Systems",
-  "description": "الموقع الرسمي لنظام ZS-ERP الإداري والمالي الشامل ونقاط البيع لمنع السرقات، ضبط الحسابات، وتنظيم الفروع والمخازن بدقة واحترافية.",
+  "description": "الموقع الرسمي لنظام ZS-ERP الإداري والمالي ونقاط البيع، لضبط الحسابات وتنظيم الفروع والمخازن.",
   "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
+  "majorCapabilities": []
 }
