@@ -14,12 +14,6 @@ export interface CurrencyConfig {
   countryNameAr: string;
   countryNameEn: string;
   rateFromSAR: number;
-  plans: {
-    starter: number;
-    business: number;
-    enterprise: number;
-    lifetime: number;
-  };
   whatsapp: {
     totalAr: string;
     taxAr: string;
@@ -61,12 +55,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "مصر",
     countryNameEn: "Egypt",
     rateFromSAR: 13.3,
-    plans: {
-      starter: 450,
-      business: 1900,
-      enterprise: 4500,
-      lifetime: 10000,
-    },
     whatsapp: {
       totalAr: "٤,٤٥٠ ج.م",
       taxAr: "٦٢٣ ج.م",
@@ -107,12 +95,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "المملكة العربية السعودية",
     countryNameEn: "Saudi Arabia",
     rateFromSAR: 1.0,
-    plans: {
-      starter: 149,
-      business: 449,
-      enterprise: 999,
-      lifetime: 3725,
-    },
     whatsapp: {
       totalAr: "٣٣٣ ر.س",
       taxAr: "٤٩,٥ ر.س",
@@ -153,12 +135,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "الإمارات العربية المتحدة",
     countryNameEn: "United Arab Emirates",
     rateFromSAR: 0.98,
-    plans: {
-      starter: 159,
-      business: 479,
-      enterprise: 1059,
-      lifetime: 3975,
-    },
     whatsapp: {
       totalAr: "٣٢٦ د.إ",
       taxAr: "١٦,٣ د.إ",
@@ -199,12 +175,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "قطر",
     countryNameEn: "Qatar",
     rateFromSAR: 0.97,
-    plans: {
-      starter: 159,
-      business: 479,
-      enterprise: 1059,
-      lifetime: 3975,
-    },
     whatsapp: {
       totalAr: "٣٣٠ ر.ق",
       taxAr: "٠ ر.ق",
@@ -245,12 +215,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "الكويت",
     countryNameEn: "Kuwait",
     rateFromSAR: 0.082,
-    plans: {
-      starter: 13,
-      business: 39,
-      enterprise: 89,
-      lifetime: 325,
-    },
     whatsapp: {
       totalAr: "٢٧ د.ك",
       taxAr: "٠ د.ك",
@@ -291,12 +255,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "البحرين",
     countryNameEn: "Bahrain",
     rateFromSAR: 0.1,
-    plans: {
-      starter: 15,
-      business: 45,
-      enterprise: 99,
-      lifetime: 375,
-    },
     whatsapp: {
       totalAr: "٣٣ د.ب",
       taxAr: "٣,٣ د.ب",
@@ -337,12 +295,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "سلطنة عُمان",
     countryNameEn: "Oman",
     rateFromSAR: 0.102,
-    plans: {
-      starter: 15,
-      business: 45,
-      enterprise: 99,
-      lifetime: 375,
-    },
     whatsapp: {
       totalAr: "٣٤ ر.ع",
       taxAr: "١,٧ ر.ع",
@@ -383,12 +335,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "الأردن",
     countryNameEn: "Jordan",
     rateFromSAR: 0.19,
-    plans: {
-      starter: 28,
-      business: 85,
-      enterprise: 190,
-      lifetime: 700,
-    },
     whatsapp: {
       totalAr: "٦٣ د.أ",
       taxAr: "١٠ د.أ",
@@ -429,12 +375,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "العراق",
     countryNameEn: "Iraq",
     rateFromSAR: 350,
-    plans: {
-      starter: 52000,
-      business: 156000,
-      enterprise: 350000,
-      lifetime: 1300000,
-    },
     whatsapp: {
       totalAr: "١١٥,٠٠٠ د.ع",
       taxAr: "٠ د.ع",
@@ -475,12 +415,6 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "الولايات المتحدة والدولية",
     countryNameEn: "United States & International",
     rateFromSAR: 0.27,
-    plans: {
-      starter: 39,
-      business: 119,
-      enterprise: 269,
-      lifetime: 975,
-    },
     whatsapp: {
       totalAr: "89 $",
       taxAr: "13 $",

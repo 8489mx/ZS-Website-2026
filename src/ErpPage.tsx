@@ -38,8 +38,8 @@ import {
   ExternalLink
 } from "lucide-react";
 import WhatsAppSimulation from "./WhatsAppSimulation";
-import { ERP_CATEGORIES, PROBLEM_STATEMENTS, DEPLOYMENT_MODES, PRICING_TIERS, FAQS } from "./data";
-import { ERP_CATEGORIES_EN, PROBLEM_STATEMENTS_EN, DEPLOYMENT_MODES_EN, FAQS_EN, PRICING_TIERS_EN } from "./dataEn";
+import { ERP_CATEGORIES, PROBLEM_STATEMENTS, DEPLOYMENT_MODES, FAQS } from "./data";
+import { ERP_CATEGORIES_EN, PROBLEM_STATEMENTS_EN, DEPLOYMENT_MODES_EN, FAQS_EN } from "./dataEn";
 import { MessageCircle, Palette, Utensils, UtensilsCrossed, Smile, Star, Coffee, Activity, Pizza, Bird, Carrot, Store, Car, Sun, CarFront, ShoppingBag, Truck, Info, CreditCard, Gift, Layers, FileText, CalendarCheck, Receipt, Award, CheckCircle2 } from "lucide-react";
 import SystemGallery from "./SystemGallery";
 import { content } from "./i18n";
@@ -325,7 +325,7 @@ export default function ErpPage() {
   // Calculations for POS Interactive view
   const posSubtotal = posItems.reduce((acc, item) => acc + item.price * item.qty, 0);
   const posDiscountAmount = (posSubtotal * posDiscount) / 100;
-  const vatRate = currencyCode === "EGP" ? 0.14 : currencyCode === "AED" ? 0.05 : currencyCode === "JOD" ? 0.16 : currencyCode === "BHD" ? 0.10 : (currencyCode === "KWD" || currencyCode === "QAR" || currencyCode === "IQD") ? 0 : 0.15;
+  const vatRate = currencyCode === "EGP" ? 0.14 : currencyCode === "AED" ? 0.05 : currencyCode === "OMR" ? 0.05 : currencyCode === "JOD" ? 0.16 : currencyCode === "BHD" ? 0.10 : 0;
   const posVat = (posSubtotal - posDiscountAmount) * vatRate;
   const posTotal = (posSubtotal - posDiscountAmount) + posVat;
 
@@ -338,15 +338,13 @@ export default function ErpPage() {
   }, [catalogLevels, numBranches]);
 
   const recommendedPlanName = recommendedLevel?.name || (lang === "ar" ? "باقة الأعمال" : "Business Plan");
+  // Lifetime price is quote-only: the API publishes no offline price, so
+  // the ROI block must not show an invented one.
   const recommendedPlanPrice = isLifetimeTarget
-    ? Math.round((recommendedLevel?.annual || 4500) * 3.5)
+    ? null
     : (recommendedLevel?.monthly || 450);
 
   const calculatedSavings = Math.round(avgMonthlySales * 0.04 * numBranches * 12); // 4% savings annually
-  const systemSaaSAnnualCost = isLifetimeTarget 
-    ? Math.round((recommendedLevel?.annual || 4500) * 3.5)
-    : (recommendedLevel?.annual || (recommendedPlanPrice * 12));
-  const finalRationOfROI = Math.max(12, Math.round((calculatedSavings / (systemSaaSAnnualCost || 1)) * 100));
 
   const roiChartData = useMemo(() => {
     const monthlySaving = Math.round(avgMonthlySales * 0.04 * numBranches);
@@ -1445,7 +1443,7 @@ export default function ErpPage() {
                 </span>
                 
                 <div>
-                  <span className="text-[11px] text-slate-600 block font-medium">{lang === "ar" ? "أرباح وتكاليف سرقات نمنعها عنك سنوياً (بحرص 4%):" : "Lost profits and theft costs prevented annually (at conservative 4%):"}</span>
+                  <span className="text-[11px] text-slate-600 block font-medium">{lang === "ar" ? "تقدير توضيحي غير مضمون: وفورات سنوية محتملة بافتراض 4% من الإيرادات:" : "Illustrative estimate, not a guarantee: potential annual savings assuming 4% of turnover:"}</span>
                   <span className="text-2xl sm:text-3xl font-bold text-brand-500 tracking-tight font-mono block mt-1">
                     +{calculatedSavings.toLocaleString()} <span className="text-xs">{currencySymbol}</span>
                   </span>
@@ -1457,7 +1455,7 @@ export default function ErpPage() {
                     <span className="w-1.5 h-1.5 bg-brand-500 rounded-full" />
                     {recommendedPlanName} ({isLifetimeTarget ? (lang === "ar" ? "ترخيص تمليك" : "Lifetime") : (lang === "ar" ? "سحابي ساس" : "Cloud SaaS")})
                   </p>
-                  <p className="text-[11px] text-slate-600 mt-1">{lang === "ar" ? "سعر الباقة التقريبي:" : "Approximate Plan Price:"} <strong className="text-brand-500 text-xs font-mono">{recommendedPlanPrice.toLocaleString()} {currencySymbol}</strong> / {isLifetimeTarget ? (lang === "ar" ? "تدفع لمرة واحدة" : "one-time") : (lang === "ar" ? "شهرياً" : "month")}</p>
+                  <p className="text-[11px] text-slate-600 mt-1">{lang === "ar" ? "سعر الباقة التقريبي:" : "Approximate Plan Price:"} {isLifetimeTarget ? (<strong className="text-brand-500 text-xs font-mono">{lang === "ar" ? "عرض سعر مكتوب" : "Written quote"}</strong>) : (<><strong className="text-brand-500 text-xs font-mono">{recommendedPlanPrice?.toLocaleString()} {recommendedLevel?.currency}</strong> / {lang === "ar" ? "شهرياً" : "month"}</>)}</p>
                 </div>
               </div>
 
@@ -1636,6 +1634,14 @@ export default function ErpPage() {
             )}
           </div>
 
+          {catalog?.country?.requiresWrittenDisclosure && (
+            <div className="max-w-3xl mx-auto mb-6 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-xs leading-relaxed text-amber-900">
+              {lang === "ar"
+                ? "الأسعار المعروضة لبلدك تتطلب إفصاحاً مكتوباً قبل الشراء وفق بيانات الكتالوج. تواصل معنا للحصول على عرض سعر مكتوب قبل الالتزام بالدفع."
+                : "Prices shown for your country require written disclosure before purchase, per the catalog data. Contact us for a written quote before committing to payment."}
+            </div>
+          )}
+
           {/* 2. BILLING PERIOD SELECTOR (LIVE LOGIC FROM API) */}
           <div className="mb-10 text-center">
             <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
@@ -1743,18 +1749,16 @@ export default function ErpPage() {
                   const equivMonthly = Math.round(level.annual / (catalog?.annualEqualsMonths || 10));
                   periodLabelAr = "سنوياً";
                   periodLabelEn = "year";
-                  subtextAr = `ما يعادل ${equivMonthly.toLocaleString()} ${currencySymbol} شهرياً · احتساب ${catalog?.annualEqualsMonths || 10} أشهر فقط`;
-                  subtextEn = `Equiv. ${equivMonthly.toLocaleString()} ${currencySymbol}/mo · Billed for ${catalog?.annualEqualsMonths || 10} months`;
+                  subtextAr = `ما يعادل ${equivMonthly.toLocaleString()} ${level.currency} شهرياً · احتساب ${catalog?.annualEqualsMonths || 10} أشهر فقط`;
+                  subtextEn = `Equiv. ${equivMonthly.toLocaleString()} ${level.currency}/mo · Billed for ${catalog?.annualEqualsMonths || 10} months`;
                 } else {
-                  // Offline Lifetime
-                  const baseOfflinePrice = Math.round(level.annual * 3.5);
-                  displayPrice = baseOfflinePrice;
-                  const downPayment = Math.round(displayPrice * 0.4);
-                  const monthlyInstallment = Math.round((displayPrice * 0.6) / 6);
+                  // Offline Lifetime: quote-only. The live API publishes no
+                  // offline price, so no price may be computed client-side.
+                  displayPrice = 0;
                   periodLabelAr = "تدفع لمرة واحدة";
                   periodLabelEn = "one-time";
-                  subtextAr = `متاح بالتقسيط: مقدم ${downPayment.toLocaleString()} ${currencySymbol} + ${monthlyInstallment.toLocaleString()} × 6 شهور`;
-                  subtextEn = `Installments: 40% down + 6 monthly payments`;
+                  subtextAr = "سعر الترخيص الدائم بعرض سعر مكتوب — التقسيط والشروط أدناه";
+                  subtextEn = "Lifetime license priced by written quote — installments & terms below";
                 }
 
                 return (
@@ -1860,15 +1864,23 @@ export default function ErpPage() {
                       {/* Live Price Block */}
                       <div className="mt-4 pt-4 pb-4 min-h-[96px] border-t border-b border-slate-100 flex flex-col justify-center">
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-900">
-                            {displayPrice.toLocaleString()}
-                          </span>
-                          <span className="text-sm font-bold text-brand-600 font-sans mx-1">
-                            {currencySymbol}
-                          </span>
-                          <span className="text-xs font-bold text-slate-400">
-                            / {lang === "ar" ? periodLabelAr : periodLabelEn}
-                          </span>
+                          {isOfflineMode ? (
+                            <span className="text-2xl sm:text-3xl font-black font-display tracking-tight text-slate-900">
+                              {lang === "ar" ? "اطلب عرض سعر" : "Request a Quote"}
+                            </span>
+                          ) : (
+                            <>
+                              <span className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-900">
+                                {displayPrice.toLocaleString()}
+                              </span>
+                              <span className="text-sm font-bold text-brand-600 font-sans mx-1">
+                                {level.currency}
+                              </span>
+                              <span className="text-xs font-bold text-slate-400">
+                                / {lang === "ar" ? periodLabelAr : periodLabelEn}
+                              </span>
+                            </>
+                          )}
                         </div>
                         
                         <p className="text-[11px] font-medium text-emerald-700 mt-1.5 flex items-center gap-1">
@@ -2009,7 +2021,7 @@ export default function ErpPage() {
                         <div className="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between">
                           <span className="text-sm font-black font-mono text-brand-600">
                             {floor.monthly !== null
-                              ? `${floor.monthly.toLocaleString()} ${currencySymbol}`
+                              ? `${floor.monthly.toLocaleString()} ${catalog?.country?.currency || currencySymbol}`
                               : floor.contactForPrice
                                 ? (lang === "ar" ? "بالطلب" : "Contact Sales")
                                 : (floor.pricingRule || (lang === "ar" ? "حسب الاستخدام" : "Usage-based"))}
@@ -2033,7 +2045,7 @@ export default function ErpPage() {
                           {lang === "ar" ? "مستخدم إضافي شهرياً" : "Extra User /mo"}
                         </span>
                         <span className="font-mono font-bold text-brand-600 text-sm">
-                          +{catalogAddons.extraUserMonthly.toLocaleString()} {currencySymbol}
+                          +{catalogAddons.extraUserMonthly.toLocaleString()} {catalog?.country?.currency || currencySymbol}
                         </span>
                       </div>
                       <div className="p-3.5 rounded-xl border border-slate-200 bg-white flex items-center justify-between">
@@ -2041,7 +2053,7 @@ export default function ErpPage() {
                           {lang === "ar" ? "فرع إضافي شهرياً" : "Extra Branch /mo"}
                         </span>
                         <span className="font-mono font-bold text-brand-600 text-sm">
-                          +{catalogAddons.extraBranchMonthly.toLocaleString()} {currencySymbol}
+                          +{catalogAddons.extraBranchMonthly.toLocaleString()} {catalog?.country?.currency || currencySymbol}
                         </span>
                       </div>
                     </div>
@@ -2141,7 +2153,7 @@ export default function ErpPage() {
                         {lang === "ar" ? `المستوى 1: ${catalogLevels[0]?.name || "محل"}` : `Level 1: ${catalogLevels[0]?.name || "Starter"}`}
                       </div>
                       <div className="text-[11px] font-mono text-slate-500 mt-0.5">
-                        {catalogLevels[0] ? `${(billingMode === 'annual' ? catalogLevels[0].annual : catalogLevels[0].monthly).toLocaleString()} ${currencySymbol}` : ''}
+                        {catalogLevels[0] ? `${(billingMode === 'annual' ? catalogLevels[0].annual : catalogLevels[0].monthly).toLocaleString()} {catalogLevels[0].currency}` : ''}
                       </div>
                     </th>
                     <th className="p-4 text-center bg-slate-100/60">
@@ -2150,7 +2162,7 @@ export default function ErpPage() {
                         <span className="text-[9px] bg-slate-900 text-white px-1.5 py-0.2 rounded-full font-mono">{lang === "ar" ? "الأكثر طلباً" : "Popular"}</span>
                       </div>
                       <div className="text-[11px] font-mono text-slate-700 font-bold mt-0.5">
-                        {catalogLevels[1] ? `${(billingMode === 'annual' ? catalogLevels[1].annual : catalogLevels[1].monthly).toLocaleString()} ${currencySymbol}` : ''}
+                        {catalogLevels[1] ? `${(billingMode === 'annual' ? catalogLevels[1].annual : catalogLevels[1].monthly).toLocaleString()} {catalogLevels[1].currency}` : ''}
                       </div>
                     </th>
                     <th className="p-4 text-center bg-emerald-50/50">
@@ -2158,7 +2170,7 @@ export default function ErpPage() {
                         {lang === "ar" ? `المستوى 3: ${catalogLevels[2]?.name || "سلسلة ومؤسسة"}` : `Level 3: ${catalogLevels[2]?.name || "Enterprise"}`}
                       </div>
                       <div className="text-[11px] font-mono text-emerald-700 font-bold mt-0.5">
-                        {catalogLevels[2] ? `${(billingMode === 'annual' ? catalogLevels[2].annual : catalogLevels[2].monthly).toLocaleString()} ${currencySymbol}` : ''}
+                        {catalogLevels[2] ? `${(billingMode === 'annual' ? catalogLevels[2].annual : catalogLevels[2].monthly).toLocaleString()} {catalogLevels[2].currency}` : ''}
                       </div>
                     </th>
                     <th className="p-4 text-center bg-amber-50/50">

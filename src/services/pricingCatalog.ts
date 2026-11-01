@@ -231,12 +231,12 @@ export function getFallbackProductCatalog(
 
 /**
  * Fetch catalog for a specific product and country.
- * Tries local Vite proxy first (to avoid browser CORS issues), then direct API,
- * then falls back to official bundled catalog data so UI never shows empty cards.
+ * Fetches the live API directly, then falls back to bundled catalog data.
  */
 export async function fetchProductCatalog(
   product: string = "retail",
-  country: string = "EG"
+  country: string = "EG",
+  signal?: AbortSignal
 ): Promise<ProductCatalogResponse> {
   const cacheKey = `single_${product}_${country}`;
   const now = Date.now();
@@ -246,24 +246,21 @@ export async function fetchProductCatalog(
   }
 
   const query = `product=${encodeURIComponent(product)}&country=${encodeURIComponent(country)}`;
-  const endpoints = [
-    `/api/public/pricing-catalog?${query}`,
-    `https://app.zsystemai.com/api/public/pricing-catalog?${query}`,
-  ];
-
-  for (const url of endpoints) {
-    try {
-      const res = await fetch(url);
-      if (res.ok) {
-        const data: ProductCatalogResponse = await res.json();
-        if (data && data.levels && data.levels.length > 0) {
-          cache[cacheKey] = { data, timestamp: now };
-          return data;
-        }
+  // Direct API only: the Vite /api proxy exists in development only, so in
+  // production the proxy URL 404s and wastes a request on every load.
+  const url = `https://app.zsystemai.com/api/public/pricing-catalog?${query}`;
+  try {
+    const res = await fetch(url, { signal });
+    if (res.ok) {
+      const data: ProductCatalogResponse = await res.json();
+      if (data && data.levels && data.levels.length > 0) {
+        cache[cacheKey] = { data, timestamp: now };
+        return data;
       }
-    } catch {
-      // Continue to next endpoint or fallback
     }
+  } catch (err) {
+    if (err instanceof DOMException && err.name === "AbortError") throw err;
+    // Fall through to bundled fallback below.
   }
 
   // Graceful fallback to bundled catalog
@@ -275,7 +272,7 @@ export async function fetchProductCatalog(
 /**
  * Fetch full catalog (all products & countries)
  */
-export async function fetchFullCatalog(): Promise<FullCatalogResponse> {
+export async function fetchFullCatalog(signal?: AbortSignal): Promise<FullCatalogResponse> {
   const cacheKey = "full_catalog";
   const now = Date.now();
 
@@ -283,24 +280,19 @@ export async function fetchFullCatalog(): Promise<FullCatalogResponse> {
     return cache[cacheKey].data as FullCatalogResponse;
   }
 
-  const endpoints = [
-    "/api/public/pricing-catalog",
-    "https://app.zsystemai.com/api/public/pricing-catalog",
-  ];
-
-  for (const url of endpoints) {
-    try {
-      const res = await fetch(url);
-      if (res.ok) {
-        const data: FullCatalogResponse = await res.json();
-        if (data && data.products && data.products.length > 0) {
-          cache[cacheKey] = { data, timestamp: now };
-          return data;
-        }
+  const url = "https://app.zsystemai.com/api/public/pricing-catalog";
+  try {
+    const res = await fetch(url, { signal });
+    if (res.ok) {
+      const data: FullCatalogResponse = await res.json();
+      if (data && data.products && data.products.length > 0) {
+        cache[cacheKey] = { data, timestamp: now };
+        return data;
       }
-    } catch {
-      // Continue to next endpoint
     }
+  } catch (err) {
+    if (err instanceof DOMException && err.name === "AbortError") throw err;
+    // Fall through to bundled fallback below.
   }
 
   const fallbackFull = catalogRawData as unknown as FullCatalogResponse;

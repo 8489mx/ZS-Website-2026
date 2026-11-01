@@ -26,40 +26,48 @@ export function usePricingCatalog(currencyCode: string = "EGP", initialProduct: 
   // Initial load: Fetch all products list and initial product pricing
   useEffect(() => {
     let isMounted = true;
+    const controller = new AbortController();
 
     // Fetch full catalog once to get the complete products list
-    fetchFullCatalog()
+    fetchFullCatalog(controller.signal)
       .then((fullData) => {
         if (isMounted && fullData.products?.length > 0) {
           setAllProducts(fullData.products);
         }
       })
       .catch((err) => {
-        console.warn("Could not fetch full products list:", err);
+        if (err?.name !== "AbortError") {
+          console.warn("Could not fetch full products list:", err);
+        }
       });
 
     return () => {
       isMounted = false;
+      controller.abort();
     };
   }, []);
 
   // Fetch product catalog whenever product or countryCode changes
-  const loadProductCatalog = useCallback(async () => {
+  const loadProductCatalog = useCallback(async (signal?: AbortSignal) => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await fetchProductCatalog(selectedProduct, countryCode);
+      const data = await fetchProductCatalog(selectedProduct, countryCode, signal);
+      if (signal?.aborted) return;
       setCatalog(data);
     } catch (err: any) {
+      if (err?.name === "AbortError") return;
       console.error(`Failed to load pricing for ${selectedProduct}/${countryCode}:`, err);
       setError(err?.message || "Failed to load pricing");
     } finally {
-      setIsLoading(false);
+      if (!signal?.aborted) setIsLoading(false);
     }
   }, [selectedProduct, countryCode]);
 
   useEffect(() => {
-    loadProductCatalog();
+    const controller = new AbortController();
+    loadProductCatalog(controller.signal);
+    return () => controller.abort();
   }, [loadProductCatalog]);
 
   // Enhanced product object with multilingual metadata
