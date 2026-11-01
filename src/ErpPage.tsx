@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { APP_LOGIN_URL, APP_TRIAL_URL } from "./links";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip } from "recharts";
+
 import { motion, AnimatePresence } from "motion/react";
 import {
   MonitorCheck,
@@ -42,6 +42,7 @@ import { ERP_CATEGORIES, PROBLEM_STATEMENTS, DEPLOYMENT_MODES, FAQS } from "./da
 import { ERP_CATEGORIES_EN, PROBLEM_STATEMENTS_EN, DEPLOYMENT_MODES_EN, FAQS_EN } from "./dataEn";
 import { MessageCircle, Palette, Utensils, UtensilsCrossed, Smile, Star, Coffee, Activity, Pizza, Bird, Carrot, Store, Car, Sun, CarFront, ShoppingBag, Truck, Info, CreditCard, Gift, Layers, FileText, CalendarCheck, Receipt, Award, CheckCircle2 } from "lucide-react";
 const SystemGallery = lazy(() => import("./SystemGallery"));
+const RoiSavingsChart = lazy(() => import("./components/RoiSavingsChart"));
 import { content } from "./i18n";
 import { useLanguage } from "./LanguageContext";
 import { useTheme } from "./ThemeContext";
@@ -1472,19 +1473,9 @@ export default function ErpPage() {
               </h3>
               <div className="h-64 w-full min-w-0 text-xs font-mono" dir="ltr" style={{ minHeight: "256px" }}>
                 {isChartMounted && (
-                  <ResponsiveContainer width="100%" height={256} minWidth={0}>
-                    <BarChart data={roiChartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-                      <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 10}} />
-                      <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 10}} tickFormatter={(value) => `${value >= 1000 ? (value / 1000).toFixed(0) + 'k' : value}`} />
-                      <RechartsTooltip 
-                        cursor={{fill: '#f1f5f9'}} 
-                        contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontSize: '12px', fontWeight: 'bold' }} 
-                        formatter={(value: number) => [`${value.toLocaleString()} ${currencySymbol}`, lang === "ar" ? "التوفير" : "Savings"]}
-                      />
-                      <Bar dataKey="savings" fill="#10b981" radius={[4, 4, 0, 0]} barSize={40} />
-                    </BarChart>
-                  </ResponsiveContainer>
+                  <Suspense fallback={null}>
+                    <RoiSavingsChart data={roiChartData} currencySymbol={currencySymbol} lang={lang} />
+                  </Suspense>
                 )}
               </div>
             </div>
