@@ -4,10 +4,10 @@ import { motion, AnimatePresence } from "motion/react";
 
 // Gallery Images (Cache-busting '?v=2' ensures browsers instantly load the new images instead of showing old cached ones)
 const GALLERY_IMAGES = [
-  { id: 1, src: "/screenshot1.png?v=2" },
-  { id: 2, src: "/screenshot2.png?v=2" },
-  { id: 3, src: "/screenshot3.png?v=2" },
-  { id: 4, src: "/screenshot4.png?v=2" }
+  { id: 1, src: "/screenshot1.png?v=2", webp: "/screenshot1.webp", altAr: "لقطة من واجهة نقاط البيع", altEn: "Point-of-sale interface screenshot" },
+  { id: 2, src: "/screenshot2.png?v=2", webp: "/screenshot2.webp", altAr: "لقطة من واجهة المخازن", altEn: "Inventory interface screenshot" },
+  { id: 3, src: "/screenshot3.png?v=2", webp: "/screenshot3.webp", altAr: "لقطة من التقارير المالية", altEn: "Financial reports screenshot" },
+  { id: 4, src: "/screenshot4.png?v=2", webp: "/screenshot4.webp", altAr: "لقطة من واجهة النظام", altEn: "System interface screenshot" }
 ];
 
 export default function SystemGallery({ lang }: { lang: "ar" | "en" }) {
@@ -58,15 +58,15 @@ export default function SystemGallery({ lang }: { lang: "ar" | "en" }) {
       <div className="max-w-[1440px] mx-auto px-6 sm:px-8">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="text-brand-600 font-bold text-xs tracking-widest uppercase font-mono bg-brand-50 px-3 py-1.5 rounded-full inline-block">
-            {lang === "ar" ? "صور حية من قلب النظام" : "Live Real-System Gallery"}
+            {lang === "ar" ? "لقطات من واجهات النظام" : "Screenshots from the System Interfaces"}
           </span>
           <h2 className="mt-4 text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-normal">
             {lang === "ar" ? "شاهد قوة النظام من الداخل" : "See the System's Power from Inside"}
           </h2>
           <p className="mt-2 text-slate-500 text-xs sm:text-sm">
             {lang === "ar" 
-              ? "واجهات عصرية فائقة السرعة، توفر لك تحكماً لحظياً في مبيعات الكاشير، حركة المخازن، والتقارير المالية بدقة متناهية وسهولة مطلقة." 
-              : "Modern, high-speed interfaces providing real-time control over POS sales, inventory movements, and financial reports with absolute precision."}
+              ? "لقطات من واجهات النظام لنقاط البيع والمخازن والتقارير المالية."
+              : "Screenshots from the system interfaces for point of sale, inventory, and financial reports."}
           </p>
         </div>
 
@@ -78,9 +78,13 @@ export default function SystemGallery({ lang }: { lang: "ar" | "en" }) {
               onClick={() => openImage(index)}
               className="group cursor-pointer aspect-video bg-white rounded-xl overflow-hidden border border-slate-200 shadow-xs hover:border-slate-400 hover:shadow-lg transition-all relative flex items-center justify-center"
             >
-              <img 
+              <picture className="contents">
+                <source srcSet={img.webp} type="image/webp" />
+                <img 
                 src={img.src} 
-                alt={`Screenshot ${img.id}`} 
+                alt={lang === "ar" ? img.altAr : img.altEn}
+                width={1280}
+                height={720}
                 loading="lazy"
                 decoding="async"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -89,6 +93,7 @@ export default function SystemGallery({ lang }: { lang: "ar" | "en" }) {
                   e.currentTarget.parentElement?.classList.add('fallback-active');
                 }}
               />
+              </picture>
               
               <div className="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/30 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
                 <div className="bg-white/95 backdrop-blur-xs text-slate-900 px-3.5 py-1.5 rounded-full font-bold text-xs shadow-md transform translate-y-3 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-1.5">
@@ -147,14 +152,19 @@ export default function SystemGallery({ lang }: { lang: "ar" | "en" }) {
                 className="w-full h-full flex flex-col items-center max-h-full"
               >
                 <div className="relative w-full rounded-xl overflow-hidden bg-slate-950 flex shadow-2xl items-center justify-center border border-slate-800" style={{ minHeight: '300px' }}>
-                  <img 
+                  <picture className="contents">
+                    <source srcSet={images[selectedImageIndex].webp} type="image/webp" />
+                    <img 
                     src={images[selectedImageIndex].src} 
-                    alt={`Screenshot ${images[selectedImageIndex].id}`} 
+                    alt={lang === "ar" ? images[selectedImageIndex].altAr : images[selectedImageIndex].altEn}
+                    width={1600}
+                    height={900}
                     className="max-w-full max-h-[82vh] object-contain"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                     }}
                   />
+                  </picture>
                   
                   {/* Fallback text in Lightbox if img is broken */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 lightbox-fallback text-center p-6">

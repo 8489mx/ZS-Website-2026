@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Mail, Phone, MapPin, Globe } from "lucide-react";
 import { useLanguage } from "../LanguageContext";
 import LanguageSwitcher from "../LanguageSwitcher";
+import SiteLogo from "../components/SiteLogo";
 
 interface LegalLayoutProps {
   titleAr: string;
@@ -27,7 +28,7 @@ export default function LegalLayout({
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between gap-3">
           <Link to="/" className="flex items-center gap-2 select-none" dir="ltr">
-            <img src="/logo.png" alt="Z" width="36" height="36" className="h-8 sm:h-9 w-auto object-contain shrink-0" />
+            <SiteLogo alt="Z" width={36} height={36} className="h-8 sm:h-9 w-auto object-contain shrink-0" />
             <span className="font-display font-black text-lg sm:text-xl text-slate-900 tracking-tight leading-none">
               Systems
             </span>

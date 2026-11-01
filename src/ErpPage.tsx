@@ -51,6 +51,7 @@ import CurrencySwitcher from "./CurrencySwitcher";
 import { useCurrency } from "./CurrencyContext";
 import { OFFLINE_TERMS, BillingMode } from "./pricingData";
 import { usePricingCatalog } from "./usePricingCatalog";
+import SiteLogo from "./components/SiteLogo";
 import { PRODUCT_EN_METADATA } from "./services/pricingCatalog";
 
 // 5 Core Sector Tabs grouping the 16 Specialized Systems
@@ -370,7 +371,7 @@ export default function ErpPage() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 select-none hover:opacity-80 transition-opacity" dir="ltr">
-              <img src="/logo.png" alt="Z Systems" width="140" height="36" className="h-8 sm:h-10 w-auto object-contain shrink-0" />
+              <SiteLogo alt="Z Systems" width={140} height={36} fetchPriority="high" className="h-8 sm:h-10 w-auto object-contain shrink-0" />
               <div className="flex flex-col text-start">
                 <span className="font-display font-black text-sm sm:text-[16px] text-slate-900 tracking-tight leading-none flex items-center gap-1.5">
                   Systems 
@@ -924,7 +925,7 @@ export default function ErpPage() {
                         {/* Fake Sidebar */}
                         <div className="hidden md:flex w-52 bg-slate-100 border-l border-slate-200 p-4 flex-col gap-2 shrink-0">
                           <div className="flex items-center gap-2 mb-6">
-                            <img src="/logo.png" alt="Z Systems" className="h-8 w-auto object-contain drop-shadow-sm" />
+                            <SiteLogo alt="Z Systems" className="h-8 w-auto object-contain drop-shadow-sm" />
                             <div className="flex flex-col">
                               <span className="font-black text-[13px] text-slate-900 tracking-tight leading-none mb-0.5">Systems</span>
                               <span className="text-[9px] text-slate-600 font-medium">{lang === "ar" ? "إدارة المبيعات والمخزون" : "Sales and Inventory Management"}</span>
@@ -2385,7 +2386,7 @@ export default function ErpPage() {
 
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 text-center relative z-10">
           
-          <img src="/logo.png" alt="Z Systems" className="h-20 w-auto object-contain mx-auto mb-6 drop-shadow-md" />
+          <SiteLogo alt="Z Systems" className="h-20 w-auto object-contain mx-auto mb-6 drop-shadow-md" />
 
           {/* Copywriting Final Climax headline */}
           <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 leading-normal max-w-4xl mx-auto">
@@ -2442,7 +2443,7 @@ export default function ErpPage() {
             {/* Brand Column (5 cols) */}
             <div className="md:col-span-5 space-y-4 flex flex-col items-center md:items-start text-center md:text-start">
               <div className="flex items-center gap-2.5" dir="ltr">
-                <img src="/logo.png" alt="Z Systems" className="h-9 w-auto object-contain drop-shadow-sm shrink-0" />
+                <SiteLogo alt="Z Systems" className="h-9 w-auto object-contain drop-shadow-sm shrink-0" />
                 <div className="flex flex-col text-start">
                   <span className="font-display font-black text-base text-slate-900 tracking-tight leading-none">
                     Systems <span className="text-brand-600 font-bold text-xs">Pro</span>

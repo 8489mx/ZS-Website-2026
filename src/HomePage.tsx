@@ -14,6 +14,7 @@ import { useTheme } from "./ThemeContext";
 
 import ThemeSwitcher from "./ThemeSwitcher";
 import LanguageSwitcher from "./LanguageSwitcher";
+import SiteLogo from "./components/SiteLogo";
 const InteractiveCyberRobot = lazy(() => import("./components/InteractiveCyberRobot"));
 
 export default function HomePage() {
@@ -176,7 +177,7 @@ export default function HomePage() {
       <header className="w-full sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-[1440px] mx-auto px-3 sm:px-8 py-3 sm:py-4 flex items-center justify-between gap-2">
           <Link to="/" className="flex items-center gap-1.5 sm:gap-2 shrink-0" dir="ltr">
-            <img src="/logo.png" alt="Z Systems" width="140" height="36" className="h-7 sm:h-10 w-auto object-contain shrink-0" />
+            <SiteLogo alt="Z Systems" width={140} height={36} fetchPriority="high" className="h-7 sm:h-10 w-auto object-contain shrink-0" />
             <span className="font-display font-black text-sm sm:text-xl text-slate-900 tracking-tight leading-none whitespace-nowrap">
               {content.nav.company}
             </span>
@@ -676,7 +677,7 @@ export default function HomePage() {
             {/* Column 1: Company & Contact */}
             <div className="space-y-3 text-start">
               <div className="flex items-center gap-2 w-fit" dir="ltr">
-                <img src="/logo.png" alt="Z" width="32" height="32" className="h-7 w-auto object-contain shrink-0" />
+                <SiteLogo alt="Z" width={32} height={32} className="h-7 w-auto object-contain shrink-0" />
                 <span className="font-display font-black text-slate-900 text-lg tracking-tight">Systems</span>
               </div>
               
