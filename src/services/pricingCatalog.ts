@@ -212,9 +212,14 @@ export const DEFAULT_PRODUCTS: CatalogProduct[] = [
 const cache: Record<string, { data: any; timestamp: number }> = {};
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes cache
 
-// Map app currencyCode to API country code. Currencies outside the catalog
-// (JOD/IQD/USD) fall back to the EG catalog; prices are then displayed in
-// the catalog currency (EGP), never relabelled with the selected symbol.
+// Map app currencyCode to API country code. Every selectable currency
+// maps to its own country: a visitor who picks JOD sees Jordan's offer
+// (or the no-offer contact state when Jordan has none), never Egypt's
+// prices. Unknown codes pass through unchanged so the API answers 404
+// and the UI shows the contact state instead of another country's
+// prices. (Previously JOD/IQD/USD fell back to EG here, which showed
+// Egypt's EGP cards to visitors from blocked/unsupported countries and
+// made the no-offer state unreachable from the currency selector.)
 export function mapCurrencyToCountry(currencyCode: string): string {
   switch (currencyCode) {
     case "SAR": return "SA";
@@ -223,7 +228,11 @@ export function mapCurrencyToCountry(currencyCode: string): string {
     case "KWD": return "KW";
     case "BHD": return "BH";
     case "OMR": return "OM";
-    case "EGP": default: return "EG";
+    case "JOD": return "JO";
+    case "IQD": return "IQ";
+    case "USD": return "US";
+    case "EGP": return "EG";
+    default: return currencyCode;
   }
 }
 
