@@ -22,6 +22,10 @@ export function usePricingCatalog(currencyCode: string = "EGP", initialProduct: 
   const [allProducts, setAllProducts] = useState<CatalogProduct[]>(DEFAULT_PRODUCTS);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  // True when the last fetch answered 404: no published pricing offer for
+  // the selected product/country. The UI shows a contact message instead
+  // of the generic error/retry state, which would read as a broken site.
+  const [offerNotFound, setOfferNotFound] = useState<boolean>(false);
 
   // Idle load: the full catalog (~900 kB) only refreshes product names
   // from the live source; the static DEFAULT_PRODUCTS list already
@@ -76,14 +80,17 @@ export function usePricingCatalog(currencyCode: string = "EGP", initialProduct: 
   const loadProductCatalog = useCallback(async (signal?: AbortSignal) => {
     setIsLoading(true);
     setError(null);
+    setOfferNotFound(false);
     try {
       const data = await fetchProductCatalog(selectedProduct, countryCode, signal);
       if (signal?.aborted) return;
       setCatalog(data);
+      setOfferNotFound(data.offerNotFound === true);
     } catch (err: any) {
       if (err?.name === "AbortError") return;
       console.error(`Failed to load pricing for ${selectedProduct}/${countryCode}:`, err);
       setError(err?.message || "Failed to load pricing");
+      setOfferNotFound(false);
     } finally {
       if (!signal?.aborted) setIsLoading(false);
     }
@@ -132,6 +139,7 @@ export function usePricingCatalog(currencyCode: string = "EGP", initialProduct: 
     countryCode,
     isLoading,
     error,
+    offerNotFound,
     refetch: loadProductCatalog,
   };
 }

@@ -63,6 +63,13 @@ export interface ProductCatalogResponse {
   trialDays: number;
   /** False when the API says displayed prices exclude VAT; absent on the error fallback. */
   vatIncluded?: boolean;
+  /**
+   * True only when the API answered 404: no published offer exists for
+   * this product/country. Absent/false on every other response, including
+   * network failures. A 404 fallback is never cached, so a later published
+   * offer is picked up on the next fetch.
+   */
+  offerNotFound?: boolean;
   levels: CatalogLevel[];
   floors: CatalogFloor[];
   addons: CatalogAddons;
@@ -264,8 +271,15 @@ export async function fetchProductCatalog(
   // Direct API only: the Vite /api proxy exists in development only, so in
   // production the proxy URL 404s and wastes a request on every load.
   const url = `https://app.zsystemai.com/api/public/pricing-catalog?${query}`;
+  // Set only when the API itself answers 404 (no published offer for this
+  // product/country). A proxy or network failure leaves it false, so the
+  // UI keeps the generic error/retry state for those cases.
+  let offerNotFound = false;
   try {
     const res = await fetch(url, { signal });
+    if (res.status === 404) {
+      offerNotFound = true;
+    }
     if (res.ok) {
       const data: ProductCatalogResponse = await res.json();
       if (data && data.levels && data.levels.length > 0) {
@@ -278,12 +292,14 @@ export async function fetchProductCatalog(
     // Fall through to bundled fallback below.
   }
 
-  // Live API unreachable: empty levels so the UI shows error/retry,
-  // never stale bundled prices. Failures are never cached: the Retry
-  // button must refetch immediately instead of replaying the empty
-  // result until the cache TTL expires.
+  // Live API unreachable, or no published offer (404): empty levels so
+  // the UI shows an error state, never stale bundled prices. Failures are
+  // never cached: the Retry button must refetch immediately instead of
+  // replaying the empty result until the cache TTL expires. The 404 flag
+  // rides on the fallback so the UI can tell "no offer for this country"
+  // apart from a technical failure.
   const fallbackData = getFallbackProductCatalog(product, country);
-  return fallbackData;
+  return { ...fallbackData, offerNotFound };
 }
 
 /**

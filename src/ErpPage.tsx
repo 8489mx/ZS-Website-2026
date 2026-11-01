@@ -140,6 +140,7 @@ export default function ErpPage() {
     setSelectedProduct,
     isLoading: isCatalogLoading,
     error: catalogError,
+    offerNotFound: isOfferNotFound,
     refetch: refetchCatalog,
   } = usePricingCatalog(currencyCode, "retail");
 
@@ -1733,6 +1734,21 @@ export default function ErpPage() {
               <p className="text-xs text-slate-500 font-medium font-sans">
                 {lang === "ar" ? "جاري جلب أحدث الأسعار الحية من السيرفر..." : "Fetching live pricing from server..."}
               </p>
+            </div>
+          ) : isOfferNotFound ? (
+            <div className="py-16 text-center max-w-md mx-auto">
+              <p className="text-sm font-bold text-slate-900">
+                {lang === "ar" ? "لا توجد أسعار منشورة لبلدك بعد" : "No published pricing for your country yet"}
+              </p>
+              <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                {lang === "ar" ? "لم ننشر أسعاراً لبلدك بعد. تواصل معنا وسيصلك عرض سعر مكتوب مناسب لنشاطك." : "We have not published pricing for your country yet. Contact us and we will send you a written quote for your business."}
+              </p>
+              <Link
+                to="/contact"
+                className="mt-4 inline-block bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 px-6 rounded-xl text-xs transition-colors cursor-pointer"
+              >
+                {lang === "ar" ? "تواصل معنا لعرض سعر" : "Contact us for a quote"}
+              </Link>
             </div>
           ) : (!catalogLevels || catalogLevels.length === 0) ? (
             <div className="py-16 text-center max-w-md mx-auto">
