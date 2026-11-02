@@ -500,6 +500,36 @@ export function detectCurrencyFromTimezone(): CurrencyCode {
   return "EGP"; // Default to EGP
 }
 
+// Reconcile a saved currency against a fresh IP-geolocation result.
+//
+// A saved currency is an explicit choice ONLY within the country it was
+// chosen in. When fresh detection reports a different country than the
+// one the saved choice belongs to, the saved value is stale (picked while
+// travelling, or saved by an older default) and the detected country's
+// currency wins, so the location modal's heading, its currency chip, and
+// the fetched prices can never disagree. Returns the currency to adopt,
+// or null to keep the saved one.
+export function resolveDetectedCurrency(args: {
+  savedCurrency: string | null;
+  storedCountryCode: string;
+  detectedCountryCode: string;
+  detectedCountryName: string;
+}): CurrencyCode | null {
+  const mappedCurrency =
+    COUNTRY_CODE_TO_CURRENCY[args.detectedCountryCode] ||
+    COUNTRY_NAME_TO_CURRENCY[args.detectedCountryName] ||
+    detectCurrencyFromTimezone();
+  if (!args.savedCurrency || !(args.savedCurrency in CURRENCY_CONFIGS)) {
+    return mappedCurrency;
+  }
+  // No stored code (pre-fix visits stored only the country name) means the
+  // saved choice predates country tracking: reconcile on this detection.
+  if (args.detectedCountryCode && args.detectedCountryCode !== args.storedCountryCode) {
+    return mappedCurrency;
+  }
+  return null;
+}
+
 interface CurrencyContextType {
   currencyCode: CurrencyCode;
   currency: CurrencyConfig;
@@ -531,8 +561,12 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   // Detect location on mount
   useEffect(() => {
-    // If user already explicitly set their currency, respect that preference
+    // A saved currency is respected only while the visitor stays in the
+    // country it belongs to; a different detected country reconciles it
+    // (see resolveDetectedCurrency). The stored country code is read once
+    // here, before this detection overwrites it.
     const savedCurrency = safeLocalStorage.getItem("zsystems_currency_code");
+    const storedCountryCode = safeLocalStorage.getItem("zsystems_detected_country_code") || "";
 
     const detectLocation = async () => {
       const controller = new AbortController();
@@ -553,13 +587,22 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             safeLocalStorage.setItem("zsystems_detected_country", countryName);
           }
 
-          if (!savedCurrency) {
-            const mappedCurrency =
-              COUNTRY_CODE_TO_CURRENCY[countryCode] ||
-              COUNTRY_NAME_TO_CURRENCY[countryName] ||
-              detectCurrencyFromTimezone();
-            
-            setCurrencyCodeState(mappedCurrency);
+          if (countryCode) {
+            safeLocalStorage.setItem("zsystems_detected_country_code", countryCode);
+          }
+
+          const reconciledCurrency = resolveDetectedCurrency({
+            savedCurrency,
+            storedCountryCode,
+            detectedCountryCode: countryCode,
+            detectedCountryName: countryName,
+          });
+          if (reconciledCurrency) {
+            setCurrencyCodeState(reconciledCurrency);
+            // Persist the reconciled currency: without this, the stale
+            // saved value would win again on the next load, because the
+            // stored country code now matches the detected one.
+            safeLocalStorage.setItem("zsystems_currency_code", reconciledCurrency);
             setIsAutoDetected(true);
           }
         }
