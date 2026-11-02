@@ -61,6 +61,12 @@ export interface ProductCatalogResponse {
   quoteAnnuallyOnly: boolean;
   annualEqualsMonths: number;
   trialDays: number;
+  /**
+   * Launch offer, when the live API publishes one. Absent on every
+   * response served before the backend deploys it — the UI renders
+   * nothing then, never an invented discount.
+   */
+  launchOffer?: { percentOffFirstYear: number; firstYearOnly: boolean; newCustomersOnly: boolean };
   /** False when the API says displayed prices exclude VAT; absent on the error fallback. */
   vatIncluded?: boolean;
   /**

@@ -1802,6 +1802,23 @@ export default function ErpPage() {
                   subtextEn = "Lifetime license priced by written quote — installments & terms below";
                 }
 
+                // Launch offer: published by the live API only after the
+                // backend deploys it. Annual billing only — the offer is a
+                // first-year discount, so monthly billing shows nothing.
+                // Any malformed value renders nothing, never a wrong price.
+                const launchPct = catalog?.launchOffer?.percentOffFirstYear;
+                const hasLaunchOffer =
+                  effectiveBillingMode === "annual" &&
+                  typeof launchPct === "number" &&
+                  Number.isInteger(launchPct) &&
+                  launchPct >= 1 &&
+                  launchPct <= 50 &&
+                  catalog?.launchOffer?.firstYearOnly === true &&
+                  catalog?.launchOffer?.newCustomersOnly === true;
+                const firstYearPrice = hasLaunchOffer
+                  ? Math.round((level.annual * (100 - (launchPct as number))) / 100)
+                  : 0;
+
                 return (
                   <div
                     key={`catalog-tier-${level.id}`}
@@ -1927,6 +1944,15 @@ export default function ErpPage() {
                         <p className="text-[11px] font-medium text-emerald-700 mt-1.5 flex items-center gap-1">
                           <span>{lang === "ar" ? subtextAr : subtextEn}</span>
                         </p>
+                        {hasLaunchOffer && (
+                          <p className="mt-2">
+                            <span className="bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-bold px-2 py-0.5 rounded-md">
+                              {lang === "ar"
+                                ? `عرض الإطلاق: السنة الأولى بـ ${firstYearPrice.toLocaleString()} ${level.currency} بدلاً من ${level.annual.toLocaleString()} — خصم ${launchPct}% للعملاء الجدد`
+                                : `Launch offer: first year ${firstYearPrice.toLocaleString()} ${level.currency} instead of ${level.annual.toLocaleString()} — ${launchPct}% off for new customers`}
+                            </span>
+                          </p>
+                        )}
                       </div>
 
                       {/* Live Features List from API */}
