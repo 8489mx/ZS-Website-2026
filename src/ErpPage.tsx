@@ -290,8 +290,7 @@ export default function ErpPage() {
     e.preventDefault();
     setApiError(null);
 
-    // Validate locally: the form previously accepted empty/invalid values
-    // and the Cloud branch silently dropped the name field.
+    // Validate locally: the form previously accepted empty/invalid values.
     const name = demoForm.name.trim();
     const company = demoForm.company.trim();
     const email = demoForm.email.trim();
@@ -319,6 +318,7 @@ export default function ErpPage() {
           },
           body: JSON.stringify({
             businessName: company,
+            ownerName: name,
             ownerPhone: demoForm.phone.trim(),
             ownerEmail: email,
           }),
