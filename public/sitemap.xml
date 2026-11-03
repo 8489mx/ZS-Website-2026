@@ -15,6 +15,27 @@
 
   </url>
   <url>
+    <loc>https://zsystemai.com/pos-supermarket</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+
+  </url>
+  <url>
+    <loc>https://zsystemai.com/pos-restaurants</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+
+  </url>
+  <url>
+    <loc>https://zsystemai.com/offline-pos</loc>
+    <lastmod>2026-11-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+
+  </url>
+  <url>
     <loc>https://zsystemai.com/contact</loc>
     <lastmod>2026-11-03</lastmod>
     <changefreq>monthly</changefreq>

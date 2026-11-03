@@ -29,6 +29,30 @@ const ROUTE_META: Record<string, RouteMeta> = {
     descriptionEn:
       "Z-ERP details, live pricing, and terms for retail and service businesses, with an illustrative ROI calculator.",
   },
+  "/pos-supermarket": {
+    titleAr: "برنامج كاشير للسوبر ماركت | Z-ERP - Z Systems",
+    titleEn: "Supermarket POS Software | Z-ERP - Z Systems",
+    descriptionAr:
+      "برنامج كاشير للسوبر ماركت من Z-ERP: بيع سريع بالباركود، مخزون يتحدث تلقائيًا مع كل فاتورة، رقابة على الكاشير، ونسخة محلية تعمل بدون إنترنت مع مزامنة تلقائية.",
+    descriptionEn:
+      "Supermarket POS software by Z-ERP: fast barcode checkout, stock that updates with every sale, cashier anti-theft controls, and an offline local edition with automatic sync.",
+  },
+  "/pos-restaurants": {
+    titleAr: "برنامج كاشير للمطاعم والكافيهات | Z-ERP - Z Systems",
+    titleEn: "Restaurant & Café POS Software | Z-ERP - Z Systems",
+    descriptionAr:
+      "برنامج كاشير للمطاعم والكافيهات والمخابز من Z-ERP: طلبات صالة وتيك أواي وتوصيل، فواتير ضريبية برمز QR وخدمة إرسال ZATCA، ونسخة محلية تعمل بدون إنترنت.",
+    descriptionEn:
+      "POS software for restaurants, cafés, and bakeries by Z-ERP: dine-in, takeaway, and delivery orders, tax invoices with QR codes and a ZATCA submission service, and an offline local edition.",
+  },
+  "/offline-pos": {
+    titleAr: "برنامج كاشير يعمل بدون إنترنت | Z-ERP - Z Systems",
+    titleEn: "Offline POS Software | Z-ERP - Z Systems",
+    descriptionAr:
+      "برنامج كاشير يعمل بدون إنترنت من Z-ERP: النسخة المحلية تستمر في البيع وإصدار الفواتير أثناء انقطاع الاتصال وتزامن البيانات تلقائيًا عند عودته.",
+    descriptionEn:
+      "Offline POS software by Z-ERP: the local edition keeps selling and invoicing during internet outages and syncs data automatically when the connection returns.",
+  },
   "/terms": {
     titleAr: "الشروط والأحكام - Z Systems",
     titleEn: "Terms & Conditions - Z Systems",
