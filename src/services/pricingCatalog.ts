@@ -215,7 +215,7 @@ export const DEFAULT_PRODUCTS: CatalogProduct[] = [
 ];
 
 // In-memory cache for live responses
-const cache: Record<string, { data: any; timestamp: number }> = {};
+const cache: Record<string, { data: unknown; timestamp: number }> = {};
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes cache
 
 // Map app currencyCode to API country code. Every selectable currency
@@ -247,6 +247,19 @@ export function mapCurrencyToCountry(currencyCode: string): string {
  * prices. The UI shows an error/retry state instead of selling on old
  * bundled prices. Product names come from the static DEFAULT_PRODUCTS list.
  */
+const COUNTRY_CURRENCIES: Record<string, string> = {
+  EG: "EGP",
+  SA: "SAR",
+  AE: "AED",
+  QA: "QAR",
+  KW: "KWD",
+  BH: "BHD",
+  OM: "OMR",
+  JO: "JOD",
+  IQ: "IQD",
+  US: "USD",
+};
+
 export function getFallbackProductCatalog(
   product: string = "retail",
   country: string = "EG"
@@ -255,13 +268,17 @@ export function getFallbackProductCatalog(
   return {
     catalogVersion: "1.0",
     product: known,
-    country: { code: country, currency: "EGP", requiresWrittenDisclosure: false },
+    // The fallback must speak for the requested country, not always
+    // Egypt: a Saudi visitor hitting an API outage previously saw EGP
+    // labels, and addon prices of 0 instead of contact-for-price.
+    country: { code: country, currency: COUNTRY_CURRENCIES[country] || "EGP", requiresWrittenDisclosure: false },
     quoteAnnuallyOnly: false,
     annualEqualsMonths: 10,
     trialDays: 14,
     levels: [],
     floors: [],
-    addons: { extraUserMonthly: 0, extraBranchMonthly: 0 },
+    // null = no published price (contact-for-price), per CatalogAddons.
+    addons: { extraUserMonthly: null, extraBranchMonthly: null },
   };
 }
 

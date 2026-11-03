@@ -1,4 +1,3 @@
-import React from "react";
 import LegalLayout from "./LegalLayout";
 import { useLanguage } from "../LanguageContext";
 import { Link } from "react-router-dom";

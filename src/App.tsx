@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ExternalRedirect from "./ExternalRedirect";
 import { APP_LOGIN_URL, APP_TRIAL_URL } from "./links";
@@ -9,9 +9,10 @@ import { CurrencyProvider } from "./CurrencyContext";
 import LocationModal from "./LocationModal";
 import ErrorBoundary from "./components/ErrorBoundary";
 import useDocumentMeta from "./useDocumentMeta";
-import HomePage from "./HomePage";
 
-// Code-split heavier sub-pages
+// Code-split the pages (the home page included) so the initial
+// bundle only carries the app shell and shared providers.
+const HomePage = lazy(() => import("./HomePage"));
 const ErpPage = lazy(() => import("./ErpPage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
 const RefundPolicyPage = lazy(() => import("./pages/RefundPolicyPage"));

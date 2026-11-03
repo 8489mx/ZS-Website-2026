@@ -14,6 +14,10 @@ export interface CurrencyConfig {
   countryNameAr: string;
   countryNameEn: string;
   rateFromSAR: number;
+  /** Standard VAT / sales-tax rate for this currency's country (0 when none applies). */
+  vatRate: number;
+  /** ISO 4217 minor-unit digits (3 for KWD/BHD/OMR/JOD/IQD, 2 otherwise). */
+  fractionDigits: number;
   whatsapp: {
     totalAr: string;
     taxAr: string;
@@ -55,6 +59,8 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "مصر",
     countryNameEn: "Egypt",
     rateFromSAR: 13.3,
+    vatRate: 0.14,
+    fractionDigits: 2,
     whatsapp: {
       totalAr: "٤,٤٥٠ ج.م",
       taxAr: "٦٢٣ ج.م",
@@ -95,6 +101,8 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "المملكة العربية السعودية",
     countryNameEn: "Saudi Arabia",
     rateFromSAR: 1.0,
+    vatRate: 0.15,
+    fractionDigits: 2,
     whatsapp: {
       totalAr: "٣٣٣ ر.س",
       taxAr: "٤٩,٥ ر.س",
@@ -135,6 +143,8 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "الإمارات العربية المتحدة",
     countryNameEn: "United Arab Emirates",
     rateFromSAR: 0.98,
+    vatRate: 0.05,
+    fractionDigits: 2,
     whatsapp: {
       totalAr: "٣٢٦ د.إ",
       taxAr: "١٦,٣ د.إ",
@@ -175,6 +185,8 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "قطر",
     countryNameEn: "Qatar",
     rateFromSAR: 0.97,
+    vatRate: 0,
+    fractionDigits: 2,
     whatsapp: {
       totalAr: "٣٣٠ ر.ق",
       taxAr: "٠ ر.ق",
@@ -215,6 +227,8 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "الكويت",
     countryNameEn: "Kuwait",
     rateFromSAR: 0.082,
+    vatRate: 0,
+    fractionDigits: 3,
     whatsapp: {
       totalAr: "٢٧ د.ك",
       taxAr: "٠ د.ك",
@@ -255,6 +269,8 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "البحرين",
     countryNameEn: "Bahrain",
     rateFromSAR: 0.1,
+    vatRate: 0.1,
+    fractionDigits: 3,
     whatsapp: {
       totalAr: "٣٣ د.ب",
       taxAr: "٣,٣ د.ب",
@@ -295,6 +311,8 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "سلطنة عُمان",
     countryNameEn: "Oman",
     rateFromSAR: 0.102,
+    vatRate: 0.05,
+    fractionDigits: 3,
     whatsapp: {
       totalAr: "٣٤ ر.ع",
       taxAr: "١,٧ ر.ع",
@@ -335,6 +353,8 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "الأردن",
     countryNameEn: "Jordan",
     rateFromSAR: 0.19,
+    vatRate: 0.16,
+    fractionDigits: 3,
     whatsapp: {
       totalAr: "٦٣ د.أ",
       taxAr: "١٠ د.أ",
@@ -375,6 +395,8 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "العراق",
     countryNameEn: "Iraq",
     rateFromSAR: 350,
+    vatRate: 0,
+    fractionDigits: 3,
     whatsapp: {
       totalAr: "١١٥,٠٠٠ د.ع",
       taxAr: "٠ د.ع",
@@ -415,6 +437,8 @@ export const CURRENCY_CONFIGS: Record<CurrencyCode, CurrencyConfig> = {
     countryNameAr: "الولايات المتحدة والدولية",
     countryNameEn: "United States & International",
     rateFromSAR: 0.27,
+    vatRate: 0,
+    fractionDigits: 2,
     whatsapp: {
       totalAr: "89 $",
       taxAr: "13 $",
@@ -517,8 +541,15 @@ export function resolveDetectedCurrency(args: {
 }): CurrencyCode | null {
   const mappedCurrency =
     COUNTRY_CODE_TO_CURRENCY[args.detectedCountryCode] ||
-    COUNTRY_NAME_TO_CURRENCY[args.detectedCountryName] ||
-    detectCurrencyFromTimezone();
+    COUNTRY_NAME_TO_CURRENCY[args.detectedCountryName];
+  if (!mappedCurrency) {
+    // Detected country has no supported pricing currency (e.g. Morocco,
+    // Lebanon). Never reconcile in that case: falling back to the
+    // timezone default here previously overwrote a visitor's saved
+    // currency with EGP simply because they travelled somewhere
+    // unsupported. Keep whatever the provider already holds.
+    return null;
+  }
   if (!args.savedCurrency || !(args.savedCurrency in CURRENCY_CONFIGS)) {
     return mappedCurrency;
   }
@@ -634,7 +665,11 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const formatPrice = (amount: number, overrideCode?: CurrencyCode) => {
     const config = overrideCode ? CURRENCY_CONFIGS[overrideCode] : currentConfig;
-    return `${amount.toLocaleString()} ${config.code}`;
+    const formatted = new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: config.fractionDigits,
+    }).format(amount);
+    return `${formatted} ${config.code}`;
   };
 
   return (

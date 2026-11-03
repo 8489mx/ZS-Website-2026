@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Globe, Check } from "lucide-react";
 import { useLanguage } from "./LanguageContext";
 
@@ -21,6 +21,8 @@ export default function LanguageSwitcher() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
         className="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-brand-600 transition-colors p-2 rounded-lg hover:bg-slate-50"
         title={lang === 'ar' ? 'تغيير اللغة' : 'Change Language'}
       >

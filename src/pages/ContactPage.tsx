@@ -1,7 +1,6 @@
-import React from "react";
 import LegalLayout from "./LegalLayout";
 import { useLanguage } from "../LanguageContext";
-import { MapPin, Phone, Mail, Clock, Building, MessageCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Clock } from "lucide-react";
 
 export default function ContactPage() {
   const { lang } = useLanguage();

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef, lazy, Suspense } from "react";
+import React, { useState, useMemo, useEffect, useRef, useCallback, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { APP_LOGIN_URL, APP_TRIAL_URL } from "./links";
 
@@ -10,7 +10,6 @@ import {
   TrendingUp,
   Users,
   BarChart3,
-  HelpCircle,
   Check,
   X,
   ShieldCheck,
@@ -20,19 +19,12 @@ import {
   Server,
   Calculator,
   ChevronDown,
-  ChevronUp,
   ArrowLeft,
-  DollarSign,
   ArrowUpRight,
   Menu,
   CheckCircle,
-  Lock,
-  Percent,
-  CheckSquare,
   Building2,
   Trash2,
-  UserCheck,
-  Zap,
   Search,
   AlertCircle,
   ExternalLink
@@ -40,14 +32,12 @@ import {
 const WhatsAppSimulation = lazy(() => import("./WhatsAppSimulation"));
 import { ERP_CATEGORIES, PROBLEM_STATEMENTS, DEPLOYMENT_MODES, FAQS } from "./data";
 import { ERP_CATEGORIES_EN, PROBLEM_STATEMENTS_EN, DEPLOYMENT_MODES_EN, FAQS_EN } from "./dataEn";
-import { MessageCircle, Palette, Utensils, UtensilsCrossed, Smile, Star, Coffee, Activity, Pizza, Bird, Carrot, Store, Car, Sun, CarFront, ShoppingBag, Truck, Info, CreditCard, Gift, Layers, FileText, CalendarCheck, Receipt, Award, CheckCircle2 } from "lucide-react";
+import { MessageCircle, Utensils, UtensilsCrossed, Smile, Star, Coffee, Activity, Pizza, Bird, Carrot, Store, Car, Sun, CarFront, ShoppingBag, Truck, Layers, CalendarCheck, Receipt, CheckCircle2 } from "lucide-react";
 const SystemGallery = lazy(() => import("./SystemGallery"));
 const RoiSavingsChart = lazy(() => import("./components/RoiSavingsChart"));
 const ErpFaqCta = lazy(() => import("./components/ErpFaqCta"));
 import { content } from "./i18n";
 import { useLanguage } from "./LanguageContext";
-import { useTheme } from "./ThemeContext";
-import ThemeSwitcher from "./ThemeSwitcher";
 import LanguageSwitcher from "./LanguageSwitcher";
 import CurrencySwitcher from "./CurrencySwitcher";
 import { useCurrency } from "./CurrencyContext";
@@ -55,6 +45,13 @@ import { OFFLINE_TERMS, BillingMode } from "./pricingData";
 import { usePricingCatalog } from "./usePricingCatalog";
 import SiteLogo from "./components/SiteLogo";
 import { PRODUCT_EN_METADATA } from "./services/pricingCatalog";
+import { useDialog } from "./hooks/useDialog";
+import {
+  calculatePosTotals,
+  pickRecommendedLevel,
+  calculateAnnualSavings,
+  buildCumulativeSavingsSeries,
+} from "./utils/calculations";
 
 // 5 Core Sector Tabs grouping the 16 Specialized Systems
 export const SECTOR_TABS = [
@@ -118,14 +115,13 @@ function getIcon(name: string, className?: string) {
   }
 }
 export default function ErpPage() {
-  const { lang, setLang } = useLanguage();
-  const { theme, setTheme } = useTheme();
+  const { lang } = useLanguage();
 
   const currentErpCats = lang === "ar" ? ERP_CATEGORIES : ERP_CATEGORIES_EN;
   const currentProblemStmts = lang === "ar" ? PROBLEM_STATEMENTS : PROBLEM_STATEMENTS_EN;
   const currentDeploymentModes = lang === "ar" ? DEPLOYMENT_MODES : DEPLOYMENT_MODES_EN;
   const currentFaqs = lang === "ar" ? FAQS : FAQS_EN;
-  const { currencyCode, currency, formatPrice } = useCurrency();
+  const { currencyCode, currency } = useCurrency();
   const t = content[lang];
 
   // Live Pricing Catalog Hook (Connects to https://app.zsystemai.com/api/public/pricing-catalog)
@@ -139,7 +135,6 @@ export default function ErpPage() {
     selectedProduct,
     setSelectedProduct,
     isLoading: isCatalogLoading,
-    error: catalogError,
     offerNotFound: isOfferNotFound,
     refetch: refetchCatalog,
   } = usePricingCatalog(currencyCode, "retail");
@@ -216,20 +211,13 @@ export default function ErpPage() {
   const [demoSubmitted, setDemoSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
-  const [apiSuccessData, setApiSuccessData] = useState<any | null>(null);
 
-  // Close demo modal on Escape key press
-  useEffect(() => {
-    if (!showDemoModal) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setShowDemoModal(false);
-        setDemoSubmitted(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [showDemoModal]);
+  // Accessible dialog behaviour (Escape, focus trap, restore)
+  const closeDemoModal = useCallback(() => {
+    setShowDemoModal(false);
+    setDemoSubmitted(false);
+  }, []);
+  const demoDialogRef = useDialog<HTMLDivElement>(showDemoModal, closeDemoModal);
 
   // POS Interactive App Simulator Items State
   const [posItems, setPosItems] = useState([
@@ -249,8 +237,9 @@ export default function ErpPage() {
   }, [currencyCode, lang]);
 
   const [posHoldStatus, setPosHoldStatus] = useState<"active" | "suspended" | "resumed">("active");
-  const [posDiscount, setPosDiscount] = useState(10); // fixed quantity or flat
-  const [posPaymentMethod, setPosPaymentMethod] = useState<"cash" | "card" | "credit">("card");
+  // The simulator demonstrates a fixed 10% discount; there is no UI
+  // to change it, so it is a constant rather than dead state.
+  const posDiscount = 10;
 
   const updateQty = (id: number, delta: number) => {
     setPosItems(posItems.map(item => {
@@ -327,7 +316,6 @@ export default function ErpPage() {
         const data = await response.json().catch(() => null);
 
         if (response.ok && !data?.error && data?.statusCode !== 400 && data?.statusCode !== 500) {
-          setApiSuccessData(data);
           setDemoSubmitted(true);
         } else {
           const errMsg =
@@ -339,7 +327,7 @@ export default function ErpPage() {
               : "Could not create cloud account. Please check your email and phone number and try again.");
           setApiError(errMsg);
         }
-      } catch (err: any) {
+      } catch {
         setApiError(
           lang === "ar"
             ? "تعذر الاتصال بخادم إنشاء النسخ التجريبية. يرجى التحقق من اتصال الإنترنت أو التواصل عبر الواتساب."
@@ -357,37 +345,30 @@ export default function ErpPage() {
     }
   };
 
-  // Calculations for POS Interactive view
-  const posSubtotal = posItems.reduce((acc, item) => acc + item.price * item.qty, 0);
-  const posDiscountAmount = (posSubtotal * posDiscount) / 100;
-  const vatRate = currencyCode === "EGP" ? 0.14 : currencyCode === "AED" ? 0.05 : currencyCode === "OMR" ? 0.05 : currencyCode === "JOD" ? 0.16 : currencyCode === "BHD" ? 0.10 : 0;
-  const posVat = (posSubtotal - posDiscountAmount) * vatRate;
-  const posTotal = (posSubtotal - posDiscountAmount) + posVat;
+  // Calculations for the POS interactive view (src/utils/calculations.ts)
+  const { total: posTotal } = calculatePosTotals(posItems, posDiscount, currency.vatRate);
 
-  // Calculators for ROI Box based on live catalog levels
-  const recommendedLevel = useMemo(() => {
-    if (!catalogLevels || catalogLevels.length === 0) return null;
-    if (numBranches >= 5) return catalogLevels[2] || catalogLevels[catalogLevels.length - 1];
-    if (numBranches >= 2) return catalogLevels[1] || catalogLevels[0];
-    return catalogLevels[0];
-  }, [catalogLevels, numBranches]);
+  // Calculators for the ROI box, based on live catalog levels
+  const recommendedLevel = useMemo(
+    () => pickRecommendedLevel(catalogLevels, numBranches),
+    [catalogLevels, numBranches]
+  );
 
-  const recommendedPlanName = recommendedLevel?.name || (lang === "ar" ? "باقة الأعمال" : "Business Plan");
-  // Lifetime price is quote-only: the API publishes no offline price, so
-  // the ROI block must not show an invented one.
-  const recommendedPlanPrice = isLifetimeTarget
-    ? null
-    : (recommendedLevel?.monthly || 450);
+  const recommendedPlanName =
+    recommendedLevel?.name || (lang === "ar" ? "يُحدد من الأسعار المباشرة" : "Determined by live pricing");
+  // No invented prices: lifetime is quote-only, and when the live
+  // catalog has no level for this country the price is likewise
+  // unknown (null) — the UI then shows the written-quote state
+  // instead of a number. (This previously fell back to a hard-coded
+  // 450 whenever the API was unreachable.)
+  const recommendedPlanPrice = isLifetimeTarget ? null : (recommendedLevel?.monthly ?? null);
 
-  const calculatedSavings = Math.round(avgMonthlySales * 0.04 * numBranches * 12); // 4% savings annually
+  const calculatedSavings = calculateAnnualSavings(avgMonthlySales, numBranches);
 
-  const roiChartData = useMemo(() => {
-    const monthlySaving = Math.round(avgMonthlySales * 0.04 * numBranches);
-    return Array.from({ length: 12 }).map((_, i) => ({
-      month: lang === "ar" ? `شهر ${i + 1}` : `M${i + 1}`,
-      savings: monthlySaving * (i + 1),
-    }));
-  }, [avgMonthlySales, numBranches, lang]);
+  const roiChartData = useMemo(
+    () => buildCumulativeSavingsSeries(avgMonthlySales, numBranches, lang),
+    [avgMonthlySales, numBranches, lang]
+  );
 
 
 
@@ -451,6 +432,8 @@ export default function ErpPage() {
               <LanguageSwitcher />
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-expanded={mobileMenuOpen}
+                aria-label={lang === "ar" ? "قائمة التنقل" : "Navigation menu"}
                 className="text-slate-700 hover:text-brand-600 p-2 focus:outline-none"
               >
                 <Menu className="w-7 h-7" />
@@ -1476,7 +1459,7 @@ export default function ErpPage() {
                     <span className="w-1.5 h-1.5 bg-brand-500 rounded-full" />
                     {recommendedPlanName} ({isLifetimeTarget ? (lang === "ar" ? "ترخيص تمليك" : "Lifetime") : (lang === "ar" ? "سحابي ساس" : "Cloud SaaS")})
                   </p>
-                  <p className="text-[11px] text-slate-600 mt-1">{lang === "ar" ? "سعر الباقة التقريبي:" : "Approximate Plan Price:"} {isLifetimeTarget ? (<strong className="text-brand-500 text-xs font-mono">{lang === "ar" ? "عرض سعر مكتوب" : "Written quote"}</strong>) : (<><strong className="text-brand-500 text-xs font-mono">{recommendedPlanPrice?.toLocaleString()} {recommendedLevel?.currency}</strong> / {lang === "ar" ? "شهرياً" : "month"}</>)}</p>
+                  <p className="text-[11px] text-slate-600 mt-1">{lang === "ar" ? "سعر الباقة التقريبي:" : "Approximate Plan Price:"} {recommendedPlanPrice === null ? (<strong className="text-brand-500 text-xs font-mono">{lang === "ar" ? "عرض سعر مكتوب" : "Written quote"}</strong>) : (<><strong className="text-brand-500 text-xs font-mono">{recommendedPlanPrice.toLocaleString()} {recommendedLevel?.currency}</strong> / {lang === "ar" ? "شهرياً" : "month"}</>)}</p>
                 </div>
               </div>
 
@@ -2581,16 +2564,18 @@ export default function ErpPage() {
       {/* DEMO / CONSULTATION REQUEST MODAL */}
       <AnimatePresence>
         {showDemoModal && (
-          <div 
-            key="demo-modal-backdrop" 
-            onClick={() => {
-              setShowDemoModal(false);
-              setDemoSubmitted(false);
-            }}
+          <div
+            key="demo-modal-backdrop"
+            onClick={closeDemoModal}
             className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/85 backdrop-blur-sm flex items-center justify-center p-4 font-sans cursor-pointer select-none"
           >
             <motion.div
               key="demo-modal-dialog"
+              ref={demoDialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={lang === "ar" ? "طلب تجربة النظام" : "Request a system trial"}
+              tabIndex={-1}
               onClick={(e) => e.stopPropagation()}
               initial={{ scale: 0.98, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -2600,10 +2585,8 @@ export default function ErpPage() {
               
               {/* Close Button */}
               <button
-                onClick={() => {
-                  setShowDemoModal(false);
-                  setDemoSubmitted(false);
-                }}
+                onClick={closeDemoModal}
+                aria-label={lang === "ar" ? "إغلاق النافذة" : "Close dialog"}
                 className="absolute top-4 left-4 text-slate-400 hover:text-slate-600 p-1.5 hover:bg-slate-100 rounded transition-all cursor-pointer"
               >
                 <X className="w-4 h-4" />

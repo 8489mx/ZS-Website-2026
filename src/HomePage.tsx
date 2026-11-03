@@ -1,25 +1,22 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState, useCallback, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { APP_LOGIN_URL } from "./links";
 import { 
   ArrowRight,
   Dumbbell, CheckCircle,
   Building2, LayoutDashboard, Target,
-  X, Bell, CheckCircle2, Mail, Loader2,
-  Database, Shield, ShoppingCart, Boxes, FileText, BarChart3
+  X, Bell, CheckCircle2, Loader2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useLanguage } from "./LanguageContext";
-import { useTheme } from "./ThemeContext";
 
-import ThemeSwitcher from "./ThemeSwitcher";
 import LanguageSwitcher from "./LanguageSwitcher";
 import SiteLogo from "./components/SiteLogo";
 const InteractiveCyberRobot = lazy(() => import("./components/InteractiveCyberRobot"));
+import { useDialog } from "./hooks/useDialog";
 
 export default function HomePage() {
-  const { lang, setLang, isRTL } = useLanguage();
-  const { theme, setTheme } = useTheme();
+  const { lang, isRTL } = useLanguage();
 
   // Waitlist modal state for upcoming systems
   const [waitlistProduct, setWaitlistProduct] = useState<string | null>(null);
@@ -30,18 +27,12 @@ export default function HomePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
 
-  // Close waitlist modal on Escape key press
-  useEffect(() => {
-    if (!waitlistProduct) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setWaitlistProduct(null);
-        setWaitlistSubmitted(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [waitlistProduct]);
+  // Accessible dialog behaviour (Escape, focus trap, restore)
+  const closeWaitlist = useCallback(() => {
+    setWaitlistProduct(null);
+    setWaitlistSubmitted(false);
+  }, []);
+  const waitlistDialogRef = useDialog<HTMLDivElement>(waitlistProduct !== null, closeWaitlist);
 
   // Waitlist submission: validate, send, and report the real result.
   // Previously failures were swallowed and the form always reported success,
@@ -531,14 +522,16 @@ export default function HomePage() {
       {/* WAITLIST MODAL */}
       <AnimatePresence>
         {waitlistProduct && (
-          <div 
+          <div
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm cursor-pointer select-none"
-            onClick={() => {
-              setWaitlistProduct(null);
-              setWaitlistSubmitted(false);
-            }}
+            onClick={closeWaitlist}
           >
             <motion.div
+              ref={waitlistDialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={isRTL ? "التسجيل في قائمة الانتظار" : "Join the waitlist"}
+              tabIndex={-1}
               onClick={(e) => e.stopPropagation()}
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -546,10 +539,8 @@ export default function HomePage() {
               className="bg-white rounded-2xl border border-slate-200 shadow-2xl p-6 sm:p-7 max-w-md w-full relative overflow-hidden cursor-default select-text"
             >
               <button
-                onClick={() => {
-                  setWaitlistProduct(null);
-                  setWaitlistSubmitted(false);
-                }}
+                onClick={closeWaitlist}
+                aria-label={isRTL ? "إغلاق النافذة" : "Close dialog"}
                 className="absolute top-4 right-4 rtl:left-4 rtl:right-auto text-slate-400 hover:text-slate-700 p-1 rounded-lg cursor-pointer"
               >
                 <X className="w-5 h-5" />

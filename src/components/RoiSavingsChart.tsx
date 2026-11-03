@@ -1,4 +1,3 @@
-import React from "react";
 
 export interface RoiChartPoint {
   month: string;
@@ -42,7 +41,7 @@ export default function RoiSavingsChart({ data, currencySymbol, lang }: RoiSavin
       role="img"
       aria-label={lang === "ar" ? "رسم بياني للتوفير التراكمي خلال 12 شهراً" : "Cumulative savings chart over 12 months"}
       className="text-xs"
-      dir="ltr"
+      style={{ direction: "ltr" }}
     >
       {gridValues.map((fraction) => {
         const y = paddingTop + chartHeight * (1 - fraction);
