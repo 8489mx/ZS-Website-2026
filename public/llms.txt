@@ -11,6 +11,12 @@ Z Systems builds ERP, retail management, and industry platforms for high-traffic
 - [Free trial signup](https://app.zsystemai.com/trial): Start a Z-ERP trial account.
 - [Customer portal login](https://app.zsystemai.com): Login for existing Z-ERP customers.
 
+## Sector and solution pages
+
+- [Supermarket POS software](https://zsystemai.com/pos-supermarket): Z-ERP point of sale for supermarkets and grocery stores, with fast barcode checkout, stock that updates with every sale, cashier anti-theft controls, and an offline-capable local edition.
+- [Restaurant and café POS software](https://zsystemai.com/pos-restaurants): Z-ERP point of sale for restaurants, cafés, and bakeries, covering dine-in, takeaway, and delivery orders, tax invoices with QR codes, and a ZATCA e-invoicing submission service for Saudi Arabia.
+- [Offline POS software](https://zsystemai.com/offline-pos): The Z-ERP local edition that keeps selling, invoicing, and updating stock without internet and syncs automatically when the connection returns.
+
 ## Company
 
 - [Contact Z Systems](https://zsystemai.com/contact): Contact page with email, phone, and WhatsApp details.
