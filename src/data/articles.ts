@@ -30,7 +30,21 @@
  * capabilities — real-time unified balances, documented inter-branch
  * transfers, stock alerts and reorder thresholds, per-cashier
  * permissions with the audit log, and the unified balances that make
- * cycle counts meaningful.
+ * cycle counts meaningful. The Saudi e-invoicing article describes
+ * ZATCA's FATOORA system only at the same safe, general level — what
+ * the authority is, the tax invoice versus the simplified tax
+ * invoice, and what a store generally needs — and deliberately
+ * states no phase deadlines, wave dates or thresholds, fines, or
+ * technical integration specifications, directing readers to
+ * zatca.gov.sa and their accountant; Z-ERP is kept strictly at the
+ * llms.txt level (tax invoices with QR codes, VAT calculation, and
+ * "a ZATCA e-invoicing submission service"), never a certified
+ * provider or approved integration. The Excel cost article is the
+ * cost anatomy companion to the /erp-vs-excel decision page: it
+ * breaks down Excel's hidden costs and a system's visible costs as
+ * mechanisms only — no figures, percentages, or prices for anyone —
+ * and honestly names the tiny single-operator businesses that
+ * should stay on spreadsheets.
  */
 
 export type ArticleSlug =
@@ -39,7 +53,9 @@ export type ArticleSlug =
   | "how-to-choose-pos-software"
   | "prevent-cashier-theft"
   | "egypt-e-invoice-guide"
-  | "multi-branch-inventory-mistakes";
+  | "multi-branch-inventory-mistakes"
+  | "zatca-e-invoice-requirements"
+  | "excel-vs-accounting-software-cost";
 
 export interface ArticleSection {
   heading: string;
@@ -1295,6 +1311,390 @@ const multiBranchInventoryMistakes: Article = {
   },
 };
 
+const excelVsAccountingSoftwareCost: Article = {
+  slug: "excel-vs-accounting-software-cost",
+  path: "/blog/excel-vs-accounting-software-cost",
+  publishedDate: "2026-11-03",
+  ar: {
+    title: "إكسل ولا برنامج محاسبة؟ التكلفة الحقيقية لكل اختيار",
+    excerpt:
+      "إكسل لا يكلّفك ترخيصًا، لكنه ليس مجانيًا: تكلفته الحقيقية تُدفع من حساب آخر — ساعات إدخال يدوي ومطابقة، وأخطاء تُكتشف متأخرًا، ومفاجآت مخزون لا تظهر إلا عند الجرد، وكاشير بلا صلاحيات ولا سجل يوثق ما فعله، وساعات محاسب في تنظيف بيانات سنة كاملة. والبرنامج تكلفته ظاهرة — ترخيص أو اشتراك وأجهزة وإعداد وتدريب — لكنه يشتري إلغاء بنود من تلك القائمة الخفية. هذا المقال يفكك تكلفة الخيارين بندًا ببند دون اختراع رقم واحد، لأن الرقم الصحيح يختلف من محل لآخر، ويختم بمعادلة بسيطة تحسب بها نقطة التعادل بنفسك.",
+    readingMinutes: 9,
+    sections: [
+      {
+        heading: "التكلفة الظاهرة: صفر مقابل رقم واضح",
+        paragraphs: [
+          "حين تقارن بين إكسل وبرنامج محاسبة، فإن أول ما تراه مضلل: إكسل موجود على جهازك أصلًا أو متاح بلا رسوم ترخيص، بينما يضع البرنامج رقمًا واضحًا أمامك — ترخيص أو اشتراك، وربما أجهزة وإعداد. تبدو المقارنة محسومة لصالح الصفر، لكنك في الحقيقة قارنت سعر ترخيص بسعر ترخيص، بينما تكلفة كل اختيار الحقيقية أكبر من تذكرة دخوله.",
+          "إكسل أداة جداول ممتازة في ما صُنعت له، وهذا المقال لا يجادل في ذلك. الجدل هنا في حساب مختلف: ما الذي تدفعه — نقودًا ووقتًا وأخطاء — مقابل كل اختيار على مدار سنة كاملة من تشغيل محلك؟ فحين تُحسب التكلفة كاملة، قد يبقى إكسل هو الأرخص لبعض الأنشطة فعلًا — وستجد في آخر المقال من ينبغي أن يبقى عليه بصراحة — وقد ينقلب الحساب تمامًا عند غيرها.",
+        ],
+      },
+      {
+        heading: "فاتورة إكسل الخفية: خمسة بنود تُدفع دون أن تراها",
+        paragraphs: [
+          "لا يرسل لك إكسل فاتورة، لكن بنود تكلفته تُخصم من عملك بانتظام. لاحظ أننا نصف هنا آليات تكلفة — كيف تتولد الخسارة — لا أرقامًا ولا نسبًا، لأن حجم كل بند يتوقف على نشاطك أنت:",
+        ],
+        bullets: [
+          "ساعات الإدخال والمطابقة: كل بيع يُكتب مرتين — مرة للعميل ومرة في الجدول — وكل حركة مخزون تُرحَّل بيدك، ثم تأتي مطابقة الجدول مع الدرج ومع الفواتير. هذه ساعات من وقتك أو وقت موظف، تُدفع كل أسبوع ولا تظهر في أي حساب.",
+          "الأخطاء وكلفة اكتشافها المتأخر: سعر قديم في خلية، أو كمية أُدخلت في صنف آخر، أو صف حُذف سهوًا — في الجداول لا يوجد ما يمنع الخطأ ولا ما ينبّه إليه، فيُكتشف عند الجرد أو عند شكوى عميل، بعد أن تراكم أثره في أرصدة ومشتريات بنيت عليه.",
+          "مفاجآت المخزون: رصيد الجدول يتقادم منذ آخر تحديث يدوي، فتكتشف نفاد صنف سريع الحركة من عميل يقف أمامك، وتكتشف العجز أو الفاقد دفعة واحدة عند الجرد بدل ملاحظته أولًا بأول — ولكل اكتشاف متأخر ثمنه في مبيعات فائتة وقرارات شراء خاطئة.",
+          "غياب الضابط عند الكاشير: الجدول لا يعرف من عدّل سعرًا أو حذف عملية، فلا صلاحيات تفصل بين البيع والاستثناءات، ولا سجل تدقيق يوثق ما حدث. لسنا نتحدث هنا عن افتراض سوء نية: حتى الخطأ البشري الصادق يصبح بلا أثر يراجَع، فيتحول كل خلاف حول درج النقود إلى كلمة مقابل كلمة.",
+          "تنظيف آخر السنة عند المحاسب: سنة من الجداول والدفاتر المتفرقة تحتاج عند إعداد حساباتك وإقراراتك إلى تجميع وترحيل ومراجعة بأجر محاسب — ساعات مدفوعة كان يمكن أن تقل كثيرًا لو كانت بيانات السنة كلها مولّدة ومنظمة أصلًا داخل نظام واحد.",
+        ],
+      },
+      {
+        heading: "فاتورة البرنامج الظاهرة: ماذا تشتري بها فعلًا؟",
+        paragraphs: [
+          "تكلفة البرنامج ظاهرة البنود ويسهل حصرها — وقد فصّل مقالنا عن أسعار برامج الكاشير في مصر كيف تُقرأ: ترخيص لمرة واحدة أو اشتراك دوري بحسب نطاقك، وأجهزة نقطة بيع قد تملك بعضها أصلًا، وإعداد أولي ونقل بيانات، وتدريب لفريقك. لكن الوجه الآخر لهذه الفاتورة هو ما تلغيه من الفاتورة الخفية:",
+        ],
+        bullets: [
+          "الإدخال المكرر يختفي: البيع نفسه يحدّث المخزون ويولّد حركته المحاسبية، فلا كتابة مرتين ولا مطابقة بين عالمين.",
+          "المخزون حيّ: الرصيد يتحدث مع كل فاتورة، وتنبيهات انخفاض المخزون وحدود إعادة الطلب تستبدل «مفاجأة الجرد» بملاحظة مبكرة.",
+          "الضابط موجود: صلاحيات لكل كاشير تحصر تعديل الأسعار وحذف الفواتير والخصومات وفتح درج النقود، وسجل تدقيق يوثق كل عملية استثنائية بمن قام بها ومتى.",
+          "بياناتك جاهزة للمحاسب طوال السنة: سجل واحد منظم بدل تجميع جداول ودفاتر عند آخر العام.",
+          "وتبقى للبرنامج بنود لا يلغيها: الترخيص أو الاشتراك نفسه، والأجهزة، ووقت الإعداد والتدريب في البداية — وهي بنود ظاهرة تدفعها مرة أو دوريًا بوعي، لا بنود تتسرب منك دون أن تشعر.",
+        ],
+      },
+      {
+        heading: "نقطة التعادل: كيف تفكر فيها دون أرقام مخترعة؟",
+        paragraphs: [
+          "لن تجد في هذا المقال رقمًا جاهزًا لنشاطك، لأن أي رقم نطبعه سيكون اختراعًا: قيمة ساعتك، وحجم أخطائك، وسعر النظام الذي تقارنه — كلها تختلف من محل لآخر. لكن طريقة الحساب واحدة، وهي ثلاث خطوات بأرقامك أنت:",
+        ],
+        bullets: [
+          "احسب ساعاتك الشهرية على الجداول: الإدخال والمطابقة وتصحيح الأخطاء وإعادة الجرد — ثم اسأل نفسك ما قيمة ساعة واحدة منها لو وُظفت في البيع أو الإدارة. الناتج هو أول بند حقيقي في «سعر» إكسل الشهري.",
+          "أضف كلفة الأخطاء والمفاجآت التي تتكرر عندك: عجز يُكتشف متأخرًا، أو صنف نافد لم يُطلب في وقته، أو سعر خاطئ مرّ على مبيعات قبل اكتشافه. لا تحتاج دقة محاسبية؛ تقدير صادق من ذاكرة آخر شهور يكفي لتكوين صورة.",
+          "قارن الناتج بتكلفة البرنامج الشهرية المكافئة: الاشتراك إن كان دوريًا، أو الترخيص والأجهزة موزعة على عمر استخدامها المتوقع إن كانت دفعة واحدة. فإذا تجاوز مجموع بنديك الأولين هذه التكلفة بانتظام، فالخيار «المجاني» هو الأغلى عندك الآن، حتى لو ظل رقم اشتراكه صفرًا.",
+        ],
+      },
+      {
+        heading: "بصراحة: من ينبغي أن يبقى على إكسل؟",
+        paragraphs: [
+          "لأن هذا المقال من شركة تبيع برنامج محاسبة، فإن أصدق ما فيه هو هذا القسم: هناك أنشطة يكون بقاؤها على الجداول هو القرار الاقتصادي الصحيح اليوم. إذا كان نشاطك كله: محل واحد صغير، وفواتير يومية قليلة تُحصى على الأصابع، وأنت المالك والمشغّل الوحيد — لا كاشير غيرك ولا ورديات — فإن أغلب بنود الفاتورة الخفية لا تنشأ عندك أصلًا: لا مطابقة متعبة بحجم يُذكر، ولا مخزون معقد، ولا فصل صلاحيات تحتاجه بينك وبين نفسك. في هذه الصورة، سعر البرنامج الظاهر أكبر فعلًا من أي تكلفة خفية تدفعها، والبقاء على إكسل ليس تقصيرًا بل حساب سليم.",
+          "وإن بقيت على الجداول، فأبقِها قابلة للنمو معك: أكواد موحدة للأصناف منذ اليوم، وجدول واحد مركزي بدل نسخ متفرقة، ونسخة احتياطية منتظمة. بهذا تجعل انتقالك يوم يتغير حسابك — كاشير ثانٍ، أو فرع جديد، أو مخزون يكبر عن الذاكرة — خطوة ترحيل بيانات نظيفة، لا بداية من الصفر وسط فوضى.",
+        ],
+      },
+      {
+        heading: "الخلاصة: قارن التكلفة الكاملة لا سعر الترخيص",
+        paragraphs: [
+          "المقارنة العادلة ليست بين صفر ورقم اشتراك، بل بين مجموعين: تكلفة إكسل الكاملة — وقتك وأخطاؤك ومفاجآت مخزونك وساعات محاسبك — وتكلفة البرنامج الكاملة — ترخيصه وأجهزته وإعداده. وإذا أردت مقارنة الجانبين من زاوية «متى يكفي كل منهما وعلامات تجاوز الجداول» فصفحة مقارنة إكسل أم برنامج محاسبة وكاشير عندنا تتناول قرار الاختيار نفسه، بينما تناول هذا المقال حساب التكلفة وحده.",
+          "وحين تصل إلى بند البرنامج في معادلتك، لا تخمّنه: أسعار Z-ERP وخططها منشورة ومحدَّثة على صفحة النظام، فضع الرقم الحقيقي في حسابك وقارنه ببنودك الخفية التي قدّرتها بنفسك — وسيخبرك الحساب، لا نحن، أي الخيارين أرخص عندك الآن.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "إكسل مجاني، فكيف تكون له «تكلفة حقيقية»؟",
+        a: "سعر ترخيصه صفر، لكن تكلفة تشغيل عملك عليه ليست صفرًا: ساعات إدخال يدوي ومطابقة من وقتك، وأخطاء تُكتشف متأخرة بعد تراكم أثرها، ومفاجآت مخزون عند الجرد، وغياب توثيق لما يحدث عند الكاشير، وساعات محاسب لتنظيم بيانات السنة. المقال يفصّل هذه البنود كآليات تكلفة — أما تحويلها إلى أرقام فمن بيانات نشاطك أنت، لأنها تختلف من محل لآخر.",
+      },
+      {
+        q: "هل يضيف شراء برنامج محاسبة دائمًا تكلفة أجهزة جديدة؟",
+        a: "ليس بالضرورة. بنود البرنامج الظاهرة تشمل عادةً الترخيص أو الاشتراك والإعداد والتدريب، أما الأجهزة — طابعة إيصالات وماسح باركود ودرج نقود — فكثير من الأنظمة، ومنها Z-ERP، يعمل مع أجهزة نقاط البيع القياسية التي قد تملكها أصلًا. تحقق بندًا ببند مما يشمله أي عرض، كما يشرح مقالنا عن أسعار برامج الكاشير في مصر.",
+      },
+      {
+        q: "كيف أحسب نقطة التعادل لنشاطي أنا؟",
+        a: "بثلاث خطوات من أرقامك: أولًا ساعاتك الشهرية على الإدخال والمطابقة والتصحيح مضروبة في قيمة ساعة من وقتك؛ ثانيًا تقدير صادق لكلفة أخطائك ومفاجآت مخزونك المتكررة؛ ثالثًا مقارنة المجموع بتكلفة البرنامج الشهرية المكافئة (الاشتراك، أو الترخيص والأجهزة موزعة على عمر الاستخدام). إذا تجاوز مجموع أول بندين التكلفة بانتظام، فالجداول هي الخيار الأغلى عندك مهما كان ترخيصها مجانيًا.",
+      },
+      {
+        q: "متى تصبح الجداول غير كافية حتى لو كانت «تعمل» عندي؟",
+        a: "حين تبدأ بنودها الخفية في النمو: كاشير ثانٍ يشاركك التشغيل، أو مخزون أكبر من أن يُتابَع بالتحديث اليدوي دون تأخير، أو مفاجآت جرد متكررة، أو ساعات مطابقة تأكل وقت إدارتك. هذه هي علامات تجاوز مرحلة الجداول، وتتناولها بالتفصيل صفحة مقارنتنا بين إكسل وبرنامج المحاسبة والكاشير من زاوية قرار الاختيار نفسه.",
+      },
+      {
+        q: "لماذا لا يذكر المقال أرقامًا أو نسبًا للتوفير؟",
+        a: "لأن أي نسبة توفير أو رقم تكلفة نطبعه هنا سيكون مخترعًا بالنسبة لنشاطك: قيمة وقتك وحجم أخطائك وأسعار الأنظمة التي تقارنها كلها خاصة بك. ما يقدمه المقال هو بنود الحساب وطريقته، وما يقدمه سوقك هو الأرقام — أسعار Z-ERP نفسها منشورة على صفحة النظام لتضع رقمها الحقيقي في معادلتك.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/erp-vs-excel", title: "إكسل أم برنامج محاسبة وكاشير؟" },
+      { path: "/blog/pos-software-prices-egypt", title: "كم سعر برنامج الكاشير في مصر؟ دليل المشتري 2026" },
+      { path: "/blog/how-to-choose-pos-software", title: "إزاي تختار برنامج كاشير ومحاسبة لمحلك؟ قائمة فحص عملية" },
+    ],
+  },
+  en: {
+    title: "Excel or Accounting Software? The Real Cost of Each Choice",
+    excerpt:
+      "Excel costs you no licence, but it is not free: its real cost is paid from another account — hours of manual entry and reconciliation, errors discovered late, stock surprises that only surface at count time, a till with no permissions and no log of what anyone did, and an accountant's hours cleaning up a full year of data. A system's cost is visible — a licence or subscription, hardware, setup, and training — but it buys the removal of items from that hidden list. This article breaks down both choices' costs item by item without inventing a single number, because the right number differs from one shop to the next, and ends with a simple equation for working out your own break-even point.",
+    readingMinutes: 9,
+    sections: [
+      {
+        heading: "The visible cost: zero versus one clear number",
+        paragraphs: [
+          "When you compare Excel with accounting software, the first thing you see is misleading: Excel already sits on your computer or is available with no licence fee, while the software puts a clear number in front of you — a licence or subscription, and possibly hardware and setup. The comparison looks settled in favour of zero, but in fact you compared a licence price with a licence price, while each choice's real cost is larger than its entry ticket.",
+          "Excel is an excellent spreadsheet tool at what it was made for, and this article does not argue otherwise. The argument here is a different calculation: what do you pay — in money, time, and errors — for each choice over a full year of running your shop? When the cost is counted in full, Excel may genuinely remain the cheaper option for some businesses — and you will find, honestly stated at the end of this article, who those businesses are — while for others the calculation flips completely.",
+        ],
+      },
+      {
+        heading: "Excel's hidden bill: five items you pay without seeing",
+        paragraphs: [
+          "Excel sends you no invoice, but its cost items are deducted from your work regularly. Note that what follows describes cost mechanisms — how the loss arises — not figures or percentages, because the size of each item depends on your own business:",
+        ],
+        bullets: [
+          "Hours of entry and reconciliation: every sale is written twice — once for the customer and once in the sheet — every stock movement is posted by hand, and then comes reconciling the sheet against the drawer and the invoices. These are hours of your time or an employee's, paid every week and appearing in no account.",
+          "Errors and the cost of discovering them late: a stale price in a cell, a quantity entered against the wrong item, a row deleted by accident — in spreadsheets nothing prevents the error and nothing flags it, so it is discovered at count time or from a customer's complaint, after its effect has accumulated in balances and purchases built on it.",
+          "Stock surprises: the sheet's balance ages from the moment of the last manual update, so you discover a fast-moving item has run out from a customer standing in front of you, and you discover shrinkage or waste all at once at the count instead of noticing it as it happens — and every late discovery has its price in lost sales and wrong purchasing decisions.",
+          "No control at the till: the sheet does not know who edited a price or deleted a transaction, so there are no permissions separating selling from exceptions, and no audit log documenting what happened. This is not about assuming bad intent: even honest human error leaves no trace to review, and every dispute over the cash drawer becomes one word against another.",
+          "The accountant's year-end cleanup: a year of scattered spreadsheets and ledgers needs gathering, posting, and reviewing for a paid accountant's fee when your books and filings are prepared — paid hours that could have been far fewer had the whole year's data been generated and organised inside one system from the start.",
+        ],
+      },
+      {
+        heading: "The system's visible bill: what you are actually buying",
+        paragraphs: [
+          "A system's cost has visible, countable items — and our article on POS software prices in Egypt details how to read them: a one-time licence or a recurring subscription according to your scope, POS hardware you may partly own already, initial setup and data migration, and training for your team. But the other side of that bill is what it cancels from the hidden one:",
+        ],
+        bullets: [
+          "Duplicate entry disappears: the sale itself updates stock and generates its accounting movement, so there is no writing things twice and no reconciling two worlds.",
+          "Stock is live: the balance updates with every invoice, and low-stock alerts and reorder thresholds replace 'the count surprise' with early notice.",
+          "Control exists: per-cashier permissions confine price edits, receipt deletions, discounts, and cash-drawer openings, and an audit log documents every exceptional action with who did it and when.",
+          "Your data is accountant-ready all year: one organised record instead of a year-end gathering of spreadsheets and ledgers.",
+          "And the system keeps items it does not cancel: the licence or subscription itself, the hardware, and the setup and training time at the start — visible items you pay once or periodically, knowingly, rather than items that leak away from you unnoticed.",
+        ],
+      },
+      {
+        heading: "The break-even point: how to think about it without invented numbers",
+        paragraphs: [
+          "You will find no ready-made number for your business in this article, because any number we printed would be invented: the value of your hour, the size of your errors, and the price of the system you are comparing all differ from one shop to the next. But the method of calculation is the same, in three steps with your own numbers:",
+        ],
+        bullets: [
+          "Count your monthly hours on spreadsheets: entry, reconciliation, error correction, and recounting — then ask what one of those hours is worth if it were spent on selling or management. The result is the first real item in Excel's monthly 'price'.",
+          "Add the cost of the errors and surprises that recur in your business: shrinkage discovered late, an item out of stock that was not reordered in time, a wrong price that passed over sales before anyone noticed. You need no accounting precision; an honest estimate from the memory of recent months is enough to form the picture.",
+          "Compare the total with the system's monthly-equivalent cost: the subscription if it is recurring, or the licence and hardware spread over their expected years of use if it is one payment. If the sum of your first two items regularly exceeds that cost, the 'free' option is now the expensive one for you — even while its subscription price remains zero.",
+        ],
+      },
+      {
+        heading: "Honestly: who should stay on Excel?",
+        paragraphs: [
+          "Because this article comes from a company that sells accounting software, its most honest section is this one: there are businesses whose correct economic decision today is to stay on spreadsheets. If your whole operation is a single small shop, a handful of daily invoices, and you are the owner and the only operator — no other cashier and no shifts — then most of the hidden bill's items never arise for you in the first place: no burdensome reconciliation at any scale worth counting, no complex stock, and no separation of permissions needed between you and yourself. In that picture, the system's visible price is genuinely larger than any hidden cost you pay, and staying on Excel is not a shortcoming but sound arithmetic.",
+          "And if you do stay on spreadsheets, keep them able to grow with you: unified item codes from today, one central sheet instead of scattered copies, and a regular backup. That way, when your calculation changes — a second cashier, a new branch, or stock that outgrows memory — your move is a clean data migration, not a fresh start in the middle of a mess.",
+        ],
+      },
+      {
+        heading: "The bottom line: compare the full cost, not the licence price",
+        paragraphs: [
+          "The fair comparison is not between zero and a subscription figure, but between two totals: Excel's full cost — your time, your errors, your stock surprises, and your accountant's hours — and the system's full cost — its licence, hardware, and setup. And if you want to compare the two sides from the angle of 'when is each one enough, and what are the signs you have outgrown spreadsheets', our Excel vs POS and accounting software page covers the decision itself, while this article covered only the cost calculation.",
+          "And when you reach the system's item in your equation, do not guess it: Z-ERP's prices and plans are published and kept current on the system page, so put the real figure into your calculation and compare it with the hidden items you estimated yourself — and the arithmetic, not us, will tell you which of the two choices is cheaper for you right now.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Excel is free — how can it have a 'real cost'?",
+        a: "Its licence price is zero, but the cost of running your business on it is not: hours of manual entry and reconciliation from your time, errors discovered late after their effect has accumulated, stock surprises at count time, no documentation of what happens at the till, and an accountant's hours organising a year of data. This article details those items as cost mechanisms — turning them into numbers comes from your own business's data, because they differ from one shop to the next.",
+      },
+      {
+        q: "Does buying accounting software always add the cost of new hardware?",
+        a: "Not necessarily. A system's visible items usually include the licence or subscription, setup, and training, while hardware — a receipt printer, barcode scanner, and cash drawer — is equipment many systems, Z-ERP among them, work with in its standard POS forms, which you may already own. Check item by item what any quote includes, as our article on POS software prices in Egypt explains.",
+      },
+      {
+        q: "How do I calculate the break-even point for my own business?",
+        a: "In three steps from your numbers: first, your monthly hours on entry, reconciliation, and correction, multiplied by the value of an hour of your time; second, an honest estimate of the cost of your recurring errors and stock surprises; third, comparing the total with the system's monthly-equivalent cost (the subscription, or the licence and hardware spread over their years of use). If the sum of the first two items regularly exceeds that cost, spreadsheets are the more expensive option for you, however free their licence is.",
+      },
+      {
+        q: "When do spreadsheets stop being enough even if they 'work' for me?",
+        a: "When their hidden items start growing: a second cashier sharing the operation, stock too large to follow by manual updating without delay, recurring count surprises, or reconciliation hours eating into your management time. These are the signs of outgrowing the spreadsheet stage, and our comparison page between Excel and POS and accounting software covers them in detail from the angle of the choice decision itself.",
+      },
+      {
+        q: "Why does this article state no savings figures or percentages?",
+        a: "Because any savings percentage or cost figure we printed here would be invented as far as your business is concerned: the value of your time, the size of your errors, and the prices of the systems you compare are all specific to you. What this article provides is the items of the calculation and its method, and what your market provides is the numbers — Z-ERP's own prices are published on the system page so you can put their real figure into your equation.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/erp-vs-excel", title: "Excel vs POS & Accounting Software" },
+      { path: "/blog/pos-software-prices-egypt", title: "How Much Does POS Software Cost in Egypt? A 2026 Buyer's Guide" },
+      { path: "/blog/how-to-choose-pos-software", title: "How to Choose POS & Accounting Software: A Practical Checklist" },
+    ],
+  },
+};
+
+const zatcaEInvoiceRequirements: Article = {
+  slug: "zatca-e-invoice-requirements",
+  path: "/blog/zatca-e-invoice-requirements",
+  publishedDate: "2026-11-03",
+  ar: {
+    title: "متطلبات الفاتورة الإلكترونية السعودية (ZATCA) لمتجرك: دليل مبسط",
+    excerpt:
+      "الفاتورة الإلكترونية في المملكة هي منظومة هيئة الزكاة والضريبة والجمارك (ZATCA) المعروفة باسم «فاتورة» (FATOORA): تُصدر منشأتك فواتيرها إلكترونيًا من نظامها بدل الورق — فاتورة ضريبية عند البيع لمنشأة أخرى، وفاتورة ضريبية مبسطة تحمل رمز QR عند البيع للمستهلك النهائي. وما تحتاجه منشأتك عمليًا هو نظام يُصدر فواتير بصيغة وحقول متوافقة تحمل رمز QR، وسجلات محفوظة بشكل منظم، وربط وإرسال عبر منصة الهيئة بحسب المرحلة التي تخص منشأتك. أما الموجة التي تنطبق عليك ومواعيدها ومتطلباتها الحالية بالتفصيل فلا يقررها مقال: تؤكدها دائمًا من الموقع الرسمي للهيئة zatca.gov.sa ومن محاسبك.",
+    readingMinutes: 7,
+    sections: [
+      {
+        heading: "ما الفاتورة الإلكترونية السعودية؟ منظومة «فاتورة» باختصار",
+        paragraphs: [
+          "منظومة الفوترة الإلكترونية في المملكة العربية السعودية هي منظومة هيئة الزكاة والضريبة والجمارك — وتُعرف الهيئة اختصارًا بـ ZATCA، والمنظومة باسم «فاتورة» (FATOORA). فكرتها التي تهمك كصاحب منشأة: مستندات البيع لم تعد تُكتب ورقيًا أو في ملفات منفصلة، بل تُنشأ إلكترونيًا داخل نظام منشأتك — نظام الكاشير أو المحاسبة — بصيغة وحقول محددة، وتُشارك بياناتها مع الهيئة أو تُرسل إليها عبر منصتها بحسب المرحلة المطبقة على منشأتك.",
+          "عمليًا، التغيير الأكبر ليس في شكل الفاتورة التي يتسلمها عميلك، بل في مصدرها ومسارها: فاتورة تُولد من نظامك لحظة البيع ببيانات منظمة، بدل مستند يُحرَّر يدويًا في نهاية اليوم. وكلما كانت فوترة منشأتك أصلًا داخل نظام واحد — بيع ومخزون ومحاسبة — كانت خطوة المنظومة إعدادًا وربطًا، لا تغييرًا في طريقة بيعك اليومية.",
+        ],
+      },
+      {
+        heading: "نوعا الفواتير: الضريبية والضريبية المبسطة",
+        paragraphs: [
+          "تميّز المنظومة بين نوعين من الفواتير بحسب من تبيع له، وفهم الفرق بينهما هو أول ما يحتاجه صاحب أي متجر:",
+        ],
+        bullets: [
+          "الفاتورة الضريبية: تُصدر عند بيعك لمنشأة أخرى — عميل تجاري — وهي الأكثر تفصيلًا: تحمل بيانات منشأتك وبيانات المشتري الضريبية وبنود البيع وضريبة القيمة المضافة، على نحو يشبه فاتورة الشركات التقليدية، لكن بصيغة إلكترونية.",
+          "الفاتورة الضريبية المبسطة: تُصدر عند بيعك للمستهلك النهائي عند نقطة البيع — بيع التجزئة المعتاد في متجرك — وتقتصر على عناصر أبسط، وفي مقدمتها رمز QR يستطيع عميلك مسحه للتحقق من بيانات الفاتورة.",
+          "منشأة تبيع للمستهلكين وللمنشآت معًا — تجزئة وجملة — قد تُصدر النوعين معًا، كلٌّ بحسب عملية البيع، ولهذا يهم أن يميّز نظامك بينهما عند الكاشير.",
+        ],
+      },
+      {
+        heading: "ما الذي تحتاجه منشأتك عمليًا؟",
+        paragraphs: [
+          "على المستوى العام الآمن الذي يصفه هذا الدليل، تدور جاهزية أي منشأة حول أربعة عناصر:",
+        ],
+        bullets: [
+          "نظام إصدار متوافق الصيغة: برنامج كاشير أو محاسبة يُصدر فواتيرك بالصيغة والحقول التي تتطلبها المنظومة، مع حساب ضريبة القيمة المضافة — لا دفاتر يدوية ولا مستندات نصية حرة.",
+          "رمز QR على الفواتير المبسطة: يُولَّد من نظامك ويُطبع على مستند البيع للمستهلك النهائي، لا يُلصق يدويًا ولا يُضاف لاحقًا.",
+          "سجلات محفوظة ومنظمة: فواتيرك الصادرة وبياناتها محفوظة داخل نظامك بشكل تستطيع الرجوع إليه واسترجاعه عند الحاجة، بدل تشتتها بين دفاتر وملفات.",
+          "ربط وإرسال عبر منصة الهيئة بحسب مرحلتك: مشاركة بيانات فواتيرك مع الهيئة أو إرسالها إليها بالمسار الذي تحدده المرحلة المطبقة على منشأتك — وما يلزم مرحلتك تحديدًا تؤكده من موقع الهيئة الرسمي.",
+        ],
+      },
+      {
+        heading: "مراحل التطبيق: ولماذا لا يذكر هذا الدليل مواعيد ولا موجات؟",
+        paragraphs: [
+          "تُطبَّق منظومة الفوترة الإلكترونية على المنشآت تدريجيًا على مراحل وموجات تعلنها الهيئة وتحدّثها بتعليماتها. أي دليل يطبع لك تاريخًا أو حدًّا رقميًا للموجة التي تخصك يعرّضك لمعلومة قد تتغير، ولذلك يتعمد هذا المقال ألا يذكر مواعيد ولا حدودًا ولا غرامات: ما ينطبق على منشأتك — هل دخلت نطاق التطبيق، وفي أي موجة ومرحلة — تؤكده من مصدرين فقط: الموقع الرسمي للهيئة zatca.gov.sa، ومحاسبك الذي يعرف ملف منشأتك الضريبي.",
+          "ولا يعني غياب المواعيد عن هذا الدليل أن تسترخي: المعنى العملي أن تراجع موقفك لدى الهيئة مبكرًا، فالإعداد الهادئ — بيانات منظمة ونظام يصدر بصيغة صحيحة — أرخص دائمًا من الامتثال المستعجل تحت ضغط إعلان جديد.",
+        ],
+      },
+      {
+        heading: "أين يقف Z-ERP من متطلبات ZATCA؟ بصراحة",
+        paragraphs: [
+          "في Z-ERP، تُصدر فواتيرك من نظام الكاشير والمخزون والمحاسبة نفسه، ضريبية برمز QR مع حساب ضريبة القيمة المضافة، وتتعامل بالريال السعودي ضمن عملات النظام. وتصف وثائق Z-ERP المنشورة ما يقدمه للسعودية بعبارة محددة: «خدمة إرسال الفوترة الإلكترونية إلى ZATCA» — خدمة إرسال تخص المنظومة — وهذا هو مستوى ما نعلنه حرفيًا، ولا نضيف إليه ادعاء «مزود معتمد» أو «تكامل معتمد من الهيئة» أو أي وصف رسمي لا تذكره وثائقنا المنشورة.",
+          "هل صيغة الإصدار وخدمة الإرسال هذه هي ما تتطلبه مرحلة منشأتك بالضبط؟ هذا ما تؤكده من موقع الهيئة zatca.gov.sa ومن محاسبك، وبشرح مكتوب تطلبه من أي بائع — بما في ذلك نحن — قبل أن تعتمد على أي نظام في فوترتك وإقراراتك. فالمسؤولية الضريبية في النهاية مسؤولية منشأتك، والهيئة هي المرجع الأول لمتطلباتها.",
+        ],
+      },
+      {
+        heading: "أسئلة تطرحها على أي بائع نظام قبل الاعتماد عليه",
+        paragraphs: [
+          "عبارة «يدعم الفاتورة الإلكترونية» في عرض أي بائع لا تكفي وحدها. تحقق من هذه النقاط بالاسم، واطلب إجاباتها مكتوبة:",
+        ],
+        bullets: [
+          "هل يُصدر النظام نوعي الفواتير — الضريبية للمنشآت والمبسطة للمستهلك — بالحقول المطلوبة، ويفرّق بينهما عند نقطة البيع؟",
+          "هل يتولد رمز QR تلقائيًا على كل فاتورة مبسطة، ويُحسب مبلغ ضريبة القيمة المضافة داخل الفاتورة نفسها؟",
+          "كيف تُحفظ سجلات فواتيري وكيف أسترجع أي فاتورة قديمة عند الحاجة؟",
+          "ما مسار الربط والإرسال مع منصة الهيئة في مرحلتي تحديدًا، وما الذي يفعله النظام وما الذي يبقى عليّ أنا؟",
+          "ماذا يحدث لفواتيري عند انقطاع الإنترنت: هل يستمر الإصدار محليًا ويُزامَن لاحقًا، أم يتوقف البيع؟",
+          "هل أستطيع التجربة بنفسي؟ أصدِر فواتير حقيقية في الفترة التجريبية وتابِع مسارها قبل أن تعتمد على النظام في كل بيعك.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "هل منشأتي ملزمة بالفاتورة الإلكترونية الآن؟ وبأي مرحلة؟",
+        a: "لا يستطيع مقال أن يقرر ذلك لمنشأتك: التطبيق يتم على مراحل وموجات تعلنها هيئة الزكاة والضريبة والجمارك وتحدّثها بتعليماتها، وموقف منشأتك يتحدد بحسب طبيعتها ونشاطها. مرجعك الموثوق هو الموقع الرسمي للهيئة zatca.gov.sa ومحاسبك القانوني. وما نستطيع تأكيده: تجهيز بياناتك ونظامك مبكرًا يجعل الامتثال عند وصول دور منشأتك خطوة إدارية هادئة بدل أزمة عند الكاشير.",
+      },
+      {
+        q: "ما الفرق بين الفاتورة الضريبية والفاتورة الضريبية المبسطة؟",
+        a: "الفاتورة الضريبية تُصدر عند البيع لمنشأة أخرى وتحمل بيانات الطرفين الضريبية بشكل أكمل. والفاتورة الضريبية المبسطة تُصدر عند البيع للمستهلك النهائي عند نقطة البيع، بعناصر أبسط وفي مقدمتها رمز QR يستطيع العميل مسحه للتحقق من الفاتورة. منشأة تبيع للمستهلكين وللمنشآت معًا تحتاج إصدار النوعين بحسب كل عملية بيع.",
+      },
+      {
+        q: "هل يكفي أن يطبع نظامي رمز QR على الإيصال؟",
+        a: "رمز QR عنصر واحد من المطلوب، لا المطلوب كله: الفاتورة يجب أن تُصدر أصلًا بصيغة وحقول متوافقة من نظامك، وأن تُحفظ سجلاتها، وأن يتبع مسار الربط والإرسال مرحلة منشأتك. اسأل أي بائع عن هذه العناصر مجتمعة، واطلب شرحًا مكتوبًا، وتحقق من موقفك لدى موقع الهيئة ومحاسبك قبل أن تعتمد على أي نظام في إقراراتك.",
+      },
+      {
+        q: "هل Z-ERP مزود معتمد أو متكامل اعتمادًا رسميًا مع ZATCA؟",
+        a: "وثائق Z-ERP المنشورة تصف المنتج بعبارة محددة: فواتير ضريبية برمز QR مع حساب ضريبة القيمة المضافة، و«خدمة إرسال الفوترة الإلكترونية إلى ZATCA» للسعودية. لا تدّعي وثائقنا صفة مزود معتمد ولا تكاملًا معتمدًا من الهيئة بما يتجاوز هذه العبارة. هل هذا هو ما تتطلبه مرحلة منشأتك؟ أكّد ذلك من موقع الهيئة zatca.gov.sa ومحاسبك، وبشرح مكتوب تطلبه منا أو من أي بائع.",
+      },
+      {
+        q: "ماذا يحدث لفواتيري إذا انقطع الإنترنت وقت البيع؟",
+        a: "اسأل بائع أي نظام عن سلوكه عند الانقطاع قبل الشراء. في Z-ERP تستمر النسخة المحلية في البيع وإصدار الفواتير أثناء الانقطاع وتزامن بياناتها عند عودة الاتصال، وتتم العمليات التي تحتاج اتصالًا بطبيعتها — كالإرسال إلى الجهات الخارجية — عند عودته. ويبقى ترتيب فترات الانقطاع ضمن التزاماتك مسألة تؤكدها مع محاسبك وبحسب متطلبات مرحلتك لدى الهيئة.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/zatca-invoicing", title: "الفاتورة الإلكترونية السعودية (ZATCA) مع Z-ERP" },
+      { path: "/blog/egypt-e-invoice-guide", title: "الفاتورة الإلكترونية في مصر: إزاي تربط محلك مع مصلحة الضرائب؟" },
+      { path: "/pos-supermarket", title: "برنامج كاشير للسوبر ماركت ومحلات البقالة" },
+    ],
+  },
+  en: {
+    title: "Saudi ZATCA E-Invoicing Requirements for Your Store: A Simplified Guide",
+    excerpt:
+      "E-invoicing in Saudi Arabia is the Zakat, Tax and Customs Authority (ZATCA) system known as FATOORA: your establishment issues its invoices electronically from its own system instead of on paper — a tax invoice when you sell to another business, and a simplified tax invoice carrying a QR code when you sell to a final consumer. What your establishment generally needs is a system that issues invoices in a compliant format and fields with a QR code, records kept in an orderly way, and connection and submission through the authority's platform according to the phase that applies to your establishment. Which wave applies to you, its dates, and its current detailed requirements are not something an article can decide: you always confirm them on the authority's official site, zatca.gov.sa, and with your accountant.",
+    readingMinutes: 8,
+    sections: [
+      {
+        heading: "What is Saudi e-invoicing? The FATOORA system in brief",
+        paragraphs: [
+          "The e-invoicing system in the Kingdom of Saudi Arabia belongs to the Zakat, Tax and Customs Authority — ZATCA for short — and the system itself is known as FATOORA. The idea that matters to you as an establishment owner: sales documents are no longer written on paper or in separate files; they are created electronically inside your establishment's system — your POS or accounting software — in a defined format and fields, and their data is shared with the authority or submitted to it through its platform, according to the phase applied to your establishment.",
+          "In practice, the biggest change is not in how the invoice your customer receives looks, but in where it comes from and the path it takes: an invoice generated by your system at the moment of sale, with organised data, instead of a document written up by hand at the end of the day. And the more your invoicing already lives inside one system — sales, stock, and accounting together — the more the system's step becomes setup and connection rather than a change in how you sell every day.",
+        ],
+      },
+      {
+        heading: "The two invoice types: tax invoice and simplified tax invoice",
+        paragraphs: [
+          "The system distinguishes between two invoice types according to who you sell to, and understanding the difference is the first thing any store owner needs:",
+        ],
+        bullets: [
+          "The tax invoice: issued when you sell to another business — a trade customer — and the more detailed of the two: it carries your establishment's details, the buyer's tax details, the sale items, and VAT, much like a traditional business invoice, but in electronic form.",
+          "The simplified tax invoice: issued when you sell to a final consumer at the point of sale — ordinary retail selling in your store — with a smaller set of elements, headed by a QR code your customer can scan to verify the invoice's details.",
+          "An establishment that sells to both consumers and businesses — retail and wholesale — may issue both types, each according to the sale, which is why it matters that your system distinguishes between them at the till.",
+        ],
+      },
+      {
+        heading: "What does your establishment generally need?",
+        paragraphs: [
+          "At the safe, general level this guide describes, any establishment's readiness turns on four elements:",
+        ],
+        bullets: [
+          "A system that issues in a compliant format: POS or accounting software that issues your invoices in the format and fields the system requires, with VAT calculation — not handwritten ledgers or free-text documents.",
+          "A QR code on simplified invoices: generated by your system and printed on the sales document for the final consumer — not pasted on by hand or added later.",
+          "Records kept in an orderly way: your issued invoices and their data stored inside your system, retrievable whenever needed, instead of scattered across ledgers and files.",
+          "Connection and submission through the authority's platform according to your phase: sharing your invoice data with the authority, or submitting it, by the route your establishment's phase specifies — and what exactly your phase requires, you confirm on the authority's official site.",
+        ],
+      },
+      {
+        heading: "Rollout phases: why this guide states no dates and no waves",
+        paragraphs: [
+          "The e-invoicing system is applied to establishments gradually, in phases and waves that the authority announces and updates through its instructions. Any guide that prints you a date or a numerical threshold for your wave exposes you to information that may change, which is why this article deliberately states no dates, thresholds, or fines: what applies to your establishment — whether it has entered the scope of application, and in which wave and phase — you confirm from two sources only: the authority's official site, zatca.gov.sa, and your accountant, who knows your establishment's tax file.",
+          "The absence of dates from this guide does not mean you can relax: the practical meaning is to review your position with the authority early, because calm preparation — organised data and a system that issues in the correct format — is always cheaper than rushed compliance under the pressure of a new announcement.",
+        ],
+      },
+      {
+        heading: "Where does Z-ERP stand on ZATCA requirements? Honestly",
+        paragraphs: [
+          "In Z-ERP, your invoices are issued from the same POS, inventory, and accounting system — tax invoices with QR codes and VAT calculation, dealing in Saudi riyals among the system's currencies. Z-ERP's published documentation describes what it offers Saudi Arabia in one specific phrase: 'a ZATCA e-invoicing submission service' — a submission service relating to the system — and that is exactly the level we state, adding no claim of being a 'certified provider' or an 'authority-approved integration', or any official description our published documentation does not use.",
+          "Is this issuing format and submission service precisely what your establishment's phase requires? That is what you confirm on the authority's site, zatca.gov.sa, and with your accountant, with a written explanation you request from any vendor — including us — before you rely on any system for your invoicing and filings. Tax responsibility ultimately rests with your establishment, and the authority is the first reference for its requirements.",
+        ],
+      },
+      {
+        heading: "Questions to ask any system vendor before you rely on them",
+        paragraphs: [
+          "The phrase 'supports e-invoicing' in any vendor's offer is not enough on its own. Verify these points by name, and ask for the answers in writing:",
+        ],
+        bullets: [
+          "Does the system issue both invoice types — tax invoices for businesses and simplified ones for consumers — with the required fields, and distinguish between them at the point of sale?",
+          "Is the QR code generated automatically on every simplified invoice, and is VAT calculated inside the invoice itself?",
+          "How are my invoice records stored, and how do I retrieve any old invoice when I need it?",
+          "What is the connection and submission route with the authority's platform for my phase specifically — what does the system do, and what remains on me?",
+          "What happens to my invoices if the internet drops: does issuing continue locally and sync later, or does selling stop?",
+          "Can I test it myself? Issue real invoices during the trial period and follow their path before you rely on the system for all your selling.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Is my establishment obliged to e-invoice now? And in which phase?",
+        a: "No article can decide that for your establishment: the application proceeds in phases and waves that the Zakat, Tax and Customs Authority announces and updates through its instructions, and your establishment's position depends on its nature and activity. Your trustworthy references are the authority's official site, zatca.gov.sa, and your legal accountant. What we can confirm: preparing your data and your system early makes compliance, when your establishment's turn comes, a calm administrative step instead of a crisis at the till.",
+      },
+      {
+        q: "What is the difference between a tax invoice and a simplified tax invoice?",
+        a: "A tax invoice is issued when selling to another business and carries both parties' tax details more fully. A simplified tax invoice is issued when selling to a final consumer at the point of sale, with a smaller set of elements headed by a QR code the customer can scan to verify the invoice. An establishment selling to both consumers and businesses needs to issue both types, according to each sale.",
+      },
+      {
+        q: "Is it enough that my system prints a QR code on the receipt?",
+        a: "The QR code is one element of what is required, not the whole of it: the invoice must be issued in a compliant format and fields from your system in the first place, its records must be kept, and the connection and submission route must follow your establishment's phase. Ask any vendor about these elements together, request a written explanation, and verify your position on the authority's site and with your accountant before relying on any system for your filings.",
+      },
+      {
+        q: "Is Z-ERP a certified provider, or officially approved as integrated with ZATCA?",
+        a: "Z-ERP's published documentation describes the product in one specific phrase: tax invoices with QR codes and VAT calculation, and 'a ZATCA e-invoicing submission service' for Saudi Arabia. Our documentation claims no certified-provider status and no authority-approved integration beyond that phrase. Is that what your establishment's phase requires? Confirm it on the authority's site, zatca.gov.sa, and with your accountant, with a written explanation you request from us or from any vendor.",
+      },
+      {
+        q: "What happens to my invoices if the internet drops at the moment of sale?",
+        a: "Ask any system's vendor about their behaviour during an outage before you buy. In Z-ERP, the local edition keeps selling and issuing invoices during an outage and syncs its data when the connection returns, and operations that inherently need a connection — such as submission to external authorities — take place when it returns. How outage periods are arranged within your obligations remains a matter to confirm with your accountant and according to your phase's requirements at the authority.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/zatca-invoicing", title: "Saudi ZATCA E-Invoicing with Z-ERP" },
+      { path: "/blog/egypt-e-invoice-guide", title: "E-Invoicing in Egypt: How to Connect Your Shop to the Tax Authority" },
+      { path: "/pos-supermarket", title: "POS Software for Supermarkets" },
+    ],
+  },
+};
+
 export const ARTICLES: Record<ArticleSlug, Article> = {
   "pos-software-prices-egypt": pricesEgypt,
   "offline-pos-guide": offlineGuide,
@@ -1302,6 +1702,8 @@ export const ARTICLES: Record<ArticleSlug, Article> = {
   "prevent-cashier-theft": preventCashierTheft,
   "egypt-e-invoice-guide": egyptEInvoiceGuide,
   "multi-branch-inventory-mistakes": multiBranchInventoryMistakes,
+  "zatca-e-invoice-requirements": zatcaEInvoiceRequirements,
+  "excel-vs-accounting-software-cost": excelVsAccountingSoftwareCost,
 };
 
 export const ARTICLE_LIST: Article[] = [
@@ -1311,4 +1713,6 @@ export const ARTICLE_LIST: Article[] = [
   preventCashierTheft,
   egyptEInvoiceGuide,
   multiBranchInventoryMistakes,
+  zatcaEInvoiceRequirements,
+  excelVsAccountingSoftwareCost,
 ];

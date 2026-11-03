@@ -197,6 +197,22 @@ const ROUTE_META: Record<string, RouteMeta> = {
     descriptionEn:
       "Managing stock across branches: six mistakes that cost you money — counting only the main branch, transfers on paper, no reorder points, one shared cashier account, shrinkage discovered at the year-end count, and different item codes per branch — and the fix for each.",
   },
+  "/blog/zatca-e-invoice-requirements": {
+    titleAr: "متطلبات الفاتورة الإلكترونية السعودية (ZATCA) لمتجرك: دليل مبسط - Z Systems",
+    titleEn: "Saudi ZATCA E-Invoicing Requirements for Your Store: A Simplified Guide - Z Systems",
+    descriptionAr:
+      "متطلبات الفاتورة الإلكترونية السعودية (ZATCA) على مستوى عام وآمن: منظومة «فاتورة»، والفرق بين الفاتورة الضريبية والمبسطة برمز QR، وما تحتاجه منشأتك من نظام إصدار وسجلات وربط بحسب مرحلتها — مع تأكيد موجتك ومتطلباتك الحالية دائمًا من zatca.gov.sa ومحاسبك.",
+    descriptionEn:
+      "Saudi ZATCA e-invoicing requirements at a safe, general level: the FATOORA system, the tax invoice vs the simplified tax invoice with its QR code, and what your establishment generally needs — an issuing system, kept records, and connection by phase — always confirming your wave and current requirements on zatca.gov.sa and with your accountant.",
+  },
+  "/blog/excel-vs-accounting-software-cost": {
+    titleAr: "إكسل ولا برنامج محاسبة؟ التكلفة الحقيقية لكل اختيار - Z Systems",
+    titleEn: "Excel or Accounting Software? The Real Cost of Each Choice - Z Systems",
+    descriptionAr:
+      "إكسل ولا برنامج محاسبة؟ التكلفة الحقيقية لكل اختيار: فاتورة إكسل الخفية — ساعات الإدخال والمطابقة والأخطاء المتأخرة ومفاجآت المخزون وغياب رقابة الكاشير وتنظيف المحاسب — مقابل بنود البرنامج الظاهرة، وكيف تحسب نقطة التعادل بأرقامك دون أي رقم مخترع، ومن ينبغي أن يبقى على إكسل بصراحة.",
+    descriptionEn:
+      "Excel or accounting software — the real cost of each choice: Excel's hidden bill (entry and reconciliation hours, late-discovered errors, stock surprises, no till control, the accountant's cleanup) versus a system's visible items, how to work out your own break-even point with no invented figures, and who should honestly stay on Excel.",
+  },
   "/terms": {
     titleAr: "الشروط والأحكام - Z Systems",
     titleEn: "Terms & Conditions - Z Systems",
