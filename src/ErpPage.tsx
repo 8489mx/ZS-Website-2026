@@ -1048,7 +1048,7 @@ export default function ErpPage() {
                              <div className="w-full lg:w-1/2 flex flex-col h-full bg-slate-50 rounded-lg overflow-hidden border border-slate-200">
                                 <div className="p-2 md:p-3 shrink-0">
                                   <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-1.5 md:p-2 mb-2 w-full max-w-sm mx-auto relative group">
-                                    <input type="text" placeholder={lang === "ar" ? "ابحث بالباركود هنا أو اكتب الاسم..." : "Search by barcode or type name..."} className="w-full text-[10px] md:text-[11px] font-medium border-0 focus:ring-0 rounded p-1.5 pe-8 focus:outline-none bg-transparent" />
+                                    <input type="text" aria-label={lang === "ar" ? "بحث بالباركود أو الاسم" : "Search by barcode or name"} placeholder={lang === "ar" ? "ابحث بالباركود هنا أو اكتب الاسم..." : "Search by barcode or type name..."} className="w-full text-[10px] md:text-[11px] font-medium border-0 focus:ring-0 rounded p-1.5 pe-8 focus:outline-none bg-transparent" />
                                     <Search className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 group-focus-within:text-brand-500 transition-colors" />
                                   </div>
                                   <div className="flex gap-2 text-[10px] md:text-[11px] max-w-sm mx-auto mb-2">
@@ -1387,10 +1387,11 @@ export default function ErpPage() {
                   <span>{lang === "ar" ? "كم عدد الفروع أو مستودعاتك المغطاة؟" : "How many branches or warehouses are covered?"}</span>
                   <span className="font-mono text-brand-600 bg-brand-50 px-2.5 py-0.5 rounded text-xs">{numBranches} {lang === "ar" ? "فروع" : "Branches"}</span>
                 </div>
-                <input 
-                  type="range" 
-                  min="1" 
-                  max="15" 
+                <input
+                  type="range"
+                  aria-label={lang === "ar" ? "عدد الفروع أو المستودعات" : "Number of branches or warehouses"}
+                  min="1"
+                  max="15"
                   value={numBranches}
                   onChange={(e) => setNumBranches(Number(e.target.value))}
                   className="w-full accent-brand-600 h-1.5 bg-slate-100 rounded cursor-pointer"
@@ -1409,8 +1410,9 @@ export default function ErpPage() {
                     {avgMonthlySales.toLocaleString()} {currencySymbol}/{lang === "ar" ? "شهرياً" : "Monthly"}
                   </span>
                 </div>
-                <input 
-                  type="range" 
+                <input
+                  type="range"
+                  aria-label={lang === "ar" ? "متوسط المبيعات الشهرية لكل فرع" : "Average monthly sales per branch"}
                   min={currency.roi.minTurnover} 
                   max={currency.roi.maxTurnover} 
                   step={currency.roi.turnoverStep}
@@ -1430,8 +1432,9 @@ export default function ErpPage() {
                   <span className="text-xs font-bold text-slate-800">{lang === "ar" ? "أفضّل امتلاك النسخة مدى الحياة (تمليك)" : "I prefer lifetime offline ownership (One time pay)"}</span>
                   <span className="text-[10px] text-slate-600 mt-0.5">{lang === "ar" ? "شراء رخصة لمرة واحدة تغنيك عن الاشتراكات السنوية." : "Buy a one-time license to eliminate the need for annual subscriptions."}</span>
                 </div>
-                <input 
+                <input
                   type="checkbox"
+                  aria-label={lang === "ar" ? "أفضّل امتلاك النسخة مدى الحياة (تمليك)" : "I prefer lifetime offline ownership"}
                   checked={isLifetimeTarget}
                   onChange={(e) => setIsLifetimeTarget(e.target.checked)}
                   className="w-4 h-4 rounded text-brand-600 focus:ring-brand-500 border-slate-300 cursor-pointer"
@@ -2692,6 +2695,7 @@ export default function ErpPage() {
                       <label className="block text-[11px] font-bold text-slate-700 mb-1">{lang === "ar" ? "الاسم الكريم بالكامل *" : "Full Name *"}</label>
                       <input
                         type="text"
+                        aria-label={lang === "ar" ? "الاسم الكريم بالكامل" : "Full Name"}
                         required
                         value={demoForm.name}
                         onChange={(e) => {
@@ -2708,6 +2712,7 @@ export default function ErpPage() {
                       <label className="block text-[11px] font-bold text-slate-700 mb-1 font-sans">{lang === "ar" ? "رقم الجوال الفعال (مع كود الدولة) *" : "Active Mobile (with country code) *"}</label>
                       <input
                         type="tel"
+                        aria-label={lang === "ar" ? "رقم الجوال الفعال (مع كود الدولة)" : "Active Mobile (with country code)"}
                         required
                         value={demoForm.phone}
                         onChange={(e) => {
@@ -2726,6 +2731,7 @@ export default function ErpPage() {
                       </label>
                       <input
                         type="email"
+                        aria-label={lang === "ar" ? "البريد الإلكتروني" : "Email Address"}
                         required
                         value={demoForm.email}
                         onChange={(e) => {
@@ -2743,6 +2749,7 @@ export default function ErpPage() {
                         <label className="block text-[11px] font-bold text-slate-700 mb-1">{lang === "ar" ? "اسم المحل أو الشركة *" : "Store or Company Name *"}</label>
                         <input
                           type="text"
+                          aria-label={lang === "ar" ? "اسم المحل أو الشركة" : "Store or Company Name"}
                           required
                           value={demoForm.company}
                           onChange={(e) => {
@@ -2758,6 +2765,7 @@ export default function ErpPage() {
                       <div>
                         <label className="block text-[11px] font-bold text-slate-700 mb-1">{lang === "ar" ? "حجم العمالة أو الفروع" : "Business Workforce & Branch Size"}</label>
                         <select
+                          aria-label={lang === "ar" ? "حجم العمالة أو الفروع" : "Business Workforce & Branch Size"}
                           value={demoForm.employees}
                           onChange={(e) => setDemoForm({ ...demoForm, employees: e.target.value })}
                           className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 bg-white focus:outline-none focus:border-slate-800 text-start font-sans cursor-pointer"
