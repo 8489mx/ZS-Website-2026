@@ -17,13 +17,29 @@
  * vendor-neutral buying guidance with Z-ERP named at most as one
  * example, and the cashier-theft article describes well-known retail
  * leak routes generically — as risks to close, never as statistics.
+ * The Egypt e-invoicing article describes the Tax Authority's system
+ * only at a general, stable level — what the e-invoice and e-receipt
+ * documents are and the general connection journey — and deliberately
+ * states no deadlines, turnover thresholds, fines, or mandate dates,
+ * because those change by official instruction; it directs readers to
+ * eta.gov.eg and their accountant for their own obligation, and it
+ * keeps Z-ERP strictly at the llms.txt level (tax invoices with QR
+ * codes and VAT calculation), never claiming an ETA integration or
+ * approval. The multi-branch inventory article phrases each mistake
+ * as an operating habit and maps each fix to the llms.txt inventory
+ * capabilities — real-time unified balances, documented inter-branch
+ * transfers, stock alerts and reorder thresholds, per-cashier
+ * permissions with the audit log, and the unified balances that make
+ * cycle counts meaningful.
  */
 
 export type ArticleSlug =
   | "pos-software-prices-egypt"
   | "offline-pos-guide"
   | "how-to-choose-pos-software"
-  | "prevent-cashier-theft";
+  | "prevent-cashier-theft"
+  | "egypt-e-invoice-guide"
+  | "multi-branch-inventory-mistakes";
 
 export interface ArticleSection {
   heading: string;
@@ -883,11 +899,416 @@ const preventCashierTheft: Article = {
   },
 };
 
+const egyptEInvoiceGuide: Article = {
+  slug: "egypt-e-invoice-guide",
+  path: "/blog/egypt-e-invoice-guide",
+  publishedDate: "2026-11-03",
+  ar: {
+    title: "الفاتورة الإلكترونية في مصر: إزاي تربط محلك مع مصلحة الضرائب؟",
+    excerpt:
+      "الفاتورة الإلكترونية في مصر منظومة مصلحة الضرائب التي تُصدر بها فواتيرك من نظامك وتُسجَّل لديها بدل الورق: «فاتورة إلكترونية» لبيعك لمنشأة أخرى، و«إيصال إلكتروني» لبيعك للمستهلك النهائي. والربط يمر عمومًا بتسجيل منشأتك على بوابة المصلحة، والحصول على وسيلة توقيع أو ختم إلكتروني معتمدة، وتجهيز بياناتك، ثم الإصدار من نظام يخرج فواتيرك بالحقول الضريبية ورمز QR — أما التزام نشاطك بعينه وتفاصيله فتؤكدهما دائمًا من الموقع الرسمي للمصلحة eta.gov.eg ومن محاسبك، لأن هذه التفاصيل تتغير بتعليماتها.",
+    readingMinutes: 7,
+    sections: [
+      {
+        heading: "ما الفاتورة الإلكترونية؟ وما الفرق بينها وبين الإيصال الإلكتروني؟",
+        paragraphs: [
+          "منظومة الفاتورة الإلكترونية هي منظومة مصلحة الضرائب المصرية التي تنقل بها مستندات البيع من الدفاتر الورقية إلى مستندات رقمية تُنشأ داخل نظامك المحاسبي أو نظام الكاشير وتُسجَّل لدى المصلحة، فيحمل كل مستند مرجع تسجيله الذي يثبت صدوره داخل المنظومة. الفكرة التي تهمك كصاحب محل: لم يعد هناك «فوترة ورقية» منفصلة عن بيعك؛ المستند الذي يخرج لعميلك هو نفسه الذي تعرفه المصلحة.",
+          "والمنظومة لها مستندان يختلفان بحسب من تبيع له:",
+        ],
+        bullets: [
+          "الفاتورة الإلكترونية: مستند بيع من منشأتك إلى منشأة أخرى — عميل له ملف ضريبي — وتتطلب في العادة توقيعًا أو ختمًا إلكترونيًا من البائع.",
+          "الإيصال الإلكتروني: إيصال بيعك للمستهلك النهائي عند نقطة البيع في محلات التجزئة، يُسجَّل في منظومة الإيصال الإلكتروني ويحمل رمز QR يستطيع عميلك مسحه للتحقق من تسجيله.",
+          "إذا كنت تبيع للمستهلكين وللمنشآت معًا — تجزئة وجملة ككثير من المحلات — فقد يهمك المساران معًا، لا أحدهما فقط.",
+        ],
+      },
+      {
+        heading: "خطوات الربط العامة: من التسجيل إلى أول فاتورة",
+        paragraphs: [
+          "تختلف التفاصيل بحسب طبيعة نشاطك ونوع مستندك، لكن الرحلة العامة التي يمر بها أي نشاط يربط نفسه بالمنظومة تدور حول هذه الخطوات:",
+        ],
+        bullets: [
+          "التسجيل على بوابة المصلحة: إنشاء حساب منشأتك على بوابة مصلحة الضرائب الإلكترونية والمنظومة ذات الصلة بنشاطك، ببيانات تسجيلك الضريبي.",
+          "وسيلة التوقيع الإلكتروني: الحصول على توقيع إلكتروني أو ختم إلكتروني معتمد من جهة إصدار معتمدة، لأن فواتير المنشآت تُوقَّع أو تُختم إلكترونيًا قبل تسجيلها.",
+          "تجهيز بياناتك: تنظيم أصنافك وأسعارها وبيانات عملائك من المنشآت داخل نظامك، فجودة المستند الصادر تبدأ من جودة البيانات المدخلة.",
+          "الإصدار والتحقق: إصدار أول فواتير أو إيصالات من نظامك ومتابعة قبولها في المنظومة، قبل أن تعتمد عليها كليًا في بيعك اليومي.",
+        ],
+      },
+      {
+        heading: "ماذا يحدث عند الكاشير بعد الربط؟",
+        paragraphs: [
+          "في يومك العادي لا يتغير شكل البيع كثيرًا: الكاشير يبيع كالمعتاد، لكن المستند يخرج من نظامك بالحقول الضريبية المطلوبة — بيانات البائع والعميل حيث يلزم، والأصناف والضريبة محسوبة على القيمة المضافة — ويحمل رمز QR ومرجع تسجيله في المنظومة.",
+          "الفائدة العملية الأكبر: البيع والمخزون والفوترة يصبحون حدثًا واحدًا في نظام واحد. الفاتورة التي خرجت لعميلك هي نفسها التي خصمت الكمية من مخزونك وسجلت بيعك. ولهذا السبب بالتحديد تهم دقة إعداد الأصناف والأسعار والضرائب منذ البداية: خطأ واحد في بيانات صنف ما سيتكرر في كل مستند يخرج بهذا الصنف.",
+        ],
+        bullets: [
+          "ما يراه عميلك: فاتورة أو إيصال برمز QR يمكنه التحقق منه.",
+          "ما تراه أنت: سجل بيع واحد موثق، بلا فوترة ورقية موازية ولا ازدواج في الإدخال.",
+        ],
+      },
+      {
+        heading: "ما الذي تتحقق منه في برنامج الكاشير قبل الاعتماد عليه في فوترتك الإلكترونية؟",
+        paragraphs: [
+          "عبارة «يدعم الفاتورة الإلكترونية» في عرض أي بائع لا تكفي وحدها. تحقق من هذه النقاط بالاسم — وبنفس منطق قائمة فحص اختيار البرنامج في مقالنا عن كيفية الاختيار:",
+        ],
+        bullets: [
+          "هل يصدر النظام فواتير ضريبية بالحقول اللازمة ورمز QR، مع حساب ضريبة القيمة المضافة؟ هذا هو الأساس الذي تحتاجه سجلاتك أصلًا.",
+          "ما مسار التسجيل لدى المصلحة بالضبط في حالتك — فاتورة لمنشآت، أم إيصال لمستهلكين، أم الاثنان؟ اطلب شرحًا مكتوبًا للمسار، لا وعدًا عامًا.",
+          "ماذا يحدث لفواتيرك عند انقطاع الإنترنت: هل يستمر إصدارها محليًا وتُزامن بياناتها عند عودة الاتصال، أم يتوقف البيع حتى يعود؟",
+          "من يدير وسيلة توقيعك أو ختمك الإلكتروني وتجديدها عند انتهائها، وبأي تكلفة؟",
+          "جرّب بنفسك في الفترة التجريبية: أصدِر مستندًا حقيقيًا وتابِع قبوله في المنظومة قبل أن تعممه على كل بيعك.",
+        ],
+      },
+      {
+        heading: "وأين يقف Z-ERP من هذا؟ بصراحة",
+        paragraphs: [
+          "في Z-ERP، تصدر الفواتير ضريبية برمز QR مع حساب ضريبة القيمة المضافة، من نظام الكاشير والمخزون والمحاسبة نفسه، وتستمر النسخة المحلية في إصدار الفواتير أثناء انقطاع الإنترنت وتزامن بياناتها عند عودة الاتصال. هذا هو مستوى ما نعلنه عن منتجنا — ولا نضيف إليه ادعاء «تكامل معتمد» أو اعتمادًا من أي جهة لم نذكره في وثائق النظام المنشورة.",
+          "هل إصدار فواتيرك من نظامك بهذا الشكل هو مسار الربط الذي تتطلبه حالتك لدى المصلحة؟ هذا ما تؤكده من البوابة الرسمية ومحاسبك ومن شرح مكتوب تطلبه من أي بائع — بما في ذلك نحن — قبل أن تعتمد على أي نظام في إقراراتك. فالمسؤولية الضريبية في النهاية مسؤولية منشأتك، وأدق مصدر لها هو المصلحة نفسها.",
+        ],
+      },
+      {
+        heading: "أخطاء شائعة عند البدء — والخلاصة العملية",
+        paragraphs: [
+          "أكثر بدايات الفوترة الإلكترونية تعثرًا تشترك عادة في أخطاء يمكن تجنبها كلها:",
+        ],
+        bullets: [
+          "الاعتماد على وعد شفهي من بائع دون شرح مكتوب لمسار التسجيل ودون تجربة إصدار حقيقية.",
+          "تأجيل تجهيز بيانات الأصناف والعملاء إلى يوم البدء، فتتحول الانطلاقة إلى فوضى عند الكاشير.",
+          "الخلط بين الفاتورة الإلكترونية والإيصال الإلكتروني، وتجهيز أحدهما بينما حالتك تحتاج الآخر أو الاثنين.",
+          "سؤال بائع البرنامج عن التزاماتك القانونية بدل سؤال المصلحة ومحاسبك — البائع مرجعه منتجه، لا تعليمات الضرائب المتغيرة.",
+          "إبقاء فوترة ورقية موازية «احتياطيًا» بلا ضابط، فتتضارب سجلاتك بدل أن يوثقها نظام واحد.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "هل الفاتورة الإلكترونية إلزامية على محلي الآن؟",
+        a: "لا يستطيع مقال أن يجزم بذلك لنشاطك: الالتزام يتحدد بحسب طبيعة نشاطك وتعاملاتك والتعليمات الحالية لمصلحة الضرائب، وهي تفاصيل تتغير مع الوقت. مرجعك الموثوق هو الموقع الرسمي للمصلحة eta.gov.eg وبوابة المنظومة، ومحاسبك القانوني الذي يعرف ملفك الضريبي. وما نستطيع تأكيده: تجهيز نظامك وبياناتك مبكرًا يجعل أي التزام قائم أو قادم خطوة إدارية هادئة، لا أزمة عند الكاشير.",
+      },
+      {
+        q: "ما الفرق بين الفاتورة الإلكترونية والإيصال الإلكتروني؟",
+        a: "الفاتورة الإلكترونية مستند بيعك لمنشأة أخرى — عميل له ملف ضريبي — وتتطلب في العادة توقيعًا أو ختمًا إلكترونيًا. والإيصال الإلكتروني هو إيصال بيعك للمستهلك النهائي عند نقطة البيع، يُسجَّل في منظومة الإيصال الإلكتروني ويحمل رمز QR يستطيع العميل مسحه للتحقق من تسجيله. محل يبيع للمستهلكين وللمنشآت معًا قد يحتاج المسارين.",
+      },
+      {
+        q: "هل يكفي أن يطبع برنامجي رمز QR على الإيصال؟",
+        a: "رمز QR وحده ليس هو الربط. المطلوب أن يصدر المستند بالحقول الضريبية الصحيحة وأن يُسجَّل في منظومة المصلحة ويحمل مرجع تسجيله. اسأل أي بائع: ما مسار تسجيل فواتيري وإيصالاتي بالضبط في حالتي؟ واطلب شرحًا مكتوبًا، وتحقق بنفسك من قبول إصدار حقيقي في المنظومة قبل أن تعتمد عليه في كل بيعك.",
+      },
+      {
+        q: "هل أحتاج توقيعًا إلكترونيًا؟ وكيف أحصل عليه؟",
+        a: "لفواتير المنشآت يُستخدم توقيع إلكتروني أو ختم إلكتروني معتمد لتوقيع المستندات قبل تسجيلها، وتُستخرج وسيلة التوقيع من جهات إصدار معتمدة لهذا الغرض. ما ينطبق على حالتك بالتحديد — وأي وسيلة تلزمك من الاثنتين — تؤكده من بوابة المصلحة ومحاسبك، لأن المتطلب يختلف بحسب نوع المستند وطبيعة المنشأة.",
+      },
+      {
+        q: "ماذا يحدث لفواتيري إذا انقطع الإنترنت وقت البيع؟",
+        a: "اسأل بائع أي نظام عن سلوكه عند الانقطاع قبل الشراء: هل يستمر إصدار الفواتير محليًا وتُزامن البيانات عند عودة الاتصال؟ في Z-ERP تستمر النسخة المحلية في إصدار الفواتير أثناء الانقطاع وتزامن بياناتها عند عودته. ويبقى تسجيل المستندات لدى المنظومة مرتبطًا بتوفر الاتصال بطبيعته، فدبّر مع محاسبك كيف تُدار فترات الانقطاع في حالتك.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/zatca-invoicing", title: "الفاتورة الإلكترونية السعودية (ZATCA) مع Z-ERP" },
+      { path: "/blog/how-to-choose-pos-software", title: "إزاي تختار برنامج كاشير ومحاسبة لمحلك؟" },
+      { path: "/pos-supermarket", title: "برنامج كاشير للسوبر ماركت ومحلات البقالة" },
+    ],
+  },
+  en: {
+    title: "E-Invoicing in Egypt: How to Connect Your Shop to the Tax Authority",
+    excerpt:
+      "Egypt's e-invoicing is the Tax Authority's (ETA) system under which your sales documents are issued from your own system and registered with the authority instead of living on paper: an 'e-invoice' when you sell to another business, and an 'e-receipt' when you sell to a final consumer. Connecting generally means registering your business on the authority's portal, obtaining an approved electronic signature or e-seal, preparing your data, and issuing from a system that produces your documents with the required tax fields and a QR code. Whether your specific activity is obliged, and in what detail, is something you always confirm on the authority's official site, eta.gov.eg, and with your accountant — because those details change with its instructions.",
+    readingMinutes: 8,
+    sections: [
+      {
+        heading: "What is the e-invoice, and how does it differ from the e-receipt?",
+        paragraphs: [
+          "The e-invoicing system is the Egyptian Tax Authority's system that moves sales documents from paper ledgers to digital documents created inside your accounting or POS system and registered with the authority, so every document carries its registration reference proving it was issued inside the system. The idea that matters to you as a shop owner: there is no longer a separate 'paper invoicing' alongside your selling — the document that reaches your customer is the same one the authority knows.",
+          "The system has two documents, differing by who you sell to:",
+        ],
+        bullets: [
+          "The e-invoice: a sales document from your business to another business — a customer with a tax file — which ordinarily requires the seller's electronic signature or e-seal.",
+          "The e-receipt: your receipt for selling to a final consumer at the point of sale in retail shops, registered in the e-receipt system and carrying a QR code your customer can scan to verify its registration.",
+          "If you sell to consumers and to businesses alike — retail and wholesale, as many shops do — both routes may concern you, not just one.",
+        ],
+      },
+      {
+        heading: "The general connection journey: from registration to your first invoice",
+        paragraphs: [
+          "Details differ with the nature of your activity and your document type, but the general journey any business takes to connect to the system runs through these steps:",
+        ],
+        bullets: [
+          "Registering on the authority's portal: creating your business's account on the Egyptian Tax Authority's electronic portal and the system relevant to your activity, using your tax registration details.",
+          "An electronic signature means: obtaining an approved electronic signature or e-seal from an accredited issuer, since business-to-business invoices are signed or sealed electronically before they are registered.",
+          "Preparing your data: organising your items, their prices, and your business customers' details inside your system — the quality of every issued document starts with the quality of the data entered.",
+          "Issuing and verifying: issuing your first invoices or receipts from your system and following their acceptance in the authority's system, before you rely on them for all your daily selling.",
+        ],
+      },
+      {
+        heading: "What happens at the till after you connect?",
+        paragraphs: [
+          "In your ordinary day, the shape of selling barely changes: the cashier sells as usual, but the document now leaves your system with the required tax fields — seller and customer details where required, items, and VAT calculated — carrying a QR code and its registration reference in the authority's system.",
+          "The biggest practical benefit: selling, stock, and invoicing become one event in one system. The invoice that reached your customer is the same one that deducted the quantity from your stock and recorded your sale. That is exactly why the accuracy of your item, price, and tax setup matters from the very start: a single error in an item's data will repeat in every document issued with that item.",
+        ],
+        bullets: [
+          "What your customer sees: an invoice or receipt with a QR code they can verify.",
+          "What you see: one documented sales record, with no parallel paper invoicing and no double entry.",
+        ],
+      },
+      {
+        heading: "What to verify in your POS before relying on it for e-invoicing",
+        paragraphs: [
+          "The phrase 'supports e-invoicing' in any vendor's pitch is not enough on its own. Verify these points by name — with the same logic as the buyer's checklist in our guide to choosing POS software:",
+        ],
+        bullets: [
+          "Does the system issue tax invoices with the needed fields and a QR code, with VAT calculated? That is the baseline your own records need anyway.",
+          "What exactly is the registration route with the authority in your case — invoices to businesses, receipts to consumers, or both? Ask for the route explained in writing, not a general promise.",
+          "What happens to your invoices during an internet outage: do they keep being issued locally, with their data syncing when the connection returns — or does selling stop until it does?",
+          "Who manages your electronic signature or e-seal and its renewal when it expires, and at what cost?",
+          "Test it yourself during the trial: issue a real document and follow its acceptance in the authority's system before you roll it out to all your selling.",
+        ],
+      },
+      {
+        heading: "And where does Z-ERP stand in this? Honestly",
+        paragraphs: [
+          "In Z-ERP, invoices are issued as tax invoices with QR codes and VAT calculation, from the same POS, inventory, and accounting system, and the local edition keeps issuing invoices during internet outages and syncs their data when the connection returns. That is the level of what we state about our product — we add to it no claim of a 'certified integration' or an approval by any authority that our published product documentation does not state.",
+          "Is issuing your invoices from your system, in this shape, the connection route your case requires with the authority? That is what you confirm from the official portal, from your accountant, and from a written explanation you request from any vendor — including us — before you rely on any system for your filings. Tax responsibility ultimately rests with your business, and its most accurate source is the authority itself.",
+        ],
+      },
+      {
+        heading: "Common mistakes at the start — and the practical summary",
+        paragraphs: [
+          "The most troubled e-invoicing starts usually share mistakes that are all avoidable:",
+        ],
+        bullets: [
+          "Relying on a vendor's verbal promise, with no written explanation of the registration route and no real test issuance.",
+          "Postponing the preparation of item and customer data until launch day, turning the start into chaos at the till.",
+          "Confusing the e-invoice with the e-receipt, and preparing one while your case needs the other — or both.",
+          "Asking the software vendor about your legal obligations instead of the authority and your accountant — a vendor's reference is their product, not the changing tax instructions.",
+          "Keeping an uncontrolled parallel paper invoicing 'just in case', so your records contradict each other instead of being documented by one system.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "Is e-invoicing mandatory for my shop right now?",
+        a: "No article can state that definitively for your business: the obligation depends on the nature of your activity and transactions and on the Tax Authority's current instructions, and those details change over time. Your reliable reference is the authority's official site, eta.gov.eg, and its system portal, together with your chartered accountant, who knows your tax file. What we can say with confidence: preparing your system and data early turns any current or coming obligation into a calm administrative step, not a crisis at the till.",
+      },
+      {
+        q: "What is the difference between the e-invoice and the e-receipt?",
+        a: "The e-invoice is your sales document to another business — a customer with a tax file — and ordinarily requires an electronic signature or e-seal. The e-receipt is your receipt for selling to a final consumer at the point of sale, registered in the e-receipt system and carrying a QR code the customer can scan to verify its registration. A shop selling to consumers and businesses alike may need both routes.",
+      },
+      {
+        q: "Is it enough that my software prints a QR code on the receipt?",
+        a: "A QR code alone is not the connection. What is required is that the document is issued with the correct tax fields and registered in the authority's system, carrying its registration reference. Ask any vendor: what exactly is the registration route for my invoices and receipts in my case? Request the explanation in writing, and verify the acceptance of a real issuance in the authority's system yourself before relying on it for all your selling.",
+      },
+      {
+        q: "Do I need an electronic signature, and how do I get one?",
+        a: "For business-to-business invoices, an approved electronic signature or e-seal is used to sign documents before they are registered, and the signing means is obtained from issuers accredited for that purpose. What applies to your specific case — and which of the two means you need — you confirm from the authority's portal and your accountant, because the requirement differs with the document type and the nature of the business.",
+      },
+      {
+        q: "What happens to my invoices if the internet drops at selling time?",
+        a: "Ask any vendor about their behaviour during an outage before you buy: do invoices keep being issued locally, with the data syncing when the connection returns? In Z-ERP, the local edition keeps issuing invoices during an outage and syncs their data when it returns. The registration of documents with the authority's system inherently depends on a connection being available, so agree with your accountant how outage periods are handled in your case.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/zatca-invoicing", title: "Saudi ZATCA E-Invoicing with Z-ERP" },
+      { path: "/blog/how-to-choose-pos-software", title: "How to Choose POS & Accounting Software for Your Shop" },
+      { path: "/pos-supermarket", title: "Supermarket POS Software by Z-ERP" },
+    ],
+  },
+};
+
+const multiBranchInventoryMistakes: Article = {
+  slug: "multi-branch-inventory-mistakes",
+  path: "/blog/multi-branch-inventory-mistakes",
+  publishedDate: "2026-11-03",
+  ar: {
+    title: "إدارة مخزون أكثر من فرع: 6 أخطاء بتكلفك فلوس وعلاجها",
+    excerpt:
+      "أخطاء المخزون التي تكلف صاحب الفروع أكثر من غيرها ليست السرقة وحدها، بل عادات تشغيل صغيرة تتضاعف مع كل فرع جديد: جرد الفرع الرئيسي وإهمال الباقين، وتحويلات على الدفاتر، وبيع بلا حد إعادة طلب، وحساب كاشير واحد يعرفه الجميع، وجرد سنوي يكتشف العجز بعد فوات أوان تفسيره، وأكواد أصناف تختلف من فرع لآخر. لكل خطأ آلية تكلفة واضحة، وعلاجه يقوم في الغالب على ثلاث قواعد: مرجع واحد للأرصدة، وتوثيق لكل حركة، ومراجعة قريبة من زمن الحدث.",
+    readingMinutes: 9,
+    sections: [
+      {
+        heading: "الخطأ الأول: تجرد الفرع الرئيسي وتترك الباقين بلا متابعة",
+        paragraphs: [
+          "الخطأ: حين كان محلك فرعًا واحدًا، كان جردك الدوري كافيًا لتعرف رصيدك الحقيقي. وحين فتحت الفرع الثاني والثالث، ظللت تراقب الفرع الرئيسي وحده — لأنه الأقرب إلى مكتبك أو الأكبر حجمًا — بينما تتراكم فروقات الفروع الأخرى بصمت: أرصدة على النظام تختلف عن الرفوف، ونقص لا يظهر إلا حين يقف عميل أمام صنف مسجل «متوفرًا» ولا يجده. تكلفة هذا الخطأ مبيعات تضيع في فروع بعينها دون أن تنتبه، وقرارات شراء تُبنى على صورة ناقصة.",
+          "العلاج: اجعل كل فروعك ومخازنك مرئية في صورة واحدة بأرصدة محدثة لحظيًا، لا بتقارير تصلك متفرقة من كل فرع. في Z-ERP تتزامن بيانات الفروع والمخازن في النسخة السحابية في الوقت الحقيقي، فترى رصيد كل صنف عند كل فرع ومخزن من مكان واحد. ورافق ذلك بعادة بسيطة: راجع أسبوعيًا الفروع التي لم تنظر إلى أرصدتها منذ فترة، والأصناف ذات الفروق المتكررة — فالفرع الذي لا تراه عينك هو الفرع الذي ستفاجئك أرقامه.",
+        ],
+      },
+      {
+        heading: "الخطأ الثاني: التحويلات بين الفروع على الدفاتر والورق",
+        paragraphs: [
+          "الخطأ: بضاعة تخرج من فرع إلى آخر بورقة مكتوبة بخط اليد؛ سجلها المرسل في دفتره ونسيها المستقبل — أو العكس. والنتيجة المعروفة جيدًا عند كل من جرّبها: كميات «في الطريق» لا تظهر في رصيد أيٍّ من الطرفين، وعند الجرد يظهر عجز عند فرع وفائض عند آخر، ويتحول فرقٌ سببه تحويل غير موثق إلى خصومات واتهامات متبادلة بين الفرق. فالتحويلات الورقية ليست مصدر فروق فحسب، بل مصدر ظلم إداري أيضًا.",
+          "العلاج: كل تحويل حركة مخزون موثقة داخل النظام نفسه — الصنف والكمية والمصدر والوجهة والتاريخ — فتُخصم الكمية من رصيد المرسل وتضاف إلى رصيد المستقبِل، وتبقى أي مرحلة انتقالية مرئية للطرفين. التحويلات بين الفروع والمخازن من قدرات Z-ERP الموثقة، وبها يتغير وضع التحويل جذريًا: من أول مصادر الفروقات والشك، إلى سجل يثبت أين كانت كل كمية ومتى تحركت ومن حرّكها.",
+        ],
+        bullets: [
+          "علامة خطر تستحق الوقوف عندها فورًا: أي تحويل يُقال عنه «سنُسجله لاحقًا».",
+          "الورقة التي بلا نسخة عند الطرف المستقبِل ليست توثيقًا؛ التوثيق ما يراه الطرفان في النظام نفسه.",
+        ],
+      },
+      {
+        heading: "الخطأ الثالث: لا حد إعادة طلب — فتكتشف النفاد من عميلك",
+        paragraphs: [
+          "الخطأ: بلا حد إعادة طلب، تدير مخزونك من ذاكرتك وإحساس فريقك: صنف سريع الحركة ينفد عند فرع في يوم الذروة ويظل نافدًا حتى جولة الشراء التالية — مبيعات ضائعة لا تظهر في أي تقرير لأنها لم تحدث أصلًا — بينما يرقد الصنف نفسه برأس مال مجمد عند فرع آخر بطيء الحركة. التكلفة هنا مزدوجة: بيعٌ فاتك هنا، ونقدٌ محبوس هناك.",
+          "العلاج: عيّن لأصنافك المهمة حد إعادة طلب عند كل فرع — مستوى رصيد إذا بلغه الصنف نبّهك نظامك قبل النفاد، لا بعده. Z-ERP يوفر تنبيهات للمخزون وحدودًا لإعادة الطلب لهذا الغرض. واجعل مراجعة التنبيهات مهمة أسبوعية ثابتة، وذكّر نفسك دائمًا أن أول رد على تنبيه ليس الشراء بالضرورة: قد يكون الأرخص تحويلًا من فرع لديه فائض من الصنف ذاته.",
+        ],
+        bullets: [
+          "ابدأ بأصنافك الأعلى حركة عند كل فرع، وحدد حدًا لكل منها بقدر ما تستهلكه حتى تصل طلبية جديدة.",
+          "رصيد ينفد بانتظام عند فرع واحد دون غيره إشارة إلى حد منخفض أو توزيع خاطئ، لا إلى «سوء حظ».",
+        ],
+      },
+      {
+        heading: "الخطأ الرابع: حساب كاشير واحد مشترك يعرفه الجميع",
+        paragraphs: [
+          "الخطأ: حساب كاشير واحد بنفس كلمة السر في كل فرع وكل وردية. بمثل هذا الحساب لا توجد عملية منسوبة لشخص: خصم غريب عند فرع، وحذف فاتورة عند آخر، وفرق مخزون عند ثالث — كلها أحداث بلا صاحب، فتتحول المساءلة إلى شك عام يطال الفريق كله، ويخسر الموظف الأمين من سمعته قبل أن يخسر المتسبب شيئًا. وقد تبدو المسألة «ثقة»، لكنها عمليًا إلغاء لأي إمكانية تتبع.",
+          "العلاج: حساب مستقل لكل كاشير، وصلاحيات تحصر العمليات الاستثنائية — تعديل الأسعار، وحذف الفواتير، والخصومات، وفتح درج النقود — بمن يحق له تنفيذها، مع سجل تدقيق مقاوم للعبث يوثق من فعل ماذا ومتى. وهذه من قدرات Z-ERP الموثقة في وثائقه. بهذا يصبح كل فرق نقدي أو مخزني قابلًا للتضييق حتى فرع ووردية وكاشير بعينهم، بدل أن يبقى لغزًا جماعيًا — وتفصيل إغلاق طرق التسرب من الكاشير كاملًا في مقالنا عن منع سرقة الكاشير.",
+        ],
+      },
+      {
+        heading: "الخطأ الخامس: لا تكتشف العجز إلا في جرد نهاية السنة",
+        paragraphs: [
+          "الخطأ: جرد واحد شامل في نهاية السنة يكتشف عجزًا تراكم على مدى شهور — لكنه عاجز عن الإجابة عن الأسئلة التي تهم فعلًا: متى بدأ؟ وعند أي فرع؟ وبسبب أي عملية؟ فالفروقات الصغيرة التي كان يمكن اكتشافها في أسبوع حدوثها تندمج في رقم واحد مجهول السبب، وتتكرر الدورة في السنة التالية لأن العلاج لا يُبنى على سبب غير معروف.",
+          "العلاج: الجرد الدوري الجزئي بالتناوب — عدّ مجموعات مختارة من الأصناف (الأغلى والأسرع حركة أولًا) عند فرع مختلف كل أسبوع أو أسبوعين، ومقارنتها بأرصدة النظام في وقتها. ولأن مخزون نظام كـ Z-ERP يتحدث مع كل فاتورة بيع وكل تحويل موثق، تصبح المقارنة ذات معنى: فرق يظهر اليوم وأنت قادر على مراجعة حركات الصنف الأخيرة لتصل إلى سببه. وسجّل نتيجة كل جرد وتسويته كتابةً؛ فالتسوية نفسها عملية تستحق التوثيق، لا تعديلًا صامتًا في رصيد.",
+        ],
+        bullets: [
+          "فرق صغير يتكرر عند الفرع نفسه أخطر من فرق كبير يظهر مرة واحدة لسبب موثق.",
+          "لا تؤجل تسوية الجرد إلى «وقت الفراغ»؛ التسوية المتأخرة تُنسى أسبابها كما تُنسى أسباب الفروق نفسها.",
+        ],
+      },
+      {
+        heading: "الخطأ السادس: كل فرع يحتفظ بأكواد أصنافه الخاصة",
+        paragraphs: [
+          "الخطأ: الفرع الأول يعرف الصنف بكود واسم، والفرع الجديد يستلم بضاعته بنفسه فينشئ للصنف نفسه كودًا آخر واسمًا مختلفًا قليلًا. من هنا تنهار الصورة الموحدة التي بنيت نظامك من أجلها: تقرير «مبيعات الصنف» يجمع نصف حركته فقط، والتحويل بين الفروع يتعطل لأن الصنف «غير موجود» بهذا الكود عند الطرف الآخر، وحد إعادة الطلب يُحسب على رصيد مشتت لصنف واحد متنكر في تعريفين وثلاثة. تكلفة الخطأ أن كل علاجات الأخطاء السابقة تفقد دقتها، لأنها تعمل على بيانات مشقوقة.",
+          "العلاج: كتالوج أصناف واحد بأكواد موحدة لكل الفروع والمخازن داخل نظامك الواحد — صنف واحد، كود واحد، ورصيد موحد الصورة وإن توزع فعليًا على أكثر من مكان. حين تعمل الفروع على نظام واحد بأرصدة متزامنة كما في Z-ERP، يصبح توحيد الأكواد قاعدة تعمل من تلقاء نفسها: كل بيع وتحويل وجرد يقع على التعريف نفسه. وضع عند افتتاح أي فرع جديد قاعدة صارمة: لا تُنشأ أصناف محليًا أبدًا؛ تُستخدم القائمة الموحدة، وما يُضاف يُضاف مركزيًا مرة واحدة للجميع.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "ما أول خطوة لضبط مخزون أكثر من فرع؟",
+        a: "توحيد الأساس قبل أي علاج آخر: كتالوج أصناف واحد بأكواد موحدة لكل الفروع والمخازن، وحساب مستقل لكل كاشير، وجرد افتتاحي موثق لكل فرع تُعتمد أرقامه أرصدة بداية في نظام واحد يصبح هو مرجع الحقيقة الوحيد. فوق هذا الأساس تصبح التحويلات الموثقة وحدود إعادة الطلب والجرد الدوري عمليات فعالة؛ وبدونه تبقى ترقيعًا فوق بيانات متضاربة.",
+      },
+      {
+        q: "كم مرة يجب أن أجرد مخزون فروعي؟",
+        a: "لا تنتظر الجرد السنوي: اجعل الجرد الجزئي عادة ثابتة — مجموعات مختارة من الأصناف، الأغلى والأسرع حركة أولًا، عند فرع بالتناوب كل أسبوع أو أسبوعين — مع جرد أشمل على فترات أطول بحسب حجم نشاطك. قيمة الجرد في قربه من زمن حدوث الفرق: فرق اكتشفته في أسبوعه يمكن تفسيره وعلاجه، وفرق اكتشفته بعد شهور يبقى رقمًا بلا سبب.",
+      },
+      {
+        q: "هل أحتاج النسخة السحابية لإدارة مخزون فروعي أم تكفي المحلية؟",
+        a: "النسخة السحابية تمنحك أرصدة موحدة تتحدث لحظيًا وتراها من أي مكان، وهي الأنسب للمتابعة المركزية اليومية. والنسخة المحلية تعمل بالكامل دون إنترنت داخل الفرع وتزامن بياناتها عند عودة الاتصال، فتناسب الفروع ضعيفة الاتصال التي لا يحتمل بيعها التوقف. Z-ERP يوفر النمطين في نظام واحد، فاختر لكل فرع بحسب موثوقية اتصاله، لا بحسب حدّ في قدرة النظام.",
+      },
+      {
+        q: "كيف أحدد الفرع الذي يتسرب منه المخزون؟",
+        a: "قارن ثلاث إشارات معًا لا واحدة منفردة: فروقات الجرد الدوري مرتبة بحسب الفرع والصنف، وسجل العمليات الاستثنائية مرتبًا بحسب الكاشير والوردية، والتحويلات الموثقة الداخلة والخارجة لكل فرع. فرع تتكرر فروقاته في أصناف بعينها مع ورديات بعينها يرسم لك أين تحقق تحديدًا. أما حين لا توجد سجلات، فلن يتجاوز أي فرق كونه شكًا عامًا لا يثبت شيئًا.",
+      },
+      {
+        q: "أدير فروعي اليوم بدفاتر وجداول منفصلة. كيف أنتقل دون فوضى؟",
+        a: "بثلاث خطوات هادئة: وحّد أولًا كتالوج الأصناف وأكوادها على الورق حتى لا ينتقل الانقسام إلى النظام الجديد، ثم أجرِ جردًا فعليًا لكل فرع واعتمد نتيجته رصيدًا افتتاحيًا يُدخل مرة واحدة مع مراجعة عينة منه بنفسك، ومن يوم الإطلاق اجعل كل بيع وتحويل يمر من النظام وحده وأوقف الدفاتر الموازية. الفوضى الحقيقية تأتي من تشغيل عالمين معًا لفترة طويلة، لا من الانتقال نفسه.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/inventory-management", title: "إدارة المخزون متعدد الفروع والمخازن" },
+      { path: "/blog/prevent-cashier-theft", title: "إزاي تمنع سرقة الكاشير والتلاعب في محلك؟" },
+      { path: "/pos-fashion", title: "برنامج كاشير لمحلات الملابس والأزياء" },
+    ],
+  },
+  en: {
+    title: "Managing Stock Across Branches: 6 Mistakes That Cost You Money — and Their Fixes",
+    excerpt:
+      "The inventory mistakes that cost multi-branch owners the most are not theft alone, but small operating habits that multiply with every new branch: counting only the main branch, transfers kept on paper, selling with no reorder points, one shared cashier account everyone knows, a year-end count that discovers shrinkage long after it can be explained, and item codes that differ from branch to branch. Each mistake has a clear cost mechanism, and its fix usually rests on three rules: one reference for balances, documentation for every movement, and review close to the time things happen.",
+    readingMinutes: 9,
+    sections: [
+      {
+        heading: "Mistake 1: You count the main branch and leave the others unwatched",
+        paragraphs: [
+          "The mistake: when your shop was a single branch, your periodic count was enough to know your true stock. When the second and third branches opened, you kept watching the main branch alone — because it is nearest your office, or the largest — while the other branches' differences quietly pile up: system balances that differ from the shelves, and shortages discovered only when a customer stands in front of an item recorded as 'available' that is not there. The cost is sales lost in specific branches without your noticing, and purchasing decisions built on an incomplete picture.",
+          "The fix: make every branch and warehouse visible in one picture with balances updated in real time, not in reports that reach you separately from each branch. In Z-ERP, branch and warehouse data syncs in real time in the cloud edition, so you see every item's balance at every branch and warehouse from one place. Pair that with a simple habit: each week, review the branches whose balances you have not looked at for a while, and the items with repeating differences — the branch your eye never visits is the branch whose numbers will surprise you.",
+        ],
+      },
+      {
+        heading: "Mistake 2: Transfers between branches live in notebooks and on paper",
+        paragraphs: [
+          "The mistake: goods leave one branch for another on a handwritten note; the sender records it in his notebook and the receiver forgets — or the reverse. The result, well known to everyone who has lived it: quantities 'in transit' that appear in neither side's balance, and at counting time a shortage at one branch and a surplus at the other, where a difference caused by an undocumented transfer turns into deductions and mutual accusations between teams. Paper transfers are not only a source of discrepancies; they are a source of managerial injustice too.",
+          "The fix: every transfer becomes a stock movement documented inside the system itself — item, quantity, source, destination, and date — so the quantity is deducted from the sender's balance and added to the receiver's, and any in-between stage stays visible to both ends. Inter-branch transfers are among Z-ERP's documented capabilities, and they change what a transfer is: from a prime source of discrepancies and suspicion, to a record proving where every quantity was, when it moved, and who moved it.",
+        ],
+        bullets: [
+          "A warning sign worth stopping at immediately: any transfer described as 'we will record it later'.",
+          "A note with no copy at the receiving end is not documentation; documentation is what both ends see in the same system.",
+        ],
+      },
+      {
+        heading: "Mistake 3: No reorder points — so your customer discovers the stockout",
+        paragraphs: [
+          "The mistake: with no reorder points, you run your stock from your memory and your team's feel: a fast-moving item runs out at a branch on a peak day and stays out until the next purchasing round — lost sales that appear in no report, because they never happened — while the same item sits as frozen capital at another, slower branch. The cost here is double: a sale missed there, and cash locked up here.",
+          "The fix: set a reorder point for your important items at each branch — a balance level at which your system alerts you before the stockout, not after it. Z-ERP provides stock alerts and reorder thresholds for exactly this purpose. Make reviewing the alerts a fixed weekly task, and remind yourself that the first response to an alert is not necessarily buying: it may be cheaper to transfer from a branch holding a surplus of the very same item.",
+        ],
+        bullets: [
+          "Start with your highest-moving items at each branch, and set each one's point by how much it sells until a new order can arrive.",
+          "An item that regularly runs out at one branch only is a sign of a low point or a wrong distribution — not of 'bad luck'.",
+        ],
+      },
+      {
+        heading: "Mistake 4: One shared cashier account that everyone knows",
+        paragraphs: [
+          "The mistake: a single cashier account with the same password at every branch and every shift. With such an account, no action belongs to anyone: a strange discount at one branch, a deleted invoice at another, a stock difference at a third — all are events with no owner, so accountability dissolves into general suspicion that falls on the whole team, and the honest employee loses reputation before the culprit loses anything. It may look like 'trust', but in practice it abolishes any possibility of tracing.",
+          "The fix: a separate account for every cashier, permissions that restrict the exceptional actions — price edits, receipt deletions, discounts, and cash-drawer openings — to those entitled to perform them, and a tamper-evident audit log documenting who did what, and when. These are among Z-ERP's documented capabilities. With them, every cash or stock difference can be narrowed down to a specific branch, shift, and cashier, instead of remaining a collective mystery — and our guide to stopping cashier theft covers closing the leak routes in full.",
+        ],
+      },
+      {
+        heading: "Mistake 5: Shrinkage discovered only at the year-end count",
+        paragraphs: [
+          "The mistake: one full count at year-end discovers shrinkage accumulated over months — but it cannot answer the questions that actually matter: when did it start? At which branch? Because of which action? The small differences that could have been caught in the week they happened merge into one figure with an unknown cause, and the cycle repeats the following year, because no fix can be built on an unknown cause.",
+          "The fix: rotating partial cycle counts — count selected groups of items (the most valuable and fastest-moving first) at a different branch every week or two, and compare them against the system's balances at that moment. Because the stock in a system like Z-ERP updates with every sales invoice and every documented transfer, the comparison means something: a difference that surfaces today, while you can still review the item's recent movements to find its cause. Record every count's result and its adjustment in writing; the adjustment itself is an action that deserves documentation, not a silent edit of a balance.",
+        ],
+        bullets: [
+          "A small difference repeating at the same branch is more serious than a large one appearing once for a documented reason.",
+          "Do not postpone settling a count to 'when there is time'; a delayed settlement's reasons are forgotten just like the differences' own reasons.",
+        ],
+      },
+      {
+        heading: "Mistake 6: Every branch keeps its own item codes",
+        paragraphs: [
+          "The mistake: the first branch knows an item by one code and name, and the new branch receives its goods by itself and creates another code and a slightly different name for the same item. From there, the unified picture you bought a system for collapses: the 'item sales' report gathers only half its movement, transfers between branches stall because the item 'does not exist' under that code at the other end, and reorder points are computed on a balance scattered across one item disguised as two or three definitions. The cost of this mistake is that every fix for the previous five loses its accuracy, because it runs on split data.",
+          "The fix: one item catalogue with unified codes for all branches and warehouses inside your single system — one item, one code, and one unified view of its balance even when it physically sits in more than one place. When branches work on one system with synced balances, as in Z-ERP, unified codes become a rule that maintains itself: every sale, transfer, and count lands on the same definition. And set a strict rule when opening any new branch: items are never created locally — the unified list is used, and anything added is added centrally, once, for everyone.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "What is the first step to getting multi-branch stock under control?",
+        a: "Unify the foundation before any other fix: one item catalogue with unified codes for all branches and warehouses, a separate account for every cashier, and a documented opening count for each branch whose figures become the starting balances in one system that is the single reference of truth. On that foundation, documented transfers, reorder points, and cycle counts become effective operations; without it, they remain patching over contradicting data.",
+      },
+      {
+        q: "How often should I count my branches' stock?",
+        a: "Do not wait for the annual count: make partial counting a fixed habit — selected groups of items, the most valuable and fastest-moving first, at one branch in rotation every week or two — with a fuller count at longer intervals according to your size. A count's value lies in its closeness to when the difference happened: a difference caught in its own week can be explained and fixed; one caught months later remains a figure without a cause.",
+      },
+      {
+        q: "Do I need the cloud edition to manage branch stock, or is the local edition enough?",
+        a: "The cloud edition gives you unified balances updating in real time, visible from anywhere — the natural fit for daily central follow-up. The local edition works fully without internet inside the branch and syncs its data when the connection returns, suiting branches with weak connectivity whose selling cannot stop. Z-ERP offers both modes in one system, so choose per branch by the reliability of its connection, not by a limit in the system's capability.",
+      },
+      {
+        q: "How do I identify which branch stock is leaking from?",
+        a: "Compare three signals together, never one alone: cycle-count differences ranked by branch and item, the exceptional-actions log ranked by cashier and shift, and the documented transfers in and out of each branch. A branch whose differences repeat on particular items with particular shifts draws you a map of exactly where to investigate. Without records, by contrast, no difference can ever rise above general suspicion that proves nothing.",
+      },
+      {
+        q: "I run my branches today on separate notebooks and spreadsheets. How do I move without chaos?",
+        a: "In three calm steps: first unify the item catalogue and its codes on paper, so the split does not travel into the new system; then take a physical count at each branch and adopt its result as the opening balance, entered once, with a sample of it reviewed by you personally; and from launch day, let every sale and transfer pass through the system alone and stop the parallel notebooks. The real chaos comes from running two worlds side by side for a long time, not from the move itself.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/inventory-management", title: "Multi-Branch Inventory Management" },
+      { path: "/blog/prevent-cashier-theft", title: "How to Stop Cashier Theft and Manipulation" },
+      { path: "/pos-fashion", title: "Fashion & Clothing Store POS Software" },
+    ],
+  },
+};
+
 export const ARTICLES: Record<ArticleSlug, Article> = {
   "pos-software-prices-egypt": pricesEgypt,
   "offline-pos-guide": offlineGuide,
   "how-to-choose-pos-software": choosePosSoftware,
   "prevent-cashier-theft": preventCashierTheft,
+  "egypt-e-invoice-guide": egyptEInvoiceGuide,
+  "multi-branch-inventory-mistakes": multiBranchInventoryMistakes,
 };
 
-export const ARTICLE_LIST: Article[] = [pricesEgypt, offlineGuide, choosePosSoftware, preventCashierTheft];
+export const ARTICLE_LIST: Article[] = [
+  pricesEgypt,
+  offlineGuide,
+  choosePosSoftware,
+  preventCashierTheft,
+  egyptEInvoiceGuide,
+  multiBranchInventoryMistakes,
+];
