@@ -706,12 +706,12 @@ export default function ErpPage() {
       </motion.section>
 
       {/* TRUST BANNER - Real Client Logos */}
-      <section className="py-12 border-b border-slate-200 bg-slate-50 overflow-hidden flex flex-col items-center">
-        <p className="text-center text-[13px] font-bold text-slate-500 uppercase tracking-wider mb-10">
+      <section className="py-6 border-b border-slate-200 bg-slate-50 overflow-hidden flex flex-col items-center">
+        <p className="text-center text-[13px] font-bold text-slate-500 uppercase tracking-wider mb-5">
           {lang === "ar" ? "عملاء حقيقيون يثقون بنا" : "Real clients who trust us"}
         </p>
 
-        <div className="w-full max-w-[100vw] overflow-hidden flex flex-col gap-10 relative mask-image-linear-gradient">
+        <div className="w-full max-w-[100vw] overflow-hidden flex flex-col gap-5 relative mask-image-linear-gradient">
           <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none"></div>
           <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none"></div>
 
@@ -719,34 +719,38 @@ export default function ErpPage() {
               Wide per-item padding gives the approved ~440px spacing between shops
               on desktop (scaled down on smaller screens). */}
           <div className="flex w-full overflow-hidden pause-on-hover">
+            <div className="flex w-max animate-marquee items-center">
             {[0, 1].map((dup) => (
-              <div key={`r1-${dup}`} aria-hidden={dup === 1 ? true : undefined} className="flex shrink-0 min-w-full animate-marquee items-center justify-around">
+              <div key={`r1-${dup}`} aria-hidden={dup === 1 ? true : undefined} className="flex items-center">
                 {CLIENTS_ROW_1.map((c) => (
-                  <div key={`client-r1-${dup}-${c.id}`} className="flex items-center gap-4 px-8 sm:px-16 lg:px-[13.75rem] shrink-0">
-                    <img src={c.logo} alt={lang === "ar" ? c.nameAr : c.nameEn} style={c.logoStyle} className={`${c.logoClassName} w-auto object-contain`} loading="lazy" />
-                    <span className="font-display font-extrabold text-base sm:text-lg lg:text-xl text-slate-800 whitespace-nowrap">
+                  <div key={`client-r1-${dup}-${c.id}`} className="flex items-center gap-3 px-8 sm:px-16 lg:px-[13.75rem] shrink-0">
+                    <img src={c.logo} width={c.imgW} height={c.imgH} alt={lang === "ar" ? c.nameAr : c.nameEn} style={c.logoStyle} className={`${c.logoClassName} w-auto object-contain`} loading="lazy" />
+                    <span className="font-display font-extrabold text-sm sm:text-base text-slate-800 whitespace-nowrap">
                       {lang === "ar" ? c.nameAr : c.nameEn}
                     </span>
                   </div>
                 ))}
               </div>
             ))}
+            </div>
           </div>
 
           {/* Row 2 (reverse direction, different order) */}
           <div className="flex w-full overflow-hidden pause-on-hover">
+            <div className="flex w-max animate-marquee-reverse items-center">
             {[0, 1].map((dup) => (
-              <div key={`r2-${dup}`} aria-hidden={dup === 1 ? true : undefined} className="flex shrink-0 min-w-full animate-marquee-reverse items-center justify-around">
+              <div key={`r2-${dup}`} aria-hidden={dup === 1 ? true : undefined} className="flex items-center">
                 {CLIENTS_ROW_2.map((c) => (
-                  <div key={`client-r2-${dup}-${c.id}`} className="flex items-center gap-4 px-8 sm:px-16 lg:px-[13.75rem] shrink-0">
-                    <img src={c.logo} alt={lang === "ar" ? c.nameAr : c.nameEn} style={c.logoStyle} className={`${c.logoClassName} w-auto object-contain`} loading="lazy" />
-                    <span className="font-display font-extrabold text-base sm:text-lg lg:text-xl text-slate-800 whitespace-nowrap">
+                  <div key={`client-r2-${dup}-${c.id}`} className="flex items-center gap-3 px-8 sm:px-16 lg:px-[13.75rem] shrink-0">
+                    <img src={c.logo} width={c.imgW} height={c.imgH} alt={lang === "ar" ? c.nameAr : c.nameEn} style={c.logoStyle} className={`${c.logoClassName} w-auto object-contain`} loading="lazy" />
+                    <span className="font-display font-extrabold text-sm sm:text-base text-slate-800 whitespace-nowrap">
                       {lang === "ar" ? c.nameAr : c.nameEn}
                     </span>
                   </div>
                 ))}
               </div>
             ))}
+            </div>
           </div>
         </div>
       </section>
