@@ -607,7 +607,7 @@ export default function ErpPage() {
                 </a>
               </div>
 
-              <div className="mt-5 flex items-center gap-2 text-[11px] text-slate-400">
+              <div className="mt-5 flex items-center gap-2 text-[11px] text-slate-500">
                 <span className="w-1.2 h-1.2 bg-brand-500 rounded-full animate-ping" />
                 <span>{t.hero.supportText}</span>
               </div>
@@ -706,7 +706,7 @@ export default function ErpPage() {
 
       {/* TRUST BANNER - Client Logos */}
       <section className="py-12 border-b border-slate-200 bg-slate-50 overflow-hidden flex flex-col items-center">
-        <p className="text-center text-[13px] font-bold text-slate-400 uppercase tracking-wider mb-8">
+        <p className="text-center text-[13px] font-bold text-slate-500 uppercase tracking-wider mb-8">
           {lang === "ar" ? "أكثر من 5,000+ شركة من مختلف القطاعات تثق بنا" : "Over 5,000+ companies from all sectors trust us"}
         </p>
 
@@ -980,7 +980,7 @@ export default function ErpPage() {
                                 <div className="flex-1 overflow-y-auto p-1.5 text-[10px]">
                                   {/* Table Header */}
                                   <div className="flex items-center bg-slate-50 border-b border-slate-100 p-2 font-bold text-slate-600 mb-1 rounded">
-                                    <div className="w-5 md:w-6 text-center text-[9px] text-slate-400">{lang === "ar" ? "م" : "No."}</div>
+                                    <div className="w-5 md:w-6 text-center text-[9px] text-slate-500">{lang === "ar" ? "م" : "No."}</div>
                                     <div className="flex-1 pe-1">{lang === "ar" ? "الصنف" : "Item"}</div>
                                     <div className="w-16 md:w-20 text-center">{lang === "ar" ? "الكمية" : "Qty"}</div>
                                     <div className="w-12 md:w-14 text-center">{lang === "ar" ? "السعر" : "Price"}</div>
@@ -989,7 +989,7 @@ export default function ErpPage() {
                                   </div>
 
                                   {posItems.length === 0 ? (
-                                    <div className="flex flex-col items-center justify-center h-48 text-slate-400">
+                                    <div className="flex flex-col items-center justify-center h-48 text-slate-500">
                                       <Boxes className="w-10 h-10 mb-3 opacity-20" />
                                       <p className="font-medium text-[11px]">{lang === "ar" ? "السلة فارغة" : "Cart is empty"}</p>
                                     </div>
@@ -999,14 +999,14 @@ export default function ErpPage() {
                                         <div className="w-5 md:w-6 text-center bg-brand-100/50 text-brand-600 rounded-full h-5 md:h-6 flex items-center justify-center font-bold mb-auto">{idx + 1}</div>
                                         <div className="flex-1 px-1 pe-2">
                                           <div className="font-bold text-slate-800 line-clamp-1 leading-snug">{item.name}</div>
-                                          <div className="text-[8px] text-slate-400 font-mono mt-0.5">#{1029301920 + item.id}</div>
+                                          <div className="text-[8px] text-slate-500 font-mono mt-0.5">#{1029301920 + item.id}</div>
                                         </div>
                                         <div className="w-16 md:w-20 text-center flex items-center justify-center gap-1.5">
                                           <button onClick={() => updateQty(item.id, -1)} className="w-5 h-5 bg-white border border-slate-200 shadow-sm rounded-md flex items-center justify-center text-slate-600 hover:bg-slate-50 transition-colors font-mono font-bold">-</button>
                                           <span className="w-4 text-center font-bold text-slate-700">{item.qty}</span>
                                           <button onClick={() => updateQty(item.id, 1)} className="w-5 h-5 bg-white border border-slate-200 shadow-sm rounded-md flex items-center justify-center text-slate-600 hover:bg-slate-50 transition-colors font-mono font-bold">+</button>
                                         </div>
-                                        <div className="w-12 md:w-14 text-center text-slate-300 font-bold font-mono">{item.price}</div>
+                                        <div className="w-12 md:w-14 text-center text-slate-500 font-bold font-mono">{item.price}</div>
                                         <div className="w-12 md:w-16 text-center text-brand-600 font-extrabold font-mono">{item.price * item.qty}</div>
                                         <div className="w-8 md:w-10 text-center">
                                           <button onClick={() => removeItem(item.id)} className="text-red-500 hover:text-white border-none md:border md:border-red-200 bg-transparent md:bg-red-900/40 md:group-hover:bg-red-600 rounded p-1 md:py-1 md:px-2 transition-colors"><Trash2 className="w-3.5 h-3.5 md:hidden mx-auto" /><span className="hidden md:inline text-[9px] font-bold">{lang === "ar" ? "حذف" : "Remove"}</span></button>
@@ -1049,7 +1049,7 @@ export default function ErpPage() {
                                 <div className="p-2 md:p-3 shrink-0">
                                   <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-1.5 md:p-2 mb-2 w-full max-w-sm mx-auto relative group">
                                     <input type="text" aria-label={lang === "ar" ? "بحث بالباركود أو الاسم" : "Search by barcode or name"} placeholder={lang === "ar" ? "ابحث بالباركود هنا أو اكتب الاسم..." : "Search by barcode or type name..."} className="w-full text-[10px] md:text-[11px] font-medium border-0 focus:ring-0 rounded p-1.5 pe-8 focus:outline-none bg-transparent" />
-                                    <Search className="w-3.5 h-3.5 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 group-focus-within:text-brand-500 transition-colors" />
+                                    <Search className="w-3.5 h-3.5 text-slate-500 absolute right-3 top-1/2 -translate-y-1/2 group-focus-within:text-brand-500 transition-colors" />
                                   </div>
                                   <div className="flex gap-2 text-[10px] md:text-[11px] max-w-sm mx-auto mb-2">
                                      <button className="flex-1 bg-brand-600 text-white rounded-md py-1.5 md:py-2 font-bold shadow-md shadow-brand-600/20">{lang === "ar" ? "قطاعي" : "Retail"}</button>
@@ -1077,7 +1077,7 @@ export default function ErpPage() {
                                           <span className="font-black text-brand-600 text-xs font-mono">{prod.price.toFixed(2)}</span>
                                         </div>
                                         <div className="font-bold text-slate-800 leading-snug">{prod.name}</div>
-                                        <div className="text-[8px] text-slate-400 font-mono mt-1.5 flex justify-between items-center">
+                                        <div className="text-[8px] text-slate-500 font-mono mt-1.5 flex justify-between items-center">
                                             <span>{lang === "ar" ? "باركود" : "Barcode"}: {prod.bc}</span>
                                             <span className="opacity-0 group-hover:opacity-100 text-brand-600 transition-opacity font-bold">{lang === "ar" ? "أضف الآن" : "Add Now"}</span>
                                         </div>
@@ -1671,7 +1671,7 @@ export default function ErpPage() {
               >
                 <span>{lang === "ar" ? "اشتراك سنوي" : "Annual Billing"}</span>
                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                  billingMode === "annual" ? "bg-emerald-500 text-white" : "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                  billingMode === "annual" ? "bg-emerald-700 text-white" : "bg-emerald-50 text-emerald-700 border border-emerald-200"
                 }`}>
                   {lang === "ar" ? "شهران مجاناً" : "2 Months Free"}
                 </span>
@@ -1920,7 +1920,7 @@ export default function ErpPage() {
                               <span className="text-sm font-bold text-brand-600 font-sans mx-1">
                                 {level.currency}
                               </span>
-                              <span className="text-xs font-bold text-slate-400">
+                              <span className="text-xs font-bold text-slate-500">
                                 / {lang === "ar" ? periodLabelAr : periodLabelEn}
                               </span>
                             </>
@@ -1942,7 +1942,7 @@ export default function ErpPage() {
                       </div>
 
                       {/* Live Features List from API */}
-                      <div className="mt-5 mb-2.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      <div className="mt-5 mb-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                         {lang === "ar" ? "المزايا المشمولة في الباقة:" : "What's Included:"}
                       </div>
                       
@@ -2040,7 +2040,7 @@ export default function ErpPage() {
                   <span className="text-xs font-bold text-brand-600 hidden sm:inline">
                     {showAddonsDetails ? (lang === "ar" ? "إخفاء التفاصيل" : "Hide Details") : (lang === "ar" ? "عرض الأسعار الحية والتفاصيل" : "Show Live Prices")}
                   </span>
-                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${showAddonsDetails ? "rotate-180" : ""}`} />
+                  <ChevronDown className={`w-5 h-5 text-slate-500 transition-transform ${showAddonsDetails ? "rotate-180" : ""}`} />
                 </div>
               </button>
 
@@ -2080,7 +2080,7 @@ export default function ErpPage() {
                                 ? (lang === "ar" ? "بالطلب" : "Contact Sales")
                                 : (floor.pricingRule || (lang === "ar" ? "حسب الاستخدام" : "Usage-based"))}
                           </span>
-                          <span className="text-[10px] text-slate-400 font-medium">
+                          <span className="text-[10px] text-slate-500 font-medium">
                             {floor.monthly !== null ? (lang === "ar" ? "شهرياً" : "monthly") : ""}
                           </span>
                         </div>
@@ -2405,7 +2405,7 @@ export default function ErpPage() {
                   <span className="font-display font-black text-base text-slate-900 tracking-tight leading-none">
                     Systems <span className="text-brand-600 font-bold text-xs">Pro</span>
                   </span>
-                  <span className="text-[10px] text-slate-400 font-medium mt-1">
+                  <span className="text-[10px] text-slate-500 font-medium mt-1">
                     {lang === "ar" ? "حلول الإدارة ونقاط البيع المتكاملة" : "Enterprise ERP & POS Solutions"}
                   </span>
                 </div>
@@ -2593,7 +2593,7 @@ export default function ErpPage() {
               <button
                 onClick={closeDemoModal}
                 aria-label={lang === "ar" ? "إغلاق النافذة" : "Close dialog"}
-                className="absolute top-4 left-4 text-slate-400 hover:text-slate-600 p-1.5 hover:bg-slate-100 rounded transition-all cursor-pointer"
+                className="absolute top-4 left-4 text-slate-500 hover:text-slate-600 p-1.5 hover:bg-slate-100 rounded transition-all cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2649,7 +2649,7 @@ export default function ErpPage() {
                           href="https://wa.me/201018017523"
                           target="_blank"
                           rel="noreferrer"
-                          className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-6 rounded text-xs transition-colors flex items-center justify-center gap-1.5"
+                          className="bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-2.5 px-6 rounded text-xs transition-colors flex items-center justify-center gap-1.5"
                         >
                           {lang === "ar" ? "تواصل عبر واتساب" : "Contact via WhatsApp"}
                         </a>
@@ -2703,7 +2703,7 @@ export default function ErpPage() {
                           if (apiError) setApiError(null);
                         }}
                         placeholder={currencyCode === "EGP" ? (lang === "ar" ? "الأستاذ / أحمد محمود" : "Mr. Ahmed Mahmoud") : (lang === "ar" ? "الأستاذ / عبد الرحمن الحربي" : "Mr. Abdulrahman Alharbi")}
-                        className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-500 text-start font-sans"
+                        className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-500 focus:outline-none focus:border-brand-500 text-start font-sans"
                       />
                     </div>
 
@@ -2720,7 +2720,7 @@ export default function ErpPage() {
                           if (apiError) setApiError(null);
                         }}
                         placeholder={currencyCode === "EGP" ? "+20 10 1234 5678" : currencyCode === "AED" ? "+971 50 123 4567" : currencyCode === "KWD" ? "+965 99 123 456" : "+966 55 123 4567"}
-                        className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-500 text-end direction-ltr font-mono"
+                        className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-500 focus:outline-none focus:border-brand-500 text-end direction-ltr font-mono"
                       />
                     </div>
 
@@ -2739,7 +2739,7 @@ export default function ErpPage() {
                           if (apiError) setApiError(null);
                         }}
                         placeholder="example@company.com"
-                        className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-500 text-start direction-ltr font-mono"
+                        className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-500 focus:outline-none focus:border-brand-500 text-start direction-ltr font-mono"
                       />
                     </div>
 
@@ -2757,7 +2757,7 @@ export default function ErpPage() {
                             if (apiError) setApiError(null);
                           }}
                           placeholder={currencyCode === "EGP" ? (lang === "ar" ? "شركة النيل للتجارة والتوزيع" : "Nile Trading & Distribution") : (lang === "ar" ? "شركة الحربي للتجارة" : "Alharbi Trading Co.")}
-                          className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-brand-500 text-start font-sans"
+                          className="w-full rounded border border-slate-200 p-2.5 text-xs text-slate-800 placeholder-slate-500 focus:outline-none focus:border-brand-500 text-start font-sans"
                         />
                       </div>
 
@@ -2794,7 +2794,7 @@ export default function ErpPage() {
                             className="hidden"
                           />
                           <span className="text-xs font-bold text-slate-800">{lang === "ar" ? "سحابي (Cloud)" : "Cloud SaaS"}</span>
-                          <span className="text-[10px] text-slate-400 font-mono">{lang === "ar" ? "بالاشتراك" : "Subscription"}</span>
+                          <span className="text-[10px] text-slate-500 font-mono">{lang === "ar" ? "بالاشتراك" : "Subscription"}</span>
                         </label>
 
                         <label className={`border rounded p-2.5 flex items-center justify-between cursor-pointer transition ${
@@ -2809,7 +2809,7 @@ export default function ErpPage() {
                             className="hidden"
                           />
                           <span className="text-xs font-bold text-slate-800">{lang === "ar" ? "تمليك محلي دائم" : "Standard Offline"}</span>
-                          <span className="text-[10px] text-slate-400 font-mono">{lang === "ar" ? "دفعة واحدة" : "One-Time Pay"}</span>
+                          <span className="text-[10px] text-slate-500 font-mono">{lang === "ar" ? "دفعة واحدة" : "One-Time Pay"}</span>
                         </label>
                       </div>
                     </div>

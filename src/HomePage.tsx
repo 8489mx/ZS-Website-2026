@@ -541,7 +541,7 @@ export default function HomePage() {
               <button
                 onClick={closeWaitlist}
                 aria-label={isRTL ? "إغلاق النافذة" : "Close dialog"}
-                className="absolute top-4 right-4 rtl:left-4 rtl:right-auto text-slate-400 hover:text-slate-700 p-1 rounded-lg cursor-pointer"
+                className="absolute top-4 right-4 rtl:left-4 rtl:right-auto text-slate-500 hover:text-slate-700 p-1 rounded-lg cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -566,7 +566,7 @@ export default function HomePage() {
                       href="https://wa.me/201018017523"
                       target="_blank"
                       rel="noreferrer"
-                      className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 shadow-sm"
+                      className="w-full bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-2 shadow-sm"
                     >
                       <span>{isRTL ? "تواصل فوري عبر واتساب (اختياري)" : "Quick WhatsApp (Optional)"}</span>
                       <ArrowRight className={`w-3.5 h-3.5 ${isRTL ? "rotate-180" : ""}`} />
@@ -677,21 +677,21 @@ export default function HomePage() {
               {/* Contact Information on one line */}
               <div className="pt-1 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-slate-600">
                 <div className="flex items-center gap-1.5">
-                  <span className="text-slate-400 font-normal">{lang === "ar" ? "الهاتف / واتساب:" : "Mobile / WhatsApp:"}</span>
+                  <span className="text-slate-500 font-normal">{lang === "ar" ? "الهاتف / واتساب:" : "Mobile / WhatsApp:"}</span>
                   <a href="tel:+201018017523" className="text-brand-600 hover:text-brand-700 font-normal hover:underline" dir="ltr">
                     <span dir="ltr" className="inline-block tracking-normal">+20 1018017523</span>
                   </a>
                 </div>
-                <span className="text-slate-300">•</span>
+                <span className="text-slate-500">•</span>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-slate-400 font-normal">{lang === "ar" ? "الأرضي:" : "Landline:"}</span>
+                  <span className="text-slate-500 font-normal">{lang === "ar" ? "الأرضي:" : "Landline:"}</span>
                   <a href="tel:0663640828" className="text-slate-700 hover:text-slate-900 font-normal hover:underline" dir="ltr">
                     <span dir="ltr" className="inline-block tracking-normal">066-3640828</span>
                   </a>
                 </div>
-                <span className="text-slate-300">•</span>
+                <span className="text-slate-500">•</span>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-slate-400 font-normal">{lang === "ar" ? "البريد:" : "Email:"}</span>
+                  <span className="text-slate-500 font-normal">{lang === "ar" ? "البريد:" : "Email:"}</span>
                   <a href="mailto:info@zsystemai.com" className="text-brand-600 hover:text-brand-700 font-normal hover:underline" dir="ltr">info@zsystemai.com</a>
                 </div>
               </div>
@@ -707,15 +707,15 @@ export default function HomePage() {
                   <Link to="/terms" className="hover:text-brand-600 transition-colors">
                     {lang === "ar" ? "الشروط والأحكام" : "Terms & Conditions"}
                   </Link>
-                  <span className="text-slate-300">•</span>
+                  <span className="text-slate-500">•</span>
                   <Link to="/refund-policy" className="hover:text-brand-600 transition-colors">
                     {lang === "ar" ? "سياسة الاسترجاع" : "Refund Policy"}
                   </Link>
-                  <span className="text-slate-300">•</span>
+                  <span className="text-slate-500">•</span>
                   <Link to="/privacy" className="hover:text-brand-600 transition-colors">
                     {lang === "ar" ? "سياسة الخصوصية" : "Privacy Policy"}
                   </Link>
-                  <span className="text-slate-300">•</span>
+                  <span className="text-slate-500">•</span>
                   <Link to="/contact" className="hover:text-brand-600 transition-colors">
                     {lang === "ar" ? "اتصل بنا" : "Contact Us"}
                   </Link>
@@ -736,7 +736,7 @@ export default function HomePage() {
             <p>
               © {new Date().getFullYear()} Z Systems for Software Solutions. {content.footer.rights}
             </p>
-            <p className="text-slate-400 text-[11px]">
+            <p className="text-slate-500 text-[11px]">
               {lang === "ar" ? (
                 <>
                   الأسعار بالجنيه المصري (EGP) مع دعم العملات الإقليمية • معاملات بنكية مشفرة <span dir="ltr" className="font-mono font-medium text-slate-500">256-bit SSL</span>

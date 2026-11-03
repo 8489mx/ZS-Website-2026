@@ -101,7 +101,7 @@ export default function LocationModal() {
         <button 
           onClick={handleClose}
           aria-label={isArabic ? "إغلاق" : "Close"}
-          className="absolute top-4 end-4 text-slate-400 hover:text-slate-600 transition-colors p-1.5 rounded-lg hover:bg-slate-100 cursor-pointer"
+          className="absolute top-4 end-4 text-slate-500 hover:text-slate-600 transition-colors p-1.5 rounded-lg hover:bg-slate-100 cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
@@ -145,7 +145,7 @@ export default function LocationModal() {
                   className="w-full bg-white border border-slate-200 text-slate-800 font-bold py-3.5 px-4 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer flex items-center justify-center gap-2"
                 >
                   <span>التبديل إلى الإنجليزية</span>
-                  <span className="text-xs text-slate-400 font-normal font-sans">(Switch to English)</span>
+                  <span className="text-xs text-slate-500 font-normal font-sans">(Switch to English)</span>
                 </button>
               </>
             ) : (
@@ -164,7 +164,7 @@ export default function LocationModal() {
                   dir="rtl"
                 >
                   <span>التبديل إلى العربية</span>
-                  <span className="text-xs text-slate-400 font-normal font-sans">(Switch to Arabic)</span>
+                  <span className="text-xs text-slate-500 font-normal font-sans">(Switch to Arabic)</span>
                 </button>
               </>
             )}
