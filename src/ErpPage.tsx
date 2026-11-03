@@ -724,7 +724,7 @@ export default function ErpPage() {
                 {CLIENTS_ROW_1.map((c) => (
                   <div key={`client-r1-${dup}-${c.id}`} className="flex items-center gap-4 px-8 sm:px-16 lg:px-[13.75rem] shrink-0">
                     <img src={c.logo} alt={lang === "ar" ? c.nameAr : c.nameEn} style={c.logoStyle} className={`${c.logoClassName} w-auto object-contain`} loading="lazy" />
-                    <span className="font-display font-extrabold text-xl sm:text-2xl lg:text-[1.75rem] text-slate-800 whitespace-nowrap">
+                    <span className="font-display font-extrabold text-base sm:text-lg lg:text-xl text-slate-800 whitespace-nowrap">
                       {lang === "ar" ? c.nameAr : c.nameEn}
                     </span>
                   </div>
@@ -740,7 +740,7 @@ export default function ErpPage() {
                 {CLIENTS_ROW_2.map((c) => (
                   <div key={`client-r2-${dup}-${c.id}`} className="flex items-center gap-4 px-8 sm:px-16 lg:px-[13.75rem] shrink-0">
                     <img src={c.logo} alt={lang === "ar" ? c.nameAr : c.nameEn} style={c.logoStyle} className={`${c.logoClassName} w-auto object-contain`} loading="lazy" />
-                    <span className="font-display font-extrabold text-xl sm:text-2xl lg:text-[1.75rem] text-slate-800 whitespace-nowrap">
+                    <span className="font-display font-extrabold text-base sm:text-lg lg:text-xl text-slate-800 whitespace-nowrap">
                       {lang === "ar" ? c.nameAr : c.nameEn}
                     </span>
                   </div>
