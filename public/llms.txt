@@ -16,6 +16,9 @@ Z Systems builds ERP, retail management, and industry platforms for high-traffic
 - [Supermarket POS software](https://zsystemai.com/pos-supermarket): Z-ERP point of sale for supermarkets and grocery stores, with fast barcode checkout, stock that updates with every sale, cashier anti-theft controls, and an offline-capable local edition.
 - [Restaurant and café POS software](https://zsystemai.com/pos-restaurants): Z-ERP point of sale for restaurants, cafés, and bakeries, covering dine-in, takeaway, and delivery orders, tax invoices with QR codes, and a ZATCA e-invoicing submission service for Saudi Arabia.
 - [Offline POS software](https://zsystemai.com/offline-pos): The Z-ERP local edition that keeps selling, invoicing, and updating stock without internet and syncs automatically when the connection returns.
+- [Fashion and clothing store POS software](https://zsystemai.com/pos-fashion): Z-ERP point of sale for fashion and clothing stores, with stock organised by size and colour, barcode checkout, inter-branch transfers, cashier anti-theft controls, and an offline-capable local edition.
+- [Pharmacy and cosmetics POS software](https://zsystemai.com/pos-pharmacy): Z-ERP point of sale for pharmacies and cosmetics stores, with batch tracking that helps follow expiry dates, stock alerts and reorder points, fast barcode checkout, and an offline-capable local edition.
+- [Auto parts POS software](https://zsystemai.com/pos-auto-parts): Z-ERP point of sale and inventory for auto parts stores and wholesale trade, with a catalogue organised by part number and barcode, multi-warehouse stock, and tax invoices with QR codes for retail and wholesale.
 
 ## Company
 
