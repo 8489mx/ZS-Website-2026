@@ -57,7 +57,12 @@ import {
  * ZATCA e-invoicing submission service for Saudi Arabia, standard POS
  * hardware, and EGP/SAR/AED/QAR/KWD/BHD/OMR currencies. No statistics,
  * customer counts, testimonials, ratings, or prices are stated here;
- * pricing lives only on the /erp page.
+ * pricing lives only on the /erp page. Comparison and buying-guide
+ * pages name alternatives (Daftra, Foodics) only at their widely
+ * published positioning — cloud accounting and invoicing, and
+ * restaurant-specialised POS respectively — framed as fit for
+ * different business types, with no competitor prices, feature
+ * checklists, or disparagement.
  */
 
 export type SectorSlug =
@@ -70,7 +75,11 @@ export type SectorSlug =
   | "pos-electronics"
   | "inventory-management"
   | "zatca-invoicing"
-  | "pos-security";
+  | "pos-security"
+  | "alternative-daftra"
+  | "alternative-foodics"
+  | "erp-vs-excel"
+  | "best-pos-egypt";
 
 export interface SectorPoint {
   icon: LucideIcon;
@@ -2073,6 +2082,790 @@ const posSecurity: Sector = {
   },
 };
 
+const daftraAlternative: Sector = {
+  slug: "alternative-daftra",
+  path: "/alternative-daftra",
+  related: ["offline-pos", "inventory-management"],
+  ar: {
+    cardTitle: "بديل دفترة للمحلات والفروع",
+    h1: "بديل دفترة لإدارة المحلات والفروع",
+    lead: "إذا كان نشاطك محاسبة وفوترة إلكترونية تُدار عبر الإنترنت فقط، فمنصات المحاسبة السحابية مثل دفترة خيار معروف ومناسب. أما إذا كنت تدير محلات وفروعًا فعلية بكاشير ومخزون، فـ Z-ERP يجمع نقاط البيع والمخزون والمحاسبة في نظام واحد مصمم للبيع الفعلي، ويوفر نسخة محلية تعمل بالكامل بدون إنترنت وتزامن عند عودة الاتصال، مع صلاحيات منفصلة لكل كاشير وسجل تدقيق ضد التلاعب.",
+    pains: [
+      {
+        icon: WifiOff,
+        title: "انقطاع الإنترنت يوقف البيع",
+        text: "إذا كان نشاطك بيعًا فعليًا في محل، فاعتماد الكاشير الكامل على الاتصال بالسحابة يعني أن أي انقطاع يوقف البيع والفوترة حتى تعود الشبكة — والمحل لا يستطيع إغلاق بابه بانتظار الإنترنت.",
+      },
+      {
+        icon: Store,
+        title: "احتياجك كاشير أولًا لا محاسبة أولًا",
+        text: "صاحب المحل يبدأ يومه عند الكاشير: بيع سريع بالباركود وورديات ودرج نقدية، فيحتاج نظامًا تكون نقطة البيع قلبه الأساسي وتُبنى حولها المحاسبة والمخزون، لا العكس.",
+      },
+      {
+        icon: Warehouse,
+        title: "مخزون فروع ومخازن بعمق تشغيلي",
+        text: "متجر بفروع ومخازن متعددة يحتاج أرصدة موحدة لحظيًا وتحويلات موثقة بين المواقع وحدود إعادة طلب وتنبيهات نفاد — إدارة مخزون تشغيلية كاملة، لا مجرد رصيد ينقص مع كل فاتورة.",
+      },
+      {
+        icon: Eye,
+        title: "تلاعب الكاشير لا تراه المحاسبة وحدها",
+        text: "إلغاء فاتورة بعد قبض ثمنها، أو خصم لمعرفة، أو تعديل سعر لحظة البيع: حركات تحدث عند الكاشير، وإن لم تضبطها صلاحيات لكل كاشير وتوثقها سجلات تدقيق فلن تظهر في أي قيد محاسبي.",
+      },
+    ],
+    features: [
+      {
+        icon: CloudOff,
+        title: "نسخة محلية تعمل بالكامل بدون إنترنت",
+        text: "إلى جانب النسخة السحابية، يوفر Z-ERP نسخة محلية تستمر في البيع وإصدار الفواتير وتحديث المخزون أثناء انقطاع الإنترنت، وتزامن بياناتها تلقائيًا عند عودة الاتصال.",
+      },
+      {
+        icon: ScanBarcode,
+        title: "نقطة بيع في قلب النظام",
+        text: "Z-ERP نظام ERP ونقاط بيع منذ تصميمه: بيع سريع بالباركود عند الكاشير، مع دعم طابعات الإيصالات والماسحات وأدراج النقدية وشاشات العميل القياسية.",
+      },
+      {
+        icon: Network,
+        title: "فروع ومخازن متعددة بأرصدة موحدة",
+        text: "أدر فروعك ومخازنك من نظام واحد: أرصدة لحظية موحدة، وتحويلات موثقة بين الفروع والمخازن، وتنبيهات مخزون بحدود إعادة طلب.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "صلاحيات وسجل تدقيق ضد التلاعب",
+        text: "صلاحيات منفصلة لكل كاشير على تعديل الأسعار وحذف الإيصالات والخصومات وفتح درج النقدية، وسجل تدقيق موثق لكل عملية استثنائية باسم من نفذها ووقتها.",
+      },
+      {
+        icon: ReceiptText,
+        title: "محاسبة وفواتير ضريبية من البيع نفسه",
+        text: "فاتورة البيع في Z-ERP تحمل الحقول الضريبية ورمز QR مع حساب ضريبة القيمة المضافة داخلها، وتحدّث المخزون والمحاسبة في الحركة نفسها دون إدخال مكرر.",
+      },
+      {
+        icon: RefreshCw,
+        title: "سحابي أو محلي — بنفس النظام",
+        text: "يوفر Z-ERP نسخة سحابية بمزامنة لحظية ونسخة محلية تعمل دون إنترنت، فيختار كل نشاط النمط المناسب لاتصاله وطبيعة فروعه ضمن نظام واحد.",
+      },
+    ],
+    steps: [
+      {
+        title: "ابدأ التجربة المجانية",
+        text: "سجل في التجربة المجانية وأنشئ نشاطك وفرعك الأول خلال دقائق، وقيّم النظام ببياناتك الحقيقية.",
+      },
+      {
+        title: "أدخل أصنافك وأرصدتك الافتتاحية",
+        text: "أضف الأصناف والأسعار وأرصدة المخزون الافتتاحية، ووصّل أجهزة الكاشير القياسية، وحدّد صلاحيات كل كاشير.",
+      },
+      {
+        title: "بِع والمحاسبة والمخزون يتحركان معك",
+        text: "من أول فاتورة يُحدَّث المخزون والمحاسبة تلقائيًا، وتتابع كل فروعك من مكان واحد.",
+      },
+    ],
+    faqs: [
+      {
+        q: "ما الفرق الجوهري بين Z-ERP ودفترة؟",
+        a: "دفترة منصة سحابية معروفة للمحاسبة والفوترة الإلكترونية وإدارة الأعمال عبر الإنترنت، وتناسب من يدير حساباته وفواتيره أونلاين. أما Z-ERP فهو نظام ERP ونقاط بيع مصمم للمحلات والفروع الفعلية: يجمع الكاشير والمخزون متعدد الفروع والمخازن والمحاسبة في نظام واحد، ويوفر نسخة محلية تعمل بالكامل بدون إنترنت، وصلاحيات وسجل تدقيق مضادَّين لتلاعب الكاشير. فالاختيار يتبع طبيعة نشاطك: محاسبة سحابية خالصة، أم بيع فعلي عند كاشير بفروع ومخزون؟",
+      },
+      {
+        q: "هل يعمل Z-ERP عندما ينقطع الإنترنت عن المحل؟",
+        a: "نعم. النسخة المحلية من Z-ERP تستمر في البيع وإصدار الفواتير وتحديث المخزون طوال فترة الانقطاع، ثم تزامن بياناتها تلقائيًا عند عودة الاتصال، فلا يتوقف الكاشير ولا تضيع أي حركة.",
+      },
+      {
+        q: "هل يدعم Z-ERP الفواتير الضريبية والفاتورة الإلكترونية؟",
+        a: "يصدر Z-ERP فواتير بالحقول الضريبية ورمز QR مع حساب ضريبة القيمة المضافة داخل الفاتورة، ويوفر للمنشآت العاملة في السعودية خدمة إرسال للفوترة الإلكترونية إلى ZATCA. وننصح كل منشأة بالتحقق من متطلبات الجهة الضريبية الحالية الخاصة بنشاطها قبل الاعتماد على أي نظام في إقراراتها.",
+      },
+      {
+        q: "لديّ فروع ومخازن متعددة، هل يديرها Z-ERP في نظام واحد؟",
+        a: "نعم. يدعم Z-ERP الفروع والمخازن المتعددة مع أرصدة موحدة وتحويلات موثقة بينها ومزامنة لحظية في النسخة السحابية، فتتابع مبيعات ومخزون كل فرع من مكان واحد.",
+      },
+      {
+        q: "كم تبلغ تكلفة الاشتراك؟",
+        a: "توجد خطط اشتراك وترخيص مختلفة حسب حجم النشاط وعدد الفروع، وجميعها موضحة بالتفصيل في صفحة نظام Z-ERP على موقعنا. ويمكنك بدء تجربة مجانية لتقييم النظام قبل أي التزام.",
+      },
+    ],
+  },
+  en: {
+    cardTitle: "A Daftra alternative for stores",
+    h1: "A Daftra Alternative for Retail Stores and Branches",
+    lead: "If your work is accounting and e-invoicing handled purely online, cloud accounting platforms such as Daftra are a well-known and fitting choice. But if you run physical stores and branches with a till and stock, Z-ERP combines point of sale, inventory, and accounting in one system designed for physical selling, adds a local edition that works fully offline and syncs when the connection returns, and protects the till with separate permissions for each cashier and an audit log.",
+    pains: [
+      {
+        icon: WifiOff,
+        title: "An internet outage stops the selling",
+        text: "If your business sells in a physical store, a till that depends entirely on a cloud connection means every outage stops selling and invoicing until the network returns — and a store cannot close its doors while waiting for the internet.",
+      },
+      {
+        icon: Store,
+        title: "You need POS-first, not accounting-first",
+        text: "A shop owner's day starts at the till: fast barcode selling, shifts, and a cash drawer. You need a system whose core is the point of sale, with accounting and inventory built around it — not the other way round.",
+      },
+      {
+        icon: Warehouse,
+        title: "Branch and warehouse stock with operational depth",
+        text: "A store with several branches and warehouses needs unified real-time balances, documented transfers between locations, reorder thresholds, and stock alerts — full operational inventory management, not just a balance that drops with each invoice.",
+      },
+      {
+        icon: Eye,
+        title: "Till manipulation that accounting alone cannot see",
+        text: "Voiding an invoice after collecting its value, discounting for an acquaintance, or editing a price at the moment of sale all happen at the till; if per-cashier permissions do not govern them and an audit log does not record them, they never appear in any accounting entry.",
+      },
+    ],
+    features: [
+      {
+        icon: CloudOff,
+        title: "A local edition that works fully offline",
+        text: "Alongside its cloud edition, Z-ERP offers a local edition that keeps selling, issuing invoices, and updating stock during an internet outage, then syncs its data automatically when the connection returns.",
+      },
+      {
+        icon: ScanBarcode,
+        title: "Point of sale at the core of the system",
+        text: "Z-ERP is an ERP and point-of-sale system by design: fast barcode checkout at the till, with support for standard receipt printers, scanners, cash drawers, and customer displays.",
+      },
+      {
+        icon: Network,
+        title: "Multiple branches and warehouses, one balance picture",
+        text: "Run your branches and warehouses from one system: real-time unified balances, documented transfers between branches and warehouses, and stock alerts with reorder thresholds.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Permissions and an audit log against manipulation",
+        text: "Separate permissions for each cashier over price edits, receipt deletions, discounts, and cash-drawer openings, with a tamper-evident audit log recording every exceptional action with who performed it and when.",
+      },
+      {
+        icon: ReceiptText,
+        title: "Accounting and tax invoices from the sale itself",
+        text: "The sales invoice in Z-ERP carries the tax fields and a QR code with VAT calculated inside it, and updates stock and accounting in the same movement — no duplicate entry.",
+      },
+      {
+        icon: RefreshCw,
+        title: "Cloud or local — the same system",
+        text: "Z-ERP provides a cloud edition with real-time sync and a local edition that works without internet, so each business chooses the mode that fits its connection and branch structure within one system.",
+      },
+    ],
+    steps: [
+      {
+        title: "Start the free trial",
+        text: "Sign up for the free trial and create your business and its first branch in minutes, evaluating the system with your real data.",
+      },
+      {
+        title: "Enter your items and opening balances",
+        text: "Add your items, prices, and opening stock balances, connect your standard till hardware, and set each cashier's permissions.",
+      },
+      {
+        title: "Sell — accounting and stock move with you",
+        text: "From the first invoice, stock and accounting update automatically, and you follow all your branches from one place.",
+      },
+    ],
+    faqs: [
+      {
+        q: "What is the fundamental difference between Z-ERP and Daftra?",
+        a: "Daftra is a well-known cloud platform for accounting, e-invoicing, and business management handled online, and it suits owners who run their accounts and invoices purely over the internet. Z-ERP is an ERP and point-of-sale system designed for physical stores and branches: it combines the till, multi-branch and multi-warehouse inventory, and accounting in one system, offers a local edition that works fully offline, and adds per-cashier permissions with an audit log against till manipulation. The choice follows your business: pure cloud accounting, or physical selling at a till with branches and stock?",
+      },
+      {
+        q: "Does Z-ERP work when the store's internet goes down?",
+        a: "Yes. The Z-ERP local edition keeps selling, issuing invoices, and updating stock throughout the outage, then syncs its data automatically when the connection returns — the till never stops and no movement is lost.",
+      },
+      {
+        q: "Does Z-ERP support tax invoices and e-invoicing?",
+        a: "Z-ERP issues invoices with tax fields and QR codes, with VAT calculated inside the invoice, and provides businesses operating in Saudi Arabia with an e-invoicing submission service to ZATCA. We advise every business to verify its tax authority's current requirements for its activity before relying on any system for its filings.",
+      },
+      {
+        q: "I have several branches and warehouses — can one system run them?",
+        a: "Yes. Z-ERP supports multiple branches and warehouses with unified balances, documented transfers between them, and real-time sync in the cloud edition, so you follow each branch's sales and stock from one place.",
+      },
+      {
+        q: "How much does it cost?",
+        a: "Subscription and licence plans vary with business size and branch count, and all of them are listed in detail on the Z-ERP system page on our website. You can start a free trial to evaluate the system before committing.",
+      },
+    ],
+  },
+};
+
+const foodicsAlternative: Sector = {
+  slug: "alternative-foodics",
+  path: "/alternative-foodics",
+  related: ["pos-restaurants", "offline-pos"],
+  ar: {
+    cardTitle: "بديل فودكس للمطاعم والمقاهي",
+    h1: "بديل فودكس للمطاعم والمقاهي",
+    lead: "فودكس منصة معروفة متخصصة في نقاط بيع وإدارة المطاعم. وZ-ERP يخدم المطاعم والكافيهات والمخابز بنقاط بيع تغطي طلبات الصالة والتيك أواي والتوصيل، لكنه في الوقت نفسه نظام ERP متكامل يدير أنشطة التجزئة والجملة الأخرى لنفس المالك في نظام واحد، ويوفر نسخة محلية تعمل بالكامل بدون إنترنت، وفواتير ضريبية برمز QR وخدمة إرسال للفوترة الإلكترونية إلى ZATCA.",
+    pains: [
+      {
+        icon: Split,
+        title: "مطعم وأنشطة أخرى عند مالك واحد",
+        text: "كثير من أصحاب المطاعم يملكون بجانبها محلات تجزئة أو نشاط جملة؛ فإذا كان نظامك متخصصًا في المطاعم وحده، ستدير بقية أعمالك بنظام آخر وتتفرق الحسابات والمخزون بين عالمين.",
+      },
+      {
+        icon: WifiOff,
+        title: "انقطاع الإنترنت في ساعة الذروة",
+        text: "المطعم لا يختار توقيت انقطاع الاتصال؛ ونظام يعتمد على السحابة وحدها يعرّض كاشيرك للتوقف في أكثر أوقات اليوم ازدحامًا وطلبات.",
+      },
+      {
+        icon: Warehouse,
+        title: "مخزون المطعم منفصل عن بقية الأعمال",
+        text: "مخزون المطعم وفروعه جزء من صورة مالية أكبر للمالك؛ وفصله في نظام مستقل يعني مطابقات يدوية بين مبيعات المطعم وحسابات بقية الأنشطة.",
+      },
+      {
+        icon: Landmark,
+        title: "متطلبات فوترة ضريبية لا تنتظر",
+        text: "مطاعم السعودية تحتاج فواتير برمز QR وحساب ضريبة وخدمة فوترة إلكترونية لدى ZATCA داخل نظام البيع نفسه، لا أداة إضافية تُدار بجانب الكاشير.",
+      },
+    ],
+    features: [
+      {
+        icon: UtensilsCrossed,
+        title: "نقطة بيع للمطاعم داخل ERP كامل",
+        text: "طلبات الصالة والتيك أواي والتوصيل من كاشير Z-ERP، متصلة لحظيًا بالمخزون والمحاسبة، فطلب العميل حركة واحدة من الكاشير إلى الحسابات.",
+      },
+      {
+        icon: Store,
+        title: "مطعمك ومحلاتك وجملتك في نظام واحد",
+        text: "أدر المطعم وأنشطة التجزئة والجملة التابعة لك من Z-ERP واحد، بأرصدة وحسابات موحدة، بدل نظام منفصل لكل نشاط.",
+      },
+      {
+        icon: CloudOff,
+        title: "نسخة محلية لا توقف خدمة الزبائن",
+        text: "النسخة المحلية تعمل بالكامل بدون إنترنت — بيع وفوترة وتحديث مخزون — وتزامن تلقائيًا عند عودة الاتصال، فلا يقف الكاشير في الذروة.",
+      },
+      {
+        icon: QrCode,
+        title: "فواتير ضريبية برمز QR وخدمة ZATCA",
+        text: "كل فاتورة بالحقول الضريبية ورمز QR وحساب لضريبة القيمة المضافة، مع خدمة إرسال للفوترة الإلكترونية إلى ZATCA للمنشآت العاملة في السعودية.",
+      },
+      {
+        icon: Network,
+        title: "فروع وسلاسل بمزامنة لحظية",
+        text: "النسخة السحابية تزامن فروعك لحظيًا، فتتابع مبيعات ومخزون كل فرع — مطعمًا كان أو محلًا — من مكان واحد.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "رقابة على إلغاءات وخصومات الكاشير",
+        text: "صلاحيات منفصلة لكل كاشير على الإلغاء وحذف الإيصالات والخصومات وتعديلات الأسعار، موثقة في سجل تدقيق — حماية يحتاجها أي كاشير مطعم مزدحم.",
+      },
+    ],
+    steps: [
+      {
+        title: "ابدأ التجربة المجانية",
+        text: "سجل في التجربة المجانية وأنشئ مطعمك أو فرعك الأول وأصناف قائمتك.",
+      },
+      {
+        title: "جهّز الكاشير والصلاحيات",
+        text: "وصّل أجهزة الكاشير القياسية، وأضف فروعك وأنشطتك الأخرى إن وجدت، وحدّد صلاحيات كل كاشير.",
+      },
+      {
+        title: "استقبل الطلبات من نظام واحد",
+        text: "بِع طلبات الصالة والتيك أواي والتوصيل، وتابع المخزون والمحاسبة وكل فروعك وأنشطتك من مكان واحد.",
+      },
+    ],
+    faqs: [
+      {
+        q: "ما الفرق الجوهري بين Z-ERP وفودكس؟",
+        a: "فودكس منصة متخصصة في نقاط بيع وإدارة المطاعم. أما Z-ERP فنظام ERP ونقاط بيع أوسع: يخدم المطاعم والكافيهات والمخابز، ويدير في الوقت نفسه أنشطة التجزئة والجملة الأخرى للمالك نفسه، ويوفر نسخة محلية تعمل بالكامل بدون إنترنت. فإن كان نشاطك مطعمًا خالصًا وتريد تخصصًا مطلقًا فقد يناسبك المتخصص، وإن كانت لك أنشطة أو فروع متنوعة أو اتصال غير مستقر، فالنظام المتكامل أقرب لاحتياجك.",
+      },
+      {
+        q: "هل يناسب Z-ERP من يملك مطعمًا واحدًا فقط؟",
+        a: "نعم، يعمل Z-ERP لمطعم واحد كما يعمل لسلاسل وفروع متعددة، وستحصل على نقطة البيع والمخزون والمحاسبة والفوترة الضريبية في نظام واحد. والفرق يظهر حين يتوسع نشاطك أو تُضاف أنشطة أخرى: لن تحتاج إلى تغيير النظام أو إضافة نظام ثانٍ بجانبه.",
+      },
+      {
+        q: "هل يعمل الكاشير إذا انقطع الإنترنت عن المطعم؟",
+        a: "نعم. النسخة المحلية من Z-ERP تستمر في استقبال الطلبات وإصدار الفواتير وتحديث المخزون أثناء الانقطاع، وتزامن بياناتها تلقائيًا عند عودة الاتصال.",
+      },
+      {
+        q: "هل يدعم Z-ERP الفوترة الإلكترونية السعودية للمطاعم؟",
+        a: "يصدر Z-ERP فواتير بالحقول الضريبية ورمز QR مع حساب ضريبة القيمة المضافة، ويوفر للمنشآت العاملة في السعودية خدمة إرسال للفوترة الإلكترونية إلى ZATCA. وننصح كل منشأة بالتحقق من متطلبات الهيئة الحالية الخاصة بنشاطها قبل الاعتماد على أي نظام في إقراراتها.",
+      },
+      {
+        q: "كم تبلغ تكلفة الاشتراك؟",
+        a: "توجد خطط اشتراك وترخيص مختلفة حسب حجم النشاط وعدد الفروع، وجميعها موضحة بالتفصيل في صفحة نظام Z-ERP على موقعنا. ويمكنك بدء تجربة مجانية لتقييم النظام قبل أي التزام.",
+      },
+    ],
+  },
+  en: {
+    cardTitle: "A Foodics alternative for restaurants",
+    h1: "A Foodics Alternative for Restaurants and Cafés",
+    lead: "Foodics is a well-known platform specialised in restaurant point of sale and management. Z-ERP also serves restaurants, cafés, and bakeries with a point of sale covering dine-in, takeaway, and delivery orders — but it is at the same time a full ERP that runs the same owner's other retail and wholesale activities in one system, offers a local edition that works fully offline, and issues tax invoices with QR codes alongside a ZATCA e-invoicing submission service.",
+    pains: [
+      {
+        icon: Split,
+        title: "A restaurant plus other activities under one owner",
+        text: "Many restaurant owners also run retail shops or a wholesale activity alongside. If your system specialises in restaurants alone, the rest of your business lives in a second system, and accounts and stock split across two worlds.",
+      },
+      {
+        icon: WifiOff,
+        title: "An internet outage at peak hour",
+        text: "A restaurant does not choose when the connection drops; a system that depends on the cloud alone puts your till at risk of stopping at the busiest, most order-heavy moment of the day.",
+      },
+      {
+        icon: Warehouse,
+        title: "Restaurant stock separated from the rest of the business",
+        text: "A restaurant's stock and branches are part of the owner's bigger financial picture; isolating them in a separate system means manual reconciliations between restaurant sales and the accounts of the other activities.",
+      },
+      {
+        icon: Landmark,
+        title: "Tax invoicing requirements that will not wait",
+        text: "Restaurants in Saudi Arabia need invoices with QR codes, VAT calculation, and a ZATCA e-invoicing service inside the selling system itself — not an extra tool managed alongside the till.",
+      },
+    ],
+    features: [
+      {
+        icon: UtensilsCrossed,
+        title: "A restaurant POS inside a full ERP",
+        text: "Dine-in, takeaway, and delivery orders from the Z-ERP till, connected in real time to stock and accounting — a customer order is one movement from the till to the books.",
+      },
+      {
+        icon: Store,
+        title: "Your restaurant, shops, and wholesale in one system",
+        text: "Run the restaurant and your related retail and wholesale activities from one Z-ERP, with unified balances and accounts, instead of a separate system per activity.",
+      },
+      {
+        icon: CloudOff,
+        title: "A local edition that never stops serving",
+        text: "The local edition works fully without internet — selling, invoicing, and stock updates — and syncs automatically when the connection returns, so the till never stalls at peak time.",
+      },
+      {
+        icon: QrCode,
+        title: "Tax invoices with QR codes and a ZATCA service",
+        text: "Every invoice carries the tax fields and a QR code with VAT calculated inside it, with an e-invoicing submission service to ZATCA for businesses operating in Saudi Arabia.",
+      },
+      {
+        icon: Network,
+        title: "Branches and chains with real-time sync",
+        text: "The cloud edition syncs your branches in real time, so you follow each branch's sales and stock — restaurant or shop — from one place.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Control over till voids and discounts",
+        text: "Separate permissions for each cashier over voids, receipt deletions, discounts, and price edits, recorded in an audit log — protection any busy restaurant till needs.",
+      },
+    ],
+    steps: [
+      {
+        title: "Start the free trial",
+        text: "Sign up for the free trial and create your restaurant or first branch and your menu items.",
+      },
+      {
+        title: "Set up the till and permissions",
+        text: "Connect your standard till hardware, add your branches and other activities if any, and set each cashier's permissions.",
+      },
+      {
+        title: "Take orders from one system",
+        text: "Sell dine-in, takeaway, and delivery orders, and follow stock, accounting, and all your branches and activities from one place.",
+      },
+    ],
+    faqs: [
+      {
+        q: "What is the fundamental difference between Z-ERP and Foodics?",
+        a: "Foodics is a platform specialised in restaurant point of sale and management. Z-ERP is a broader ERP and point-of-sale system: it serves restaurants, cafés, and bakeries while also running the same owner's other retail and wholesale activities, and it offers a local edition that works fully offline. If your business is purely a restaurant and you want absolute specialisation, the specialist may suit you; if you have varied activities or branches, or an unreliable connection, the integrated system is closer to your need.",
+      },
+      {
+        q: "Does Z-ERP suit someone with a single restaurant?",
+        a: "Yes — Z-ERP works for a single restaurant just as it does for chains and multiple branches, giving you point of sale, stock, accounting, and tax invoicing in one system. The difference shows when your business grows or other activities are added: you will not need to change systems or bolt on a second one.",
+      },
+      {
+        q: "Does the till work if the restaurant's internet drops?",
+        a: "Yes. The Z-ERP local edition keeps taking orders, issuing invoices, and updating stock during the outage, and syncs its data automatically when the connection returns.",
+      },
+      {
+        q: "Does Z-ERP support Saudi e-invoicing for restaurants?",
+        a: "Z-ERP issues invoices with tax fields and QR codes with VAT calculated inside them, and provides businesses operating in Saudi Arabia with an e-invoicing submission service to ZATCA. We advise every business to verify the authority's current requirements for its activity before relying on any system for its filings.",
+      },
+      {
+        q: "How much does it cost?",
+        a: "Subscription and licence plans vary with business size and branch count, and all of them are listed in detail on the Z-ERP system page on our website. You can start a free trial to evaluate the system before committing.",
+      },
+    ],
+  },
+};
+
+const erpVsExcel: Sector = {
+  slug: "erp-vs-excel",
+  path: "/erp-vs-excel",
+  related: ["offline-pos", "pos-security"],
+  ar: {
+    cardTitle: "إكسل أم برنامج محاسبة وكاشير؟",
+    h1: "إكسل أم برنامج محاسبة وكاشير؟",
+    lead: "إكسل والدفاتر بداية مجانية ومألوفة، وتناسب محلًا واحدًا صغيرًا بحركات قليلة وشخص واحد يدير كل شيء. لكن حين تتعدد الأصناف أو يزيد عدد الكاشيرين أو يُفتح فرع ثانٍ، تتحول الجداول إلى مصدر أخطاء وتسريب ووقت ضائع. برنامج كاشير ومحاسبة مثل Z-ERP يحدّث المخزون مع كل فاتورة، ويضبط صلاحيات كل كاشير بسجل تدقيق، ويربط الفروع والمخازن في صورة واحدة — فاسأل نفسك: هل ما زال نشاطك في مرحلة الجداول، أم تجاوزها؟",
+    pains: [
+      {
+        icon: NotebookPen,
+        title: "المخزون لا يتحدث إلا بيدك",
+        text: "في الجداول، كل عملية بيع يجب أن تُخصم يدويًا من الرصيد؛ وأي تأخير أو نسيان أو خطأ إدخال يعني أن رصيدك على الشاشة لا يطابق رصيدك على الرف.",
+      },
+      {
+        icon: Users,
+        title: "أكثر من يد على الملف نفسه",
+        text: "حين يحرر أكثر من موظف جدولًا واحدًا — أو نسخًا متفرقة منه — تتضارب الأرقام، ولا تعود متأكدًا أي نسخة هي الحقيقة، وتضيع ساعات في المطابقة.",
+      },
+      {
+        icon: Eye,
+        title: "لا صلاحيات ولا أثر لمن غيّر",
+        text: "من يفتح ملف إكسل يستطيع تغيير سعر أو حذف عملية دون ترك أي أثر يخبرك من فعل ماذا ومتى؛ فالتلاعب والحذف الخاطئ كلاهما يمر بصمت.",
+      },
+      {
+        icon: Split,
+        title: "فرع ثانٍ يعني فوضى مضاعفة",
+        text: "مع كل فرع أو مخزن جديد تتكاثر الملفات وتتعقد المطابقة بينها، ولا تتجمع صورة نشاطك كاملة إلا بجهد يدوي متكرر في نهاية كل فترة.",
+      },
+    ],
+    features: [
+      {
+        icon: RefreshCw,
+        title: "مخزون يتحدث مع كل فاتورة",
+        text: "في Z-ERP تُخصم الكمية من المخزون لحظة إصدار فاتورة البيع نفسها، فالرصيد الذي تراه رصيد فعلي الآن، لا رقم تنوي تحديثه لاحقًا.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "صلاحيات وسجل تدقيق لا تعرفهما الجداول",
+        text: "لكل كاشير صلاحياته المحددة، وكل إلغاء أو خصم أو تعديل سعر أو فتح لدرج النقدية موثق في سجل تدقيق باسم من نفذه ووقته.",
+      },
+      {
+        icon: Network,
+        title: "فروع ومخازن في صورة واحدة",
+        text: "أرصدة موحدة لحظيًا عبر الفروع والمخازن في النسخة السحابية، وتحويلات موثقة بينها، بدل ملفات منفصلة لكل موقع تنتظر من يجمعها.",
+      },
+      {
+        icon: BellRing,
+        title: "تنبيهات قبل نفاد الأصناف",
+        text: "حدود إعادة طلب وتنبيهات مخزون تخبرك باقتراب نفاد صنف قبل أن تكتشفه من عميل يقف عند الكاشير ولا يجد ما جاء لأجله.",
+      },
+      {
+        icon: ReceiptText,
+        title: "فواتير ضريبية ومحاسبة من البيع نفسه",
+        text: "فواتير بالحقول الضريبية ورمز QR وحساب لضريبة القيمة المضافة، وحركات محاسبية تتولد من عملية البيع مباشرة دون إعادة إدخال في دفتر آخر.",
+      },
+      {
+        icon: CloudOff,
+        title: "عمل كامل حتى بلا إنترنت",
+        text: "النسخة المحلية من Z-ERP تستمر في البيع والفوترة وتحديث المخزون أثناء انقطاع الإنترنت وتزامن عند عودته، فلا يتوقف نشاطك على جودة الاتصال.",
+      },
+    ],
+    steps: [
+      {
+        title: "ابدأ التجربة المجانية",
+        text: "سجل في التجربة المجانية وأنشئ نشاطك وفرعك الأول، وتعرّف على النظام ببياناتك الحقيقية.",
+      },
+      {
+        title: "انقل أصنافك مرة واحدة",
+        text: "أدخل أصنافك وأسعارها وأرصدة مخزونك الافتتاحية مرة واحدة عند الإعداد، ووصّل أجهزة الكاشير القياسية، وحدّد صلاحيات الكاشيرين.",
+      },
+      {
+        title: "بِع ودَع التحديث يحدث وحده",
+        text: "من أول فاتورة يتحدث المخزون والحسابات تلقائيًا مع كل حركة، وتنتهي المطابقات اليدوية اليومية.",
+      },
+    ],
+    faqs: [
+      {
+        q: "متى يكون إكسل كافيًا لإدارة محل؟",
+        a: "يكون كافيًا غالبًا في أضيق الحدود: فرع واحد صغير، أصناف قليلة، حركات يومية محدودة، وشخص واحد يدير البيع والمخزون بنفسه. الجداول مجانية ومألوفة، ولا عيب في البدء بها؛ العيب أن تبقى أداتك بعد أن يكبر النشاط وتتعدد الأيدي والفروع.",
+      },
+      {
+        q: "ما العلامات أن نشاطي تجاوز مرحلة الجداول؟",
+        a: "أشهرها: أرصدة مخزون لا تطابق الواقع مهما راجعت، ووقت متزايد يضيع في المطابقة والتصحيح، وأكثر من كاشير يعمل على نفس البيانات، وخصومات أو إلغاءات لا تستطيع تتبع صاحبها، والتفكير في فرع ثانٍ. ظهور علامتين منها يعني أن تكلفة الجداول الخفية صارت أعلى من تكلفة نظام.",
+      },
+      {
+        q: "كيف أنتقل من إكسل إلى Z-ERP؟",
+        a: "الانتقال يبدأ عند الإعداد بإدخال أصنافك وأسعارك وأرصدة مخزونك الافتتاحية مرة واحدة، وتعريف الكاشيرين وصلاحياتهم، وتوصيل أجهزة الكاشير القياسية. وبعدها يتولى النظام التحديث التلقائي مع كل عملية بيع، ويمكنك بدء تجربة مجانية لتقييم الانتقال ببياناتك قبل الالتزام.",
+      },
+      {
+        q: "هل أستطيع ضبط تلاعب الكاشير في إكسل؟",
+        a: "عمليًا لا: أي شخص يصل إلى الملف يستطيع التعديل أو الحذف دون أثر. أما في Z-ERP فالصورة معكوسة: لكل كاشير صلاحيات محددة على الإلغاء والخصم وتعديل الأسعار وفتح درج النقدية، وكل عملية استثنائية موثقة في سجل تدقيق باسم من نفذها ووقتها.",
+      },
+      {
+        q: "كم تبلغ تكلفة الاشتراك؟",
+        a: "توجد خطط اشتراك وترخيص مختلفة حسب حجم النشاط وعدد الفروع، وجميعها موضحة بالتفصيل في صفحة نظام Z-ERP على موقعنا. ويمكنك بدء تجربة مجانية لتقييم النظام قبل أي التزام.",
+      },
+    ],
+  },
+  en: {
+    cardTitle: "Excel vs POS & accounting software",
+    h1: "Excel or POS & Accounting Software?",
+    lead: "Spreadsheets and notebooks are a free, familiar start, and they suit a single small shop with few movements and one person running everything. But once items multiply, cashiers increase, or a second branch opens, spreadsheets become a source of errors, leakage, and lost time. A POS and accounting system like Z-ERP updates stock with every invoice, governs each cashier with permissions and an audit log, and joins branches and warehouses into one picture — so ask yourself: is your business still at the spreadsheet stage, or has it outgrown it?",
+    pains: [
+      {
+        icon: NotebookPen,
+        title: "Stock only updates by your own hand",
+        text: "In spreadsheets, every sale must be deducted from the balance manually; any delay, oversight, or entry error means the balance on your screen no longer matches the balance on your shelf.",
+      },
+      {
+        icon: Users,
+        title: "More than one hand on the same file",
+        text: "When several employees edit one sheet — or scattered copies of it — the numbers conflict, you can no longer be sure which version is the truth, and hours are lost reconciling.",
+      },
+      {
+        icon: Eye,
+        title: "No permissions, no trace of who changed what",
+        text: "Anyone who opens an Excel file can change a price or delete a movement without leaving any trace of who did what, or when; manipulation and mistaken deletion both pass in silence.",
+      },
+      {
+        icon: Split,
+        title: "A second branch doubles the chaos",
+        text: "With every new branch or warehouse, the files multiply and the reconciliation between them grows harder, and the full picture of your business only comes together through repeated manual effort at each period's end.",
+      },
+    ],
+    features: [
+      {
+        icon: RefreshCw,
+        title: "Stock that updates with every invoice",
+        text: "In Z-ERP, the quantity is deducted from stock at the moment the sales invoice itself is issued — the balance you see is the actual balance now, not a number you intend to update later.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Permissions and an audit log spreadsheets cannot offer",
+        text: "Each cashier has defined permissions, and every void, discount, price edit, or cash-drawer opening is recorded in an audit log with who performed it and when.",
+      },
+      {
+        icon: Network,
+        title: "Branches and warehouses in one picture",
+        text: "Real-time unified balances across branches and warehouses in the cloud edition, with documented transfers between them — instead of a separate file per location waiting for someone to merge them.",
+      },
+      {
+        icon: BellRing,
+        title: "Alerts before items run out",
+        text: "Reorder thresholds and stock alerts tell you an item is about to run out before you discover it from a customer standing at the till who cannot find what they came for.",
+      },
+      {
+        icon: ReceiptText,
+        title: "Tax invoices and accounting from the sale itself",
+        text: "Invoices with tax fields and QR codes and VAT calculated inside them, and accounting movements generated directly from the sale — no re-entry into a separate ledger.",
+      },
+      {
+        icon: CloudOff,
+        title: "Full operation even without internet",
+        text: "The Z-ERP local edition keeps selling, invoicing, and updating stock during an internet outage and syncs when it returns, so your business does not depend on connection quality.",
+      },
+    ],
+    steps: [
+      {
+        title: "Start the free trial",
+        text: "Sign up for the free trial, create your business and first branch, and get to know the system with your real data.",
+      },
+      {
+        title: "Move your items over — once",
+        text: "Enter your items, their prices, and your opening stock balances once at setup, connect your standard till hardware, and set your cashiers' permissions.",
+      },
+      {
+        title: "Sell, and let updating happen by itself",
+        text: "From the first invoice, stock and accounts update automatically with every movement, and the daily manual reconciliations end.",
+      },
+    ],
+    faqs: [
+      {
+        q: "When is Excel enough to run a shop?",
+        a: "Usually only within the narrowest limits: one small branch, few items, limited daily movements, and one person who handles selling and stock personally. Spreadsheets are free and familiar, and there is no shame in starting with them; the mistake is keeping them as your tool after the business grows and the hands and branches multiply.",
+      },
+      {
+        q: "What are the signs my business has outgrown spreadsheets?",
+        a: "The most common: stock balances that never match reality however much you check, growing time lost to reconciliation and correction, more than one cashier working on the same data, discounts or voids you cannot trace to their owner, and thinking about a second branch. Two of these signs mean the hidden cost of spreadsheets now exceeds the cost of a system.",
+      },
+      {
+        q: "How do I move from Excel to Z-ERP?",
+        a: "The move starts at setup: entering your items, prices, and opening stock balances once, defining your cashiers and their permissions, and connecting standard till hardware. After that, the system handles automatic updating with every sale, and you can start a free trial to evaluate the move with your own data before committing.",
+      },
+      {
+        q: "Can I control cashier manipulation in Excel?",
+        a: "Practically, no: anyone with access to the file can edit or delete without a trace. In Z-ERP the picture is reversed: each cashier has defined permissions over voids, discounts, price edits, and cash-drawer openings, and every exceptional action is recorded in an audit log with who performed it and when.",
+      },
+      {
+        q: "How much does it cost?",
+        a: "Subscription and licence plans vary with business size and branch count, and all of them are listed in detail on the Z-ERP system page on our website. You can start a free trial to evaluate the system before committing.",
+      },
+    ],
+  },
+};
+
+const bestPosEgypt: Sector = {
+  slug: "best-pos-egypt",
+  path: "/best-pos-egypt",
+  related: ["pos-supermarket", "offline-pos"],
+  ar: {
+    cardTitle: "أفضل برامج الكاشير في مصر 2026",
+    h1: "أفضل برامج الكاشير في مصر 2026: دليل المشتري",
+    lead: "لا يوجد برنامج كاشير واحد هو «الأفضل» للجميع؛ الأفضل هو ما يطابق طبيعة نشاطك. خيارات السوق في مصر والخليج تنقسم عمليًا إلى أدوات محاسبة وفوترة سحابية مثل دفترة، ومنصات متخصصة في قطاع واحد مثل فودكس للمطاعم، وبرامج نقاط بيع عالمية عامة، وأنظمة ERP ونقاط بيع متكاملة مثل Z-ERP. هذا الدليل يرتب لك المعايير التي تصنع الفرق فعلًا في 2026 — العمل دون إنترنت، ومخزون الفروع والمخازن، ومكافحة تلاعب الكاشير، والفوترة الضريبية والإلكترونية، وتوافق الأجهزة، والتخصص مقابل الشمول — لتختار بالمعيار لا بالاسم.",
+    pains: [
+      {
+        icon: TriangleAlert,
+        title: "الاختيار بالشهرة أو السعر وحده",
+        text: "شراء البرنامج الأشهر أو الأرخص دون فحص ملاءمته لنشاطك ينتهي غالبًا باكتشاف فجوة مؤلمة بعد التعاقد — لا يعمل دون إنترنت، أو لا يدير فروعك — ثم تغيير ثانٍ أصعب وأغلى.",
+      },
+      {
+        icon: WifiOff,
+        title: "نسيان سؤال: ماذا عند انقطاع الإنترنت؟",
+        text: "الاتصال في كثير من المناطق غير مستقر؛ فإذا كان برنامجك سحابيًا خالصًا ولا نسخة محلية له، فكل انقطاع هو كاشير متوقف وبيع ضائع في وقت لا تختاره.",
+      },
+      {
+        icon: Eye,
+        title: "إهمال معيار رقابة الكاشير",
+        text: "أغلب البرامج تبيع وتفوتر، لكن الفارق الحقيقي فيمن يضبط الإلغاءات والخصومات وتعديلات الأسعار بصلاحيات لكل كاشير ويوثقها في سجل تدقيق — وهو معيار لا يظهر في العروض التسويقية.",
+      },
+      {
+        icon: FileText,
+        title: "اكتشاف الفوترة الإلكترونية متأخرًا",
+        text: "من يشتري دون التأكد من الفواتير الضريبية برمز QR وحساب الضريبة وخدمات الإرسال للجهات الضريبية يكتشف بعد الشراء أن الفوترة ستصبح عملًا منفصلًا بجانب الكاشير لا جزءًا منه.",
+      },
+    ],
+    features: [
+      {
+        icon: CloudOff,
+        title: "المعيار الأول: العمل دون إنترنت",
+        text: "اسأل كل مرشح: هل توجد نسخة محلية تعمل بالكامل أثناء الانقطاع وتزامن عند عودته؟ في Z-ERP هذا سلوك معلن: نسخة محلية تبيع وتفوتر وتحدّث المخزون دون اتصال، إلى جانب نسخة سحابية بمزامنة لحظية.",
+      },
+      {
+        icon: Network,
+        title: "المعيار الثاني: الفروع والمخازن",
+        text: "إذا كان لديك — أو سيكون لديك — أكثر من فرع أو مخزن، فاطلب أرصدة موحدة لحظيًا وتحويلات موثقة وتنبيهات إعادة طلب. وهذه من قدرات Z-ERP الأساسية المعلنة في وصفه الرسمي.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "المعيار الثالث: مكافحة تلاعب الكاشير",
+        text: "ابحث عن صلاحيات منفصلة لكل كاشير على الإلغاء والخصم وتعديل الأسعار وفتح درج النقدية، وسجل تدقيق يوثق كل استثناء. في Z-ERP هذه الرقابة جزء من النظام نفسه في النسختين السحابية والمحلية.",
+      },
+      {
+        icon: QrCode,
+        title: "المعيار الرابع: الفوترة الضريبية والإلكترونية",
+        text: "تأكد أن فواتيرك تصدر بالحقول الضريبية ورمز QR مع حساب ضريبة القيمة المضافة من الكاشير نفسه. يوفر Z-ERP ذلك، مع خدمة إرسال للفوترة الإلكترونية إلى ZATCA للعاملين في السعودية.",
+      },
+      {
+        icon: PlugZap,
+        title: "المعيار الخامس: أجهزتك الحالية",
+        text: "برنامج يلزمك بأجهزة خاصة يرفع تكلفة البدء؛ والأفضل ما يعمل مع طابعات الإيصالات وماسحات الباركود وأدراج النقدية وشاشات العميل القياسية — كما يعمل Z-ERP — فتبدأ بما تملكه.",
+      },
+      {
+        icon: Users,
+        title: "المعيار السادس: التخصص أم الشمول؟",
+        text: "أداة محاسبة سحابية مثل دفترة تناسب من يدير حساباته وفواتيره أونلاين، ومنصة متخصصة مثل فودكس تناسب من يريد عمق المطاعم وحده، ونظام متكامل مثل Z-ERP يناسب من يدير كاشير وفروعًا وأنشطة متعددة ويريد العمل دون إنترنت. لا توجد إجابة واحدة؛ توجد إجابة لنشاطك.",
+      },
+    ],
+    steps: [
+      {
+        title: "اكتب معاييرك قبل الأسماء",
+        text: "حدّد احتياجاتك غير القابلة للتفاوض أولًا: استقرار الإنترنت عندك، وعدد الفروع والمخازن، وقطاعات أنشطتك، ومتطلبات فوترتك الضريبية.",
+      },
+      {
+        title: "صفِّ المرشحين بالمعايير لا بالإعلانات",
+        text: "مرّر كل مرشح على معاييرك الستة، واسأل عن اليوم الأسوأ: انقطاع الاتصال، وتلاعب كاشير، وافتتاح فرع جديد.",
+      },
+      {
+        title: "جرّب قبل أن تلتزم",
+        text: "ابدأ التجربة المجانية للمرشح الأقرب لمعاييرك، واختبره بأصنافك وكاشيرك وأجهزتك الحقيقية قبل أي التزام — وفي Z-ERP التجربة مجانية ومتاحة فورًا.",
+      },
+    ],
+    faqs: [
+      {
+        q: "ما أفضل برنامج كاشير في مصر عام 2026؟",
+        a: "لا توجد إجابة صادقة واحدة للجميع: الأفضل لمن يدير حساباته أونلاين قد يكون أداة محاسبة سحابية مثل دفترة، ولمن يريد تخصص المطاعم منصة مثل فودكس، ولمن يدير محلات وفروعًا ومخازن بأنشطة متعددة ويحتاج العمل دون إنترنت نظام متكامل مثل Z-ERP. قيّم بالمعايير: العمل دون إنترنت، ومخزون الفروع، ورقابة الكاشير، والفوترة الضريبية، والأجهزة، والدعم — واختر ما يطابق نشاطك.",
+      },
+      {
+        q: "هل أحتاج فعلًا برنامجًا يعمل دون إنترنت؟",
+        a: "إذا كان اتصال الإنترنت في موقعك غير مستقر، أو كان توقف الكاشير ولو لنصف ساعة يعني خسارة بيع حقيقية، فنعم: ابحث عن نسخة محلية تعمل بالكامل أثناء الانقطاع وتزامن عند عودته، كما في Z-ERP. أما إذا كان اتصالك مستقرًا تمامًا ونشاطك إداريًا أونلاين، فقد تكفيك أداة سحابية.",
+      },
+      {
+        q: "ما الفرق بين أدوات المحاسبة السحابية وأنظمة الكاشير المتكاملة والمنصات المتخصصة؟",
+        a: "أدوات المحاسبة السحابية (مثل دفترة) تجعل المحاسبة والفوترة عبر الإنترنت مركزها. والمنصات المتخصصة (مثل فودكس) تركز بعمق على قطاع واحد كالمطاعم. وأنظمة ERP ونقاط البيع المتكاملة (مثل Z-ERP) تجمع الكاشير والمخزون متعدد الفروع والمحاسبة في نظام واحد يخدم قطاعات متعددة، وغالبًا ما توفر نسخًا محلية للعمل دون إنترنت. فالفرق في المركز والنطاق، لا في «الأفضلية» المطلقة.",
+      },
+      {
+        q: "هل يدعم Z-ERP الفواتير الضريبية والفوترة الإلكترونية؟",
+        a: "يصدر Z-ERP فواتير بالحقول الضريبية ورمز QR مع حساب ضريبة القيمة المضافة داخل الفاتورة، ويوفر للمنشآت العاملة في السعودية خدمة إرسال للفوترة الإلكترونية إلى ZATCA. وننصح كل منشأة بالتحقق من متطلبات الجهة الضريبية الحالية الخاصة بنشاطها وبلدها قبل الاعتماد على أي نظام في إقراراتها.",
+      },
+      {
+        q: "كم تبلغ تكلفة الاشتراك؟",
+        a: "توجد خطط اشتراك وترخيص مختلفة حسب حجم النشاط وعدد الفروع، وجميعها موضحة بالتفصيل في صفحة نظام Z-ERP على موقعنا. ويمكنك بدء تجربة مجانية لتقييم النظام قبل أي التزام.",
+      },
+    ],
+  },
+  en: {
+    cardTitle: "Best POS software in Egypt 2026",
+    h1: "Best POS Software in Egypt 2026: A Buyer's Guide",
+    lead: "There is no single 'best' POS software for everyone; the best is the one that matches your kind of business. The options in Egypt and the Gulf fall into practical categories: cloud accounting and invoicing tools such as Daftra, platforms specialised in one sector such as Foodics for restaurants, general international point-of-sale programs, and integrated ERP and POS systems such as Z-ERP. This guide lays out the criteria that actually make the difference in 2026 — working without internet, branch and warehouse stock, protection against cashier manipulation, tax and electronic invoicing, hardware compatibility, and specialisation versus breadth — so you choose by criteria, not by name.",
+    pains: [
+      {
+        icon: TriangleAlert,
+        title: "Choosing by fame or price alone",
+        text: "Buying the most famous or the cheapest program without checking its fit for your business usually ends with a painful discovery after signing — it does not work offline, or it cannot run your branches — followed by a second, harder and costlier switch.",
+      },
+      {
+        icon: WifiOff,
+        title: "Forgetting to ask: what happens when the internet drops?",
+        text: "Connectivity in many areas is unstable; if your software is purely cloud with no local edition, every outage is a stopped till and lost sales at a moment you do not choose.",
+      },
+      {
+        icon: Eye,
+        title: "Overlooking the cashier-control criterion",
+        text: "Most programs sell and invoice, but the real difference lies in who governs voids, discounts, and price edits with per-cashier permissions and records them in an audit log — a criterion that never appears in marketing demos.",
+      },
+      {
+        icon: FileText,
+        title: "Discovering e-invoicing too late",
+        text: "Whoever buys without confirming tax invoices with QR codes, VAT calculation, and submission services to the tax authorities discovers after purchase that invoicing becomes separate work alongside the till instead of part of it.",
+      },
+    ],
+    features: [
+      {
+        icon: CloudOff,
+        title: "Criterion 1: working without internet",
+        text: "Ask every candidate: is there a local edition that works fully during an outage and syncs when the connection returns? In Z-ERP this is a stated behaviour: a local edition that sells, invoices, and updates stock with no connection, alongside a cloud edition with real-time sync.",
+      },
+      {
+        icon: Network,
+        title: "Criterion 2: branches and warehouses",
+        text: "If you have — or will have — more than one branch or warehouse, require unified real-time balances, documented transfers, and reorder alerts. These are among Z-ERP's core stated capabilities in its official description.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Criterion 3: protection against cashier manipulation",
+        text: "Look for separate permissions per cashier over voids, discounts, price edits, and cash-drawer openings, plus an audit log documenting every exception. In Z-ERP this control is part of the system itself in both the cloud and local editions.",
+      },
+      {
+        icon: QrCode,
+        title: "Criterion 4: tax and electronic invoicing",
+        text: "Make sure your invoices are issued with tax fields and QR codes and VAT calculated, from the till itself. Z-ERP provides that, with an e-invoicing submission service to ZATCA for businesses operating in Saudi Arabia.",
+      },
+      {
+        icon: PlugZap,
+        title: "Criterion 5: the hardware you already own",
+        text: "Software that forces proprietary hardware raises your starting cost; the better choice works with standard receipt printers, barcode scanners, cash drawers, and customer displays — as Z-ERP does — so you start with what you have.",
+      },
+      {
+        icon: Users,
+        title: "Criterion 6: specialisation or breadth?",
+        text: "A cloud accounting tool such as Daftra suits owners who run their accounts and invoices online; a specialised platform such as Foodics suits those who want restaurant depth alone; an integrated system such as Z-ERP suits those who run a till, branches, and several activities and want to work without internet. There is no single answer — there is an answer for your business.",
+      },
+    ],
+    steps: [
+      {
+        title: "Write your criteria before the names",
+        text: "Define your non-negotiables first: your connection's stability, your branch and warehouse count, the sectors your activities span, and your tax invoicing requirements.",
+      },
+      {
+        title: "Filter candidates by criteria, not ads",
+        text: "Run every candidate through your six criteria, and ask about the worst day: a connection outage, a manipulating cashier, and opening a new branch.",
+      },
+      {
+        title: "Try before you commit",
+        text: "Start the free trial of the candidate closest to your criteria and test it with your real items, cashiers, and hardware before any commitment — with Z-ERP the trial is free and available immediately.",
+      },
+    ],
+    faqs: [
+      {
+        q: "What is the best POS software in Egypt in 2026?",
+        a: "There is no one honest answer for everyone: the best for an owner running accounts online may be a cloud accounting tool such as Daftra; for someone wanting restaurant specialisation, a platform such as Foodics; and for someone running stores, branches, and warehouses across several activities who needs to work without internet, an integrated system such as Z-ERP. Judge by criteria — offline work, branch stock, cashier control, tax invoicing, hardware, and support — and choose what matches your business.",
+      },
+      {
+        q: "Do I really need software that works without internet?",
+        a: "If the internet connection at your location is unstable, or if a till stoppage of even half an hour means real lost sales, then yes: look for a local edition that works fully during outages and syncs when the connection returns, as in Z-ERP. If your connection is completely stable and your work is administrative and online, a cloud tool may be enough.",
+      },
+      {
+        q: "What is the difference between cloud accounting tools, integrated POS systems, and specialised platforms?",
+        a: "Cloud accounting tools (such as Daftra) centre on accounting and invoicing handled over the internet. Specialised platforms (such as Foodics) focus deeply on one sector, such as restaurants. Integrated ERP and point-of-sale systems (such as Z-ERP) combine the till, multi-branch inventory, and accounting in one system serving several sectors, and often offer local editions for working without internet. The difference is in centre and scope, not in absolute 'betterness'.",
+      },
+      {
+        q: "Does Z-ERP support tax invoices and e-invoicing?",
+        a: "Z-ERP issues invoices with tax fields and QR codes with VAT calculated inside the invoice, and provides businesses operating in Saudi Arabia with an e-invoicing submission service to ZATCA. We advise every business to verify its tax authority's current requirements for its own activity and country before relying on any system for its filings.",
+      },
+      {
+        q: "How much does it cost?",
+        a: "Subscription and licence plans vary with business size and branch count, and all of them are listed in detail on the Z-ERP system page on our website. You can start a free trial to evaluate the system before committing.",
+      },
+    ],
+  },
+};
+
 export const SECTORS: Record<SectorSlug, Sector> = {
   "pos-supermarket": supermarket,
   "pos-restaurants": restaurants,
@@ -2084,6 +2877,10 @@ export const SECTORS: Record<SectorSlug, Sector> = {
   "inventory-management": inventoryManagement,
   "zatca-invoicing": zatcaInvoicing,
   "pos-security": posSecurity,
+  "alternative-daftra": daftraAlternative,
+  "alternative-foodics": foodicsAlternative,
+  "erp-vs-excel": erpVsExcel,
+  "best-pos-egypt": bestPosEgypt,
 };
 
 export const SECTOR_LIST: Sector[] = [
@@ -2097,4 +2894,8 @@ export const SECTOR_LIST: Sector[] = [
   inventoryManagement,
   zatcaInvoicing,
   posSecurity,
+  daftraAlternative,
+  foodicsAlternative,
+  erpVsExcel,
+  bestPosEgypt,
 ];
