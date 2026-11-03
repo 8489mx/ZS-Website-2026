@@ -1,29 +1,43 @@
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowLeftRight,
+  BadgeCheck,
   BellRing,
   Boxes,
   CalendarClock,
+  CircleDollarSign,
   CloudOff,
+  Coins,
   Database,
   Eye,
   FileText,
+  HandCoins,
+  Hash,
+  KeyRound,
+  Landmark,
   Layers,
   ListChecks,
   Lock,
   Network,
+  NotebookPen,
   PackageSearch,
   Pill,
   PlugZap,
+  QrCode,
   ReceiptText,
   RefreshCw,
   Scale,
   ScanBarcode,
+  ScrollText,
+  Send,
   ShieldCheck,
   Shirt,
+  Split,
   Store,
   Timer,
+  TriangleAlert,
   Undo2,
+  UserCheck,
   Users,
   UtensilsCrossed,
   Warehouse,
@@ -39,7 +53,7 @@ import {
  * edition that works fully offline and syncs when the connection
  * returns, per-cashier permissions with an audit log of voids,
  * discounts and price edits, multi-warehouse inventory with transfers,
- * reorder alerts and batch tracking, tax invoices with QR codes, a
+ * reorder alerts and batch and serial tracking, tax invoices with QR codes, a
  * ZATCA e-invoicing submission service for Saudi Arabia, standard POS
  * hardware, and EGP/SAR/AED/QAR/KWD/BHD/OMR currencies. No statistics,
  * customer counts, testimonials, ratings, or prices are stated here;
@@ -52,7 +66,11 @@ export type SectorSlug =
   | "offline-pos"
   | "pos-fashion"
   | "pos-pharmacy"
-  | "pos-auto-parts";
+  | "pos-auto-parts"
+  | "pos-electronics"
+  | "inventory-management"
+  | "zatca-invoicing"
+  | "pos-security";
 
 export interface SectorPoint {
   icon: LucideIcon;
@@ -1271,6 +1289,790 @@ const autoParts: Sector = {
   },
 };
 
+const electronics: Sector = {
+  slug: "pos-electronics",
+  path: "/pos-electronics",
+  related: ["offline-pos", "pos-fashion"],
+  ar: {
+    cardTitle: "برنامج كاشير لمحلات الإلكترونيات والموبايلات",
+    h1: "برنامج كاشير لمحلات الإلكترونيات والموبايلات",
+    lead: "Z-ERP هو برنامج كاشير لمحلات الإلكترونيات والموبايلات يتتبع كل جهاز برقمه التسلسلي (السيريال) من لحظة دخوله المخزن حتى خروجه في فاتورة بيع، فتعرف رصيدك قطعةً قطعة وترجع إلى سجل بيع أي جهاز عند الحاجة إلى متابعة الضمان. ويربط البيع بالمخزون والمحاسبة عبر فروع ومخازن متعددة، مع نسخة محلية تعمل بدون إنترنت وتزامن عند عودة الاتصال.",
+    pains: [
+      {
+        icon: TriangleAlert,
+        title: "أجهزة غالية تتحرك بلا أثر",
+        text: "هاتف أو جهاز واحد قد يساوي آلاف الجنيهات، فإذا خرج من المحل أو تبدّل بآخر دون تسجيل دقيق، لا توجد طريقة لمعرفة متى خرج وبيد من.",
+      },
+      {
+        icon: NotebookPen,
+        title: "أرقام سيريال على الورق وبيانات ضمان تضيع",
+        text: "تسجيل الأرقام التسلسلية في دفاتر أو ملفات منفصلة يعني أنك عند مطالبة عميل بالضمان لا تستطيع التحقق بسرعة: هل بيع هذا الجهاز من عندنا أصلًا؟ ومتى؟",
+      },
+      {
+        icon: CircleDollarSign,
+        title: "فرق قطعة واحدة يساوي خسارة كبيرة",
+        text: "في بضاعة عالية القيمة، أي فرق في الجرد ولو بجهاز واحد يعني خسارة حقيقية، والجرد اليدوي المتكرر لتصحيح الصورة يستهلك وقت فريقك كله.",
+      },
+      {
+        icon: Timer,
+        title: "بحث بطيء بين موديلات متشابهة",
+        text: "مئات الموديلات بإصدارات وسعات متقاربة تجعل البحث اليدوي عن جهاز أو سعره بطيئًا عند الكاونتر، والخطأ في موديل واحد يعني مرتجعًا وعميلًا منزعجًا.",
+      },
+    ],
+    features: [
+      {
+        icon: Hash,
+        title: "تتبع كل جهاز برقمه التسلسلي",
+        text: "يدعم Z-ERP تتبع الدفعات والأرقام التسلسلية، فيرتبط كل جهاز بسيرياله الخاص داخل المخزون، وتعرف مكانه وحالته من الاستلام حتى البيع.",
+      },
+      {
+        icon: BadgeCheck,
+        title: "سجل بيع يساعدك في متابعة الضمان",
+        text: "لأن بيع الجهاز يُسجل برقمه التسلسلي في فاتورته، تستطيع لاحقًا الرجوع إلى سجل البيع لمعرفة الجهاز المباع وتاريخ بيعه، فتتابع مطالبات الضمان ببيانات موثقة بدل التخمين.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "رقابة كاملة على بيع الأجهزة الغالية",
+        text: "الإلغاءات وحذف الإيصالات والخصومات وتعديلات الأسعار وفتح درج النقدية مضبوطة بصلاحيات منفصلة لكل كاشير وموثقة في سجل تدقيق، فتبقى حركة البضاعة عالية القيمة تحت الرقابة دائمًا.",
+      },
+      {
+        icon: BellRing,
+        title: "مخزون يتحدث مع كل فاتورة وتنبيهات إعادة طلب",
+        text: "كل فاتورة بيع تخصم الجهاز المباع برقمه التسلسلي من المخزون تلقائيًا، وتصلك تنبيهات عند الوصول إلى حد إعادة الطلب للموديلات سريعة الحركة قبل نفادها.",
+      },
+      {
+        icon: Warehouse,
+        title: "فروع ومخازن متعددة",
+        text: "أدر فروعًا ومخازن متعددة في نظام واحد، وحوّل الأجهزة بينها بحركات موثقة، وتابع رصيد كل موديل في كل فرع لحظيًا في النسخة السحابية.",
+      },
+      {
+        icon: CloudOff,
+        title: "نسخة محلية تعمل بدون إنترنت",
+        text: "النسخة المحلية تستمر في البيع وإصدار الفواتير أثناء انقطاع الإنترنت، وتزامن بياناتها تلقائيًا بمجرد عودة الاتصال، فلا يتوقف المحل ولا تضيع فاتورة.",
+      },
+    ],
+    steps: [
+      {
+        title: "ابدأ التجربة المجانية",
+        text: "سجل في التجربة المجانية وأنشئ فرعك الأول، وأضف الأجهزة والموديلات وأسعارها وأرقامها التسلسلية أو استوردها.",
+      },
+      {
+        title: "جهّز الكاونتر والمخزون",
+        text: "وصّل ماسح الباركود وطابعة الإيصالات ودرج النقدية، وحدّد صلاحيات كل كاشير في الإلغاء والخصم وتعديل الأسعار.",
+      },
+      {
+        title: "بِع وتابع كل جهاز",
+        text: "ابدأ البيع من أول يوم، وتابع رصيد كل موديل وأرقامه التسلسلية ومبيعات كل فرع من مكان واحد.",
+      },
+    ],
+    faqs: [
+      {
+        q: "هل يتتبع البرنامج الرقم التسلسلي (السيريال) لكل جهاز؟",
+        a: "نعم. يدعم Z-ERP تتبع الدفعات والأرقام التسلسلية، فيرتبط كل جهاز بسيرياله داخل المخزون، ويُسجل الرقم التسلسلي مع فاتورة بيعه، فتعرف تاريخ كل جهاز من الاستلام حتى البيع.",
+      },
+      {
+        q: "كيف يساعدني البرنامج عند مطالبة عميل بالضمان؟",
+        a: "لأن فاتورة البيع موثقة برقم الجهاز التسلسلي وتاريخ البيع، يمكنك الرجوع إلى سجل البيع للتحقق من أن الجهاز بيع من محلك ومتى تم بيعه، فتتعامل مع مطالبة الضمان ببيانات دقيقة بدل البحث في الدفاتر.",
+      },
+      {
+        q: "لديّ أكثر من فرع ومخزن، هل يدعم البرنامج ذلك؟",
+        a: "نعم. يدعم Z-ERP الفروع والمخازن المتعددة مع تحويلات موثقة بينها ومزامنة لحظية في النسخة السحابية، فتتابع رصيد كل موديل في كل موقع من مكان واحد.",
+      },
+      {
+        q: "هل يعمل برنامج الكاشير إذا انقطع الإنترنت؟",
+        a: "نعم. النسخة المحلية من Z-ERP تعمل بالكامل بدون إنترنت، فتستمر في البيع وإصدار الفواتير وتحديث المخزون محليًا، ثم تزامن البيانات تلقائيًا عند عودة الاتصال.",
+      },
+      {
+        q: "كم تبلغ تكلفة الاشتراك؟",
+        a: "توجد خطط اشتراك وترخيص مختلفة حسب حجم النشاط وعدد الفروع، وجميعها موضحة بالتفصيل في صفحة نظام Z-ERP على موقعنا. ويمكنك بدء تجربة مجانية لتقييم النظام قبل أي التزام.",
+      },
+    ],
+  },
+  en: {
+    cardTitle: "POS software for electronics & mobile stores",
+    h1: "Electronics & Mobile Store POS Software",
+    lead: "Z-ERP is POS software for electronics and mobile phone stores that tracks every device by its serial number from the moment it enters stock until it leaves on a sales invoice, so you know your balance device by device and can pull up any unit's sales record when a warranty follow-up needs it. It connects selling to inventory and accounting across multiple branches and warehouses, with a local edition that works offline and syncs when the connection returns.",
+    pains: [
+      {
+        icon: TriangleAlert,
+        title: "High-value devices moving without a trace",
+        text: "A single phone or device can be worth thousands, so if one leaves the store or is swapped for another without accurate recording, there is no way to know when it left or in whose hands.",
+      },
+      {
+        icon: NotebookPen,
+        title: "Serials on paper, warranty data lost",
+        text: "Recording serial numbers in notebooks or separate files means that when a customer claims warranty you cannot verify quickly: was this device actually sold by us, and when?",
+      },
+      {
+        icon: CircleDollarSign,
+        title: "A single missing unit is a serious loss",
+        text: "With high-value goods, even a one-device stocktaking difference is a real loss, and repeated manual stock counts to correct the picture consume your whole team's time.",
+      },
+      {
+        icon: Timer,
+        title: "Slow lookup among look-alike models",
+        text: "Hundreds of models with close versions and storage sizes make manual lookup of a device or its price slow at the counter, and one wrong model means a return and an annoyed customer.",
+      },
+    ],
+    features: [
+      {
+        icon: Hash,
+        title: "Every device tracked by serial number",
+        text: "Z-ERP supports batch and serial tracking, so each device is tied to its own serial number in inventory, and you know where it is and what its status is from receiving to sale.",
+      },
+      {
+        icon: BadgeCheck,
+        title: "A sales record that helps with warranty follow-up",
+        text: "Because a device's sale is recorded with its serial number on its invoice, you can later go back to the sales record to identify the unit sold and its sale date, and handle warranty claims with documented data instead of guesswork.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Full control over high-value sales",
+        text: "Voids, receipt deletions, discounts, price edits, and cash-drawer openings are governed by separate permissions per cashier and recorded in an audit log, so high-value stock movement stays under control at all times.",
+      },
+      {
+        icon: BellRing,
+        title: "Stock that updates with every invoice, with reorder alerts",
+        text: "Every sales invoice automatically deducts the sold device, by its serial number, from stock, and you receive alerts at the reorder point for fast-moving models before they run out.",
+      },
+      {
+        icon: Warehouse,
+        title: "Multiple branches and warehouses",
+        text: "Run multiple branches and warehouses in one system, transfer devices between them with documented movements, and follow every model's balance at every branch in real time in the cloud edition.",
+      },
+      {
+        icon: CloudOff,
+        title: "A local edition that works offline",
+        text: "The local edition keeps selling and issuing invoices during an internet outage and syncs its data automatically once the connection returns, so the store never stops and no invoice is lost.",
+      },
+    ],
+    steps: [
+      {
+        title: "Start the free trial",
+        text: "Sign up for the free trial, create your first branch, and add or import your devices, models, prices, and serial numbers.",
+      },
+      {
+        title: "Set up the counter and stock",
+        text: "Connect the barcode scanner, receipt printer, and cash drawer, and set each cashier's permissions for voids, discounts, and price edits.",
+      },
+      {
+        title: "Sell and trace every device",
+        text: "Start selling from day one, and follow every model's balance, its serial numbers, and each branch's sales from one place.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Does the software track each device's serial number?",
+        a: "Yes. Z-ERP supports batch and serial tracking: each device is tied to its serial number in inventory, and the serial is recorded on its sales invoice, so you know each unit's history from receiving to sale.",
+      },
+      {
+        q: "How does it help when a customer claims warranty?",
+        a: "Because the sales invoice documents the device's serial number and the sale date, you can check the sales record to verify that the device was sold by your store and when, and handle the warranty claim with accurate data instead of searching through notebooks.",
+      },
+      {
+        q: "I have more than one branch and warehouse — is that supported?",
+        a: "Yes. Z-ERP supports multiple branches and warehouses with documented transfers between them and real-time sync in the cloud edition, so you follow every model's balance at every location from one place.",
+      },
+      {
+        q: "Does the POS keep working if the internet goes down?",
+        a: "Yes. The local edition of Z-ERP works fully offline: selling, invoicing, and stock updates continue locally, and data syncs automatically when the connection returns.",
+      },
+      {
+        q: "How much does it cost?",
+        a: "Subscription and licence plans vary with business size and branch count, and all of them are listed in detail on the Z-ERP system page on our website. You can start a free trial to evaluate the system before committing.",
+      },
+    ],
+  },
+};
+
+const inventoryManagement: Sector = {
+  slug: "inventory-management",
+  path: "/inventory-management",
+  related: ["offline-pos", "pos-supermarket"],
+  ar: {
+    cardTitle: "برنامج إدارة المخزون متعدد الفروع",
+    h1: "برنامج إدارة المخزون متعدد الفروع والمخازن",
+    lead: "Z-ERP هو برنامج إدارة مخزون متعدد الفروع والمخازن يعطيك صورة واحدة لحظية لرصيد كل صنف في كل فرع ومخزن: تحويلات موثقة بين المواقع، وتنبيهات عند الوصول إلى حد إعادة الطلب، وتتبع للدفعات والأرقام التسلسلية، وربط كامل بنقاط البيع والمحاسبة في نظام واحد. وتعمل المخازن والفروع ضعيفة الاتصال بنسخة محلية تزامن بياناتها عند عودة الإنترنت.",
+    pains: [
+      {
+        icon: Split,
+        title: "كل فرع يعيش بصورته الخاصة",
+        text: "فروع ومخازن يعمل كلٌّ منها بدفاتره أو ملفاته المنفصلة، فلا توجد إجابة واحدة سريعة لسؤال بسيط: كم عندنا من هذا الصنف الآن، وأين هو؟",
+      },
+      {
+        icon: Boxes,
+        title: "راكد هنا وناقص هناك",
+        text: "صنف يتراكم في مخزن فرع بينما ينفد من فرع آخر وتضيع مبيعاته، رغم أن الحل كان تحويلًا بسيطًا لو كانت الصورة الموحدة واضحة في وقتها.",
+      },
+      {
+        icon: FileText,
+        title: "تحويلات شفهية أو ورقية بين المواقع",
+        text: "المخزون الذي يتحرك بين الفروع والمخازن باتصال هاتفي أو ورقة غير موثقة داخل النظام يظهر لاحقًا فروقات في الجرد لا يستطيع أحد تفسيرها.",
+      },
+      {
+        icon: Eye,
+        title: "الجرد يتحول إلى موسم مفاجآت",
+        text: "لأن الرصيد لا يتحدث مع البيع والحركة لحظة بلحظة، يكتشف كل جرد فروقات كبيرة مجهولة السبب، وتضيع المسؤولية بين المواقع والفرق.",
+      },
+    ],
+    features: [
+      {
+        icon: RefreshCw,
+        title: "أرصدة لحظية موحدة لكل المواقع",
+        text: "في النسخة السحابية تتزامن الفروع والمخازن لحظيًا، فترى رصيد أي صنف في كل موقع من شاشة واحدة، وتتخذ قرارات الشراء والتحويل بناءً على أرقام حديثة لا على تقارير قديمة.",
+      },
+      {
+        icon: ArrowLeftRight,
+        title: "تحويلات مخزون موثقة بين الفروع والمخازن",
+        text: "حرّك الأصناف بين الفروع والمخازن بحركات تحويل موثقة داخل النظام، فينقص الرصيد من موقع المصدر ويزيد في موقع الوجهة بنفس الحركة، وتبقى كل حركة مسجلة وقابلة للتتبع.",
+      },
+      {
+        icon: BellRing,
+        title: "تنبيهات مخزون وحدود إعادة طلب",
+        text: "حدّد حد إعادة طلب لكل صنف، وتصلك تنبيهات المخزون عند الوصول إليه في أي موقع، فتطلب من المورد أو تحوّل من موقع آخر قبل أن يتحول النقص إلى مبيعات ضائعة.",
+      },
+      {
+        icon: ScanBarcode,
+        title: "تتبع الدفعات والأرقام التسلسلية",
+        text: "تابع مخزونك على مستوى الدفعات (الباتشات) والأرقام التسلسلية عند الحاجة، فيبقى تاريخ كل دفعة وكل جهاز معروفًا أينما تحرك بين فروعك ومخازنك.",
+      },
+      {
+        icon: Network,
+        title: "مخزون مرتبط بالبيع والمحاسبة",
+        text: "المخزون جزء من نظام Z-ERP نفسه: كل فاتورة بيع من أي فرع تحدّث الأرصدة تلقائيًا، وترتبط الحركة بالمحاسبة دون إدخال مكرر أو تصدير واستيراد بين برامج منفصلة.",
+      },
+      {
+        icon: CloudOff,
+        title: "مواقع ضعيفة الاتصال تعمل وتزامن",
+        text: "المخزن أو الفرع ضعيف التغطية يعمل بالنسخة المحلية كاملة الوظائف دون إنترنت، ويزامن حركاته وفواتيره تلقائيًا عند عودة الاتصال، فينضم إلى الصورة الموحدة دون إدخال يدوي.",
+      },
+    ],
+    steps: [
+      {
+        title: "ابدأ التجربة المجانية",
+        text: "سجل في التجربة المجانية وأنشئ فروعك ومخازنك في النظام، وأضف الأصناف والأرصدة الافتتاحية أو استوردها.",
+      },
+      {
+        title: "اضبط حدود الطلب والتحويلات",
+        text: "حدّد حد إعادة الطلب لأصنافك الأساسية، وفعّل حركات التحويل الموثقة بين الفروع والمخازن.",
+      },
+      {
+        title: "تابع وحرّك من مكان واحد",
+        text: "راقب أرصدة كل موقع لحظيًا، وحوّل واطلب في الوقت المناسب بدل اكتشاف النقص عند الجرد.",
+      },
+    ],
+    faqs: [
+      {
+        q: "هل أرى رصيد كل صنف في جميع الفروع والمخازن لحظيًا؟",
+        a: "نعم في النسخة السحابية، إذ تتزامن الفروع والمخازن لحظيًا داخل نظام واحد، فترى رصيد الصنف في كل موقع من مكان واحد. أما المواقع العاملة بالنسخة المحلية فتزامن بياناتها تلقائيًا عند عودة اتصالها.",
+      },
+      {
+        q: "كيف تتم التحويلات بين الفروع والمخازن؟",
+        a: "بحركات تحويل موثقة داخل النظام: تنشئ حركة التحويل فينقص رصيد الصنف من موقع المصدر ويزيد في موقع الوجهة بنفس الحركة، وتبقى الحركة مسجلة وقابلة للمراجعة في أي وقت.",
+      },
+      {
+        q: "هل ينبهني النظام قبل نفاد الأصناف؟",
+        a: "نعم. تحدد حد إعادة طلب لكل صنف، وتصلك تنبيهات مخزون عند الوصول إليه في أي موقع، فتطلب من المورد أو تحوّل من موقع آخر قبل النفاد بدل اكتشاف النقص من طلب عميل.",
+      },
+      {
+        q: "هل يدعم النظام تتبع الدفعات والأرقام التسلسلية عبر المواقع؟",
+        a: "نعم. يدعم Z-ERP تتبع الدفعات والأرقام التسلسلية، فيمكن متابعة الأصناف ذات الدفعات كالأغذية والأدوية، والأجهزة ذات الأرقام التسلسلية كالإلكترونيات، عبر كل الفروع والمخازن.",
+      },
+      {
+        q: "كم تبلغ تكلفة الاشتراك؟",
+        a: "توجد خطط اشتراك وترخيص مختلفة حسب حجم النشاط وعدد الفروع والمخازن، وجميعها موضحة بالتفصيل في صفحة نظام Z-ERP على موقعنا. ويمكنك بدء تجربة مجانية لتقييم النظام قبل أي التزام.",
+      },
+    ],
+  },
+  en: {
+    cardTitle: "Multi-branch inventory management software",
+    h1: "Multi-Branch & Multi-Warehouse Inventory Management Software",
+    lead: "Z-ERP is inventory management software for multiple branches and warehouses that gives you one real-time picture of every item's balance at every branch and warehouse: documented transfers between locations, reorder-point alerts, batch and serial tracking, and full linkage to point of sale and accounting in one system. Branches and warehouses with weak connectivity run a local edition that syncs when the internet returns.",
+    pains: [
+      {
+        icon: Split,
+        title: "Every branch lives in its own picture",
+        text: "Branches and warehouses each keep their own notebooks or separate files, so there is no single quick answer to a simple question: how much of this item do we have right now, and where is it?",
+      },
+      {
+        icon: Boxes,
+        title: "Overstocked here, out of stock there",
+        text: "An item piles up in one branch's warehouse while it runs out at another branch and its sales are lost, when the fix was a simple transfer — if only the unified picture had been clear in time.",
+      },
+      {
+        icon: FileText,
+        title: "Transfers by word of mouth or on paper",
+        text: "Stock that moves between branches and warehouses by a phone call or a note that is never documented in the system later shows up as stocktaking differences nobody can explain.",
+      },
+      {
+        icon: Eye,
+        title: "Stocktaking becomes surprise season",
+        text: "Because balances do not update with sales and movements moment by moment, every stocktake discovers large differences of unknown cause, and responsibility is lost between locations and teams.",
+      },
+    ],
+    features: [
+      {
+        icon: RefreshCw,
+        title: "Real-time unified balances for all locations",
+        text: "In the cloud edition, branches and warehouses sync in real time, so you see any item's balance at every location on one screen and make purchasing and transfer decisions on current numbers, not stale reports.",
+      },
+      {
+        icon: ArrowLeftRight,
+        title: "Documented stock transfers between branches and warehouses",
+        text: "Move items between branches and warehouses with documented transfer movements inside the system: the balance decreases at the source location and increases at the destination in the same movement, and every movement stays recorded and traceable.",
+      },
+      {
+        icon: BellRing,
+        title: "Stock alerts and reorder points",
+        text: "Set a reorder point for each item and receive stock alerts when it is reached at any location, so you order from the supplier or transfer from another location before a shortage turns into lost sales.",
+      },
+      {
+        icon: ScanBarcode,
+        title: "Batch and serial tracking",
+        text: "Follow your stock at the level of batches and serial numbers where needed, so the history of every batch and every device stays known wherever it moves among your branches and warehouses.",
+      },
+      {
+        icon: Network,
+        title: "Inventory linked to sales and accounting",
+        text: "Inventory is part of the Z-ERP system itself: every sales invoice from any branch updates balances automatically, and movements tie into accounting with no duplicate entry and no exporting and importing between separate programs.",
+      },
+      {
+        icon: CloudOff,
+        title: "Weak-coverage locations work and sync",
+        text: "A warehouse or branch with weak coverage runs the fully functional local edition with no internet, and syncs its movements and invoices automatically when the connection returns, joining the unified picture with no manual entry.",
+      },
+    ],
+    steps: [
+      {
+        title: "Start the free trial",
+        text: "Sign up for the free trial, create your branches and warehouses in the system, and add or import your items and opening balances.",
+      },
+      {
+        title: "Set reorder points and transfers",
+        text: "Set reorder points for your key items and enable documented transfer movements between branches and warehouses.",
+      },
+      {
+        title: "Watch and move from one place",
+        text: "Monitor every location's balances in real time, and transfer or order in good time instead of discovering shortages at stocktake.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Do I see every item's balance across all branches and warehouses in real time?",
+        a: "Yes, in the cloud edition: branches and warehouses sync in real time inside one system, so you see an item's balance at every location from one place. Locations running the local edition sync their data automatically when their connection returns.",
+      },
+      {
+        q: "How do transfers between branches and warehouses work?",
+        a: "Through documented transfer movements inside the system: you create the transfer and the item's balance decreases at the source location and increases at the destination in the same movement, and the movement stays recorded and reviewable at any time.",
+      },
+      {
+        q: "Does the system warn me before items run out?",
+        a: "Yes. You set a reorder point for each item and receive stock alerts when it is reached at any location, so you order from the supplier or transfer from another location before the stockout instead of discovering it from a customer's request.",
+      },
+      {
+        q: "Does it support batch and serial tracking across locations?",
+        a: "Yes. Z-ERP supports batch and serial tracking, so you can follow batch-based items such as food and medicines, and serial-numbered devices such as electronics, across all branches and warehouses.",
+      },
+      {
+        q: "How much does it cost?",
+        a: "Subscription and licence plans vary with business size and branch and warehouse count, and all of them are listed in detail on the Z-ERP system page on our website. You can start a free trial to evaluate the system before committing.",
+      },
+    ],
+  },
+};
+
+const zatcaInvoicing: Sector = {
+  slug: "zatca-invoicing",
+  path: "/zatca-invoicing",
+  related: ["offline-pos", "pos-supermarket"],
+  ar: {
+    cardTitle: "الفاتورة الإلكترونية السعودية ZATCA",
+    h1: "الفاتورة الإلكترونية السعودية (ZATCA) مع Z-ERP",
+    lead: "Z-ERP يصدر لمنشآت التجزئة في السعودية فواتير ضريبية تحمل رمز QR مع حساب لضريبة القيمة المضافة داخل الفاتورة، ويوفر خدمة إرسال للفوترة الإلكترونية إلى هيئة الزكاة والضريبة والجمارك (ZATCA)، كل ذلك من نظام واحد لنقاط البيع والمخزون والمحاسبة يعمل بالريال السعودي ويدير فروعك في المملكة بمزامنة سحابية.",
+    pains: [
+      {
+        icon: FileText,
+        title: "فوترة منفصلة عن الكاشير والمحاسبة",
+        text: "حين تُصدر الفواتير الضريبية بأداة منفصلة عن نقطة البيع، يتضاعف الإدخال وتتضارب الأرقام بين الكاشير والفواتير والحسابات، ويضيع وقت فريقك في المطابقة.",
+      },
+      {
+        icon: TriangleAlert,
+        title: "أخطاء يدوية في الضريبة ورمز QR",
+        text: "حساب ضريبة القيمة المضافة يدويًا أو التعامل مع رمز QR خارج نظام البيع يفتح الباب لخطأ في فاتورة واحدة يتكرر مئات المرات في الشهر دون أن ينتبه أحد.",
+      },
+      {
+        icon: Split,
+        title: "فروع متعددة في المملكة بلا صورة موحدة",
+        text: "منشأة لها فروع في أكثر من مدينة تحتاج فوترة ومبيعات ومخزونًا في صورة واحدة، لا أنظمة متفرقة تجعل متابعة كل فرع عملًا مستقلًا بذاته.",
+      },
+      {
+        icon: Landmark,
+        title: "قلق دائم من متطلبات الهيئة",
+        text: "صاحب المنشأة يريد أن يركز على البيع وهو مطمئن إلى أن فواتيره تصدر بالحقول الضريبية ورمز QR وأن لديه خدمة إرسال مخصصة للفوترة الإلكترونية، بدل مطاردة التفاصيل بنفسه كل يوم.",
+      },
+    ],
+    features: [
+      {
+        icon: QrCode,
+        title: "فواتير ضريبية برمز QR وحساب للضريبة",
+        text: "تصدر كل فاتورة بيع بالحقول الضريبية ورمز QR، مع حساب ضريبة القيمة المضافة داخل الفاتورة نفسها، فلا حسابات يدوية ولا أدوات خارجية للتعامل مع الرمز.",
+      },
+      {
+        icon: Send,
+        title: "خدمة إرسال الفوترة الإلكترونية إلى ZATCA",
+        text: "يوفر Z-ERP للمنشآت العاملة في السعودية خدمة إرسال للفوترة الإلكترونية لدى هيئة الزكاة والضريبة والجمارك (ZATCA)، لتصبح الفوترة الإلكترونية جزءًا من بيعك اليومي لا عملًا منفصلًا بجانبه.",
+      },
+      {
+        icon: Coins,
+        title: "الريال السعودي وعملات الخليج ومصر",
+        text: "يعمل النظام بالريال السعودي (SAR) إلى جانب عملات الخليج ومصر (AED وQAR وKWD وBHD وOMR وEGP)، فيناسب المنشآت العاملة في المملكة ولها نشاط أو فروع عبر الحدود.",
+      },
+      {
+        icon: ReceiptText,
+        title: "نقاط بيع ومحاسبة ومخزون في نظام واحد",
+        text: "الفاتورة الضريبية في Z-ERP هي فاتورة البيع نفسها: تُصدر من الكاشير، وتخصم من المخزون، وتدخل المحاسبة في حركة واحدة، فلا إدخال مكرر ولا فروقات بين أنظمة متفرقة.",
+      },
+      {
+        icon: Network,
+        title: "فروع المملكة بمزامنة سحابية لحظية",
+        text: "أدر فروعًا في مدن سعودية متعددة من نظام واحد مع مزامنة لحظية في النسخة السحابية، وتابع فواتير ومبيعات ومخزون كل فرع من مكان واحد.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "صلاحيات وسجل تدقيق حول الفوترة",
+        text: "الخصومات وتعديلات الأسعار وإلغاءات الفواتير وحذف الإيصالات مضبوطة بصلاحيات منفصلة لكل كاشير وموثقة في سجل تدقيق، فتبقى فوترة منشأتك منظمة وقابلة للمراجعة.",
+      },
+    ],
+    steps: [
+      {
+        title: "ابدأ التجربة المجانية",
+        text: "سجل في التجربة المجانية وأنشئ منشأتك وفرعك الأول في المملكة، وأضف الأصناف والأسعار بالريال السعودي.",
+      },
+      {
+        title: "جهّز بيانات منشأتك الضريبية",
+        text: "أدخل بيانات منشأتك الضريبية اللازمة لفواتيرك، ووصّل أجهزة الكاشير القياسية من طابعة إيصالات وماسح باركود ودرج نقدية، وحدّد صلاحيات كل كاشير.",
+      },
+      {
+        title: "بِع وأصدر فواتيرك من نظام واحد",
+        text: "ابدأ البيع وإصدار الفواتير الضريبية برمز QR من الكاشير مباشرة، واستخدم خدمة إرسال الفوترة الإلكترونية إلى ZATCA، وتابع كل فروعك من مكان واحد.",
+      },
+    ],
+    faqs: [
+      {
+        q: "هل يصدر Z-ERP فواتير إلكترونية للمنشآت في السعودية؟",
+        a: "يصدر Z-ERP فواتير بالحقول الضريبية ورمز QR مع حساب ضريبة القيمة المضافة، ويوفر للمنشآت العاملة في السعودية خدمة إرسال للفوترة الإلكترونية إلى هيئة الزكاة والضريبة والجمارك (ZATCA). وننصح كل منشأة بالتحقق من متطلبات الهيئة الحالية الخاصة بنشاطها قبل الاعتماد على أي نظام في إقراراتها.",
+      },
+      {
+        q: "هل يدعم النظام الريال السعودي؟",
+        a: "نعم. يعمل Z-ERP بالريال السعودي (SAR) ضمن عملات مدعومة تشمل عملات الخليج (AED وQAR وKWD وBHD وOMR) والجنيه المصري (EGP)، ليناسب المنشآت العاملة في المملكة وما حولها.",
+      },
+      {
+        q: "هل أحتاج إلى برنامج محاسبة منفصل بجانب الكاشير؟",
+        a: "لا. Z-ERP نظام واحد يجمع نقاط البيع والمخزون والمحاسبة: فاتورة البيع الضريبية تُصدر من الكاشير وتحدّث المخزون والمحاسبة في الحركة نفسها، دون إدخال مكرر بين برامج منفصلة.",
+      },
+      {
+        q: "لديّ فروع في أكثر من مدينة سعودية، هل يناسبني؟",
+        a: "نعم. يدعم Z-ERP الفروع والمخازن المتعددة مع مزامنة لحظية في النسخة السحابية، فتتابع فوترة ومبيعات ومخزون كل فرع في المملكة من مكان واحد.",
+      },
+      {
+        q: "كم تبلغ تكلفة الاشتراك؟",
+        a: "توجد خطط اشتراك وترخيص مختلفة حسب حجم النشاط وعدد الفروع، وجميعها موضحة بالتفصيل في صفحة نظام Z-ERP على موقعنا. ويمكنك بدء تجربة مجانية لتقييم النظام قبل أي التزام.",
+      },
+    ],
+  },
+  en: {
+    cardTitle: "Saudi ZATCA e-invoicing",
+    h1: "Saudi ZATCA E-Invoicing with Z-ERP",
+    lead: "Z-ERP issues tax invoices with QR codes and VAT calculated inside the invoice for retail businesses in Saudi Arabia, and provides an e-invoicing submission service to the Zakat, Tax and Customs Authority (ZATCA) — all from one point-of-sale, inventory, and accounting system that runs in Saudi riyals and manages your branches across the Kingdom with cloud sync.",
+    pains: [
+      {
+        icon: FileText,
+        title: "Invoicing separate from the till and the accounts",
+        text: "When tax invoices are issued by a tool separate from the point of sale, entry doubles and the numbers conflict between the till, the invoices, and the accounts, and your team wastes time reconciling them.",
+      },
+      {
+        icon: TriangleAlert,
+        title: "Manual errors in VAT and QR codes",
+        text: "Calculating VAT by hand or handling QR codes outside the sales system opens the door to an error in a single invoice that repeats hundreds of times a month without anyone noticing.",
+      },
+      {
+        icon: Split,
+        title: "Several branches in the Kingdom, no unified picture",
+        text: "A business with branches in more than one city needs its invoicing, sales, and stock in one picture — not scattered systems that make following each branch a job of its own.",
+      },
+      {
+        icon: Landmark,
+        title: "Constant worry about authority requirements",
+        text: "A business owner wants to focus on selling, reassured that invoices carry the tax fields and QR code and that a dedicated e-invoicing submission service exists, instead of chasing the details personally every day.",
+      },
+    ],
+    features: [
+      {
+        icon: QrCode,
+        title: "Tax invoices with QR codes and VAT calculation",
+        text: "Every sales invoice is issued with the tax fields and a QR code, with VAT calculated inside the invoice itself — no manual calculations and no external tools to handle the code.",
+      },
+      {
+        icon: Send,
+        title: "A ZATCA e-invoicing submission service",
+        text: "For businesses operating in Saudi Arabia, Z-ERP provides an e-invoicing submission service to the Zakat, Tax and Customs Authority (ZATCA), making e-invoicing part of your daily selling rather than separate work alongside it.",
+      },
+      {
+        icon: Coins,
+        title: "Saudi riyal, Gulf, and Egypt currencies",
+        text: "The system runs in Saudi riyals (SAR) alongside Gulf and Egypt currencies (AED, QAR, KWD, BHD, OMR, EGP), suiting businesses that operate in the Kingdom with activity or branches across borders.",
+      },
+      {
+        icon: ReceiptText,
+        title: "POS, accounting, and inventory in one system",
+        text: "The tax invoice in Z-ERP is the sales invoice itself: issued at the till, deducted from stock, and entered into accounting in one movement — no duplicate entry and no differences between scattered systems.",
+      },
+      {
+        icon: Network,
+        title: "Kingdom branches with real-time cloud sync",
+        text: "Run branches in several Saudi cities from one system with real-time sync in the cloud edition, and follow each branch's invoices, sales, and stock from one place.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Permissions and an audit log around invoicing",
+        text: "Discounts, price edits, invoice voids, and receipt deletions are governed by separate permissions per cashier and recorded in an audit log, keeping your business's invoicing organised and reviewable.",
+      },
+    ],
+    steps: [
+      {
+        title: "Start the free trial",
+        text: "Sign up for the free trial, create your business and its first branch in the Kingdom, and add your items and prices in Saudi riyals.",
+      },
+      {
+        title: "Set up your business's tax details",
+        text: "Enter the tax details your invoices need, connect standard till hardware — receipt printer, barcode scanner, and cash drawer — and set each cashier's permissions.",
+      },
+      {
+        title: "Sell and invoice from one system",
+        text: "Start selling and issuing tax invoices with QR codes directly from the till, use the e-invoicing submission service to ZATCA, and follow all your branches from one place.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Does Z-ERP issue e-invoices for businesses in Saudi Arabia?",
+        a: "Z-ERP issues invoices with tax fields and QR codes with VAT calculation, and provides businesses operating in Saudi Arabia with an e-invoicing submission service to the Zakat, Tax and Customs Authority (ZATCA). We advise every business to verify the authority's current requirements for its own activity before relying on any system for its filings.",
+      },
+      {
+        q: "Does the system support Saudi riyals?",
+        a: "Yes. Z-ERP runs in Saudi riyals (SAR) among supported currencies that include the Gulf currencies (AED, QAR, KWD, BHD, OMR) and the Egyptian pound (EGP), suiting businesses operating in the Kingdom and around it.",
+      },
+      {
+        q: "Do I need separate accounting software alongside the till?",
+        a: "No. Z-ERP is one system combining point of sale, inventory, and accounting: the tax sales invoice is issued at the till and updates stock and accounting in the same movement, with no duplicate entry between separate programs.",
+      },
+      {
+        q: "I have branches in more than one Saudi city — does it suit me?",
+        a: "Yes. Z-ERP supports multiple branches and warehouses with real-time sync in the cloud edition, so you follow each branch's invoicing, sales, and stock across the Kingdom from one place.",
+      },
+      {
+        q: "How much does it cost?",
+        a: "Subscription and licence plans vary with business size and branch count, and all of them are listed in detail on the Z-ERP system page on our website. You can start a free trial to evaluate the system before committing.",
+      },
+    ],
+  },
+};
+
+const posSecurity: Sector = {
+  slug: "pos-security",
+  path: "/pos-security",
+  related: ["offline-pos", "pos-restaurants"],
+  ar: {
+    cardTitle: "حماية الكاشير من السرقة والتلاعب",
+    h1: "حماية الكاشير من السرقة والتلاعب",
+    lead: "Z-ERP يحمي نقطة البيع من السرقة والتلاعب بصلاحيات منفصلة لكل كاشير تتحكم في تعديل الأسعار وحذف الإيصالات والخصومات وفتح درج النقدية، وبسجل تدقيق يسجل كل عملية استثنائية باسم من نفذها ووقتها. فتُسد أشهر طرق التسريب عند الكاشير، ويصبح كل استثناء ظاهرًا وموثقًا وقابلًا للمراجعة بدل أن يختفي دون أثر.",
+    pains: [
+      {
+        icon: ReceiptText,
+        title: "فاتورة تُقبض قيمتها ثم تُلغى",
+        text: "أشهر تسريب عند الكاشير: يبيع للعميل ويقبض الثمن نقدًا، ثم يلغي الفاتورة أو يحذف الإيصال، فيختفي البيع من النظام ويذهب الفرق إلى جيبه.",
+      },
+      {
+        icon: HandCoins,
+        title: "خصومات للأصحاب والمعارف",
+        text: "خصم غير مصرح به لصديق أو قريب، أو «سعر خاص» يُمنح شفهيًا عند الكاشير، حركة تتكرر يوميًا وتأكل من هامش ربحك دون أن تظهر في أي تقرير.",
+      },
+      {
+        icon: Eye,
+        title: "تعديلات أسعار لا يراها أحد",
+        text: "تخفيض سعر صنف لحظة البيع ثم تحصيل السعر الكامل من العميل وقبض الفرق، تلاعب يستحيل اكتشافه في نظام لا يوثق من عدّل ماذا ومتى.",
+      },
+      {
+        icon: CircleDollarSign,
+        title: "درج نقدية يفتح بلا بيع",
+        text: "فتح درج النقدية دون فاتورة — لأخذ مبلغ أو تبديل فئات — يجب أن يكون استثناءً مضبوطًا وموثقًا، لا حدثًا عاديًا متكررًا لا يعرف عنه صاحب المحل شيئًا.",
+      },
+    ],
+    features: [
+      {
+        icon: KeyRound,
+        title: "صلاحيات منفصلة لكل كاشير",
+        text: "حدّد لكل كاشير ما يستطيع فعله بالضبط: البيع فقط، أم الخصم أيضًا، أم الإلغاء وحذف الإيصالات وتعديل الأسعار وفتح الدرج. وما ليس من صلاحيته لا يستطيع تنفيذه من الأساس.",
+      },
+      {
+        icon: ScrollText,
+        title: "سجل تدقيق لكل عملية استثنائية",
+        text: "كل إلغاء أو حذف إيصال أو خصم أو تعديل سعر أو فتح لدرج النقدية يُسجل في سجل تدقيق باسم المستخدم الذي نفذه ووقته، فتتحول العمليات التي كانت تختفي إلى سجل موثق قابل للمراجعة في أي وقت.",
+      },
+      {
+        icon: Lock,
+        title: "قصر العمليات الحساسة على المديرين",
+        text: "اجعل الإلغاءات والخصومات وتعديلات الأسعار من صلاحيات المدير فقط، فيحتاج أي استثناء عند الكاشير إلى مسؤول يملك الصلاحية، ويبقى الكاشير حرًا في البيع العادي وحده.",
+      },
+      {
+        icon: Undo2,
+        title: "لا حذف أو إلغاء يمر بصمت",
+        text: "حذف الإيصالات وإلغاء الفواتير ليسا زرين صامتين: إما ممنوعان عن الكاشير بصلاحياته، أو موثقان في سجل التدقيق بمن نفذهما، فتظهر كل حركة عند المراجعة.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "فتح درج النقدية مضبوط وموثق",
+        text: "فتح درج النقدية خارج سياق عملية بيع عملية مضبوطة بالصلاحيات وموثقة في سجل التدقيق، فتعرف كل مرة فُتح فيها الدرج، ومتى، وبواسطة من.",
+      },
+      {
+        icon: UserCheck,
+        title: "الرقابة تعمل في السحابية والمحلية معًا",
+        text: "صلاحيات الكاشير وسجل التدقيق جزء من نظام Z-ERP نفسه، فيعملان في النسخة المحلية كما يعملان في السحابية، وتبقى الرقابة قائمة حتى في الفروع ضعيفة الاتصال.",
+      },
+    ],
+    steps: [
+      {
+        title: "ابدأ التجربة المجانية",
+        text: "سجل في التجربة المجانية وأنشئ فرعك، وعرّف الكاشيرين والمديرين، لكلٍّ منهم حسابه الخاص.",
+      },
+      {
+        title: "اضبط صلاحية كل دور",
+        text: "حدّد ما يستطيع الكاشير فعله منفردًا، وما يحتاج إلى مدير: الإلغاء، والخصم، وتعديل الأسعار، وفتح درج النقدية.",
+      },
+      {
+        title: "راجع سجل التدقيق دوريًا",
+        text: "اجعل مراجعة سجل العمليات الاستثنائية عادة دورية، فكل عملية موثقة باسم صاحبها ووقتها وجاهزة للمراجعة.",
+      },
+    ],
+    faqs: [
+      {
+        q: "هل يمنع البرنامج سرقة الكاشير منعًا كاملًا؟",
+        a: "لا يستطيع أي برنامج أن يعد بمنع السرقة منعًا مطلقًا، لكن Z-ERP يسد الطرق الأشهر: صلاحيات منفصلة لكل كاشير تمنع من لا يملك الصلاحية من الإلغاء أو الخصم أو تعديل الأسعار أو فتح درج النقدية، وسجل تدقيق يوثق كل عملية استثنائية باسم من نفذها ووقتها، فيصبح التلاعب أصعب وظاهرًا وقابلًا للاكتشاف عند المراجعة.",
+      },
+      {
+        q: "هل يستطيع الكاشير حذف فاتورة دون أن أعلم؟",
+        a: "حذف الإيصالات عملية مضبوطة بالصلاحيات: يمكنك منعها عن الكاشير تمامًا أو قصرها على المديرين، وحتى حيث توجد الصلاحية تُسجل العملية في سجل التدقيق باسم من نفذها ووقتها، فلا حذف يمر بصمت.",
+      },
+      {
+        q: "ماذا يسجل سجل التدقيق بالضبط؟",
+        a: "يسجل العمليات الاستثنائية عند نقطة البيع: إلغاءات الفواتير، وحذف الإيصالات، والخصومات، وتعديلات الأسعار، وفتح درج النقدية، مع اسم المستخدم الذي نفذ كل عملية ووقتها.",
+      },
+      {
+        q: "هل تعمل الصلاحيات والسجل في فرع يستخدم النسخة المحلية؟",
+        a: "نعم. صلاحيات الكاشير وسجل التدقيق جزء من نظام Z-ERP نفسه في النسختين السحابية والمحلية، فتبقى الرقابة عاملة في الفروع ضعيفة الاتصال كما في الفروع المتصلة.",
+      },
+      {
+        q: "كم تبلغ تكلفة الاشتراك؟",
+        a: "توجد خطط اشتراك وترخيص مختلفة حسب حجم النشاط وعدد الفروع، وجميعها موضحة بالتفصيل في صفحة نظام Z-ERP على موقعنا. ويمكنك بدء تجربة مجانية لتقييم النظام قبل أي التزام.",
+      },
+    ],
+  },
+  en: {
+    cardTitle: "Stop cashier theft & manipulation",
+    h1: "Stop Cashier Theft and Manipulation at the Till",
+    lead: "Z-ERP protects the point of sale against theft and manipulation with separate permissions for each cashier governing price edits, receipt deletions, discounts, and cash-drawer openings, plus a tamper-evident audit log that records every exceptional action with who performed it and when. The most common till leak routes are closed off, and every exception becomes visible, documented, and reviewable instead of disappearing without a trace.",
+    pains: [
+      {
+        icon: ReceiptText,
+        title: "An invoice collected, then voided",
+        text: "The most common till leak: the cashier sells to the customer and collects the cash, then voids the invoice or deletes the receipt, so the sale vanishes from the system and the difference goes into a pocket.",
+      },
+      {
+        icon: HandCoins,
+        title: "Discounts for friends and acquaintances",
+        text: "An unauthorised discount for a friend or relative, or a 'special price' granted verbally at the till, is a movement that repeats daily and eats into your margin without appearing in any report.",
+      },
+      {
+        icon: Eye,
+        title: "Price edits nobody sees",
+        text: "Lowering an item's price at the moment of sale, then charging the customer the full price and pocketing the difference, is manipulation that is impossible to catch in a system that does not record who edited what, and when.",
+      },
+      {
+        icon: CircleDollarSign,
+        title: "A cash drawer that opens with no sale",
+        text: "Opening the cash drawer without an invoice — to take an amount or swap denominations — should be a controlled, documented exception, not an ordinary repeated event the shop owner knows nothing about.",
+      },
+    ],
+    features: [
+      {
+        icon: KeyRound,
+        title: "Separate permissions for each cashier",
+        text: "Define exactly what each cashier can do: sell only, or also discount, or also void, delete receipts, edit prices, and open the drawer. Anything outside their permission, they cannot perform in the first place.",
+      },
+      {
+        icon: ScrollText,
+        title: "An audit log of every exceptional action",
+        text: "Every void, receipt deletion, discount, price edit, and cash-drawer opening is recorded in a tamper-evident audit log with the user who performed it and its time, turning actions that used to vanish into a documented record you can review at any moment.",
+      },
+      {
+        icon: Lock,
+        title: "Sensitive actions restricted to managers",
+        text: "Make voids, discounts, and price edits manager-only permissions, so any exception at the till needs someone who holds the permission, while cashiers stay free to do ordinary selling alone.",
+      },
+      {
+        icon: Undo2,
+        title: "No deletion or void passes silently",
+        text: "Receipt deletions and invoice voids are not silent buttons: they are either denied to the cashier by their permissions, or documented in the audit log with who performed them, so every movement shows up on review.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Drawer openings controlled and recorded",
+        text: "Opening the cash drawer outside the context of a sale is governed by permissions and recorded in the audit log, so you know every time the drawer was opened, when, and by whom.",
+      },
+      {
+        icon: UserCheck,
+        title: "Control that works in cloud and local editions",
+        text: "Cashier permissions and the audit log are part of the Z-ERP system itself, so they work in the local edition exactly as in the cloud, and control stays in place even at branches with weak connectivity.",
+      },
+    ],
+    steps: [
+      {
+        title: "Start the free trial",
+        text: "Sign up for the free trial, create your branch, and define your cashiers and managers, each with their own account.",
+      },
+      {
+        title: "Set each role's permissions",
+        text: "Decide what a cashier can do alone and what needs a manager: voids, discounts, price edits, and cash-drawer openings.",
+      },
+      {
+        title: "Review the audit log regularly",
+        text: "Make reviewing the exceptions log a regular habit: every action is documented with its owner's name and time, ready for review.",
+      },
+    ],
+    faqs: [
+      {
+        q: "Does the software stop cashier theft completely?",
+        a: "No software can honestly promise to eliminate theft entirely, but Z-ERP closes the most common routes: separate permissions per cashier stop anyone without the permission from voiding, discounting, editing prices, or opening the cash drawer, and an audit log documents every exceptional action with who performed it and when, making manipulation harder, visible, and discoverable on review.",
+      },
+      {
+        q: "Can a cashier delete an invoice without me knowing?",
+        a: "Receipt deletion is governed by permissions: you can deny it to cashiers entirely or restrict it to managers, and even where the permission exists, the action is recorded in the audit log with the user and time — no deletion passes silently.",
+      },
+      {
+        q: "What exactly does the audit log record?",
+        a: "It records the exceptional actions at the point of sale: invoice voids, receipt deletions, discounts, price edits, and cash-drawer openings, with the name of the user who performed each action and its time.",
+      },
+      {
+        q: "Do permissions and the log work at a branch on the local edition?",
+        a: "Yes. Cashier permissions and the audit log are part of the Z-ERP system itself in both the cloud and local editions, so control keeps working at branches with weak connectivity just as at connected branches.",
+      },
+      {
+        q: "How much does it cost?",
+        a: "Subscription and licence plans vary with business size and branch count, and all of them are listed in detail on the Z-ERP system page on our website. You can start a free trial to evaluate the system before committing.",
+      },
+    ],
+  },
+};
+
 export const SECTORS: Record<SectorSlug, Sector> = {
   "pos-supermarket": supermarket,
   "pos-restaurants": restaurants,
@@ -1278,6 +2080,21 @@ export const SECTORS: Record<SectorSlug, Sector> = {
   "pos-fashion": fashion,
   "pos-pharmacy": pharmacy,
   "pos-auto-parts": autoParts,
+  "pos-electronics": electronics,
+  "inventory-management": inventoryManagement,
+  "zatca-invoicing": zatcaInvoicing,
+  "pos-security": posSecurity,
 };
 
-export const SECTOR_LIST: Sector[] = [supermarket, restaurants, offlinePos, fashion, pharmacy, autoParts];
+export const SECTOR_LIST: Sector[] = [
+  supermarket,
+  restaurants,
+  offlinePos,
+  fashion,
+  pharmacy,
+  autoParts,
+  electronics,
+  inventoryManagement,
+  zatcaInvoicing,
+  posSecurity,
+];

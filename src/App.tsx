@@ -59,6 +59,10 @@ export default function App() {
                   <Route path="/pos-fashion" element={<SectorPage slug="pos-fashion" />} />
                   <Route path="/pos-pharmacy" element={<SectorPage slug="pos-pharmacy" />} />
                   <Route path="/pos-auto-parts" element={<SectorPage slug="pos-auto-parts" />} />
+                  <Route path="/pos-electronics" element={<SectorPage slug="pos-electronics" />} />
+                  <Route path="/inventory-management" element={<SectorPage slug="inventory-management" />} />
+                  <Route path="/zatca-invoicing" element={<SectorPage slug="zatca-invoicing" />} />
+                  <Route path="/pos-security" element={<SectorPage slug="pos-security" />} />
                   <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
                   <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
                   <Route path="*" element={<NotFoundPage />} />

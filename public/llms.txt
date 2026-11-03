@@ -19,6 +19,10 @@ Z Systems builds ERP, retail management, and industry platforms for high-traffic
 - [Fashion and clothing store POS software](https://zsystemai.com/pos-fashion): Z-ERP point of sale for fashion and clothing stores, with stock organised by size and colour, barcode checkout, inter-branch transfers, cashier anti-theft controls, and an offline-capable local edition.
 - [Pharmacy and cosmetics POS software](https://zsystemai.com/pos-pharmacy): Z-ERP point of sale for pharmacies and cosmetics stores, with batch tracking that helps follow expiry dates, stock alerts and reorder points, fast barcode checkout, and an offline-capable local edition.
 - [Auto parts POS software](https://zsystemai.com/pos-auto-parts): Z-ERP point of sale and inventory for auto parts stores and wholesale trade, with a catalogue organised by part number and barcode, multi-warehouse stock, and tax invoices with QR codes for retail and wholesale.
+- [Electronics and mobile store POS software](https://zsystemai.com/pos-electronics): Z-ERP point of sale for electronics and mobile phone stores, with serial-number tracking for every device, a sales record that helps with warranty follow-up, cashier anti-theft controls, and an offline-capable local edition.
+- [Multi-branch inventory management software](https://zsystemai.com/inventory-management): Z-ERP inventory management for multiple branches and warehouses, with real-time unified balances, documented stock transfers, reorder alerts and thresholds, batch and serial tracking, and an offline local edition that syncs.
+- [Saudi ZATCA e-invoicing](https://zsystemai.com/zatca-invoicing): Tax invoices with QR codes and VAT calculation for Saudi retailers, with a ZATCA e-invoicing submission service, in Saudi riyals, from the same Z-ERP POS, inventory, and accounting system.
+- [Stop cashier theft and manipulation](https://zsystemai.com/pos-security): How Z-ERP protects the point of sale with per-cashier permissions over price edits, receipt deletions, discounts, and cash-drawer openings, plus a tamper-evident audit log of every exceptional action.
 
 ## Company
 
