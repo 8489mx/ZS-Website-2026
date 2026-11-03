@@ -141,6 +141,30 @@ const ROUTE_META: Record<string, RouteMeta> = {
     descriptionEn:
       "A buyer's guide to the best POS software in Egypt in 2026: six selection criteria — offline work, branch stock, cashier control, e-invoicing, hardware, and specialisation — and a fair comparison of market categories.",
   },
+  "/blog": {
+    titleAr: "مدونة Z-ERP: إجابات لصاحب المحل - Z Systems",
+    titleEn: "Z-ERP Blog: Straight Answers for Shop Owners - Z Systems",
+    descriptionAr:
+      "مدونة Z-ERP: أدلة عملية وإجابات مباشرة لصاحب المحل عن أسعار برامج الكاشير، والعمل دون إنترنت، وإدارة الفروع والمخزون.",
+    descriptionEn:
+      "The Z-ERP blog: practical guides and straight answers for shop owners on POS software prices, working without internet, and running branches and stock.",
+  },
+  "/blog/pos-software-prices-egypt": {
+    titleAr: "كم سعر برنامج الكاشير في مصر؟ دليل المشتري 2026 - Z Systems",
+    titleEn: "How Much Does POS Software Cost in Egypt? 2026 Buyer's Guide - Z Systems",
+    descriptionAr:
+      "كم سعر برنامج الكاشير في مصر؟ ما يحدد السعر فعلًا: عدد الفروع والأجهزة، الاشتراك السحابي مقابل الترخيص المحلي، التكاليف الخفية، وقائمة فحص لمقارنة أي عرضين بإنصاف.",
+    descriptionEn:
+      "How much does POS software cost in Egypt? What actually sets the price: branches and tills, cloud subscription vs local licence, hidden costs, and a checklist for comparing any two quotes fairly.",
+  },
+  "/blog/offline-pos-guide": {
+    titleAr: "برنامج كاشير يعمل بدون إنترنت: يعني إيه وإمتى تحتاجه؟ - Z Systems",
+    titleEn: "POS That Works Without Internet: What It Means & When You Need It - Z Systems",
+    descriptionAr:
+      "برنامج كاشير يعمل بدون إنترنت: ماذا يعني فعليًا، وكيف تتم المزامنة عند عودة الاتصال، والفرق بين النسختين السحابية والمحلية، ومن يحتاجه فعلًا، وأسئلة تكشف الحقيقة لأي بائع.",
+    descriptionEn:
+      "POS software that works without internet: what it actually means, how sync works when the connection returns, cloud vs local editions, who genuinely needs it, and questions that reveal the truth to ask any vendor.",
+  },
   "/terms": {
     titleAr: "الشروط والأحكام - Z Systems",
     titleEn: "Terms & Conditions - Z Systems",
