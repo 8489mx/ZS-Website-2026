@@ -26,21 +26,21 @@ export const CLIENTS_ROW_1: ClientEntry[] = [
     nameAr: "AI Kids",
     nameEn: "AI Kids",
     logo: "/clients/ai-kids.webp",
-    logoClassName: "h-24 sm:h-32 lg:h-36",
+    logoClassName: "h-16 sm:h-20 lg:h-[5.5rem]",
   },
   {
     id: "vite-food",
     nameAr: "Vite Food",
     nameEn: "Vite Food",
     logo: "/clients/vite-food.webp",
-    logoClassName: "h-24 sm:h-32 lg:h-36",
+    logoClassName: "h-16 sm:h-20 lg:h-[5.5rem]",
   },
   {
     id: "el-mohandes",
     nameAr: "المهندس",
     nameEn: "El Mohandes",
     logo: "/clients/el-mohandes.webp",
-    logoClassName: "h-20 sm:h-28 lg:h-32",
+    logoClassName: "h-12 sm:h-16 lg:h-[4.5rem]",
   },
 ];
 
@@ -50,7 +50,7 @@ export const CLIENTS_ROW_2: ClientEntry[] = [
     nameAr: "رجب العطار",
     nameEn: "Rajab El Attar",
     logo: "/clients/rajab-el-attar.webp",
-    logoClassName: "h-[6.5rem] sm:h-36 lg:h-40",
+    logoClassName: "h-20 sm:h-[5.5rem] lg:h-24",
     // Portrait logo: widened slightly (owner-approved) so it reads at strip size.
     logoStyle: { transform: "scaleX(1.15)" },
   },
@@ -59,13 +59,13 @@ export const CLIENTS_ROW_2: ClientEntry[] = [
     nameAr: "Azzam Clothes",
     nameEn: "Azzam Clothes",
     logo: "/clients/azzam-clothes.webp",
-    logoClassName: "h-20 sm:h-28 lg:h-32",
+    logoClassName: "h-12 sm:h-16 lg:h-[4.5rem]",
   },
   {
     id: "ai-kids",
     nameAr: "AI Kids",
     nameEn: "AI Kids",
     logo: "/clients/ai-kids.webp",
-    logoClassName: "h-24 sm:h-32 lg:h-36",
+    logoClassName: "h-16 sm:h-20 lg:h-[5.5rem]",
   },
 ];
