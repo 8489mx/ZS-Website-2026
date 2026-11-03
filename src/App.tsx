@@ -83,6 +83,14 @@ export default function App() {
                     path="/blog/prevent-cashier-theft"
                     element={<ArticlePage slug="prevent-cashier-theft" />}
                   />
+                  <Route
+                    path="/blog/egypt-e-invoice-guide"
+                    element={<ArticlePage slug="egypt-e-invoice-guide" />}
+                  />
+                  <Route
+                    path="/blog/multi-branch-inventory-mistakes"
+                    element={<ArticlePage slug="multi-branch-inventory-mistakes" />}
+                  />
                   <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
                   <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
                   <Route path="*" element={<NotFoundPage />} />

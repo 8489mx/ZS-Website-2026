@@ -181,6 +181,22 @@ const ROUTE_META: Record<string, RouteMeta> = {
     descriptionEn:
       "How to stop cashier theft and manipulation in your shop: the common leak routes at the till — voided receipts, unauthorised discounts, price edits, no-sale drawer openings — and how permissions, a tamper-evident audit log, blind shift closing, and stock counts close them, with the honest limits of any system.",
   },
+  "/blog/egypt-e-invoice-guide": {
+    titleAr: "الفاتورة الإلكترونية في مصر: إزاي تربط محلك مع مصلحة الضرائب؟ - Z Systems",
+    titleEn: "E-Invoicing in Egypt: How to Connect Your Shop to the Tax Authority - Z Systems",
+    descriptionAr:
+      "الفاتورة الإلكترونية في مصر على مستوى عام وآمن: الفرق بين الفاتورة الإلكترونية والإيصال الإلكتروني، وخطوات الربط العامة — التسجيل على بوابة المصلحة، والتوقيع أو الختم الإلكتروني، وتجهيز البيانات، والإصدار من نظامك — مع تأكيد التزامك الحالي دائمًا من eta.gov.eg ومحاسبك.",
+    descriptionEn:
+      "E-invoicing in Egypt at a safe, general level: the difference between the e-invoice and the e-receipt, and the general connection journey — registering on the Tax Authority's portal, an electronic signature or e-seal, preparing your data, and issuing from your system — always confirming your current obligation on eta.gov.eg and with your accountant.",
+  },
+  "/blog/multi-branch-inventory-mistakes": {
+    titleAr: "إدارة مخزون أكثر من فرع: 6 أخطاء بتكلفك فلوس وعلاجها - Z Systems",
+    titleEn: "Multi-Branch Inventory: 6 Costly Mistakes and Their Fixes - Z Systems",
+    descriptionAr:
+      "إدارة مخزون أكثر من فرع: ستة أخطاء تكلفك فلوس — جرد الفرع الرئيسي فقط، والتحويلات على الورق، وغياب حد إعادة الطلب، وحساب كاشير مشترك، واكتشاف العجز في جرد نهاية السنة، وأكواد أصناف مختلفة لكل فرع — وعلاج كل خطأ منها.",
+    descriptionEn:
+      "Managing stock across branches: six mistakes that cost you money — counting only the main branch, transfers on paper, no reorder points, one shared cashier account, shrinkage discovered at the year-end count, and different item codes per branch — and the fix for each.",
+  },
   "/terms": {
     titleAr: "الشروط والأحكام - Z Systems",
     titleEn: "Terms & Conditions - Z Systems",
