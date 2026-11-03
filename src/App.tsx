@@ -75,6 +75,14 @@ export default function App() {
                     element={<ArticlePage slug="pos-software-prices-egypt" />}
                   />
                   <Route path="/blog/offline-pos-guide" element={<ArticlePage slug="offline-pos-guide" />} />
+                  <Route
+                    path="/blog/how-to-choose-pos-software"
+                    element={<ArticlePage slug="how-to-choose-pos-software" />}
+                  />
+                  <Route
+                    path="/blog/prevent-cashier-theft"
+                    element={<ArticlePage slug="prevent-cashier-theft" />}
+                  />
                   <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
                   <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
                   <Route path="*" element={<NotFoundPage />} />
