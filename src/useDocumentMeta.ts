@@ -77,6 +77,38 @@ const ROUTE_META: Record<string, RouteMeta> = {
     descriptionEn:
       "POS and inventory software for auto parts stores and wholesale by Z-ERP: a catalogue organised by part number and barcode, multiple warehouses and branches, tax invoices with QR codes, and an offline local edition.",
   },
+  "/pos-electronics": {
+    titleAr: "برنامج كاشير لمحلات الإلكترونيات والموبايلات | Z-ERP - Z Systems",
+    titleEn: "Electronics & Mobile Store POS Software | Z-ERP - Z Systems",
+    descriptionAr:
+      "برنامج كاشير لمحلات الإلكترونيات والموبايلات من Z-ERP: تتبع كل جهاز برقمه التسلسلي، سجل بيع لمتابعة الضمان، فروع ومخازن متعددة، ونسخة محلية تعمل بدون إنترنت.",
+    descriptionEn:
+      "POS software for electronics and mobile stores by Z-ERP: serial-number tracking for every device, a sales record for warranty follow-up, multiple branches and warehouses, and an offline local edition.",
+  },
+  "/inventory-management": {
+    titleAr: "برنامج إدارة المخزون متعدد الفروع والمخازن | Z-ERP - Z Systems",
+    titleEn: "Multi-Branch Inventory Management Software | Z-ERP - Z Systems",
+    descriptionAr:
+      "برنامج إدارة مخزون متعدد الفروع والمخازن من Z-ERP: أرصدة لحظية موحدة، تحويلات موثقة بين الفروع والمخازن، تنبيهات وحدود إعادة طلب، وتتبع دفعات وأرقام تسلسلية.",
+    descriptionEn:
+      "Multi-branch, multi-warehouse inventory management by Z-ERP: real-time unified balances, documented transfers between branches and warehouses, reorder alerts and points, and batch and serial tracking.",
+  },
+  "/zatca-invoicing": {
+    titleAr: "الفاتورة الإلكترونية السعودية ZATCA | Z-ERP - Z Systems",
+    titleEn: "Saudi ZATCA E-Invoicing | Z-ERP - Z Systems",
+    descriptionAr:
+      "الفاتورة الإلكترونية السعودية مع Z-ERP: فواتير ضريبية برمز QR وحساب لضريبة القيمة المضافة، وخدمة إرسال للفوترة الإلكترونية إلى ZATCA، بالريال السعودي ومن نظام واحد لنقاط البيع والمحاسبة.",
+    descriptionEn:
+      "Saudi ZATCA e-invoicing with Z-ERP: tax invoices with QR codes and VAT calculation, a ZATCA e-invoicing submission service, in Saudi riyals, from one POS and accounting system.",
+  },
+  "/pos-security": {
+    titleAr: "حماية الكاشير من السرقة والتلاعب | Z-ERP - Z Systems",
+    titleEn: "Stop Cashier Theft & Manipulation | Z-ERP - Z Systems",
+    descriptionAr:
+      "حماية الكاشير من السرقة والتلاعب مع Z-ERP: صلاحيات منفصلة لكل كاشير للإلغاءات والخصومات وتعديلات الأسعار وفتح الدرج، وسجل تدقيق يوثق كل عملية استثنائية.",
+    descriptionEn:
+      "Stop cashier theft and manipulation with Z-ERP: separate permissions per cashier for voids, discounts, price edits, and drawer openings, with an audit log recording every exceptional action.",
+  },
   "/terms": {
     titleAr: "الشروط والأحكام - Z Systems",
     titleEn: "Terms & Conditions - Z Systems",
