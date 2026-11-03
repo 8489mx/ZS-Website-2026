@@ -2015,6 +2015,7 @@ export default function ErpPage() {
               
               <button
                 onClick={() => setShowAddonsDetails(!showAddonsDetails)}
+                aria-expanded={showAddonsDetails}
                 className="w-full p-5 sm:p-6 flex items-center justify-between bg-slate-50/70 hover:bg-slate-50 transition-colors text-start cursor-pointer border-b border-slate-200"
               >
                 <div className="flex items-center gap-3">
@@ -2130,6 +2131,7 @@ export default function ErpPage() {
               
               <button
                 onClick={() => setShowOfflineTerms(!showOfflineTerms)}
+                aria-expanded={showOfflineTerms}
                 className="w-full p-5 sm:p-6 flex items-center justify-between bg-amber-50/40 hover:bg-amber-50/70 transition-colors text-start cursor-pointer border-b border-amber-200/60"
               >
                 <div className="flex items-center gap-3">
@@ -2185,8 +2187,9 @@ export default function ErpPage() {
 
           {/* 6. DETAILED COMPARISON TABLE TOGGLE */}
           <div className="mt-12 text-center">
-            <button 
+            <button
               onClick={() => setShowComparison(!showComparison)}
+              aria-expanded={showComparison}
               className="px-6 py-3 rounded-full border border-slate-300 bg-white text-slate-700 font-bold hover:bg-slate-50 hover:border-slate-400 transition-colors inline-flex items-center gap-2 text-sm shadow-sm cursor-pointer"
             >
               {lang === "ar" ? "عرض المقارنة التفصيلية للأنظمة والمميزات" : "View Full Systems Features Comparison"}

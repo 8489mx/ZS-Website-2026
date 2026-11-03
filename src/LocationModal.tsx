@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Globe, X } from "lucide-react";
 import { useLanguage } from "./LanguageContext";
-import { useCurrency } from "./CurrencyContext";
+import { useCurrency, COUNTRY_NAME_TO_CURRENCY } from "./CurrencyContext";
 import { safeSessionStorage } from "./utils/safeStorage";
 import { useDialog } from "./hooks/useDialog";
 
@@ -46,6 +46,12 @@ export default function LocationModal() {
   useEffect(() => {
     const hasSeenModal = safeSessionStorage.getItem("zsystems_has_seen_location_modal");
     if (hasSeenModal || !detectedCountry) return;
+    // Only greet visitors whose country has a supported pricing
+    // currency. For unsupported countries the modal's "pricing and
+    // currency have been customized for your country" copy would be
+    // false (the site keeps its default currency there), so the
+    // honest behaviour is not to show it at all.
+    if (!(detectedCountry in COUNTRY_NAME_TO_CURRENCY)) return;
     setCountry(detectedCountry);
     setIsOpen(true);
   }, [detectedCountry]);
