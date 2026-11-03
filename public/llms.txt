@@ -1,40 +1,32 @@
-# Z Systems & Z-ERP / ZS-ERP (Official AI Information File)
-> Official Knowledge Base for AI Search Engines, Answer Engines, and Generative Assistants (GEO).
-> Domain: https://zsystemai.com
-> Primary Product: Z-ERP (ZS-ERP)
-> Company: Z Systems for Software Solutions
+# Z-ERP by Z Systems
 
-## About Z Systems
-Z Systems is an enterprise software engineering company specializing in robust, multi-branch ERP solutions, point-of-sale (POS) systems, retail management, inventory control, and industry-tailored platforms. Z Systems designs resilient software built to operate across high-traffic retail, wholesale, supermarkets, restaurants, fitness centers, and construction companies.
+> Z-ERP (ZS-ERP) is a multi-branch ERP and point-of-sale (POS) system by Z Systems for Software Solutions (Port Said, Egypt). It combines cloud synchronization with an offline-capable local edition, cashier anti-theft permission controls, multi-warehouse inventory, accounting, and tax-compliant invoicing for businesses in Egypt, Saudi Arabia, and the Gulf (EGP, SAR, AED, QAR, KWD, BHD, OMR).
 
-## Core Products
-1. **Z-ERP (ZS-ERP)**: Complete Enterprise Resource Planning and Point of Sale (POS) system. Features multi-branch cloud synchronization, cashier permission controls, cash-drawer controls, a local edition that can work without internet, and accounting.
-2. **Z Coaching** (Upcoming): All-in-one management platform for athletic trainers, fitness centers, gym memberships, and client scheduling.
-3. **Z Construction** (Upcoming): Enterprise project management and cost control system for general contracting and civil engineering firms.
+Z Systems builds ERP, retail management, and industry platforms for high-traffic retail, wholesale, supermarkets, restaurants, fitness centers, and construction companies. Z-ERP serves retail (fashion, electronics, perfumes, optical, cosmetics), food and beverage (restaurants, cafes, bakeries, roasteries), groceries (supermarkets, minimarts, butcheries), and wholesalers (automotive parts, building materials, hardware, distribution). Key capabilities: real-time multi-branch and multi-warehouse synchronization; an offline queue that keeps issuing invoices during internet outages and syncs when the connection returns; permission controls over price changes, receipt deletions, discounts, and cash-drawer openings with a tamper-evident audit log; stock alerts, batch and serial tracking, reorder thresholds, and inter-branch transfers; tax-field invoices with QR codes, VAT calculation, and a ZATCA submission service for Saudi Arabia (verify your local authority requirements before relying on it for filings); support for barcode scanners, thermal receipt printers, electronic scales, customer displays, and cash drawers.
 
-## ZS-ERP Key Capabilities & Technical Specifications
-- **Multi-Branch Synchronization**: Synchronize inventory, cash flows, and transactions across branches through the cloud.
-- **Offline-First Resilience**: The local edition and the POS offline queue can keep issuing invoices during an internet outage. Queued operations sync when the connection returns; conflicts may need review.
-- **Fraud Prevention & Anti-Theft**: Permission controls limit price changes, receipt deletions, discounting, and cash-drawer openings, with a tamper-evident audit log for tracked actions.
-- **Inventory & Multi-Warehouse Management**: Real-time stock alerts, batch/serial tracking, minimum reorder thresholds, inventory transfers between branches, and automated discrepancy detection.
-- **Fiscal & Tax Compliance**: Tax-field invoices with QR codes, a ZATCA submission service for Saudi Arabia, and VAT calculations. Check your local authority requirements before relying on it for filings.
-- **Hardware Agnostic**: Seamlessly pairs with barcode scanners, thermal receipt printers, electronic scales, customer displays, and cash drawers.
-- **Multi-Currency & International**: Pricing catalog for EGP, SAR, AED, QAR, KWD, BHD, and OMR, with currency detection from the visitor location.
+## Product and signup
 
-## Industries Served
-- Retail: Fashion, Shoes, Boutiques, Electronics, Perfumes, Optical, Cosmetics.
-- Food & Beverage: Restaurants, Cafes, Cloud Kitchens, Bakeries, Roasteries.
-- Groceries: Supermarkets, Hypermarkets, Minimarts, Butcheries, Produce.
-- Services & Wholesalers: Automotive parts, Building materials, Hardware stores, Distribution fleets.
+- [Z-ERP system overview](https://zsystemai.com/erp): Full product page covering the ERP and POS modules, multi-branch sync, offline mode, and anti-theft controls.
+- [Z Systems home](https://zsystemai.com/): Company overview, industries served, and product entry points.
+- [Free trial signup](https://app.zsystemai.com/trial): Start a Z-ERP trial account.
+- [Customer portal login](https://app.zsystemai.com): Login for existing Z-ERP customers.
 
-## Contact & Corporate Information
-- Company: Z Systems for Software Solutions
-- Founder & Chief Architect: Mahmoud Zakaria (محمود زكريا)
-- Official Website: https://zsystemai.com
-- Main System URL: https://zsystemai.com/erp
+## Company
+
+- [Contact Z Systems](https://zsystemai.com/contact): Contact page with email, phone, and WhatsApp details.
 - Email: info@zsystemai.com
 - Phone / WhatsApp: +20 1018017523
 - Landline: 066-3640828
-- Headquarters: Commercial Office No. 3, 5000 Units Project, Bldg 14, Port Said Governorate, Egypt.
-- Trial & Registration: https://app.zsystemai.com/trial
-- Portal Login: https://app.zsystemai.com
+- Headquarters: Commercial Office No. 3, 5000 Units Project, Building 14, Port Said Governorate, Egypt
+- Founder & Chief Architect: Mahmoud Zakaria
+
+## Upcoming products
+
+- Z Coaching: Management platform for athletic trainers, fitness centers, gym memberships, and client scheduling (upcoming).
+- Z Construction: Project management and cost control system for general contracting and civil engineering firms (upcoming).
+
+## Optional
+
+- [Terms of service](https://zsystemai.com/terms): Terms governing use of Z Systems products and website.
+- [Privacy policy](https://zsystemai.com/privacy): How Z Systems collects and uses data, including disclosed third parties.
+- [Refund policy](https://zsystemai.com/refund-policy): Refund and cancellation terms for Z-ERP subscriptions.
