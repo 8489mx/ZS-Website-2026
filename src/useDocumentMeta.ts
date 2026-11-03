@@ -165,6 +165,22 @@ const ROUTE_META: Record<string, RouteMeta> = {
     descriptionEn:
       "POS software that works without internet: what it actually means, how sync works when the connection returns, cloud vs local editions, who genuinely needs it, and questions that reveal the truth to ask any vendor.",
   },
+  "/blog/how-to-choose-pos-software": {
+    titleAr: "إزاي تختار برنامج كاشير ومحاسبة لمحلك؟ قائمة فحص عملية - Z Systems",
+    titleEn: "How to Choose POS & Accounting Software: A Practical Checklist - Z Systems",
+    descriptionAr:
+      "إزاي تختار برنامج كاشير ومحاسبة لمحلك؟ قائمة فحص عملية: عرّف نشاطك أولًا، وافحص العمل دون إنترنت ونموذج المخزون وصلاحيات الكاشير والفوترة الإلكترونية لبلدك، واختبر الفترة التجريبية بمنتجاتك الحقيقية ولحظة انقطاع مقصودة.",
+    descriptionEn:
+      "How to choose POS and accounting software for your shop: a practical checklist — define your operation first, check offline behaviour, the stock model, cashier permissions, and e-invoicing for your country, then test the trial on your real products with a deliberate internet-drop moment.",
+  },
+  "/blog/prevent-cashier-theft": {
+    titleAr: "إزاي تمنع سرقة الكاشير والتلاعب في محلك؟ - Z Systems",
+    titleEn: "How to Stop Cashier Theft and Manipulation in Your Shop - Z Systems",
+    descriptionAr:
+      "إزاي تمنع سرقة الكاشير والتلاعب في محلك؟ أشهر طرق التسرب من نقطة البيع — إلغاء الفواتير والخصومات غير المصرح بها وتعديل الأسعار وفتح الدرج دون بيع — وكيف تغلقها الصلاحيات وسجل التدقيق والإغلاق الأعمى والجرد الدوري، وحدود أي نظام بصراحة.",
+    descriptionEn:
+      "How to stop cashier theft and manipulation in your shop: the common leak routes at the till — voided receipts, unauthorised discounts, price edits, no-sale drawer openings — and how permissions, a tamper-evident audit log, blind shift closing, and stock counts close them, with the honest limits of any system.",
+  },
   "/terms": {
     titleAr: "الشروط والأحكام - Z Systems",
     titleEn: "Terms & Conditions - Z Systems",

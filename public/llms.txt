@@ -36,6 +36,8 @@ Z Systems builds ERP, retail management, and industry platforms for high-traffic
 - [Z-ERP blog](https://zsystemai.com/blog): Practical guides and straight answers for shop owners on POS pricing, offline selling, and running branches and stock.
 - [How much does POS software cost in Egypt?](https://zsystemai.com/blog/pos-software-prices-egypt): What actually sets the price of POS software in Egypt — branches and tills, cloud subscription vs local licence, the hidden costs, and the questions to ask any vendor before paying. No invented numbers; Z-ERP's live prices are on the system page.
 - [Offline POS: what it means and when you need it](https://zsystemai.com/blog/offline-pos-guide): How a POS that works without internet keeps selling, invoicing, and updating stock during outages and syncs when the connection returns — and who genuinely needs one.
+- [How to choose POS and accounting software](https://zsystemai.com/blog/how-to-choose-pos-software): A practical buyer's checklist — define your operation first, then verify offline behaviour, the stock model, cashier permissions and the audit log, e-invoicing for your country, and your existing hardware — and test the trial on your real products with a deliberate internet-drop moment.
+- [How to stop cashier theft](https://zsystemai.com/blog/prevent-cashier-theft): The common leak routes at the till — voided receipts, unauthorised discounts, price edits, and no-sale drawer openings — and the controls that close them: per-cashier permissions, a tamper-evident audit log reviewed as a routine, blind shift closing, and periodic stock counts, with an honest note on the limits of any system.
 
 ## Company
 

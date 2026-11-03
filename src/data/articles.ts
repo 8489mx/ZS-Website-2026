@@ -13,10 +13,17 @@
  * prices — for Z-ERP or anyone else — are stated here; Z-ERP pricing
  * lives only on the /erp page. Market-level statements in the pricing
  * article are general buying knowledge, phrased generically and never
- * attributed to a named competitor.
+ * attributed to a named competitor. The checklist article is
+ * vendor-neutral buying guidance with Z-ERP named at most as one
+ * example, and the cashier-theft article describes well-known retail
+ * leak routes generically — as risks to close, never as statistics.
  */
 
-export type ArticleSlug = "pos-software-prices-egypt" | "offline-pos-guide";
+export type ArticleSlug =
+  | "pos-software-prices-egypt"
+  | "offline-pos-guide"
+  | "how-to-choose-pos-software"
+  | "prevent-cashier-theft";
 
 export interface ArticleSection {
   heading: string;
@@ -442,9 +449,445 @@ const offlineGuide: Article = {
   },
 };
 
+const choosePosSoftware: Article = {
+  slug: "how-to-choose-pos-software",
+  path: "/blog/how-to-choose-pos-software",
+  publishedDate: "2026-11-03",
+  ar: {
+    title: "إزاي تختار برنامج كاشير ومحاسبة لمحلك؟ قائمة فحص عملية",
+    excerpt:
+      "اختر برنامج الكاشير من يومك أنت، لا من عرض البائع: حدّد أولًا فروعك ونقاط بيعك ومخازنك ووردياتك، ثم تحقق بندًا ببند من العمل دون إنترنت، ونموذج المخزون، وصلاحيات الكاشير وسجل التدقيق، والفوترة الإلكترونية لبلدك، وتوافق أجهزتك الحالية — واختبر كل ذلك في الفترة التجريبية بمنتجاتك الحقيقية ولحظة انقطاع إنترنت مقصودة.",
+    readingMinutes: 8,
+    sections: [
+      {
+        heading: "ابدأ من نشاطك: عرّف يومك قبل أن ترى أي عرض",
+        paragraphs: [
+          "الخطأ الأشهر عند شراء برنامج كاشير هو البدء من عروض البائعين: عرض تجريبي أنيق يريك عملية بيع مثالية في ظروف مثالية، بينما المناسب لنشاطك من عدمه لا يظهر إلا مقابل تفاصيل يومك الحقيقي — ذروتك، وفروعك، وطريقة جردك، وعدد من يقفون على الكاشير.",
+          "قبل أي مكالمة مبيعات، اكتب إجابات هذه النقاط على ورقة؛ ستصبح هي مرجعك في كل مقارنة لاحقة:",
+        ],
+        bullets: [
+          "عدد الفروع الحالية، والفروع التي تخطط لها خلال سنتين.",
+          "عدد أجهزة الكاشير في كل فرع، وعدد الورديات والكاشيرات العاملين عليها.",
+          "عدد المخازن وأماكنها، وهل تنقل البضاعة بين الفروع بانتظام؟",
+          "طبيعة البيع: تجزئة فقط، أم تجزئة وجملة؟ أصناف تُوزن بميزان؟ أجهزة بأرقام تسلسلية؟ أصناف بتواريخ صلاحية؟",
+          "أوقات الذروة التي لا يحتمل فيها البيع أي تباطؤ أو توقف.",
+          "الأجهزة التي تملكها الآن: طابعات إيصالات، وماسحات باركود، وميزان إلكتروني، ودرج نقود، وشاشة عميل.",
+        ],
+      },
+      {
+        heading: "القدرات التي تفحصها عند أي بائع — بندًا ببند",
+        paragraphs: [
+          "حين تعرف يومك، تتحول القدرات إلى قائمة فحص لا انطباعات. هذه هي البنود التي تستحق سؤالًا صريحًا واختبارًا عمليًا عند أي بائع، مهما كان اسمه:",
+        ],
+        bullets: [
+          "سلوك النظام عند انقطاع الإنترنت: هل يبيع ويصدر فواتير ويخصم المخزون، أم يتوقف أو يكتفي بتعليق الطلبات؟ مقالنا عن الكاشير الذي يعمل دون إنترنت يشرح الفرق بالتفصيل.",
+          "نموذج المخزون: هل يدير فروعًا ومخازن متعددة بأرصدة موحدة؟ وهل يدعم التحويلات بينها، وتنبيهات انخفاض المخزون وحدود إعادة الطلب، وتتبع الدفعات والأرقام التسلسلية إن احتجتها فعلًا؟",
+          "صلاحيات الكاشير وسجل التدقيق: هل تستطيع قصر تعديل الأسعار وحذف الفواتير والخصومات وفتح درج النقود على من تسمح لهم فقط، مع سجل يوثق كل عملية استثنائية بمن قام بها ومتى؟",
+          "الفوترة الإلكترونية لبلدك: فواتير ضريبية برمز QR مع حساب ضريبة القيمة المضافة، وخدمات إرسال مثل ZATCA في السعودية — مع التحقق دائمًا بنفسك من متطلبات جهتك المحلية الحالية.",
+          "أجهزتك الحالية: هل يعمل البرنامج مع الطابعات والماسحات والموازين وأدراج النقود وشاشات العميل القياسية التي تملكها، أم سيفرض عليك أجهزة جديدة؟",
+          "اللغة والدعم: واجهة عربية سليمة الاتجاه، ودعم فني يتحدث لغتك ويعمل في مواعيد عملك.",
+        ],
+      },
+      {
+        heading: "ولكي ترى شكل الإجابات المدروسة: مثال واحد",
+        paragraphs: [
+          "لكي تتضح الصورة، انظر كيف تبدو الإجابات مكتوبة عن نظام واحد: نظام مثل Z-ERP — على سبيل المثال لا الحصر — يجمع نسخة سحابية وأخرى محلية تعمل بالكامل دون إنترنت وتزامن عند عودة الاتصال، ومخزونًا متعدد الفروع والمخازن مع تحويلات وتنبيهات إعادة طلب، وصلاحيات كاشير مع سجل تدقيق مقاوم للعبث، وفواتير ضريبية برمز QR وخدمة إرسال إلى ZATCA.",
+          "الفكرة ليست أن تنسخ هذه القائمة، بل أن تكتب قائمتك أنت من احتياجات نشاطك، ثم تطلب من كل بائع تقارنه أن يجيب عنها بنفس الصراحة — وأن تتحقق من الإجابات بنفسك في الفترة التجريبية، كما في القسم التالي.",
+        ],
+      },
+      {
+        heading: "الفترة التجريبية: اختبرها كأنك اشتريت فعلًا",
+        paragraphs: [
+          "الفترة التجريبية ليست جولة تعريفية؛ هي فرصتك الوحيدة لاكتشاف الفروق قبل أن تدفع. وشرطها الأول: أن تختبر ببياناتك أنت، لا ببيانات العرض الجاهزة. حمّل عيّنة حقيقية من أصنافك بأسعارها وباركودها، واطلب من الكاشير الفعلي — لا من نفسك فقط — أن يعمل عليها أيامًا كاملة.",
+          "وهذه مهام اختبار محددة تكشف أكثر مما يكشفه أي عرض تقديمي:",
+        ],
+        bullets: [
+          "محاكاة الذروة: عمليات بيع متتالية سريعة — أصناف بالباركود، وأصناف بالوزن، وأصناف بلا باركود — مع مراقبة أي بطء أو تعليق على الشاشة.",
+          "لحظة انقطاع الإنترنت: افصل الاتصال في منتصف وردية، وبع واطبع فاتورة واخصم من المخزون، ثم أعد الاتصال وراجع نتيجة المزامنة بنفسك.",
+          "اختبار الصلاحية: بحساب كاشير عادي، حاول حذف فاتورة أو منح خصم كبير أو تعديل سعر — وانظر إن كان النظام سيمنعك، وإن كان سيسجّل المحاولة.",
+          "إغلاق وردية كامل: من أول فاتورة إلى تقرير الإغلاق ومطابقة النقدية.",
+          "عملية مخزون: حوّل كمية بين فرعين أو مخزنين، وراجع الأرصدة عند الطرفين.",
+          "استرجاع فاتورة قديمة بالبحث عنها وطباعة نسخة منها.",
+        ],
+      },
+      {
+        heading: "النقل والتدريب والدعم: الأسئلة التي تُنسى حتى تقع المشكلة",
+        paragraphs: [
+          "أغلب خيبات ما بعد الشراء لا تأتي من البرنامج نفسه، بل من بداية مرتبكة ودعم غائب وقت الحاجة. اسأل عن هذه النقاط كتابةً قبل التعاقد:",
+        ],
+        bullets: [
+          "نقل البيانات: من سينقل أصنافك وأرصدتك الافتتاحية من نظامك القديم أو جداولك؟ وهل ستراجع عيّنة منها بنفسك قبل الإطلاق؟",
+          "التدريب: كم جلسة؟ ولمن — الكاشير والمشرف والمحاسب؟ وماذا عن تدريب موظف جديد ينضم إلى فريقك لاحقًا؟",
+          "الدعم الفني: قنواته وساعاته ولغته، وزمن الاستجابة المعتاد، وهل الزيارة الميدانية متاحة وبأي رسوم؟",
+          "تحديثات الامتثال: عند تغيّر متطلبات الفوترة الإلكترونية أو الضرائب، من يحدّث النظام وبأي تكلفة؟",
+          "بياناتك عند المغادرة: كيف تستخرج أصنافك وفواتيرك وأرصدتك كاملة إذا قررت الانتقال إلى نظام آخر يومًا ما؟",
+        ],
+      },
+      {
+        heading: "احسب التكلفة الكاملة، ثم قرر — قائمة الفحص المختصرة",
+        paragraphs: [
+          "بعد القدرات والتجربة، قارن المال أخيرًا، لكن بتكلفته الكاملة: رسوم ثلاث سنوات شاملة التجديدات، ورسوم نموّك المتوقع من فروع ومستخدمين إضافيين، والأجهزة، والنقل والتدريب. عرض يبدو أرخص اليوم قد يتجاوز غيره عند أول فرع جديد؛ ودليلنا عن أسعار برامج الكاشير في مصر يفصّل نموذجي التسعير والتكاليف الخفية بندًا ببند.",
+          "وإذا أردت خلاصة هذا المقال كله في قائمة واحدة تراجعها قبل التوقيع، فهي هذه:",
+        ],
+        bullets: [
+          "عرّفت نشاطي كتابةً: الفروع، ونقاط البيع، والمخازن، والورديات، وطبيعة البيع، والأجهزة الحالية.",
+          "تحققت من سلوك النظام عند انقطاع الإنترنت باختبار فعلي نفذته بنفسي، لا بوعد من البائع.",
+          "راجعت نموذج المخزون: أرصدة موحدة للفروع والمخازن، وتحويلات، وتنبيهات إعادة طلب، وتتبع دفعات أو أرقام تسلسلية عند الحاجة.",
+          "اختبرت صلاحيات الكاشير وسجل التدقيق بمحاولة عملية استثنائية حقيقية.",
+          "تأكدت من متطلبات الفوترة الإلكترونية في بلدي، ومن توافق أجهزتي الحالية مع النظام.",
+          "جرّبت النظام بأصنافي الحقيقية وبيد الكاشير الفعلي، مع محاكاة ذروة وإغلاق وردية كامل.",
+          "حصلت على إجابات مكتوبة عن النقل والتدريب والدعم وتحديثات الامتثال واستخراج البيانات.",
+          "قارنت التكلفة الكاملة لثلاث سنوات بين عرضين مكتوبين ومفصّلين بندًا ببند.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "ما أول خطوة صحيحة عند اختيار برنامج كاشير لمحلي؟",
+        a: "أن تعرّف نشاطك كتابةً قبل رؤية أي عرض: عدد الفروع ونقاط البيع والمخازن والورديات، وطبيعة بيعك، وأجهزتك الحالية، وأوقات ذروتك. بهذه الورقة تتحول عروض البائعين إلى إجابات عن أسئلتك أنت، بدل انطباعات عن عروضهم هم — وتصبح المقارنة بين أي نظامين مقارنة بين إجابات على الأسئلة نفسها.",
+      },
+      {
+        q: "كيف أختبر الفترة التجريبية اختبارًا يفيدني فعلًا؟",
+        a: "ببياناتك الحقيقية وبيد الكاشير الفعلي: حمّل عيّنة من أصنافك بأسعارها وباركودها، وحاكِ ساعة ذروة بعمليات سريعة متتالية، وافصل الإنترنت في منتصف البيع ثم أعد الاتصال وراجع المزامنة، وجرّب عملية استثنائية — حذف فاتورة أو خصمًا كبيرًا — بحساب كاشير عادي لترى المنع والتسجيل، وأغلق وردية كاملة من أول فاتورة إلى مطابقة النقدية.",
+      },
+      {
+        q: "هل أحتاج برنامجًا يعمل دون إنترنت؟",
+        a: "يعتمد ذلك على موثوقية اتصالك وعلى ثمن توقف البيع عندك. إن كان اتصالك يتقطع، أو كانت ذروتك لا تحتمل انتظارًا، فالقدرة على البيع وإصدار الفواتير أثناء الانقطاع — مع مزامنة تلقائية عند عودة الاتصال — ليست رفاهية. وإن كان عملك مكتبيًا وبيعك غير لحظي واتصالك مستقرًا، فقد تنخفض أولويتها مقابل قدرات أخرى. مقالنا عن الكاشير الذي يعمل دون إنترنت يشرح الفرق وكيف تتحقق منه بنفسك.",
+      },
+      {
+        q: "ما الأسئلة التي أسألها عن نقل البيانات والتدريب والدعم؟",
+        a: "اسأل كتابةً: من ينقل أصنافي وأرصدتي الافتتاحية وهل أراجع عيّنة منها قبل الإطلاق؟ كم جلسة تدريب ولمن، وماذا عن الموظف الجديد لاحقًا؟ ما قنوات الدعم الفني وساعاته ولغته وزمن استجابته؟ من يحدّث النظام عند تغيّر متطلبات الفوترة الإلكترونية وبأي تكلفة؟ وكيف أستخرج بياناتي كاملة إذا قررت الانتقال إلى نظام آخر؟",
+      },
+      {
+        q: "كيف أقارن بين برنامجين بإنصاف؟",
+        a: "وحّد النطاق أولًا — نفس الفروع والأجهزة والمستخدمين والوحدات — ثم طبّق مهام الاختبار نفسها على النظامين خلال الفترة التجريبية، وقارن أخيرًا التكلفة الكاملة لثلاث سنوات من عرضين مكتوبين مفصّلين بندًا ببند، شاملة التجديدات ورسوم النمو والنقل والتدريب. دليلنا عن أسعار برامج الكاشير في مصر يفصّل نموذجي التسعير والتكاليف الخفية التي يجب أن تظهر في أي عرض.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/blog/pos-software-prices-egypt", title: "كم سعر برنامج الكاشير في مصر؟ دليل المشتري 2026" },
+      { path: "/best-pos-egypt", title: "أفضل برامج الكاشير في مصر 2026: دليل المشتري" },
+      { path: "/offline-pos", title: "برنامج كاشير يعمل بدون إنترنت من Z-ERP" },
+    ],
+  },
+  en: {
+    title: "How to Choose POS & Accounting Software for Your Shop: A Practical Checklist",
+    excerpt:
+      "Choose POS software from your own working day, not from the vendor's demo: first define your branches, tills, warehouses, and shifts, then verify — item by item — offline behaviour, the stock model, cashier permissions and the audit log, e-invoicing for your country, and compatibility with the hardware you already own. Then test all of it in the trial, with your real products and a deliberate internet-drop moment.",
+    readingMinutes: 8,
+    sections: [
+      {
+        heading: "Start from your business: define your day before you see any demo",
+        paragraphs: [
+          "The most common mistake when buying POS software is starting from vendors' demos: a polished walkthrough showing a perfect sale in perfect conditions, while whether a system fits your business only becomes clear against the details of your real day — your peak, your branches, how you count stock, and how many people stand at the till.",
+          "Before any sales call, write down the answers to these points; they become your reference in every comparison that follows:",
+        ],
+        bullets: [
+          "Your current branches, and the branches you plan within two years.",
+          "Tills per branch, and the number of shifts and cashiers working them.",
+          "Warehouses and where they are, and whether you move goods between branches regularly.",
+          "How you sell: retail only, or retail and wholesale? Items weighed on a scale? Devices with serial numbers? Items with expiry dates?",
+          "The peak hours when selling cannot tolerate any slowdown or stop.",
+          "The hardware you already own: receipt printers, barcode scanners, an electronic scale, a cash drawer, a customer display.",
+        ],
+      },
+      {
+        heading: "The capabilities to check with any vendor — item by item",
+        paragraphs: [
+          "Once you know your day, capabilities become a checklist rather than impressions. These are the items worth a direct question and a practical test with any vendor, whatever their name:",
+        ],
+        bullets: [
+          "Behaviour when the internet drops: does it sell, issue invoices, and deduct stock — or does it stop, or merely hold orders? Our guide to POS that works without internet explains the difference in detail.",
+          "The stock model: does it run multiple branches and warehouses with unified balances? Does it support transfers between them, low-stock alerts and reorder thresholds, and batch and serial tracking if you genuinely need them?",
+          "Cashier permissions and the audit log: can you restrict price edits, receipt deletions, discounts, and cash-drawer openings to only those you authorise, with a log documenting every exceptional action — who did it, and when?",
+          "E-invoicing for your country: tax invoices with QR codes and VAT calculation, and submission services such as ZATCA in Saudi Arabia — always verifying your local authority's current requirements yourself.",
+          "Your current hardware: does the software work with the standard printers, scanners, scales, cash drawers, and customer displays you already own, or will it force new devices on you?",
+          "Language and support: a proper right-to-left Arabic interface, and support that speaks your language and works during your working hours.",
+        ],
+      },
+      {
+        heading: "To see what considered answers look like: one example",
+        paragraphs: [
+          "To make this concrete, look at how written answers about one system read: a system such as Z-ERP — one example among others — combines a cloud edition with a local edition that works fully offline and syncs when the connection returns, multi-branch and multi-warehouse stock with transfers and reorder alerts, cashier permissions with a tamper-evident audit log, tax invoices with QR codes, and a ZATCA submission service.",
+          "The point is not to copy this list, but to write your own from your business's needs, then ask every vendor you compare to answer it with the same directness — and to verify the answers yourself in the trial period, as the next section describes.",
+        ],
+      },
+      {
+        heading: "The trial period: test it as if you had already bought it",
+        paragraphs: [
+          "A trial is not a guided tour; it is your only chance to discover the differences before you pay. Its first condition: test with your data, not the demo's ready-made data. Load a real sample of your items with their prices and barcodes, and have the actual cashier — not only yourself — work with it for full days.",
+          "These specific test tasks reveal more than any presentation:",
+        ],
+        bullets: [
+          "Peak simulation: rapid consecutive sales — items by barcode, items by weight, and items with no barcode — while watching for any lag or freeze on screen.",
+          "The internet-drop moment: disconnect mid-shift, sell, print an invoice, and deduct stock, then reconnect and review the sync result yourself.",
+          "The permission test: using an ordinary cashier account, try deleting a receipt, granting a large discount, or editing a price — and see whether the system stops you, and whether it recorded the attempt.",
+          "A full shift closing: from the first invoice to the closing report and cash reconciliation.",
+          "A stock operation: transfer a quantity between two branches or warehouses, and check the balances at both ends.",
+          "Retrieving an old invoice by search and printing a copy of it.",
+        ],
+      },
+      {
+        heading: "Migration, training, and support: the questions forgotten until something breaks",
+        paragraphs: [
+          "Most post-purchase disappointments come not from the software itself but from a shaky start and support that is absent when needed. Ask about these points in writing before you sign:",
+        ],
+        bullets: [
+          "Data migration: who moves your items and opening balances from your old system or spreadsheets, and will you review a sample of them yourself before launch?",
+          "Training: how many sessions, and for whom — cashier, supervisor, accountant? And what about training a new hire who joins your team later?",
+          "Technical support: its channels, hours, and language, its usual response time, and whether on-site visits are available and at what fee.",
+          "Compliance updates: when e-invoicing or tax requirements change, who updates the system, and at what cost?",
+          "Your data when you leave: how do you export your items, invoices, and balances in full if you ever decide to move to another system?",
+        ],
+      },
+      {
+        heading: "Calculate the full cost, then decide — the short checklist",
+        paragraphs: [
+          "After capabilities and the trial, compare money last — but at its full cost: three years of fees including renewals, the fees for your expected growth in branches and users, hardware, and migration and training. A quote that looks cheaper today can pass the other at your first new branch; our guide to POS software prices in Egypt details the two pricing models and the hidden costs, item by item.",
+          "And if you want the whole article as one checklist to review before signing, it is this:",
+        ],
+        bullets: [
+          "I defined my business in writing: branches, tills, warehouses, shifts, how I sell, and my current hardware.",
+          "I verified what the system does when the internet drops, with a real test I ran myself — not a vendor's promise.",
+          "I reviewed the stock model: unified balances for branches and warehouses, transfers, reorder alerts, and batch or serial tracking where needed.",
+          "I tested cashier permissions and the audit log with a real exceptional action.",
+          "I confirmed the e-invoicing my country requires, and the compatibility of my current hardware.",
+          "I trialled the system on my real items, in the actual cashier's hands, with a peak simulation and a full shift closing.",
+          "I have written answers on migration, training, support, compliance updates, and data export.",
+          "I compared the full three-year cost across two written, itemised quotes.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "What is the correct first step when choosing POS software for my shop?",
+        a: "Define your business in writing before seeing any demo: the number of branches, tills, warehouses, and shifts, how you sell, your current hardware, and your peak hours. With that sheet, vendors' pitches turn into answers to your questions instead of impressions of their presentations — and any two systems become comparable as answers to the same questions.",
+      },
+      {
+        q: "How do I test the trial period in a way that actually helps?",
+        a: "With your real data in the actual cashier's hands: load a sample of your items with their prices and barcodes, simulate a peak hour with rapid consecutive sales, disconnect the internet mid-sale then reconnect and review the sync, attempt an exceptional action — deleting a receipt or a large discount — on an ordinary cashier account to see the block and the record, and close a full shift from the first invoice to cash reconciliation.",
+      },
+      {
+        q: "Do I need software that works without internet?",
+        a: "It depends on how reliable your connection is and on what a stopped till costs you. If your connection drops out, or your peak cannot wait, the ability to sell and invoice during an outage — with automatic sync when the connection returns — is not a luxury. If your work is office-based, your selling is not instant, and your connection is stable, it may rank below other capabilities. Our guide to offline POS explains the difference and how to verify it yourself.",
+      },
+      {
+        q: "What should I ask about data migration, training, and support?",
+        a: "Ask in writing: who migrates my items and opening balances, and do I review a sample before launch? How many training sessions, for whom, and what about a new hire later? What are the support channels, hours, language, and response times? Who updates the system when e-invoicing requirements change, and at what cost? And how do I export my data in full if I decide to move to another system?",
+      },
+      {
+        q: "How do I compare two systems fairly?",
+        a: "Fix the scope first — the same branches, devices, users, and modules — then apply the same test tasks to both systems during the trial, and finally compare the full three-year cost from two written, itemised quotes, including renewals, growth fees, migration, and training. Our guide to POS software prices in Egypt details the two pricing models and the hidden costs that should appear in any quote.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/blog/pos-software-prices-egypt", title: "How much does POS software cost in Egypt?" },
+      { path: "/best-pos-egypt", title: "Best POS Software in Egypt 2026: A Buyer's Guide" },
+      { path: "/offline-pos", title: "Offline POS Software by Z-ERP" },
+    ],
+  },
+};
+
+const preventCashierTheft: Article = {
+  slug: "prevent-cashier-theft",
+  path: "/blog/prevent-cashier-theft",
+  publishedDate: "2026-11-03",
+  ar: {
+    title: "إزاي تمنع سرقة الكاشير والتلاعب في محلك؟",
+    excerpt:
+      "سرقة الكاشير لا تتم غالبًا بمدّ يد إلى الدرج، بل بعمليات تبدو عادية على الشاشة: فاتورة تُلغى بعد قبض النقد، وخصم غير مصرح به، وتعديل سعر، ودرج يُفتح دون بيع. منعها يقوم على ثلاث ركائز: صلاحيات تمنع العملية الاستثنائية أو تحصرها بمن يحق له، وسجل تدقيق مقاوم للعبث يوثقها، وروتين مراجعة وجرد دوري يجعل اكتشافها مسألة وقت.",
+    readingMinutes: 8,
+    sections: [
+      {
+        heading: "أشهر طرق التسرب من نقطة البيع",
+        paragraphs: [
+          "حين يفكر صاحب محل في سرقة الكاشير، يتخيل غالبًا يدًا تمتد إلى درج النقود. لكن التسرب المعروف لا يحدث هكذا عادة؛ يحدث داخل عمليات تبدو مشروعة تمامًا على الشاشة، ولهذا قد يستمر فترة طويلة دون أن يلفت نظر أحد. هذه أشهر الطرق التي ينبغي أن تعرفها قبل أن نتحدث عن إغلاقها:",
+          "وتأملها قليلًا وستجد قاسمًا مشتركًا بينها جميعًا: كلها «عمليات استثنائية» — حذف، وخصم، وتعديل سعر، وفتح درج دون بيع، وبيع خارج السجل. فالبيع العادي نفسه لا يحتاج رقابة خاصة؛ الرقابة تُبنى على الاستثناءات، لأنها النقطة التي يتحول عندها الموظف من منفّذ إلى صاحب قرار على مالك. والركائز التالية تتعامل مع هذه الاستثناءات قبل حدوثها، وبعده، ومن خارج نقطة البيع نفسها.",
+        ],
+        bullets: [
+          "إلغاء الفاتورة بعد قبض النقد: العميل دفع وخرج ببضاعته، ثم تُحذف فاتورته من النظام ويخرج النقد من الدرج دون أثر في المبيعات.",
+          "خصومات غير مصرح بها: خصم كبير لصديق أو شريك متواطئ يتقاسمان قيمته، أو خصم وهمي يُسجَّل في النظام دون أن يحصل عليه العميل أصلًا.",
+          "تعديل السعر عند الكاشير: بيع صنف بسعر أقل من سعره لعميل متواطئ، مع خروج الفرق من الدرج لاحقًا.",
+          "فتح درج النقود دون بيع: حركات «لا بيع» متكررة بلا سبب، تُستخدم لإخراج نقد أو تبديل فئات دون أي عملية مسجلة.",
+          "بيع دون تسجيل أصلًا: بضاعة تخرج من المحل بلا فاتورة، فلا يظهر نقصها إلا عند الجرد — هذا إن ظهر.",
+        ],
+      },
+      {
+        heading: "الركيزة الأولى: صلاحيات تمنع العملية قبل أن تحدث",
+        paragraphs: [
+          "أقوى رقابة هي التي تمنع، لا التي تكتشف فقط. الفكرة بسيطة: الكاشير يحتاج أن يبيع، لا أن يحذف فواتير ويمنح خصومات ويعدّل أسعارًا ويفتح الدرج بحرية. امنح كل مستخدم حسابًا خاصًا به — لا حسابات مشتركة يعرف الجميع كلمتها — واجعل العمليات الاستثنائية مقيدة بصلاحية، بحيث لا يستطيع الكاشير العادي تنفيذها منفردًا، بل تتطلب حساب المشرف أو موافقته.",
+          "في Z-ERP تحديدًا، تصف وثائق النظام صلاحيات تتحكم في أربع عمليات: تعديل الأسعار، وحذف الفواتير، والخصومات، وفتح درج النقود. وأيًا كان النظام الذي تقارنه، اسأل عن هذه الأربع بالاسم: من يستطيع تنفيذ كل واحدة منفردًا؟ ومن يحتاج موافقة غيره؟",
+        ],
+        bullets: [
+          "البيع العادي مفتوح للكاشير: مسح الباركود، وإصدار الفاتورة، وطباعتها.",
+          "الحذف والخصومات الكبيرة وتعديلات الأسعار: للمشرف أو بموافقته فقط.",
+          "فتح الدرج دون بيع: مقيد، وكل مرة يحدث فيها يجب أن تكون مبررة ومسجلة.",
+          "حساب مستقل لكل كاشير ولكل وردية، حتى تُنسب كل عملية إلى صاحبها بعينه.",
+        ],
+      },
+      {
+        heading: "الركيزة الثانية: سجل تدقيق تراجعه كروتين، لا عند الشك",
+        paragraphs: [
+          "المنع وحده لا يكفي، لأن ما يُسمح به للمشرفين أنفسهم يحتاج من يوثقه. هنا يأتي دور سجل التدقيق — تصفه وثائق Z-ERP بأنه سجل مقاوم للعبث — إذ يسجل العمليات الاستثنائية بمن قام بها ومتى. لكن قيمته لا تتحقق بمجرد وجوده؛ تتحقق بمراجعته. فموظف يعلم أن كل حذف وخصم سيُرى في مراجعة ثابتة سيفكر مرتين قبل أي تلاعب.",
+          "روتين عملي من مستويين يكفي في أغلب المحلات:",
+        ],
+        bullets: [
+          "يوميًا عند الإغلاق (دقائق معدودة): نظرة سريعة على عدد الإلغاءات والخصومات وفتحات الدرج في الوردية المنتهية، مقارنة بمتوسط أيامك المعتادة.",
+          "أسبوعيًا (مراجعة صاحب المحل): رتّب العمليات الاستثنائية بحسب الكاشير — من صاحب أعلى إلغاءات وخصومات؟ وهل تتكرر في أوقات أو أيام بعينها؟ وهل تقترن بأصناف محددة؟",
+          "عند ملاحظة نمط: واجه بالسجل لا بالاتهام — «هذه العمليات موثقة بتواريخها؛ اشرح لي أسبابها». وغالبًا يكفي أن يعرف الفريق أن المراجعة ثابتة ومعلنة حتى يتوقف التسرب من تلقاء نفسه.",
+        ],
+      },
+      {
+        heading: "إغلاق الوردية الأعمى وعدّ النقدية بشخصين",
+        paragraphs: [
+          "من أدوات الرقابة العملية ما لا يحتاج تقنية أصلًا: إغلاق الوردية الأعمى، أي أن يعدّ الكاشير النقدية الموجودة فعلًا في الدرج ويسجل رقمها قبل أن يرى ما يتوقعه النظام من مبيعات ورديته. فلو عرف الرقم المتوقع أولًا، لاستطاع ضبط عدّه عليه وإخفاء أي نقص؛ أما العدّ الأعمى فيجعل الفرق — زيادة كان أو نقصًا — يظهر كما هو، ويُوثَّق بتوقيع الكاشير والمشرف معًا.",
+          "وتعامل مع الفروقات الصغيرة المتكررة بانتباه خاص: فرق صغير يتكرر مع كاشير بعينه أخطر من فرق كبير يحدث مرة واحدة لسبب واضح. وفي المحلات الأكبر، اجعل عدّ النقدية بيد شخصين، وبدّل أدوار من يغلق الوردية ومن يراجعها بين الحين والآخر، حتى لا تتحول الرقابة نفسها إلى عادة عمياء.",
+        ],
+      },
+      {
+        heading: "الجرد الدوري: كشف التسرب الذي لا يمر من الكاشير أصلًا",
+        paragraphs: [
+          "بعض التسرب لا يترك أثرًا عند نقطة البيع لأنه لا يمر بها أصلًا: بضاعة تخرج دون فاتورة. ما يكشف هذا النوع هو الجرد. فحين يتحدث مخزون نظامك مع كل فاتورة بيع، تصبح أرصدة النظام مرجعًا دقيقًا تقارن به الواقع: عدّ فعلي لأصناف مختارة — خصوصًا الغالية وسريعة الحركة — وفرق متكرر بين الجرد والرصيد يعني بيعًا غير مسجل أو تسربًا عند الاستلام أو في التحويلات بين الفروع والمخازن.",
+          "اجعل الجرد الجزئي المفاجئ عادة: عدّ صنفين أو ثلاثة أسبوعيًا بالتناوب، بدل جرد شامل مرة واحدة يرهق الجميع ويأتي متأخرًا بعد تراكم الفروق. وسجّل نتيجة كل جرد وتسويته كتابةً؛ فالتسوية نفسها عملية تستحق التوثيق والمراجعة، لا تعديلًا صامتًا في رصيد النظام.",
+        ],
+      },
+      {
+        heading: "بصراحة: حدود أي نظام رقابة",
+        paragraphs: [
+          "لنكن صادقين كما ينبغي أن تكون هذه الصفحة من أولها: لا يوجد برنامج يقضي على السرقة قضاءً تامًا. فتواطؤ أكثر من موظف معًا، أو بيع خارج النظام بالكامل لزبائن متواطئين، أو مالك لا يراجع أبدًا — ثغرات لا يغلقها برنامج وحده. ومن يعدك بالقضاء الكامل على سرقة الكاشير يبيعك وهمًا، لا رقابة.",
+          "ما تفعله الرقابة الجيدة فعلًا ثلاثة أشياء: تردع، لأن العملية الاستثنائية لم تعد سهلة ولا خفية؛ وتكشف، لأن الأنماط تظهر في السجل والجرد قبل أن تكبر؛ وتوثق، لأنك حين تواجه موظفًا ستواجهه بسجل موثّق لا بانطباع. أضف إلى ذلك إدارة عادلة وواضحة: صلاحيات معلنة للفريق كله، ومراجعة ثابتة لا انتقائية، ومساءلة بالدليل لا بالشبهة. فالهدف الواقعي ليس محلًا يستحيل فيه التسرب، بل محلًا يكون فيه التسرب صعبًا ومحفوفًا بالمخاطرة وقابلًا للاكتشاف بسرعة.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "ما أكثر طرق سرقة الكاشير شيوعًا؟",
+        a: "أشهرها عمليات تبدو عادية تمامًا: إلغاء فاتورة بعد قبض النقد من العميل، وخصومات غير مصرح بها لأصدقاء أو متواطئين، وتعديل أسعار عند الكاشير، وفتح درج النقود دون عملية بيع، وبيع بضاعة دون تسجيلها أصلًا بحيث يظهر نقصها عند الجرد فقط. وتشترك كلها في نقطة واحدة: أنها عمليات استثنائية يمكن تقييدها بالصلاحيات وتوثيقها بسجل تدقيق.",
+      },
+      {
+        q: "هل يقضي برنامج الكاشير على سرقة الموظفين نهائيًا؟",
+        a: "لا، وأي وعد بذلك غير صادق. ما يفعله النظام الجيد هو الردع والتقييد والتوثيق: صلاحيات تمنع الكاشير من الحذف والخصم وتعديل الأسعار وفتح الدرج منفردًا، وسجل تدقيق مقاوم للعبث يوثق كل عملية استثنائية، فتظهر الأنماط عند المراجعة الدورية والجرد. ويبقى دورك أنت ثابتًا: مراجعة منتظمة معلنة، ومساءلة بالدليل لا بالشبهة.",
+      },
+      {
+        q: "ما الفرق بين صلاحيات الكاشير وسجل التدقيق؟",
+        a: "الصلاحيات تعمل قبل العملية: تمنع من لا يحق له من تنفيذ الحذف أو الخصم أو تعديل السعر أو فتح الدرج دون موافقة. وسجل التدقيق يعمل بعدها: يوثق ما حدث ومن قام به ومتى، بسجل مقاوم للعبث، ليتسنى لك مراجعته واكتشاف الأنماط. تحتاج الاثنين معًا: فمنع بلا توثيق يترك ثغرة عند المشرفين أنفسهم، وتوثيق بلا منع يجعلك ترى التلاعب دون أن تستطيع إيقافه وقت حدوثه.",
+      },
+      {
+        q: "كم مرة يجب أن أراجع سجل العمليات الاستثنائية؟",
+        a: "بمستويين ثابتين: نظرة سريعة يوميًا عند إغلاق الوردية على أعداد الإلغاءات والخصومات وفتحات الدرج مقارنة بمتوسطك المعتاد، ومراجعة أسبوعية أعمق ترتب العمليات بحسب الكاشير والوقت والصنف لاكتشاف الأنماط المتكررة. والأهم من العدد نفسه هو الانتظام: مراجعة ثابتة معلنة للفريق تردع أكثر بكثير من تفتيش مفاجئ يحدث مرة ونادرًا.",
+      },
+      {
+        q: "كيف يساعد الجرد الدوري في كشف التلاعب؟",
+        a: "لأن مخزون النظام يتحدث مع كل فاتورة بيع، تصبح أرصدة النظام مرجعًا دقيقًا تقارن به الواقع: عدّ فعلي لأصناف مختارة — خصوصًا الغالية وسريعة الحركة — وفرق متكرر بين الجرد والرصيد يشير إلى بيع غير مسجل أو تسرب عند الاستلام أو التحويل. والجرد الجزئي المفاجئ كل أسبوع أكفأ من جرد شامل مرة في السنة، لأنه يكشف النمط مبكرًا ويبقي الرقابة حاضرة في أذهان الفريق دائمًا.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/pos-security", title: "حماية الكاشير من السرقة والتلاعب" },
+      { path: "/blog/offline-pos-guide", title: "برنامج كاشير يعمل بدون إنترنت: يعني إيه وإمتى تحتاجه؟" },
+      { path: "/inventory-management", title: "إدارة المخزون متعدد الفروع والمخازن" },
+    ],
+  },
+  en: {
+    title: "How to Stop Cashier Theft and Manipulation in Your Shop",
+    excerpt:
+      "Cashier theft rarely looks like a hand in the drawer — it looks like ordinary operations on screen: a receipt voided after the cash was taken, an unauthorised discount, a price edit, a drawer opened with no sale. Stopping it rests on three pillars: permissions that block the exceptional action or restrict it to those entitled, a tamper-evident audit log that documents it, and a review-and-counting routine that makes discovery a matter of time.",
+    readingMinutes: 8,
+    sections: [
+      {
+        heading: "The most common leak routes at the point of sale",
+        paragraphs: [
+          "When a shop owner imagines cashier theft, they usually picture a hand reaching into the cash drawer. But the well-known leak does not usually happen that way; it happens inside operations that look perfectly legitimate on screen, which is why it can continue for a long time without attracting anyone's attention. These are the routes most worth knowing, before we talk about closing them:",
+          "Look at them for a moment and you will find a common thread: every one is an 'exceptional action' — a deletion, a discount, a price edit, a drawer opening without a sale, or a sale outside the record. Ordinary selling itself needs no special control; control is built on the exceptions, because that is the point where an employee stops executing and starts deciding over your money. The pillars that follow deal with these exceptions before they happen, after they happen, and from outside the point of sale entirely.",
+        ],
+        bullets: [
+          "Voiding the receipt after taking the cash: the customer paid and left with their goods, then their invoice is deleted from the system and the cash leaves the drawer with no trace in sales.",
+          "Unauthorised discounts: a large discount to a friend or an accomplice who splits its value, or a fictitious discount recorded in the system that the customer never actually received.",
+          "Price edits at the till: selling an item below its price to an accomplice, with the difference taken out of the drawer later.",
+          "Opening the cash drawer with no sale: repeated 'no sale' openings with no reason, used to take cash out or swap denominations with no recorded operation.",
+          "Selling without recording at all: goods leave the shop with no invoice, so the shortage only appears at stocktaking — if it appears.",
+        ],
+      },
+      {
+        heading: "Pillar one: permissions that stop the action before it happens",
+        paragraphs: [
+          "The strongest control is the one that prevents, not merely detects. The idea is simple: a cashier needs to sell — not to delete invoices, grant discounts, edit prices, and open the drawer freely. Give every user their own account — no shared logins whose password everyone knows — and make exceptional actions restricted by permission, so an ordinary cashier cannot perform them alone; they require a supervisor's account or approval.",
+          "In Z-ERP specifically, the system's documentation describes permission controls over four actions: price changes, receipt deletions, discounts, and cash-drawer openings. With any system you compare, ask about these four by name: who can perform each one alone, and who needs someone else's approval?",
+        ],
+        bullets: [
+          "Ordinary selling stays open to the cashier: scanning a barcode, issuing an invoice, printing it.",
+          "Deletions, large discounts, and price edits: for the supervisor, or with their approval only.",
+          "Opening the drawer without a sale: restricted — and every time it happens, it must be justified and recorded.",
+          "A separate account for every cashier and every shift, so each action is attributable to one specific person.",
+        ],
+      },
+      {
+        heading: "Pillar two: an audit log you review as a routine, not on suspicion",
+        paragraphs: [
+          "Prevention alone is not enough, because what supervisors themselves are permitted to do still needs documenting. That is the audit log's job — Z-ERP's documentation describes it as a tamper-evident log — recording exceptional actions with who performed them and when. But its value is not realised by merely existing; it is realised by being reviewed. An employee who knows every deletion and discount will be seen in a fixed review thinks twice before manipulating anything.",
+          "A practical two-level routine is enough for most shops:",
+        ],
+        bullets: [
+          "Daily at closing (a few minutes): a quick look at the counts of voids, discounts, and drawer openings in the finished shift, compared with your usual daily averages.",
+          "Weekly (the owner's review): rank the exceptional actions by cashier — who has the highest voids and discounts? Do they repeat at particular times or days? Are they attached to specific items?",
+          "When you spot a pattern: confront with the record, not the accusation — 'these actions are documented with their dates; walk me through the reasons.' Often, the team simply knowing the review is fixed and announced is enough for the leakage to stop by itself.",
+        ],
+      },
+      {
+        heading: "Blind shift closing and two-person cash counting",
+        paragraphs: [
+          "Some practical controls need no technology at all: blind shift closing means the cashier counts the cash physically present in the drawer and records the figure before seeing what the system expects from the shift's sales. If they knew the expected figure first, they could adjust their count to it and hide any shortage; blind counting makes the variance — surplus or shortage — appear exactly as it is, documented with both the cashier's and the supervisor's sign-off.",
+          "Treat small, repeated variances with particular attention: a small variance that repeats with one cashier is more serious than a large one that happens once for an obvious reason. In larger shops, have two people count the cash, and rotate who closes the shift and who reviews it from time to time, so the control itself does not become a blind habit.",
+        ],
+      },
+      {
+        heading: "Periodic stock counts: catching the leak that never passes the till",
+        paragraphs: [
+          "Some leakage leaves no trace at the point of sale because it never passes it at all: goods that leave without an invoice. What exposes this kind is counting. When your system's stock updates with every sales invoice, the system's balances become an accurate reference to compare reality against: a physical count of selected items — especially high-value and fast-moving ones — and a repeated difference between the count and the balance means unrecorded selling, or leakage in receiving or in transfers between branches and warehouses.",
+          "Make the partial surprise count a habit: count two or three items a week on rotation, instead of one full stocktake that exhausts everyone and arrives late, after the differences have piled up. Record every count's result and its adjustment in writing; the adjustment itself is an action that deserves documentation and review, not a silent edit of the system's balance.",
+        ],
+      },
+      {
+        heading: "Honestly: the limits of any control system",
+        paragraphs: [
+          "Let us be as honest as this page should be from the start: no software eliminates theft completely. Collusion between more than one employee, selling entirely outside the system to complicit customers, or an owner who never reviews at all — these are gaps no program closes on its own. Anyone who promises you the complete elimination of cashier theft is selling you an illusion, not control.",
+          "What good control actually does is three things: it deters, because the exceptional action is no longer easy or invisible; it detects, because patterns surface in the log and the counts before they grow; and it documents, because when you face an employee, you face them with a documented record rather than an impression. Add fair, clear management: permissions announced to the whole team, a fixed review rather than a selective one, and accountability by evidence, not suspicion. The realistic goal is not a shop where leakage is impossible, but a shop where leakage is difficult, risky, and quickly discoverable.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "What are the most common forms of cashier theft?",
+        a: "The best known are operations that look entirely ordinary: voiding an invoice after taking the customer's cash, unauthorised discounts to friends or accomplices, price edits at the till, opening the cash drawer with no sale, and selling goods without recording them at all so the shortage appears only at stocktaking. They all share one point: they are exceptional actions that can be restricted by permissions and documented in an audit log.",
+      },
+      {
+        q: "Does POS software eliminate employee theft completely?",
+        a: "No — and any promise that it does is not honest. What a good system does is deter, restrict, and document: permissions that stop a cashier from deleting, discounting, editing prices, or opening the drawer alone, and a tamper-evident audit log that documents every exceptional action, so patterns surface at regular review and stock counts. Your part stays constant: an announced, regular review, and accountability by evidence rather than suspicion.",
+      },
+      {
+        q: "What is the difference between cashier permissions and the audit log?",
+        a: "Permissions work before the action: they stop anyone unauthorised from deleting, discounting, editing a price, or opening the drawer without approval. The audit log works after it: it documents what happened, who did it, and when, in a tamper-evident record, so you can review it and spot patterns. You need both together: blocking without documentation leaves a gap around supervisors themselves, and documentation without blocking lets you watch manipulation without being able to stop it as it happens.",
+      },
+      {
+        q: "How often should I review the exceptional-actions log?",
+        a: "At two fixed levels: a quick daily look at shift closing — the counts of voids, discounts, and drawer openings against your usual averages — and a deeper weekly review that ranks the actions by cashier, time, and item to detect repeating patterns. Regularity matters more than the count itself: a fixed review announced to the team deters far more than a rare surprise inspection.",
+      },
+      {
+        q: "How do periodic stock counts help expose manipulation?",
+        a: "Because the system's stock updates with every sales invoice, its balances become an accurate reference to compare reality against: a physical count of selected items — especially high-value and fast-moving ones — with a repeated difference between count and balance points to unrecorded selling or leakage in receiving or transfers. A weekly partial surprise count is more effective than one full stocktake a year, because it exposes the pattern early and keeps control present in the team's minds at all times.",
+      },
+    ],
+    relatedLinks: [
+      { path: "/pos-security", title: "Stop Cashier Theft and Manipulation" },
+      { path: "/blog/offline-pos-guide", title: "Offline POS: What It Means and When You Need It" },
+      { path: "/inventory-management", title: "Multi-Branch Inventory Management" },
+    ],
+  },
+};
+
 export const ARTICLES: Record<ArticleSlug, Article> = {
   "pos-software-prices-egypt": pricesEgypt,
   "offline-pos-guide": offlineGuide,
+  "how-to-choose-pos-software": choosePosSoftware,
+  "prevent-cashier-theft": preventCashierTheft,
 };
 
-export const ARTICLE_LIST: Article[] = [pricesEgypt, offlineGuide];
+export const ARTICLE_LIST: Article[] = [pricesEgypt, offlineGuide, choosePosSoftware, preventCashierTheft];
