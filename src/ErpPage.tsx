@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef, useCallback, lazy, Suspense } from "react";
+import { CLIENTS_ROW_1, CLIENTS_ROW_2 } from "./data/clients";
 import { Link } from "react-router-dom";
 import { APP_LOGIN_URL, APP_TRIAL_URL } from "./links";
 
@@ -32,7 +33,7 @@ import {
 const WhatsAppSimulation = lazy(() => import("./WhatsAppSimulation"));
 import { ERP_CATEGORIES, PROBLEM_STATEMENTS, DEPLOYMENT_MODES, FAQS } from "./data";
 import { ERP_CATEGORIES_EN, PROBLEM_STATEMENTS_EN, DEPLOYMENT_MODES_EN, FAQS_EN } from "./dataEn";
-import { MessageCircle, Utensils, UtensilsCrossed, Smile, Star, Coffee, Activity, Pizza, Bird, Carrot, Store, Car, Sun, CarFront, ShoppingBag, Truck, Layers, CalendarCheck, Receipt, CheckCircle2 } from "lucide-react";
+import { MessageCircle, Utensils, Activity, ShoppingBag, Truck, Layers, CalendarCheck, Receipt, CheckCircle2 } from "lucide-react";
 const SystemGallery = lazy(() => import("./SystemGallery"));
 const RoiSavingsChart = lazy(() => import("./components/RoiSavingsChart"));
 const ErpFaqCta = lazy(() => import("./components/ErpFaqCta"));
@@ -704,82 +705,48 @@ export default function ErpPage() {
         </div>
       </motion.section>
 
-      {/* TRUST BANNER - Client Logos */}
+      {/* TRUST BANNER - Real Client Logos */}
       <section className="py-12 border-b border-slate-200 bg-slate-50 overflow-hidden flex flex-col items-center">
-        <p className="text-center text-[13px] font-bold text-slate-500 uppercase tracking-wider mb-8">
-          {lang === "ar" ? "أكثر من 5,000+ شركة من مختلف القطاعات تثق بنا" : "Over 5,000+ companies from all sectors trust us"}
+        <p className="text-center text-[13px] font-bold text-slate-500 uppercase tracking-wider mb-10">
+          {lang === "ar" ? "عملاء حقيقيون يثقون بنا" : "Real clients who trust us"}
         </p>
 
-        <div className="w-full max-w-[100vw] overflow-hidden flex flex-col gap-8 relative mask-image-linear-gradient">
+        <div className="w-full max-w-[100vw] overflow-hidden flex flex-col gap-10 relative mask-image-linear-gradient">
           <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none"></div>
           <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none"></div>
-          
-          {/* Row 1 */}
+
+          {/* Row 1 — each item: logo on its own + client name as separate live text.
+              Wide per-item padding gives the approved ~440px spacing between shops
+              on desktop (scaled down on smaller screens). */}
           <div className="flex w-full overflow-hidden pause-on-hover">
-            <div className="flex shrink-0 min-w-full animate-marquee gap-8 sm:gap-14 md:gap-20 items-center justify-around opacity-50 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0">
-               {[
-                  { name: "Healthy Box", icon: <Utensils className="w-6 h-6 text-emerald-500" /> },
-                  { name: "Howa Kida", icon: <Smile className="w-6 h-6 text-rose-500" /> },
-                  { name: "Kids Town", icon: <Star className="w-6 h-6 text-amber-500" /> },
-                  { name: "Dose Spot", icon: <Coffee className="w-6 h-6 text-amber-700" /> },
-                  { name: "Quanta Egypt", icon: <Activity className="w-6 h-6 text-blue-500" /> },
-                  { name: "Sandwicha", icon: <Pizza className="w-6 h-6 text-orange-500" /> },
-                  { name: "Rouh Beirut", icon: <UtensilsCrossed className="w-6 h-6 text-teal-500" /> }
-               ].map((c) => (
-                  <div key={`client-r1a-${c.name}`} className="flex items-center gap-2 font-display font-black text-xl text-slate-800 whitespace-nowrap shrink-0">
-                    {c.icon} {c.name}
+            {[0, 1].map((dup) => (
+              <div key={`r1-${dup}`} aria-hidden={dup === 1 ? true : undefined} className="flex shrink-0 min-w-full animate-marquee items-center justify-around">
+                {CLIENTS_ROW_1.map((c) => (
+                  <div key={`client-r1-${dup}-${c.id}`} className="flex items-center gap-4 px-8 sm:px-16 lg:px-[13.75rem] shrink-0">
+                    <img src={c.logo} alt={lang === "ar" ? c.nameAr : c.nameEn} style={c.logoStyle} className={`${c.logoClassName} w-auto object-contain`} loading="lazy" />
+                    <span className="font-display font-extrabold text-xl sm:text-2xl lg:text-[1.75rem] text-slate-800 whitespace-nowrap">
+                      {lang === "ar" ? c.nameAr : c.nameEn}
+                    </span>
                   </div>
-               ))}
-            </div>
-            <div aria-hidden="true" className="flex shrink-0 min-w-full animate-marquee gap-8 sm:gap-14 md:gap-20 items-center justify-around opacity-50 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0">
-               {[
-                  { name: "Healthy Box", icon: <Utensils className="w-6 h-6 text-emerald-500" /> },
-                  { name: "Howa Kida", icon: <Smile className="w-6 h-6 text-rose-500" /> },
-                  { name: "Kids Town", icon: <Star className="w-6 h-6 text-amber-500" /> },
-                  { name: "Dose Spot", icon: <Coffee className="w-6 h-6 text-amber-700" /> },
-                  { name: "Quanta Egypt", icon: <Activity className="w-6 h-6 text-blue-500" /> },
-                  { name: "Sandwicha", icon: <Pizza className="w-6 h-6 text-orange-500" /> },
-                  { name: "Rouh Beirut", icon: <UtensilsCrossed className="w-6 h-6 text-teal-500" /> }
-               ].map((c) => (
-                  <div key={`client-r1b-${c.name}`} className="flex items-center gap-2 font-display font-black text-xl text-slate-800 whitespace-nowrap shrink-0">
-                    {c.icon} {c.name}
-                  </div>
-               ))}
-            </div>
+                ))}
+              </div>
+            ))}
           </div>
-          
-          {/* Row 2 */}
+
+          {/* Row 2 (reverse direction, different order) */}
           <div className="flex w-full overflow-hidden pause-on-hover">
-            <div className="flex shrink-0 min-w-full animate-marquee-reverse gap-8 sm:gap-14 md:gap-20 items-center justify-around opacity-50 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0">
-              {[
-                { name: "Chikadoo", icon: <Bird className="w-6 h-6 text-amber-500" /> },
-                { name: "Baba Batata", icon: <Carrot className="w-6 h-6 text-orange-600" /> },
-                { name: "Bab Aloush", icon: <Store className="w-6 h-6 text-slate-500" /> },
-                { name: "Auto Samir Rayan", icon: <Car className="w-6 h-6 text-blue-600" /> },
-                { name: "Al.Keif Keda", icon: <Coffee className="w-6 h-6 text-amber-800" /> },
-                { name: "Al Masif Park", icon: <Sun className="w-6 h-6 text-yellow-500" /> },
-                { name: "Abaza Auto", icon: <CarFront className="w-6 h-6 text-slate-700" /> }
-              ].map((c) => (
-                  <div key={`client-r2a-${c.name}`} className="flex items-center gap-2 font-display font-black text-xl text-slate-800 whitespace-nowrap shrink-0">
-                    {c.icon} {c.name}
+            {[0, 1].map((dup) => (
+              <div key={`r2-${dup}`} aria-hidden={dup === 1 ? true : undefined} className="flex shrink-0 min-w-full animate-marquee-reverse items-center justify-around">
+                {CLIENTS_ROW_2.map((c) => (
+                  <div key={`client-r2-${dup}-${c.id}`} className="flex items-center gap-4 px-8 sm:px-16 lg:px-[13.75rem] shrink-0">
+                    <img src={c.logo} alt={lang === "ar" ? c.nameAr : c.nameEn} style={c.logoStyle} className={`${c.logoClassName} w-auto object-contain`} loading="lazy" />
+                    <span className="font-display font-extrabold text-xl sm:text-2xl lg:text-[1.75rem] text-slate-800 whitespace-nowrap">
+                      {lang === "ar" ? c.nameAr : c.nameEn}
+                    </span>
                   </div>
-               ))}
-            </div>
-            <div aria-hidden="true" className="flex shrink-0 min-w-full animate-marquee-reverse gap-8 sm:gap-14 md:gap-20 items-center justify-around opacity-50 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0">
-              {[
-                { name: "Chikadoo", icon: <Bird className="w-6 h-6 text-amber-500" /> },
-                { name: "Baba Batata", icon: <Carrot className="w-6 h-6 text-orange-600" /> },
-                { name: "Bab Aloush", icon: <Store className="w-6 h-6 text-slate-500" /> },
-                { name: "Auto Samir Rayan", icon: <Car className="w-6 h-6 text-blue-600" /> },
-                { name: "Al.Keif Keda", icon: <Coffee className="w-6 h-6 text-amber-800" /> },
-                { name: "Al Masif Park", icon: <Sun className="w-6 h-6 text-yellow-500" /> },
-                { name: "Abaza Auto", icon: <CarFront className="w-6 h-6 text-slate-700" /> }
-              ].map((c) => (
-                  <div key={`client-r2b-${c.name}`} className="flex items-center gap-2 font-display font-black text-xl text-slate-800 whitespace-nowrap shrink-0">
-                    {c.icon} {c.name}
-                  </div>
-               ))}
-            </div>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </section>
