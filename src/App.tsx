@@ -19,6 +19,8 @@ const RefundPolicyPage = lazy(() => import("./pages/RefundPolicyPage"));
 const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
 const SectorPage = lazy(() => import("./pages/SectorPage"));
+const BlogIndexPage = lazy(() => import("./pages/BlogIndexPage"));
+const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 // Minimal lightweight fallback during lazy-loading transition
@@ -67,6 +69,12 @@ export default function App() {
                   <Route path="/alternative-foodics" element={<SectorPage slug="alternative-foodics" />} />
                   <Route path="/erp-vs-excel" element={<SectorPage slug="erp-vs-excel" />} />
                   <Route path="/best-pos-egypt" element={<SectorPage slug="best-pos-egypt" />} />
+                  <Route path="/blog" element={<BlogIndexPage />} />
+                  <Route
+                    path="/blog/pos-software-prices-egypt"
+                    element={<ArticlePage slug="pos-software-prices-egypt" />}
+                  />
+                  <Route path="/blog/offline-pos-guide" element={<ArticlePage slug="offline-pos-guide" />} />
                   <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
                   <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
                   <Route path="*" element={<NotFoundPage />} />

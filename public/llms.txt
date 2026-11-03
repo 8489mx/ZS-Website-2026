@@ -31,6 +31,12 @@ Z Systems builds ERP, retail management, and industry platforms for high-traffic
 - [Excel vs POS and accounting software](https://zsystemai.com/erp-vs-excel): An honest comparison of spreadsheets and notebooks against a POS and accounting system — when each is enough, and the signs a business has outgrown spreadsheets.
 - [Best POS software in Egypt 2026](https://zsystemai.com/best-pos-egypt): A buyer's guide to choosing POS software in Egypt by six criteria — offline work, branch and warehouse stock, cashier control, tax and electronic invoicing, hardware compatibility, and specialisation versus breadth — with the market's categories compared fairly.
 
+## Blog — answers for shop owners
+
+- [Z-ERP blog](https://zsystemai.com/blog): Practical guides and straight answers for shop owners on POS pricing, offline selling, and running branches and stock.
+- [How much does POS software cost in Egypt?](https://zsystemai.com/blog/pos-software-prices-egypt): What actually sets the price of POS software in Egypt — branches and tills, cloud subscription vs local licence, the hidden costs, and the questions to ask any vendor before paying. No invented numbers; Z-ERP's live prices are on the system page.
+- [Offline POS: what it means and when you need it](https://zsystemai.com/blog/offline-pos-guide): How a POS that works without internet keeps selling, invoicing, and updating stock during outages and syncs when the connection returns — and who genuinely needs one.
+
 ## Company
 
 - [Contact Z Systems](https://zsystemai.com/contact): Contact page with email, phone, and WhatsApp details.
