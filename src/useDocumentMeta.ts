@@ -53,6 +53,30 @@ const ROUTE_META: Record<string, RouteMeta> = {
     descriptionEn:
       "Offline POS software by Z-ERP: the local edition keeps selling and invoicing during internet outages and syncs data automatically when the connection returns.",
   },
+  "/pos-fashion": {
+    titleAr: "برنامج كاشير لمحلات الملابس | Z-ERP - Z Systems",
+    titleEn: "Fashion & Clothing Store POS Software | Z-ERP - Z Systems",
+    descriptionAr:
+      "برنامج كاشير لمحلات الملابس والأزياء من Z-ERP: مخزون منظم بالمقاس واللون، بيع بالباركود، تحويلات بين الفروع، رقابة على الإلغاءات والخصومات، ونسخة محلية تعمل بدون إنترنت.",
+    descriptionEn:
+      "POS software for fashion and clothing stores by Z-ERP: stock organised by size and colour, barcode checkout, inter-branch transfers, cashier controls, and an offline local edition.",
+  },
+  "/pos-pharmacy": {
+    titleAr: "برنامج كاشير للصيدليات ومستحضرات التجميل | Z-ERP - Z Systems",
+    titleEn: "Pharmacy & Cosmetics POS Software | Z-ERP - Z Systems",
+    descriptionAr:
+      "برنامج كاشير للصيدليات ومحلات مستحضرات التجميل من Z-ERP: تتبع دفعات يساعد على متابعة تواريخ الصلاحية، تنبيهات مخزون وحدود إعادة طلب، فروع ومخازن متعددة، ونسخة محلية تعمل بدون إنترنت.",
+    descriptionEn:
+      "POS software for pharmacies and cosmetics stores by Z-ERP: batch tracking that helps follow expiry dates, stock alerts and reorder points, multiple branches and warehouses, and an offline local edition.",
+  },
+  "/pos-auto-parts": {
+    titleAr: "برنامج كاشير لقطع غيار السيارات | Z-ERP - Z Systems",
+    titleEn: "Auto Parts POS Software | Z-ERP - Z Systems",
+    descriptionAr:
+      "برنامج كاشير وإدارة مخزون لقطع غيار السيارات من Z-ERP: كتالوج منظم برقم القطعة والباركود، مخازن وفروع متعددة، فواتير ضريبية برمز QR للتجزئة والجملة، ونسخة محلية تعمل بدون إنترنت.",
+    descriptionEn:
+      "POS and inventory software for auto parts stores and wholesale by Z-ERP: a catalogue organised by part number and barcode, multiple warehouses and branches, tax invoices with QR codes, and an offline local edition.",
+  },
   "/terms": {
     titleAr: "الشروط والأحكام - Z Systems",
     titleEn: "Terms & Conditions - Z Systems",
