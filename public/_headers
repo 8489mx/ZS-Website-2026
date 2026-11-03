@@ -1,0 +1,9 @@
+# Netlify-style response headers (inert on hosts that do not read this
+# file; Vercel reads the equivalent rules from vercel.json).
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' https://app.zsystemai.com https://get.geojs.io https://formsubmit.co; frame-ancestors 'none'; base-uri 'self'; object-src 'none'
