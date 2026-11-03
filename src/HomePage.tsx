@@ -607,6 +607,7 @@ export default function HomePage() {
                       </label>
                       <input
                         type="email"
+                        aria-label={isRTL ? "البريد الإلكتروني" : "Email Address"}
                         required
                         value={waitlistEmail}
                         onChange={(e) => setWaitlistEmail(e.target.value)}
@@ -621,6 +622,7 @@ export default function HomePage() {
                       </label>
                       <input
                         type="tel"
+                        aria-label={isRTL ? "رقم الجوال أو واتساب (اختياري)" : "Mobile or WhatsApp (Optional)"}
                         value={waitlistPhone}
                         onChange={(e) => setWaitlistPhone(e.target.value)}
                         placeholder="+20 10... / +966 5..."
