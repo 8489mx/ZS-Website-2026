@@ -33,7 +33,7 @@ export default function ThemeSwitcher() {
 
       {isOpen && (
         <div className={`absolute top-full mt-2 w-48 bg-white border border-slate-200 rounded-xl shadow-xl z-50 py-2 ${isRTL ? 'left-0' : 'right-0'}`}>
-          <div className="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
+          <div className="px-4 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
             {lang === 'ar' ? 'اختر الثيم' : 'Select Theme'}
           </div>
           <button

@@ -127,7 +127,7 @@ export default function WhatsAppSimulation({ lang }: { lang: "ar" | "en" }) {
                     {lang === "ar" 
                       ? `قمت بمعالجة الفاتورة من شركة عبدالله التجارية\nالإجمالي: ${currency.whatsapp.totalAr}\nالضريبة: ${currency.whatsapp.taxAr}\n\nتم إنشاء فاتورة مشتريات جديدة بنجاح كمسودة في النظام`
                       : `I processed the invoice from Abdullah Trading Co.\nTotal: ${currency.whatsapp.totalEn}\nTax: ${currency.whatsapp.taxEn}\n\nA new purchase invoice draft has been successfully created in the system.`}
-                     <div className="text-[10px] text-slate-400 text-right mt-1 font-mono">09:34</div>
+                     <div className="text-[10px] text-slate-500 text-right mt-1 font-mono">09:34</div>
                   </div>
 
                   <div className="h-[1px] bg-slate-100 w-full mt-2"></div>
@@ -137,7 +137,7 @@ export default function WhatsAppSimulation({ lang }: { lang: "ar" | "en" }) {
                     {lang === "ar" ? "عرض في النظام" : "View in System"}
                   </button>
                   <div className="h-[1px] bg-slate-100 w-full"></div>
-                  <button className="w-full text-center py-2.5 text-slate-400 font-semibold text-xs hover:bg-slate-50 transition-colors">
+                  <button className="w-full text-center py-2.5 text-slate-500 font-semibold text-xs hover:bg-slate-50 transition-colors">
                     {lang === "ar" ? "اعتماد الدفع" : "Approve Payment"}
                   </button>
 
@@ -154,10 +154,10 @@ export default function WhatsAppSimulation({ lang }: { lang: "ar" | "en" }) {
         </button>
         
         <div className="flex-1 bg-white border border-slate-200 rounded-full px-3 py-1.5 flex items-center justify-between shadow-sm h-9">
-           <div className="text-slate-400 text-xs">
+           <div className="text-slate-500 text-xs">
              {/* Not showing typing indicator to keep it clean, maybe just static text */}
            </div>
-           <FileText className="w-4 h-4 text-slate-400" />
+           <FileText className="w-4 h-4 text-slate-500" />
         </div>
         
         <button className="w-9 h-9 bg-emerald-500 rounded-full flex items-center justify-center text-white shrink-0 shadow-sm transition-transform active:scale-95">

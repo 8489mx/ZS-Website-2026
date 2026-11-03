@@ -89,7 +89,7 @@ export default function LegalLayout({
                   <a href="tel:+201018017523" className="text-brand-600 font-normal hover:underline" dir="ltr">
                     <span dir="ltr" className="inline-block tracking-normal">+20 1018017523</span>
                   </a>
-                  <span className="text-slate-300">•</span>
+                  <span className="text-slate-500">•</span>
                   <a href="tel:0663640828" className="text-slate-700 font-normal hover:underline" dir="ltr">
                     <span dir="ltr" className="inline-block tracking-normal">066-3640828</span>
                   </a>
@@ -120,15 +120,15 @@ export default function LegalLayout({
             <Link to="/terms" className="hover:text-brand-600 transition-colors">
               {lang === "ar" ? "الشروط والأحكام" : "Terms & Conditions"}
             </Link>
-            <span className="text-slate-300">•</span>
+            <span className="text-slate-500">•</span>
             <Link to="/refund-policy" className="hover:text-brand-600 transition-colors">
               {lang === "ar" ? "سياسة الاستبدال والاسترجاع" : "Refund Policy"}
             </Link>
-            <span className="text-slate-300">•</span>
+            <span className="text-slate-500">•</span>
             <Link to="/privacy" className="hover:text-brand-600 transition-colors">
               {lang === "ar" ? "سياسة الخصوصية" : "Privacy Policy"}
             </Link>
-            <span className="text-slate-300">•</span>
+            <span className="text-slate-500">•</span>
             <Link to="/contact" className="hover:text-brand-600 transition-colors">
               {lang === "ar" ? "اتصل بنا والعنوان" : "Contact & Address"}
             </Link>

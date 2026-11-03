@@ -38,7 +38,7 @@ export default function CurrencySwitcher({ className = "" }: CurrencySwitcherPro
         <span className="font-bold font-mono text-slate-800">
           {lang === "ar" ? currency.symbolAr : currency.symbolEn}
         </span>
-        <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <ChevronDown className={`w-3.5 h-3.5 text-slate-500 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
       {isOpen && (
@@ -47,9 +47,9 @@ export default function CurrencySwitcher({ className = "" }: CurrencySwitcherPro
             isRTL ? "left-0" : "right-0"
           }`}
         >
-          <div className="px-3 py-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 flex items-center justify-between">
+          <div className="px-3 py-1.5 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100 flex items-center justify-between">
             <span>{lang === "ar" ? "البلد والعملة" : "Country & Currency"}</span>
-            <Coins className="w-3.5 h-3.5 text-slate-400" />
+            <Coins className="w-3.5 h-3.5 text-slate-500" />
           </div>
 
           <div className="py-1">

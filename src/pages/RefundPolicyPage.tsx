@@ -224,7 +224,7 @@ export default function RefundPolicyPage() {
             <a href="tel:+201018017523" className="text-brand-600 underline font-mono font-bold" dir="ltr">
               <span dir="ltr" className="inline-block font-mono">+20 1018017523</span>
             </a>
-            <span className="text-slate-400 mx-2">•</span>
+            <span className="text-slate-500 mx-2">•</span>
             <span className="text-slate-700">هاتف المكتب: </span>
             <a href="tel:0663640828" className="text-slate-800 underline font-mono font-bold" dir="ltr">
               <span dir="ltr" className="inline-block font-mono">066-3640828</span>
