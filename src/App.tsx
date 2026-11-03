@@ -91,6 +91,14 @@ export default function App() {
                     path="/blog/multi-branch-inventory-mistakes"
                     element={<ArticlePage slug="multi-branch-inventory-mistakes" />}
                   />
+                  <Route
+                    path="/blog/zatca-e-invoice-requirements"
+                    element={<ArticlePage slug="zatca-e-invoice-requirements" />}
+                  />
+                  <Route
+                    path="/blog/excel-vs-accounting-software-cost"
+                    element={<ArticlePage slug="excel-vs-accounting-software-cost" />}
+                  />
                   <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
                   <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
                   <Route path="*" element={<NotFoundPage />} />
