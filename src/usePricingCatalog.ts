@@ -3,13 +3,10 @@ import {
   ProductCatalogResponse,
   CatalogProduct,
   fetchProductCatalog,
-  fetchFullCatalog,
   DEFAULT_PRODUCTS,
   PRODUCT_EN_METADATA,
   mapCurrencyToCountry,
   getFallbackProductCatalog,
-  CatalogLevel,
-  CatalogFloor
 } from "./services/pricingCatalog";
 
 export function usePricingCatalog(currencyCode: string = "EGP", initialProduct: string = "retail") {
@@ -19,7 +16,7 @@ export function usePricingCatalog(currencyCode: string = "EGP", initialProduct: 
   const [catalog, setCatalog] = useState<ProductCatalogResponse>(() =>
     getFallbackProductCatalog(initialProduct, countryCode)
   );
-  const [allProducts, setAllProducts] = useState<CatalogProduct[]>(DEFAULT_PRODUCTS);
+  const allProducts: CatalogProduct[] = DEFAULT_PRODUCTS;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   // True when the last fetch answered 404: no published pricing offer for
@@ -27,54 +24,11 @@ export function usePricingCatalog(currencyCode: string = "EGP", initialProduct: 
   // of the generic error/retry state, which would read as a broken site.
   const [offerNotFound, setOfferNotFound] = useState<boolean>(false);
 
-  // Idle load: the full catalog (~900 kB) only refreshes product names
-  // from the live source; the static DEFAULT_PRODUCTS list already
-  // covers all 17 products. Fetching it on mount delayed first paint,
-  // so it stays deferred until the browser is idle.
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-    let idleHandle: number | undefined;
-    let timeoutHandle: number | undefined;
-
-    const loadFullCatalog = () => {
-      if (!isMounted) return;
-      fetchFullCatalog(controller.signal)
-        .then((fullData) => {
-          if (isMounted && fullData.products?.length > 0) {
-            setAllProducts(fullData.products);
-          }
-        })
-        .catch((err) => {
-          if (err?.name !== "AbortError") {
-            console.warn("Could not fetch full products list:", err);
-          }
-        });
-    };
-
-    // requestIdleCallback is not in this project's DOM lib types, so
-    // feature-detect it through a narrow cast instead of window.* calls.
-    const idleWindow = window as unknown as {
-      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
-      cancelIdleCallback?: (handle: number) => void;
-    };
-    if (idleWindow.requestIdleCallback) {
-      idleHandle = idleWindow.requestIdleCallback(loadFullCatalog, { timeout: 4000 });
-    } else {
-      timeoutHandle = window.setTimeout(loadFullCatalog, 1200);
-    }
-
-    return () => {
-      isMounted = false;
-      controller.abort();
-      if (idleHandle !== undefined && idleWindow.cancelIdleCallback) {
-        idleWindow.cancelIdleCallback(idleHandle);
-      }
-      if (timeoutHandle !== undefined) {
-        window.clearTimeout(timeoutHandle);
-      }
-    };
-  }, []);
+  // The product list is static metadata (DEFAULT_PRODUCTS): the full
+  // catalog endpoint returns roughly 900 kB and was previously fetched
+  // on idle on every visit only to refresh product names. Prices are
+  // still always fetched live per product below; if the backend adds
+  // a product, adding it to DEFAULT_PRODUCTS is a one-line change.
 
   // Fetch product catalog whenever product or countryCode changes
   const loadProductCatalog = useCallback(async (signal?: AbortSignal) => {
@@ -86,10 +40,10 @@ export function usePricingCatalog(currencyCode: string = "EGP", initialProduct: 
       if (signal?.aborted) return;
       setCatalog(data);
       setOfferNotFound(data.offerNotFound === true);
-    } catch (err: any) {
-      if (err?.name === "AbortError") return;
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name === "AbortError") return;
       console.error(`Failed to load pricing for ${selectedProduct}/${countryCode}:`, err);
-      setError(err?.message || "Failed to load pricing");
+      setError(err instanceof Error ? err.message : "Failed to load pricing");
       setOfferNotFound(false);
     } finally {
       if (!signal?.aborted) setIsLoading(false);

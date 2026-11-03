@@ -1,7 +1,6 @@
-import React from "react";
 import LegalLayout from "./LegalLayout";
 import { useLanguage } from "../LanguageContext";
-import { Lock, Shield, EyeOff, Server, Database, UserCheck, Cookie } from "lucide-react";
+import { Lock, Shield, EyeOff, Server, Database } from "lucide-react";
 
 export default function PrivacyPolicyPage() {
   const { lang } = useLanguage();

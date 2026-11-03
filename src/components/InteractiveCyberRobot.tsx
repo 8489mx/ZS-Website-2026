@@ -18,7 +18,6 @@ export default function InteractiveCyberRobot() {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [initialHeadOffset, setInitialHeadOffset] = useState({ x: 0, y: 0 });
   const [isNearNeck, setIsNearNeck] = useState(false);
-  const [celebrateCount, setCelebrateCount] = useState(0);
 
   // Pause the tracking loop while the robot is off-screen.
   const [isVisible, setIsVisible] = useState(true);
@@ -236,7 +235,6 @@ export default function InteractiveCyberRobot() {
     setHeadOffset({ x: 0, y: 0 });
     setHeadState("justSnapped");
     setIsNearNeck(false);
-    setCelebrateCount((prev) => prev + 1);
 
     setTimeout(() => {
       setHeadState("attached");
@@ -246,7 +244,6 @@ export default function InteractiveCyberRobot() {
   // Calculated 3D transforms for head when attached
   const isHeadAttached = headState === "attached" || headState === "justSnapped";
   const rotateY = isHeadAttached ? currentPos.x * 22 : 0;
-  const rotateX = isHeadAttached ? -currentPos.y * 16 : 0;
   const eyeShiftX = isHeadAttached ? currentPos.x * 14 : 0;
   const eyeShiftY = isHeadAttached ? currentPos.y * 10 : 0;
 

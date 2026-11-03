@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Globe, X, Coins } from "lucide-react";
+import { Globe, X } from "lucide-react";
 import { useLanguage } from "./LanguageContext";
-import { useCurrency } from "./CurrencyContext";
+import { useCurrency, COUNTRY_NAME_TO_CURRENCY } from "./CurrencyContext";
 import { safeSessionStorage } from "./utils/safeStorage";
+import { useDialog } from "./hooks/useDialog";
 
 const COUNTRY_NAMES_AR: Record<string, string> = {
   Egypt: "مصر",
@@ -45,6 +46,12 @@ export default function LocationModal() {
   useEffect(() => {
     const hasSeenModal = safeSessionStorage.getItem("zsystems_has_seen_location_modal");
     if (hasSeenModal || !detectedCountry) return;
+    // Only greet visitors whose country has a supported pricing
+    // currency. For unsupported countries the modal's "pricing and
+    // currency have been customized for your country" copy would be
+    // false (the site keeps its default currency there), so the
+    // honest behaviour is not to show it at all.
+    if (!(detectedCountry in COUNTRY_NAME_TO_CURRENCY)) return;
     setCountry(detectedCountry);
     setIsOpen(true);
   }, [detectedCountry]);
@@ -54,17 +61,9 @@ export default function LocationModal() {
     safeSessionStorage.setItem("zsystems_has_seen_location_modal", "true");
   }, []);
 
-  // Close location modal on Escape key - must be placed unconditionally at top level
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        handleClose();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, handleClose]);
+  // Accessible dialog behaviour (Escape, focus trap, focus
+  // restore) lives in useDialog; handleClose is a stable callback.
+  const dialogRef = useDialog<HTMLDivElement>(isOpen, handleClose);
 
   if (!isOpen || !country) return null;
 
@@ -89,9 +88,14 @@ export default function LocationModal() {
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-[2px] font-sans cursor-pointer select-none" 
       dir={isArabic ? "rtl" : "ltr"}
     >
-      <div 
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={isArabic ? "تأكيد الدولة واللغة" : "Confirm country and language"}
+        tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-2xl shadow-xl w-full max-w-[420px] overflow-hidden relative animate-in fade-in zoom-in-95 duration-300 cursor-default select-text"
+        className="bg-white rounded-2xl shadow-xl w-full max-w-[420px] overflow-hidden relative animate-in fade-in zoom-in-95 duration-300 cursor-default select-text outline-none"
       >
         {/* Close Button */}
         <button 

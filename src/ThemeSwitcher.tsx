@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Palette, Check } from "lucide-react";
 import { useTheme } from "./ThemeContext";
 import { useLanguage } from "./LanguageContext";
@@ -23,6 +23,8 @@ export default function ThemeSwitcher() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
         className="flex items-center justify-center p-2 rounded-lg bg-slate-100 text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition-colors"
         title={lang === 'ar' ? 'تغيير ألوان الثيم' : 'Toggle Theme'}
       >

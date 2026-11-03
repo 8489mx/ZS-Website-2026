@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Mail, Phone, MapPin, Globe } from "lucide-react";
+import { ArrowLeft, ArrowRight, MapPin } from "lucide-react";
 import { useLanguage } from "../LanguageContext";
 import LanguageSwitcher from "../LanguageSwitcher";
 import SiteLogo from "../components/SiteLogo";

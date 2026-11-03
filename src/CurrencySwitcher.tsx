@@ -1,14 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Coins, Check, ChevronDown } from "lucide-react";
 import { useCurrency, CURRENCY_CONFIGS, CurrencyCode } from "./CurrencyContext";
 import { useLanguage } from "./LanguageContext";
 
 interface CurrencySwitcherProps {
-  variant?: "nav" | "compact" | "badge";
   className?: string;
 }
 
-export default function CurrencySwitcher({ variant = "nav", className = "" }: CurrencySwitcherProps) {
+export default function CurrencySwitcher({ className = "" }: CurrencySwitcherProps) {
   const { currencyCode, currency, setCurrencyCode } = useCurrency();
   const { lang, isRTL } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +29,8 @@ export default function CurrencySwitcher({ variant = "nav", className = "" }: Cu
     <div className={`relative ${className}`} ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
         className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-700 hover:text-brand-600 transition-colors py-1.5 px-2.5 rounded-lg hover:bg-slate-100/80 border border-slate-200/80 shadow-xs cursor-pointer"
         title={lang === "ar" ? "تغيير العملة والدولة" : "Change Currency & Region"}
       >

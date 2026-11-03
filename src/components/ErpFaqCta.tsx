@@ -1,4 +1,3 @@
-import React from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import SiteLogo from "./SiteLogo";
@@ -59,6 +58,8 @@ export default function ErpFaqCta({
           <div key={`faq-item-${idx}`} className="border-b border-slate-150 last:border-0 pb-3 last:pb-0">
             <button
               onClick={() => onToggleFaq(idx)}
+              aria-expanded={isOpen}
+              aria-controls={`faq-answer-${idx}`}
               className="w-full flex justify-between items-center text-start font-bold text-slate-800 text-xs sm:text-sm py-2 hover:text-brand-600 transition-colors cursor-pointer font-sans"
             >
               <span>{faq.q}</span>
@@ -72,6 +73,7 @@ export default function ErpFaqCta({
             <AnimatePresence>
               {isOpen && (
                 <motion.div
+                  id={`faq-answer-${idx}`}
                   key={`faq-ans-${idx}`}
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
