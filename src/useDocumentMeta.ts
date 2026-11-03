@@ -109,6 +109,38 @@ const ROUTE_META: Record<string, RouteMeta> = {
     descriptionEn:
       "Stop cashier theft and manipulation with Z-ERP: separate permissions per cashier for voids, discounts, price edits, and drawer openings, with an audit log recording every exceptional action.",
   },
+  "/alternative-daftra": {
+    titleAr: "بديل دفترة لإدارة المحلات والفروع | Z-ERP - Z Systems",
+    titleEn: "Daftra Alternative for Retail Stores | Z-ERP - Z Systems",
+    descriptionAr:
+      "بديل دفترة للمحلات والفروع من Z-ERP: كاشير ومخزون ومحاسبة في نظام واحد، نسخة محلية تعمل بالكامل بدون إنترنت، وصلاحيات وسجل تدقيق ضد تلاعب الكاشير.",
+    descriptionEn:
+      "A Daftra alternative for stores and branches by Z-ERP: POS, inventory, and accounting in one system, a local edition that works fully offline, and per-cashier permissions with an audit log.",
+  },
+  "/alternative-foodics": {
+    titleAr: "بديل فودكس للمطاعم والمقاهي | Z-ERP - Z Systems",
+    titleEn: "Foodics Alternative for Restaurants & Cafés | Z-ERP - Z Systems",
+    descriptionAr:
+      "بديل فودكس للمطاعم والمقاهي من Z-ERP: نقاط بيع للمطاعم ضمن نظام ERP يدير أنشطة التجزئة والجملة لنفس المالك، ونسخة محلية تعمل بدون إنترنت، وفواتير ضريبية برمز QR وخدمة ZATCA.",
+    descriptionEn:
+      "A Foodics alternative by Z-ERP: restaurant POS inside a full ERP that also runs the owner's retail and wholesale activities, an offline local edition, tax invoices with QR codes, and a ZATCA service.",
+  },
+  "/erp-vs-excel": {
+    titleAr: "إكسل أم برنامج محاسبة وكاشير؟ | Z-ERP - Z Systems",
+    titleEn: "Excel vs POS & Accounting Software | Z-ERP - Z Systems",
+    descriptionAr:
+      "إكسل أم برنامج محاسبة وكاشير؟ مقارنة صادقة بين الجداول والدفاتر ونظام مثل Z-ERP: مخزون يتحدث مع كل فاتورة، صلاحيات وسجل تدقيق، وفروع ومخازن في صورة واحدة.",
+    descriptionEn:
+      "Excel or POS and accounting software? An honest comparison of spreadsheets and notebooks with a system like Z-ERP: stock that updates with every invoice, permissions and an audit log, branches in one picture.",
+  },
+  "/best-pos-egypt": {
+    titleAr: "أفضل برامج الكاشير في مصر 2026 | دليل المشتري - Z Systems",
+    titleEn: "Best POS Software in Egypt 2026 | Buyer's Guide - Z Systems",
+    descriptionAr:
+      "دليل المشتري لأفضل برامج الكاشير في مصر 2026: ستة معايير للاختيار — العمل دون إنترنت، مخزون الفروع، رقابة الكاشير، الفوترة الإلكترونية، الأجهزة، والتخصص — ومقارنة فئات السوق بإنصاف.",
+    descriptionEn:
+      "A buyer's guide to the best POS software in Egypt in 2026: six selection criteria — offline work, branch stock, cashier control, e-invoicing, hardware, and specialisation — and a fair comparison of market categories.",
+  },
   "/terms": {
     titleAr: "الشروط والأحكام - Z Systems",
     titleEn: "Terms & Conditions - Z Systems",

@@ -24,6 +24,13 @@ Z Systems builds ERP, retail management, and industry platforms for high-traffic
 - [Saudi ZATCA e-invoicing](https://zsystemai.com/zatca-invoicing): Tax invoices with QR codes and VAT calculation for Saudi retailers, with a ZATCA e-invoicing submission service, in Saudi riyals, from the same Z-ERP POS, inventory, and accounting system.
 - [Stop cashier theft and manipulation](https://zsystemai.com/pos-security): How Z-ERP protects the point of sale with per-cashier permissions over price edits, receipt deletions, discounts, and cash-drawer openings, plus a tamper-evident audit log of every exceptional action.
 
+## Comparisons and buying guides
+
+- [Daftra alternative for retail stores](https://zsystemai.com/alternative-daftra): When a cloud accounting platform is not the right fit — Z-ERP as a POS-first alternative for physical stores and branches, with a fully offline local edition, multi-branch stock, and cashier anti-theft controls.
+- [Foodics alternative for restaurants and cafés](https://zsystemai.com/alternative-foodics): Restaurant POS inside a full ERP that also runs the same owner's retail and wholesale activities in one system, with an offline local edition and a ZATCA e-invoicing submission service.
+- [Excel vs POS and accounting software](https://zsystemai.com/erp-vs-excel): An honest comparison of spreadsheets and notebooks against a POS and accounting system — when each is enough, and the signs a business has outgrown spreadsheets.
+- [Best POS software in Egypt 2026](https://zsystemai.com/best-pos-egypt): A buyer's guide to choosing POS software in Egypt by six criteria — offline work, branch and warehouse stock, cashier control, tax and electronic invoicing, hardware compatibility, and specialisation versus breadth — with the market's categories compared fairly.
+
 ## Company
 
 - [Contact Z Systems](https://zsystemai.com/contact): Contact page with email, phone, and WhatsApp details.

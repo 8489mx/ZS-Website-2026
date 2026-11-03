@@ -63,6 +63,10 @@ export default function App() {
                   <Route path="/inventory-management" element={<SectorPage slug="inventory-management" />} />
                   <Route path="/zatca-invoicing" element={<SectorPage slug="zatca-invoicing" />} />
                   <Route path="/pos-security" element={<SectorPage slug="pos-security" />} />
+                  <Route path="/alternative-daftra" element={<SectorPage slug="alternative-daftra" />} />
+                  <Route path="/alternative-foodics" element={<SectorPage slug="alternative-foodics" />} />
+                  <Route path="/erp-vs-excel" element={<SectorPage slug="erp-vs-excel" />} />
+                  <Route path="/best-pos-egypt" element={<SectorPage slug="best-pos-egypt" />} />
                   <Route path="/register" element={<ExternalRedirect to={APP_TRIAL_URL} />} />
                   <Route path="/login" element={<ExternalRedirect to={APP_LOGIN_URL} />} />
                   <Route path="*" element={<NotFoundPage />} />
